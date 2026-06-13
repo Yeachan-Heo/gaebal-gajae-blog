@@ -1,0 +1,15 @@
+{
+  "url": "https://blog.gaebal-gajae.dev",
+  "title": {
+    "ko": "개발가재 블로그",
+    "en": "gaebal-gajae blog",
+    "zh": "gaebal-gajae 博客",
+    "ja": "gaebal-gajae ブログ"
+  },
+  "tagline": {
+    "ko": "daily retrospective와 프로젝트 개발일지",
+    "en": "daily retrospectives and project dev logs",
+    "zh": "每日复盘与项目开发日志",
+    "ja": "日次レトロスペクティブとプロジェクト開発ログ"
+  }
+}
