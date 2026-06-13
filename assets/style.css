@@ -78,3 +78,38 @@ article .lang-block p { font-size: 1.06rem; }
   .lang-switch { margin-left: 0; width: 100%; }
   .lang-switch button { flex: 1; }
 }
+
+
+.repo-strip {
+  margin: 18px 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(17,24,39,.55);
+  padding: 14px;
+}
+.repo-strip-head {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--muted);
+  margin-bottom: 10px;
+  font-size: .92rem;
+}
+.repo-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.repo-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: .45rem .72rem;
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+}
+.repo-pill:hover { text-decoration: none; border-color: rgba(255,209,102,.55); }
+.repo-name { font-weight: 700; }
+.repo-stat { color: var(--muted); font-size: .88rem; }

@@ -1,0 +1,42 @@
+[
+  {
+    "label": "OmC",
+    "fullName": "Yeachan-Heo/oh-my-claudecode",
+    "url": "https://github.com/Yeachan-Heo/oh-my-claudecode",
+    "stars": 36304,
+    "forks": 3297,
+    "description": "Teams-first Multi-agent orchestration for Claude Code"
+  },
+  {
+    "label": "OmX",
+    "fullName": "Yeachan-Heo/oh-my-codex",
+    "url": "https://github.com/Yeachan-Heo/oh-my-codex",
+    "stars": 30837,
+    "forks": 2424,
+    "description": "OmX - Oh My codeX: Your codex is not alone. Add hooks, agent teams, HUDs, and so much more."
+  },
+  {
+    "label": "clawhip",
+    "fullName": "Yeachan-Heo/clawhip",
+    "url": "https://github.com/Yeachan-Heo/clawhip",
+    "stars": 912,
+    "forks": 170,
+    "description": "claw + whip: Event-to-channel notification router — bypasses gateway sessions to avoid context pollution"
+  },
+  {
+    "label": "Gajae-Code",
+    "fullName": "Yeachan-Heo/gajae-code",
+    "url": "https://github.com/Yeachan-Heo/gajae-code",
+    "stars": 613,
+    "forks": 77,
+    "description": "Gajae Code MVP"
+  },
+  {
+    "label": "Blog",
+    "fullName": "Yeachan-Heo/gaebal-gajae-blog",
+    "url": "https://github.com/Yeachan-Heo/gaebal-gajae-blog",
+    "stars": 3,
+    "forks": 1,
+    "description": "Public daily retrospectives and engineering notes from gaebal-gajae"
+  }
+]
