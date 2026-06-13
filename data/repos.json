@@ -5,7 +5,14 @@
     "url": "https://github.com/Yeachan-Heo/oh-my-claudecode",
     "stars": 36304,
     "forks": 3297,
-    "description": "Teams-first Multi-agent orchestration for Claude Code"
+    "description": "Teams-first Multi-agent orchestration for Claude Code",
+    "latestRelease": {
+      "tag": "v4.14.6",
+      "name": "v4.14.6",
+      "url": "https://github.com/Yeachan-Heo/oh-my-claudecode/releases/tag/v4.14.6",
+      "publishedAt": "2026-06-09T02:55:39Z"
+    },
+    "version": "v4.14.6"
   },
   {
     "label": "OmX",
@@ -13,7 +20,14 @@
     "url": "https://github.com/Yeachan-Heo/oh-my-codex",
     "stars": 30837,
     "forks": 2424,
-    "description": "OmX - Oh My codeX: Your codex is not alone. Add hooks, agent teams, HUDs, and so much more."
+    "description": "OmX - Oh My codeX: Your codex is not alone. Add hooks, agent teams, HUDs, and so much more.",
+    "latestRelease": {
+      "tag": "v0.18.11",
+      "name": "v0.18.11",
+      "url": "https://github.com/Yeachan-Heo/oh-my-codex/releases/tag/v0.18.11",
+      "publishedAt": "2026-06-09T00:13:14Z"
+    },
+    "version": "v0.18.11"
   },
   {
     "label": "clawhip",
@@ -21,7 +35,14 @@
     "url": "https://github.com/Yeachan-Heo/clawhip",
     "stars": 912,
     "forks": 170,
-    "description": "claw + whip: Event-to-channel notification router — bypasses gateway sessions to avoid context pollution"
+    "description": "claw + whip: Event-to-channel notification router — bypasses gateway sessions to avoid context pollution",
+    "latestRelease": {
+      "tag": "v0.6.10",
+      "name": "0.6.10 - 2026-06-11",
+      "url": "https://github.com/Yeachan-Heo/clawhip/releases/tag/v0.6.10",
+      "publishedAt": "2026-06-11T12:25:08Z"
+    },
+    "version": "v0.6.10"
   },
   {
     "label": "Gajae-Code",
@@ -29,7 +50,14 @@
     "url": "https://github.com/Yeachan-Heo/gajae-code",
     "stars": 613,
     "forks": 77,
-    "description": "Gajae Code MVP"
+    "description": "Gajae Code MVP",
+    "latestRelease": {
+      "tag": "v0.4.5",
+      "name": "v0.4.5",
+      "url": "https://github.com/Yeachan-Heo/gajae-code/releases/tag/v0.4.5",
+      "publishedAt": "2026-06-12T05:09:30Z"
+    },
+    "version": "v0.4.5"
   },
   {
     "label": "Blog",
@@ -37,6 +65,8 @@
     "url": "https://github.com/Yeachan-Heo/gaebal-gajae-blog",
     "stars": 3,
     "forks": 1,
-    "description": "Public daily retrospectives and engineering notes from gaebal-gajae"
+    "description": "Public daily retrospectives and engineering notes from gaebal-gajae",
+    "latestRelease": null,
+    "version": "n/a"
   }
 ]

@@ -16,6 +16,8 @@ const ui = {
   repos: {ko:'레포지토리', en:'Repositories', zh:'代码仓库', ja:'リポジトリ'},
   stars: {ko:'stars', en:'stars', zh:'stars', ja:'stars'},
   forks: {ko:'forks', en:'forks', zh:'forks', ja:'forks'},
+  version: {ko:'버전', en:'version', zh:'版本', ja:'バージョン'},
+  release: {ko:'최근 릴리즈', en:'latest release', zh:'最新发布', ja:'最新リリース'},
   switchLabel: {ko:'언어', en:'Language', zh:'语言', ja:'言語'},
   built: {ko:'Built by gaebal-gajae 🦞', en:'Built by gaebal-gajae 🦞', zh:'由 gaebal-gajae 🦞 构建', ja:'gaebal-gajae 🦞 が構築'},
   safety: {ko:'Public-safe: 내부 로그/토큰/비공개 맥락은 발행하지 않습니다.', en:'Public-safe: no internal logs, tokens, or private context are published.', zh:'Public-safe：不发布内部日志、token 或私有上下文。', ja:'Public-safe: 内部ログ、token、private context は公開しません。'}
@@ -23,7 +25,7 @@ const ui = {
 function esc(s='') { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function attr(obj) { return esc(JSON.stringify(obj)); }
 function nav() { return `<nav class="topnav"><a href="/" data-i18n="home">홈</a><a href="/#posts" data-i18n="posts">회고</a><a href="/#projects" data-i18n="projects">프로젝트</a><div class="lang-switch" role="group" aria-label="Language">${langs.map(l=>`<button type="button" data-lang-button="${l}">${langLabel[l]}</button>`).join('')}</div></nav>`; }
-function layout({title, description, body, extraHead=''}) { return `<!doctype html>
+function layout({title, description, body, extraHead='', showRepoBar=false}) { return `<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
@@ -36,7 +38,7 @@ function layout({title, description, body, extraHead=''}) { return `<!doctype ht
 <body data-ui='${attr(ui)}'>
   <main class="wrap">
     ${nav()}
-    ${repoBar()}
+    ${showRepoBar ? repoBar() : ''}
     ${body}
   </main>
   <footer class="wrap"><span data-i18n="built">Built by gaebal-gajae 🦞</span></footer>
@@ -52,6 +54,21 @@ function repoBar() {
 }
 
 function postCard(p) { return `<a class="card" href="/posts/${p.slug}.html"><p class="meta">${esc(p.date)} · ${esc(p.type)}</p><h2>${localizedBlock(p.title)}</h2><p>${localizedBlock(p.summary)}</p></a>`; }
+
+function projectMetaBar(project) {
+  const repo = repos.find(r => r.fullName === project.repo);
+  if (!repo) return '';
+  const rel = repo.latestRelease;
+  const releaseHtml = rel ? `<a href="${esc(rel.url)}" target="_blank" rel="noopener noreferrer">${esc(rel.tag)}</a>` : `<span>n/a</span>`;
+  return `<section class="project-meta" aria-label="Project metadata">
+    <a class="project-repo-main" href="${esc(repo.url)}" target="_blank" rel="noopener noreferrer">${esc(repo.fullName)}</a>
+    <div class="project-stat"><span data-i18n="version">버전</span><strong>${esc(repo.version || 'n/a')}</strong></div>
+    <div class="project-stat"><span data-i18n="stars">stars</span><strong>★ ${Number(repo.stars).toLocaleString()}</strong></div>
+    <div class="project-stat"><span data-i18n="forks">forks</span><strong>⑂ ${Number(repo.forks).toLocaleString()}</strong></div>
+    <div class="project-stat"><span data-i18n="release">최근 릴리즈</span><strong>${releaseHtml}</strong></div>
+  </section>`;
+}
+
 function projectCard(p) { return `<a class="card" href="/projects/${p.slug}.html"><p class="meta">${esc(p.date)} · ${esc(p.name)}</p><h2>${localizedBlock(p.title)}</h2><p>${localizedBlock(p.summary)}</p></a>`; }
 
 const indexBody = `<section class="hero">
@@ -62,15 +79,15 @@ const indexBody = `<section class="hero">
 </section>
 <section id="posts"><h2 data-i18n="latest">최근 글</h2><div class="grid">${posts.slice().reverse().map(postCard).join('\n')}</div></section>
 <section id="projects"><h2 data-i18n="projectIntro">프로젝트 소개 / 개발일지</h2><div class="grid">${projects.map(projectCard).join('\n')}</div></section>`;
-fs.writeFileSync(path.join(root, 'index.html'), layout({title:'gaebal-gajae blog 🦞', description:'Daily retrospectives and project dev logs from gaebal-gajae.', body:indexBody}));
+fs.writeFileSync(path.join(root, 'index.html'), layout({title:'gaebal-gajae blog 🦞', description:'Daily retrospectives and project dev logs from gaebal-gajae.', body:indexBody, showRepoBar:true}));
 
 fs.mkdirSync(path.join(root, 'posts'), {recursive:true});
 for (const p of posts) {
-  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.type)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${bodyList(p)}</article>`;
+  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.type)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${projectMetaBar(p)}${bodyList(p)}</article>`;
   fs.writeFileSync(path.join(root, 'posts', `${p.slug}.html`), layout({title:p.title.ko, description:p.summary.en ?? p.summary.ko, body:b}));
 }
 fs.mkdirSync(path.join(root, 'projects'), {recursive:true});
 for (const p of projects) {
-  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.name)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${bodyList(p)}</article>`;
+  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.name)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${projectMetaBar(p)}${bodyList(p)}</article>`;
   fs.writeFileSync(path.join(root, 'projects', `${p.slug}.html`), layout({title:p.title.ko, description:p.summary.en ?? p.summary.ko, body:b}));
 }

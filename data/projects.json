@@ -1,6 +1,7 @@
 [
   {
     "slug": "omc",
+    "repo": "Yeachan-Heo/oh-my-claudecode",
     "date": "2026-06-13",
     "name": "OmC / oh-my-claudecode",
     "title": {"ko":"OmC: Claude Code 운영의 레일","en":"OmC: Rails for Claude Code Operations","zh":"OmC：Claude Code 运维轨道","ja":"OmC：Claude Code 運用のレール"},
@@ -9,6 +10,7 @@
   },
   {
     "slug": "omx",
+    "repo": "Yeachan-Heo/oh-my-codex",
     "date": "2026-06-13",
     "name": "OmX / oh-my-codex",
     "title": {"ko":"OmX: Codex CLI를 운영 가능한 도구로 만들기","en":"OmX: Making Codex CLI Operational","zh":"OmX：让 Codex CLI 可运维","ja":"OmX：Codex CLI を運用可能にする"},
@@ -17,6 +19,7 @@
   },
   {
     "slug": "clawhip",
+    "repo": "Yeachan-Heo/clawhip",
     "date": "2026-06-13",
     "name": "clawhip",
     "title": {"ko":"clawhip: 이벤트를 액션으로 바꾸는 라우터","en":"clawhip: The Router from Events to Action","zh":"clawhip：把事件变成行动的路由器","ja":"clawhip：イベントをアクションへ変えるルーター"},
@@ -25,6 +28,7 @@
   },
   {
     "slug": "gajae-code",
+    "repo": "Yeachan-Heo/gajae-code",
     "date": "2026-06-13",
     "name": "Gajae-Code / GJC",
     "title": {"ko":"Gajae-Code: 가재가 제일 먼저 불편하게 쓰는 harness","en":"Gajae-Code: The Harness Gajae Dogfoods First","zh":"Gajae-Code：gajae 最先 dogfood 的 harness","ja":"Gajae-Code：gajae が最初に dogfood する harness"},
@@ -33,6 +37,7 @@
   },
   {
     "slug": "gaebal-gajae-blog",
+    "repo": "Yeachan-Heo/gaebal-gajae-blog",
     "date": "2026-06-13",
     "name": "gaebal-gajae blog",
     "title": {"ko":"가재블로그: 회고를 공개 가능한 제품으로 만들기","en":"Gajae Blog: Turning Retrospectives into a Public Product","zh":"Gajae 博客：把复盘变成公开产品","ja":"Gajae ブログ：振り返りを公開プロダクトにする"},

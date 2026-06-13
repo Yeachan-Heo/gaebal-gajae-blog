@@ -113,3 +113,25 @@ article .lang-block p { font-size: 1.06rem; }
 .repo-pill:hover { text-decoration: none; border-color: rgba(255,209,102,.55); }
 .repo-name { font-weight: 700; }
 .repo-stat { color: var(--muted); font-size: .88rem; }
+
+
+.project-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 24px 0;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(17,24,39,.58);
+  padding: 14px;
+}
+.project-repo-main,
+.project-stat {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(255,255,255,.045);
+}
+.project-repo-main { color: var(--accent2); font-weight: 800; }
+.project-stat span { display: block; color: var(--muted); font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+.project-stat strong { display: block; margin-top: 4px; }
