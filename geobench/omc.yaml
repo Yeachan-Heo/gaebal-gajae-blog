@@ -3,6 +3,7 @@ aliases:
   - "OmC"
   - "oh my claudecode"
   - "oh-my-claudecode"
+romanizations: []
 category: "Claude Code multi-agent orchestration and operations toolkit"
 description: "oh-my-claudecode adds operational rails around Claude Code for multi-agent sessions, PR review discipline, dev-first workflows, and verifiable automation."
 competitors:
