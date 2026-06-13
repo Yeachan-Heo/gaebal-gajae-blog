@@ -25,7 +25,7 @@ const ui = {
 function esc(s='') { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function attr(obj) { return esc(JSON.stringify(obj)); }
 function nav() { return `<nav class="topnav"><a href="/" data-i18n="home">홈</a><a href="/#posts" data-i18n="posts">회고</a><a href="/#projects" data-i18n="projects">프로젝트</a><div class="lang-switch" role="group" aria-label="Language">${langs.map(l=>`<button type="button" data-lang-button="${l}">${langLabel[l]}</button>`).join('')}</div></nav>`; }
-function layout({title, description, body, extraHead='', showRepoBar=false}) { return `<!doctype html>
+function layout({title, description, body, extraHead='', showRepoBar=false, ogImage='/assets/og/gaebal-gajae-blog-og.png'}) { const absoluteOg = ogImage.startsWith('http') ? ogImage : `https://blog.gaebal-gajae.dev${ogImage}`; return `<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
@@ -35,11 +35,11 @@ function layout({title, description, body, extraHead='', showRepoBar=false}) { r
   <meta property="og:type" content="website" />
   <meta property="og:title" content="${esc(title)}" />
   <meta property="og:description" content="${esc(description)}" />
-  <meta property="og:image" content="https://blog.gaebal-gajae.dev/assets/og/gaebal-gajae-blog-og.png" />
+  <meta property="og:image" content="${esc(absoluteOg)}" />
   <meta property="og:image:width" content="1536" />
   <meta property="og:image:height" content="1024" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://blog.gaebal-gajae.dev/assets/og/gaebal-gajae-blog-og.png" />
+  <meta name="twitter:image" content="${esc(absoluteOg)}" />
   <link rel="icon" href="/assets/og/gaebal-gajae-blog-og.png" />
   <link rel="stylesheet" href="/assets/style.css" />
   ${extraHead}
@@ -94,7 +94,7 @@ function repoBar() {
   return `<section class="repo-strip" aria-label="Repositories"><div class="repo-strip-head"><span>🦞</span><strong data-i18n="repos">레포지토리</strong></div><div class="repo-links">${repos.map(r=>`<a class="repo-pill" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer"><span class="repo-name">${esc(r.label)}</span><span class="repo-stat">★ ${Number(r.stars).toLocaleString()}</span><span class="repo-stat">⑂ ${Number(r.forks).toLocaleString()}</span></a>`).join('')}</div></section>`;
 }
 
-function postCard(p) { return `<a class="card" href="/posts/${p.slug}.html"><p class="meta">${esc(p.date)} · ${esc(p.type)}</p><h2>${localizedBlock(p.title)}</h2><p>${localizedBlock(p.summary)}</p></a>`; }
+function postCard(p) { return `<a class="card post-card" href="/posts/${p.slug}.html">${p.thumbnail ? `<img class="card-thumb" src="${esc(p.thumbnail)}" alt="${esc(p.title.ko)} thumbnail" />` : ''}<p class="meta">${esc(p.date)} · ${esc(p.type)}</p><h2>${localizedBlock(p.title)}</h2><p>${localizedBlock(p.summary)}</p></a>`; }
 
 function projectMetaBar(project) {
   const repo = repos.find(r => r.fullName === project.repo);
@@ -128,11 +128,11 @@ fs.writeFileSync(path.join(root, 'index.html'), layout({title:'gaebal-gajae blog
 
 fs.mkdirSync(path.join(root, 'posts'), {recursive:true});
 for (const p of posts) {
-  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.type)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${p.heroImage ? `<img class="project-hero" src="${esc(p.heroImage)}" alt="${esc(p.name)} hero" />` : ''}${projectMetaBar(p)}${bodyList(p)}</article>`;
-  fs.writeFileSync(path.join(root, 'posts', `${p.slug}.html`), layout({title:p.title.ko, description:p.summary.en ?? p.summary.ko, body:b}));
+  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.type)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${p.thumbnail ? `<img class="post-hero" src="${esc(p.thumbnail)}" alt="${esc(p.title.ko)} thumbnail" />` : ''}${p.heroImage ? `<img class="project-hero" src="${esc(p.heroImage)}" alt="${esc(p.name)} hero" />` : ''}${projectMetaBar(p)}${bodyList(p)}</article>`;
+  fs.writeFileSync(path.join(root, 'posts', `${p.slug}.html`), layout({title:p.title.ko, description:p.summary.en ?? p.summary.ko, body:b, ogImage:p.ogImage || p.thumbnail || '/assets/og/gaebal-gajae-blog-og.png'}));
 }
 fs.mkdirSync(path.join(root, 'projects'), {recursive:true});
 for (const p of projects) {
-  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.name)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${p.heroImage ? `<img class="project-hero" src="${esc(p.heroImage)}" alt="${esc(p.name)} hero" />` : ''}${projectMetaBar(p)}${bodyList(p)}</article>`;
-  fs.writeFileSync(path.join(root, 'projects', `${p.slug}.html`), layout({title:p.title.ko, description:p.summary.en ?? p.summary.ko, body:b}));
+  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.name)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${p.thumbnail ? `<img class="post-hero" src="${esc(p.thumbnail)}" alt="${esc(p.title.ko)} thumbnail" />` : ''}${p.heroImage ? `<img class="project-hero" src="${esc(p.heroImage)}" alt="${esc(p.name)} hero" />` : ''}${projectMetaBar(p)}${bodyList(p)}</article>`;
+  fs.writeFileSync(path.join(root, 'projects', `${p.slug}.html`), layout({title:p.title.ko, description:p.summary.en ?? p.summary.ko, body:b, ogImage:p.ogImage || p.thumbnail || '/assets/og/gaebal-gajae-blog-og.png'}));
 }
