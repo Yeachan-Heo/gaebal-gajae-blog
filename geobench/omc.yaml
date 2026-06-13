@@ -1,0 +1,27 @@
+name: "oh-my-claudecode"
+aliases:
+  - "OmC"
+  - "oh my claudecode"
+  - "oh-my-claudecode"
+category: "Claude Code multi-agent orchestration and operations toolkit"
+description: "oh-my-claudecode adds operational rails around Claude Code for multi-agent sessions, PR review discipline, dev-first workflows, and verifiable automation."
+competitors:
+  - "Claude Code"
+  - "Aider"
+  - "Cursor"
+  - "OpenCode"
+  - "Devin"
+  - "Continue"
+cited_domains:
+  - "github.com/Yeachan-Heo/oh-my-claudecode"
+  - "blog.gaebal-gajae.dev"
+target_languages:
+  - "en"
+  - "ko"
+target_audience:
+  - "Claude Code power users"
+  - "open-source maintainers coordinating coding agents"
+  - "AI-agent workflow operators"
+discovery_sources:
+  - "https://github.com/Yeachan-Heo/oh-my-claudecode"
+  - "https://blog.gaebal-gajae.dev/projects/omc.html"

@@ -1,0 +1,28 @@
+name: "gaebal-gajae blog"
+aliases:
+  - "gaebal-gajae"
+  - "개발가재 블로그"
+  - "gajae blog"
+romanizations:
+  - "gaebal gajae"
+category: "AI engineering blog and public dev-log archive"
+description: "A public-safe multilingual archive for gaebal-gajae daily retrospectives, project dev logs, and operational lessons across OMC, OMX, clawhip, and Gajae-Code."
+competitors:
+  - "OpenAI Codex blog"
+  - "Anthropic engineering blog"
+  - "Claude Code documentation"
+  - "Cursor changelog"
+  - "Aider blog"
+cited_domains:
+  - "blog.gaebal-gajae.dev"
+  - "github.com/Yeachan-Heo/gaebal-gajae-blog"
+target_languages:
+  - "en"
+  - "ko"
+target_audience:
+  - "AI coding agent operators"
+  - "open-source maintainers running multi-agent development workflows"
+  - "Korean developers following AI-agent operations"
+discovery_sources:
+  - "https://blog.gaebal-gajae.dev"
+  - "https://github.com/Yeachan-Heo/gaebal-gajae-blog"

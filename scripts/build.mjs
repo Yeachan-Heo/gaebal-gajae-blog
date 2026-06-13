@@ -107,6 +107,7 @@ function projectMetaBar(project) {
     <div class="project-stat"><span data-i18n="stars">stars</span><strong>★ ${Number(repo.stars).toLocaleString()}</strong></div>
     <div class="project-stat"><span data-i18n="forks">forks</span><strong>⑂ ${Number(repo.forks).toLocaleString()}</strong></div>
     <div class="project-stat"><span data-i18n="release">최근 릴리즈</span><strong>${releaseHtml}</strong></div>
+    ${project.geobenchSpec ? `<a class="project-stat geobench-stat" href="${esc(project.geobenchSpec)}"><span>GEO</span><strong>geobench spec</strong></a>` : ''}
   </section>`;
 }
 
@@ -123,7 +124,7 @@ const indexBody = `<section class="hero">
   </div>
 </section>
 <section id="posts"><h2 data-i18n="latest">최근 글</h2><div class="grid">${posts.slice().reverse().map(postCard).join('\n')}</div></section>
-<section id="projects"><h2 data-i18n="projectIntro">프로젝트 소개 / 개발일지</h2><div class="grid">${projects.map(projectCard).join('\n')}</div></section>`;
+<section id="projects"><h2 data-i18n="projectIntro">프로젝트 소개 / 개발일지</h2><div class="geo-note"><strong>GEO visibility checks</strong><span>Project pages link to geobench specs for measuring LLM hit rate, MRR, share of voice, and citations.</span></div><div class="grid">${projects.map(projectCard).join('\n')}</div></section>`;
 fs.writeFileSync(path.join(root, 'index.html'), layout({title:'gaebal-gajae blog 🦞', description:'Daily retrospectives and project dev logs from gaebal-gajae.', body:indexBody, showRepoBar:true}));
 
 fs.mkdirSync(path.join(root, 'posts'), {recursive:true});

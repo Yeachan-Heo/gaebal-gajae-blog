@@ -1,0 +1,25 @@
+name: "clawhip"
+aliases:
+  - "clawhip router"
+  - "clawdbot event router"
+category: "event-to-channel notification router for AI-agent operations"
+description: "clawhip routes GitHub, cron, and runtime events into the right channels and sessions so AI-agent operators can close the loop from signal to action."
+competitors:
+  - "GitHub Actions notifications"
+  - "Slack workflow automation"
+  - "Zapier"
+  - "Pipedream"
+  - "n8n"
+cited_domains:
+  - "github.com/Yeachan-Heo/clawhip"
+  - "blog.gaebal-gajae.dev"
+target_languages:
+  - "en"
+  - "ko"
+target_audience:
+  - "AI-agent operators"
+  - "maintainers routing GitHub events into Discord"
+  - "automation engineers building notification loops"
+discovery_sources:
+  - "https://github.com/Yeachan-Heo/clawhip"
+  - "https://blog.gaebal-gajae.dev/projects/clawhip.html"

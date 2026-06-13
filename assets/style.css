@@ -313,3 +313,19 @@ code, pre {
 }
 hr { border-color: rgba(215,185,138,.16); }
 @media (max-width: 760px) { .hero-board { grid-template-columns: 1fr; } }
+.geo-note {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 12px 0 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(21,24,29,.72);
+  color: var(--muted);
+}
+.geo-note strong { color: var(--text); }
+.geobench-stat { text-decoration: none; color: inherit; }
+.geobench-stat:hover { border-color: rgba(215,185,138,.42); }
+@media (max-width: 760px) { .geo-note { display: block; } .geo-note span { display: block; margin-top: 6px; } }
