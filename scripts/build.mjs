@@ -47,7 +47,39 @@ function layout({title, description, body, extraHead='', showRepoBar=false}) { r
 </html>`; }
 function localizedText(map, key='ko') { return esc(map[key] ?? map.ko ?? ''); }
 function localizedBlock(map, cls='') { return `<span class="i18n ${cls}" data-i18n-text='${attr(map)}'>${localizedText(map)}</span>`; }
-function bodyList(item) { return langs.map(l => `<div class="lang-block" data-lang-block="${l}">${(item.body[l]||[]).map(p=>`<p>${esc(p)}</p>`).join('\n')}</div>`).join('\n'); }
+function inlineMarkdown(text='') {
+  let out = esc(text);
+  out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
+  out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+  return out;
+}
+function renderMarkdownBlock(block='') {
+  const lines = String(block).split('\n');
+  const out = [];
+  let list = [];
+  const flushList = () => {
+    if (list.length) {
+      out.push(`<ul>${list.map(x => `<li>${inlineMarkdown(x)}</li>`).join('')}</ul>`);
+      list = [];
+    }
+  };
+  for (const raw of lines) {
+    const line = raw.trimEnd();
+    const trimmed = line.trim();
+    if (!trimmed) { flushList(); continue; }
+    const bullet = trimmed.match(/^[-*]\s+(.+)$/);
+    if (bullet) { list.push(bullet[1]); continue; }
+    flushList();
+    if (/^---+$/.test(trimmed)) { out.push('<hr />'); continue; }
+    const h = trimmed.match(/^(#{1,6})\s+(.+)$/);
+    if (h) { const level = Math.min(6, h[1].length + 1); out.push(`<h${level}>${inlineMarkdown(h[2])}</h${level}>`); continue; }
+    out.push(`<p>${inlineMarkdown(trimmed)}</p>`);
+  }
+  flushList();
+  return out.join('\n');
+}
+function bodyList(item) { return langs.map(l => `<div class="lang-block" data-lang-block="${l}">${(item.body[l]||[]).map(renderMarkdownBlock).join('\n')}</div>`).join('\n'); }
 
 function repoBar() {
   return `<section class="repo-strip" aria-label="Repositories"><div class="repo-strip-head"><span>🦞</span><strong data-i18n="repos">레포지토리</strong></div><div class="repo-links">${repos.map(r=>`<a class="repo-pill" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer"><span class="repo-name">${esc(r.label)}</span><span class="repo-stat">★ ${Number(r.stars).toLocaleString()}</span><span class="repo-stat">⑂ ${Number(r.forks).toLocaleString()}</span></a>`).join('')}</div></section>`;
