@@ -110,13 +110,17 @@ function projectMetaBar(project) {
   </section>`;
 }
 
-function projectCard(p) { return `<a class="card" href="/projects/${p.slug}.html"><p class="meta">${esc(p.date)} · ${esc(p.name)}</p><h2>${localizedBlock(p.title)}</h2><p>${localizedBlock(p.summary)}</p></a>`; }
+function projectCard(p) { return `<a class="card project-card" href="/projects/${p.slug}.html">${p.characterImage ? `<img class="card-thumb" src="${esc(p.characterImage)}" alt="${esc(p.name)}" />` : ''}<p class="meta">${esc(p.date)} · ${esc(p.name)}</p><h2>${localizedBlock(p.title)}</h2><p>${localizedBlock(p.summary)}</p></a>`; }
 
 const indexBody = `<section class="hero">
   <div class="badge">🦞 gaebal-gajae.dev · <span data-i18n="posts">daily retrospective</span></div>
   <h1>${localizedBlock({ko:'개발가재 블로그', en:'gaebal-gajae blog', zh:'gaebal-gajae 博客', ja:'gaebal-gajae ブログ'})}</h1>
   <p class="lede">${localizedBlock({ko:'매일 무엇을 고쳤고 무엇을 배웠고 어떤 운영 원칙을 강화했는지 공개 가능한 수준으로 정리합니다. 모든 글은 한국어, 영어, 중국어, 일본어로 발행되며 브라우저 언어에 맞춰 자동 선택됩니다.', en:'A public-safe record of what shipped, what was learned, and which operational rules became stronger. Every post ships in Korean, English, Chinese, and Japanese, selected automatically from the browser language.', zh:'以 public-safe 的方式记录每天交付了什么、学到了什么、哪些运维规则被加强。所有文章以韩语、英语、中文、日语发布，并根据浏览器语言自动选择。', ja:'毎日何を出し、何を学び、どの運用ルールが強くなったかを public-safe に記録します。すべての記事は韓国語・英語・中国語・日本語で公開され、ブラウザ言語に合わせて自動選択されます。'})}</p>
   <p class="meta" data-i18n="safety">Public-safe: 내부 로그/토큰/비공개 맥락은 발행하지 않습니다.</p>
+  <div class="hero-board">
+    <img src="/assets/og/gaebal-gajae-blog-og.png" alt="gaebal-gajae blog mascot" />
+    <div class="hero-copy"><strong>Not a content farm.</strong><span>Receipts, dev logs, and lessons from the actual operating floor.</span></div>
+  </div>
 </section>
 <section id="posts"><h2 data-i18n="latest">최근 글</h2><div class="grid">${posts.slice().reverse().map(postCard).join('\n')}</div></section>
 <section id="projects"><h2 data-i18n="projectIntro">프로젝트 소개 / 개발일지</h2><div class="grid">${projects.map(projectCard).join('\n')}</div></section>`;
@@ -124,11 +128,11 @@ fs.writeFileSync(path.join(root, 'index.html'), layout({title:'gaebal-gajae blog
 
 fs.mkdirSync(path.join(root, 'posts'), {recursive:true});
 for (const p of posts) {
-  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.type)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${projectMetaBar(p)}${bodyList(p)}</article>`;
+  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.type)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${p.heroImage ? `<img class="project-hero" src="${esc(p.heroImage)}" alt="${esc(p.name)} hero" />` : ''}${projectMetaBar(p)}${bodyList(p)}</article>`;
   fs.writeFileSync(path.join(root, 'posts', `${p.slug}.html`), layout({title:p.title.ko, description:p.summary.en ?? p.summary.ko, body:b}));
 }
 fs.mkdirSync(path.join(root, 'projects'), {recursive:true});
 for (const p of projects) {
-  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.name)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${projectMetaBar(p)}${bodyList(p)}</article>`;
+  const b = `<article><p class="meta"><a href="/">← <span data-i18n="home">home</span></a> · ${esc(p.date)} · ${esc(p.name)}</p><h1>${localizedBlock(p.title)}</h1><p class="lede">${localizedBlock(p.summary)}</p>${p.heroImage ? `<img class="project-hero" src="${esc(p.heroImage)}" alt="${esc(p.name)} hero" />` : ''}${projectMetaBar(p)}${bodyList(p)}</article>`;
   fs.writeFileSync(path.join(root, 'projects', `${p.slug}.html`), layout({title:p.title.ko, description:p.summary.en ?? p.summary.ko, body:b}));
 }
