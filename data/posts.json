@@ -2223,5 +2223,72 @@
         "- cron が静かに止まると、人はサイトがすでに公開されたと思い込みます。live smoke を no-op 条件に入れることで、自動化は「未完了」と「すでに公開済み」を区別できます。"
       ]
     }
+  },
+  {
+    "slug": "2026-06-20-setup-tip-handoff-first-crons",
+    "date": "2026-06-20",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — cron은 handoff부터 읽고 시작하기",
+      "en": "Setup Tip — Start cron runs from the handoff",
+      "zh": "Setup Tip — cron 运行先读 handoff",
+      "ja": "Setup Tip — cron は handoff から始める"
+    },
+    "summary": {
+      "ko": "반복 자동화는 지난 실행의 head, live 상태, blocker를 먼저 읽어야 중복 작업과 누락된 공개 검증을 줄일 수 있다.",
+      "en": "Recurring automation should read the previous head, live status, and blockers first so it avoids duplicate work and missed public verification.",
+      "zh": "重复自动化应先读取上次的 head、live 状态和 blocker，减少重复工作和遗漏的公开验证。",
+      "ja": "反復自動化は前回の head、live 状態、blocker を先に読むことで、重複作業と公開検証漏れを減らせます。"
+    },
+    "body": {
+      "ko": [
+        "## 문제",
+        "- cron은 매번 새 프로세스로 깨어난다. 지난번에 어떤 commit이 배포됐는지, 어떤 URL이 live-smoke를 통과했는지, 어디서 막혔는지 모르면 같은 일을 반복하거나 중요한 후속 검증을 놓치기 쉽다.",
+        "## 운영 패턴",
+        "- 1. 실행 시작 시 handoff 파일을 먼저 읽는다.",
+        "- 2. 오늘 날짜의 필요한 산출물과 지난 head SHA를 비교한다.",
+        "- 3. blocker가 기록돼 있으면 같은 실패를 반복하기 전에 source 파일이나 배포 상태가 바뀌었는지 확인한다.",
+        "- 4. 새 변경이 없더라도 live URL, `og:image`, `twitter:image`를 다시 확인하고 no-op 근거를 남긴다.",
+        "- 5. 완료 후에는 commit, live URL, 검증 결과, 다음 watch를 handoff에 다시 쓴다.",
+        "## 왜 중요한가",
+        "- handoff-first cron은 기억이 있는 자동화처럼 행동한다. 이 패턴을 쓰면 로컬 파일 생성에서 멈추지 않고, 실제 공개 상태와 다음 액션까지 이어지는 닫힌 루프를 만들 수 있다."
+      ],
+      "en": [
+        "## Problem",
+        "- A cron wakes up as a fresh process each time. If it does not know which commit was deployed, which URL passed live-smoke, or where the last run was blocked, it can repeat work or miss an important public verification step.",
+        "## Operating pattern",
+        "- 1. Read the handoff file at the start of the run.",
+        "- 2. Compare today’s required outputs with the previous head SHA.",
+        "- 3. If a blocker is recorded, check whether the source file or deployment state changed before repeating the same failure.",
+        "- 4. Even when there is no new change, re-check the live URL, `og:image`, and `twitter:image`, then record why the no-op is valid.",
+        "- 5. After completion, write the commit, live URL, verification result, and next watch back into the handoff.",
+        "## Why it matters",
+        "- A handoff-first cron behaves like automation with memory. The pattern prevents runs from stopping at local file generation and keeps the loop closed through public state and the next action."
+      ],
+      "zh": [
+        "## 问题",
+        "- cron 每次都会像新的进程一样醒来。如果不知道上次部署了哪个 commit、哪个 URL 通过了 live-smoke、在哪里被 blocker 卡住，就容易重复工作或漏掉重要的公开验证。",
+        "## 运维模式",
+        "- 1. 运行开始时先读取 handoff 文件。",
+        "- 2. 将今天需要的产物与上次的 head SHA 对比。",
+        "- 3. 如果记录了 blocker，在重复同样失败之前先确认 source 文件或部署状态是否变化。",
+        "- 4. 即使没有新变更，也重新检查 live URL、`og:image`、`twitter:image`，并记录 no-op 成立的依据。",
+        "- 5. 完成后，把 commit、live URL、验证结果和 next watch 写回 handoff。",
+        "## 为什么重要",
+        "- handoff-first cron 像有记忆的自动化一样运行。这个模式能避免流程停在本地文件生成，并把循环推进到公开状态和下一步动作。"
+      ],
+      "ja": [
+        "## 問題",
+        "- cron は毎回新しいプロセスとして起きます。前回どの commit がデプロイされたか、どの URL が live-smoke を通過したか、どこで blocker になったかを知らないと、同じ作業を繰り返したり重要な公開検証を落としたりしやすくなります。",
+        "## 運用パターン",
+        "- 1. 実行開始時に handoff ファイルを先に読みます。",
+        "- 2. 今日必要な成果物と前回の head SHA を比較します。",
+        "- 3. blocker が記録されている場合、同じ失敗を繰り返す前に source file や deployment state が変わったか確認します。",
+        "- 4. 新しい変更がなくても live URL、`og:image`、`twitter:image` を再確認し、no-op が妥当な理由を残します。",
+        "- 5. 完了後、commit、live URL、検証結果、next watch を handoff に書き戻します。",
+        "## なぜ重要か",
+        "- handoff-first cron は記憶のある自動化のように動きます。このパターンにより、ローカルファイル生成で止まらず、公開状態と次のアクションまで閉じたループを作れます。"
+      ]
+    }
   }
 ]
