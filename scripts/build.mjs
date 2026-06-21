@@ -233,7 +233,7 @@ function metaRow(item, variant = 'default') {
     return `<div class="reading-meta reading-meta-compact"><span class="meta-date">${esc(item.date)}</span><span class="meta-separator" aria-hidden="true">·</span><span class="meta-text">${localizedBlock(typeCopy[item.type] || typeCopy.blog)}</span><span class="meta-separator" aria-hidden="true">·</span><span class="meta-text">${localizedBlock(readTimeMap(minutes))}</span></div>`;
   }
   if (variant === 'detail') {
-    return `<div class="reading-meta reading-meta-detail"><span class="meta-date">${esc(item.date)}</span><span class="meta-separator" aria-hidden="true">·</span><span class="meta-text">${localizedBlock(typeCopy[item.type] || typeCopy.blog)}</span><span class="meta-separator" aria-hidden="true">·</span><span class="meta-text">${localizedBlock(readTimeMap(minutes))}</span></div>`;
+    return `<div class="reading-meta reading-meta-detail"><time class="meta-date">${esc(item.date)}</time><small class="meta-separator" aria-hidden="true">·</small><small class="meta-text">${localizedBlock(typeCopy[item.type] || typeCopy.blog)}</small><small class="meta-separator" aria-hidden="true">·</small><small class="meta-text">${localizedBlock(readTimeMap(minutes))}</small></div>`;
   }
   return `<div class="reading-meta"><span>${esc(item.date)}</span><span>${localizedBlock(typeCopy[item.type] || typeCopy.blog)}</span><span>${localizedBlock(readTimeMap(minutes))}</span></div>`;
 }
