@@ -1,0 +1,12 @@
+/* Base helpers for the component layer. */
+* {
+  box-sizing: border-box;
+}
+
+.i18n {
+  white-space: normal;
+}
+
+.lang-block[hidden] {
+  display: none !important;
+}
