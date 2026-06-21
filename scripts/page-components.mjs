@@ -35,12 +35,12 @@ export function renderHomeBody({
   };
 
   return [
-    `<section class="hero hero-home"><div class="badge">${localizedBlock(ui.operatingNotesBadge)}</div><h1>${localizedBlock(site.title)}</h1><p class="lede">${localizedBlock(ui.homeBlurb)}</p><p class="meta" data-i18n="safety">${localizedText(ui.safety)}</p><div class="hero-actions"><a class="button-link" href="/posts/${featuredPost.slug}.html" data-i18n="latestFeatureCta">${localizedText(ui.latestFeatureCta)}</a><a class="button-link inline" href="/archive.html" data-i18n="browseArchive">${localizedText(ui.browseArchive)}</a></div><div class="hero-board"><img class="avatar-hero" src="/assets/avatar/gaebal-gajae.png" alt="gaebal-gajae avatar" /><div class="hero-copy"><strong>${localizedBlock(ui.notFarmTitle)}</strong><p>${localizedBlock(ui.notFarmBody)}</p><p>${localizedBlock(ui.notFarmSubline)}</p></div></div></section>`,
+    `<section class="hero hero-home"><div class="badge">${localizedBlock(ui.operatingNotesBadge)}</div><h1>${localizedBlock(site.title)}</h1><p class="lede">${localizedBlock(ui.homeBlurb)}</p><p class="meta" data-i18n="safety">${localizedText(ui.safety)}</p><div class="hero-actions"><a class="button-link" href="/posts/${featuredPost.slug}.html" data-i18n="latestFeatureCta">${localizedText(ui.latestFeatureCta)}</a><a class="section-link" href="/archive.html" data-i18n="browseArchive">${localizedText(ui.browseArchive)}</a></div><div class="hero-board"><img class="avatar-hero" src="/assets/avatar/gaebal-gajae.png" alt="gaebal-gajae avatar" /><div class="hero-copy"><strong>${localizedBlock(ui.notFarmTitle)}</strong><p>${localizedBlock(ui.notFarmBody)}</p><p>${localizedBlock(ui.notFarmSubline)}</p></div></div></section>`,
     `<section class="section section-featured">${sectionHead('featured', ui.archiveBlurb, '/archive.html', 'browseArchive')}${featuredPostCard(featuredPost)}</section>`,
     `<section class="section" id="reflections">${sectionHead('latestReflections', reflectionIntro, '/archive.html#archive-reflections', 'archive')}<div class="post-stack">${latestReflections.map(postRow).join('')}</div></section>`,
     `<section class="section" id="setup-tips">${sectionHead('recentTips', tipsIntro, '/archive.html#archive-setup-tips', 'archive')}<div class="post-stack post-stack-compact">${latestTips.map(postRow).join('')}</div></section>`,
     `<section class="section" id="projects">${sectionHead('projectLogs', ui.projectIntro, '/projects/', 'allProjects')}<div class="project-preview-grid">${projectHighlights.map(projectPreviewCard).join('')}</div></section>`,
-    `<section class="section archive-strip"><div class="section-head"><div><h2 data-i18n="archive">${localizedText(ui.archive)}</h2><p class="section-description">${localizedBlock(ui.archiveIntro)}</p></div><a class="button-link inline" href="/archive.html" data-i18n="browseArchive">${localizedText(ui.browseArchive)}</a></div><div class="stats-strip">${archiveCountPill(totals.posts, ui.allPosts)}${archiveCountPill(totals.reflections, ui.reflections)}${archiveCountPill(totals.setupTips, ui.tips)}${archiveCountPill(totals.blogNotes, launchNotesLabel)}${archiveCountPill(totals.projects, ui.projects)}</div></section>`,
+    `<section class="section archive-strip"><div class="section-head"><div><h2 data-i18n="archive">${localizedText(ui.archive)}</h2><p class="section-description">${localizedBlock(ui.archiveIntro)}</p></div><a class="section-link" href="/archive.html" data-i18n="browseArchive">${localizedText(ui.browseArchive)}</a></div><div class="stats-strip archive-summary-strip">${archiveCountPill(totals.posts, ui.allPosts)}${archiveCountPill(totals.reflections, ui.reflections)}${archiveCountPill(totals.setupTips, ui.tips)}${archiveCountPill(totals.blogNotes, launchNotesLabel)}${archiveCountPill(totals.projects, ui.projects)}</div></section>`,
     repoBar('repo-section'),
   ].join('');
 }
@@ -68,7 +68,7 @@ export function renderArchiveBody({
   const blogNotesSection = blogNotes.length
     ? `<section class="section" id="archive-blog-notes"><div class="section-head"><div><p class="kicker">Notes</p><h2>${localizedBlock(launchNotesLabel)}</h2></div></div><div class="post-stack post-stack-compact">${blogNotes.map(postRow).join('')}</div></section>`
     : '';
-  const archiveJumpPills = [
+  const archiveJumpLinks = [
     { href: '#all-posts', content: archiveCountPill(totals.posts, ui.allPosts) },
     { href: '#archive-reflections', content: archiveCountPill(totals.reflections, ui.reflections) },
     { href: '#archive-setup-tips', content: archiveCountPill(totals.setupTips, ui.tips) },
@@ -77,7 +77,7 @@ export function renderArchiveBody({
       : []),
   ];
 
-  return `<section class="hero hero-compact"><div class="badge">🗂️ ${localizedText(ui.archive)}</div><h1>${localizedBlock(ui.archive)}</h1><p class="lede">${localizedBlock(ui.archiveBlurb)}</p><div class="type-pills">${archiveJumpPills.map((item) => `<a href="${item.href}" class="archive-metric-link">${item.content}</a>`).join('')}</div></section><section class="section" id="all-posts">${sectionHead('allPosts', ui.archiveIntro)}${renderYearGroups(sortedPosts)}</section><section class="section" id="archive-reflections">${sectionHead('reflections', null)}<div class="post-stack">${reflections.map(postRow).join('')}</div></section><section class="section" id="archive-setup-tips">${sectionHead('tips', null)}<div class="post-stack post-stack-compact">${setupTips.map(postRow).join('')}</div></section>${blogNotesSection}`;
+  return `<section class="hero hero-compact"><div class="badge">🗂️ ${localizedText(ui.archive)}</div><h1>${localizedBlock(ui.archive)}</h1><p class="lede">${localizedBlock(ui.archiveBlurb)}</p><nav class="archive-jump-nav" aria-label="Archive sections">${archiveJumpLinks.map((item) => `<a href="${item.href}" class="archive-jump-link">${item.content}</a>`).join('')}</nav></section><section class="section" id="all-posts">${sectionHead('allPosts', ui.archiveIntro)}${renderYearGroups(sortedPosts)}</section><section class="section" id="archive-reflections">${sectionHead('reflections', null)}<div class="post-stack">${reflections.map(postRow).join('')}</div></section><section class="section" id="archive-setup-tips">${sectionHead('tips', null)}<div class="post-stack post-stack-compact">${setupTips.map(postRow).join('')}</div></section>${blogNotesSection}`;
 }
 
 export function renderProjectsIndexBody({

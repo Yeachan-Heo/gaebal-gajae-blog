@@ -294,7 +294,7 @@ function renderYearGroups(items) {
 }
 
 function archiveCountPill(count, label) {
-  return `<span class="archive-metric"><strong>${count}</strong><span class="archive-metric-label">${localizedBlock(label)}</span></span>`;
+  return `<span class="archive-count-pair"><strong class="archive-count">${count}</strong><span class="archive-count-label">${localizedBlock(label)}</span></span>`;
 }
 
 function adjacentPosts(current) {

@@ -1873,3 +1873,76 @@ h6 {
     border-width: 1px 0 0;
   }
 }
+/* 2026-06-22 detail polish pass */
+.section-link,
+.card-link-hint,
+.archive-jump-link {
+  color: var(--link) !important;
+  text-decoration: none;
+}
+
+.section-link,
+.card-link-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .96rem;
+  font-weight: 700;
+}
+
+.section-link::after,
+.card-link-hint::after {
+  content: "→";
+  opacity: .72;
+}
+
+.section-link:hover,
+.card-link-hint:hover,
+.archive-jump-link:hover {
+  color: var(--link-hover) !important;
+}
+
+.archive-summary-strip,
+.archive-jump-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+}
+
+.archive-count-pair {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.archive-count {
+  color: var(--text-strong) !important;
+  font-size: 1rem;
+  font-weight: 760;
+}
+
+.archive-count-label,
+.archive-count-label .i18n {
+  color: var(--muted) !important;
+}
+
+.archive-summary-strip .archive-count-pair {
+  padding-bottom: 2px;
+}
+
+.archive-jump-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0 0 3px;
+  border-bottom: 1px solid transparent;
+}
+
+.archive-jump-link:hover {
+  border-bottom-color: var(--line-strong);
+}
+
+.featured-post .card-link-hint,
+.project-card .card-link-hint {
+  margin-top: 6px;
+}
