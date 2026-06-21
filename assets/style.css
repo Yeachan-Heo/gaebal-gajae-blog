@@ -1946,3 +1946,52 @@ h6 {
 .project-card .card-link-hint {
   margin-top: 6px;
 }
+.reading-meta.reading-meta-detail {
+  gap: 8px;
+  margin-bottom: 16px;
+  font-size: .88rem;
+}
+
+.reading-meta.reading-meta-detail > span {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.reading-meta.reading-meta-detail .meta-date {
+  color: var(--faint) !important;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.reading-meta.reading-meta-detail .meta-separator {
+  color: var(--faint) !important;
+  opacity: .7;
+}
+
+.reading-meta.reading-meta-detail .meta-text,
+.reading-meta.reading-meta-detail .meta-text .i18n {
+  color: var(--muted) !important;
+}
+
+.post-footer-nav {
+  margin-top: 42px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.post-nav-link {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.post-nav-link:hover {
+  transform: none !important;
+  background: transparent !important;
+  border-color: transparent !important;
+}
