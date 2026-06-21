@@ -1,3 +1,5 @@
+import { renderActionLink } from './ui-components.mjs';
+
 export function renderNav({ langs, langLabel }) {
   return `<nav class="topnav nav-shell"><div class="nav-links"><a href="/" data-i18n="home" data-nav-match="home">홈</a><a href="/#reflections" data-i18n="reflections" data-nav-match="reflections">회고</a><a href="/#setup-tips" data-i18n="tips" data-nav-match="tips">셋업 팁</a><a href="/projects/" data-i18n="projects" data-nav-match="projects">프로젝트</a><a href="/archive.html" data-i18n="archive" data-nav-match="archive">아카이브</a></div><div class="theme-controls"><button type="button" class="theme-toggle" data-theme-toggle data-theme-label-dark="switchToDarkTheme" data-theme-label-light="switchToLightTheme" aria-label="라이트 모드로 전환" title="라이트 모드로 전환"><span class="theme-toggle-icon" aria-hidden="true"></span></button><div class="lang-switch" role="group" aria-label="Language">${langs.map((lang) => `<button type="button" data-lang-button="${lang}">${langLabel[lang]}</button>`).join('')}</div></div></nav>`;
 }
@@ -29,7 +31,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
   <link rel="icon" href="/assets/og/gaebal-gajae-blog-og.png" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="/assets/style.css?v=20260622j" />
+  <link rel="stylesheet" href="/assets/style.css?v=20260622k" />
   ${extraHead}
 </head>
 <body data-ui='${esc(JSON.stringify(ui))}'>
@@ -38,13 +40,16 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
     ${body}
   </main>
   ${footerHtml}
-  <script src="/assets/lang.js?v=20260622j"></script>
+  <script src="/assets/lang.js?v=20260622k"></script>
 </body>
 </html>`;
 }
 
 export function renderSectionHead(titleKey, descriptionMap = null, actionHref = '', actionKey = '', { localizedText, localizedBlock, ui }) {
-  return `<div class="section-head"><div><h2 data-i18n="${titleKey}">${localizedText(ui[titleKey] || {}, 'ko')}</h2>${descriptionMap ? `<p class="section-description">${localizedBlock(descriptionMap)}</p>` : ''}</div>${actionHref && actionKey ? `<a class="section-link" href="${actionHref}" data-i18n="${actionKey}">${localizedText(ui[actionKey] || {}, 'ko')}</a>` : ''}</div>`;
+  const action = actionHref && actionKey
+    ? renderActionLink({ href: actionHref, label: localizedText(ui[actionKey] || {}, 'ko'), i18nKey: actionKey })
+    : '';
+  return `<div class="section-head"><div><h2 data-i18n="${titleKey}">${localizedText(ui[titleKey] || {}, 'ko')}</h2>${descriptionMap ? `<p class="section-description">${localizedBlock(descriptionMap)}</p>` : ''}</div>${action}</div>`;
 }
 
 export function renderPostRow(item, { metaRow, localizedBlock }) {

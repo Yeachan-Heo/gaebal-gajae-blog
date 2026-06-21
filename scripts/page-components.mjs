@@ -1,3 +1,4 @@
+import { renderActionLink, renderBadge, renderEyebrowTrail, renderMetaLine, renderPostNavLink } from './ui-components.mjs';
 export function renderHomeBody({
   site,
   ui,
@@ -35,12 +36,12 @@ export function renderHomeBody({
   };
 
   return [
-    `<section class="hero hero-home"><div class="badge">${localizedBlock(ui.operatingNotesBadge)}</div><h1>${localizedBlock(site.title)}</h1><p class="lede">${localizedBlock(ui.homeBlurb)}</p><p class="meta" data-i18n="safety">${localizedText(ui.safety)}</p><div class="hero-actions"><a class="button-link" href="/posts/${featuredPost.slug}.html" data-i18n="latestFeatureCta">${localizedText(ui.latestFeatureCta)}</a><a class="section-link" href="/archive.html" data-i18n="browseArchive">${localizedText(ui.browseArchive)}</a></div><div class="hero-board"><img class="avatar-hero" src="/assets/avatar/gaebal-gajae.png" alt="gaebal-gajae avatar" /><div class="hero-copy"><strong>${localizedBlock(ui.notFarmTitle)}</strong><p>${localizedBlock(ui.notFarmBody)}</p><p>${localizedBlock(ui.notFarmSubline)}</p></div></div></section>`,
+    `<section class="hero hero-home">${renderBadge({ content: localizedBlock(ui.operatingNotesBadge) })}<h1>${localizedBlock(site.title)}</h1><p class="lede">${localizedBlock(ui.homeBlurb)}</p><p class="meta" data-i18n="safety">${localizedText(ui.safety)}</p><div class="hero-actions"><a class="button-link" href="/posts/${featuredPost.slug}.html" data-i18n="latestFeatureCta">${localizedText(ui.latestFeatureCta)}</a>${renderActionLink({ href: '/archive.html', label: localizedText(ui.browseArchive), i18nKey: 'browseArchive' })}</div><div class="hero-board"><img class="avatar-hero" src="/assets/avatar/gaebal-gajae.png" alt="gaebal-gajae avatar" /><div class="hero-copy"><strong>${localizedBlock(ui.notFarmTitle)}</strong><p>${localizedBlock(ui.notFarmBody)}</p><p>${localizedBlock(ui.notFarmSubline)}</p></div></div></section>`,
     `<section class="section section-featured">${sectionHead('featured', ui.archiveBlurb, '/archive.html', 'browseArchive')}${featuredPostCard(featuredPost)}</section>`,
     `<section class="section" id="reflections">${sectionHead('latestReflections', reflectionIntro, '/archive.html#archive-reflections', 'archive')}<div class="post-stack">${latestReflections.map(postRow).join('')}</div></section>`,
     `<section class="section" id="setup-tips">${sectionHead('recentTips', tipsIntro, '/archive.html#archive-setup-tips', 'archive')}<div class="post-stack post-stack-compact">${latestTips.map(postRow).join('')}</div></section>`,
     `<section class="section" id="projects">${sectionHead('projectLogs', ui.projectIntro, '/projects/', 'allProjects')}<div class="project-preview-grid">${projectHighlights.map(projectPreviewCard).join('')}</div></section>`,
-    `<section class="section archive-strip"><div class="section-head"><div><h2 data-i18n="archive">${localizedText(ui.archive)}</h2><p class="section-description">${localizedBlock(ui.archiveIntro)}</p></div><a class="section-link" href="/archive.html" data-i18n="browseArchive">${localizedText(ui.browseArchive)}</a></div><div class="stats-strip archive-summary-strip">${archiveCountPill(totals.posts, ui.allPosts)}${archiveCountPill(totals.reflections, ui.reflections)}${archiveCountPill(totals.setupTips, ui.tips)}${archiveCountPill(totals.blogNotes, launchNotesLabel)}${archiveCountPill(totals.projects, ui.projects)}</div></section>`,
+    `<section class="section archive-strip"><div class="section-head"><div><h2 data-i18n="archive">${localizedText(ui.archive)}</h2><p class="section-description">${localizedBlock(ui.archiveIntro)}</p></div>${renderActionLink({ href: '/archive.html', label: localizedText(ui.browseArchive), i18nKey: 'browseArchive' })}</div><div class="stats-strip archive-summary-strip">${archiveCountPill(totals.posts, ui.allPosts)}${archiveCountPill(totals.reflections, ui.reflections)}${archiveCountPill(totals.setupTips, ui.tips)}${archiveCountPill(totals.blogNotes, launchNotesLabel)}${archiveCountPill(totals.projects, ui.projects)}</div></section>`,
     repoBar('repo-section'),
   ].join('');
 }
@@ -77,7 +78,7 @@ export function renderArchiveBody({
       : []),
   ];
 
-  return `<section class="hero hero-compact"><div class="badge">🗂️ ${localizedText(ui.archive)}</div><h1>${localizedBlock(ui.archive)}</h1><p class="lede">${localizedBlock(ui.archiveBlurb)}</p><nav class="archive-jump-nav" aria-label="Archive sections">${archiveJumpLinks.map((item) => `<a href="${item.href}" class="archive-jump-link">${item.content}</a>`).join('')}</nav></section><section class="section" id="all-posts">${sectionHead('allPosts', ui.archiveIntro)}${renderYearGroups(sortedPosts)}</section><section class="section" id="archive-reflections">${sectionHead('reflections', null)}<div class="post-stack">${reflections.map(postRow).join('')}</div></section><section class="section" id="archive-setup-tips">${sectionHead('tips', null)}<div class="post-stack post-stack-compact">${setupTips.map(postRow).join('')}</div></section>${blogNotesSection}`;
+  return `<section class="hero hero-compact">${renderBadge({ content: `🗂️ ${localizedText(ui.archive)}` })}<h1>${localizedBlock(ui.archive)}</h1><p class="lede">${localizedBlock(ui.archiveBlurb)}</p><nav class="archive-jump-nav" aria-label="Archive sections">${archiveJumpLinks.map((item) => `<a href="${item.href}" class="archive-jump-link">${item.content}</a>`).join('')}</nav></section><section class="section" id="all-posts">${sectionHead('allPosts', ui.archiveIntro)}${renderYearGroups(sortedPosts)}</section><section class="section" id="archive-reflections">${sectionHead('reflections', null)}<div class="post-stack">${reflections.map(postRow).join('')}</div></section><section class="section" id="archive-setup-tips">${sectionHead('tips', null)}<div class="post-stack post-stack-compact">${setupTips.map(postRow).join('')}</div></section>${blogNotesSection}`;
 }
 
 export function renderProjectsIndexBody({
@@ -89,7 +90,7 @@ export function renderProjectsIndexBody({
   projectPreviewCard,
   repoBar,
 }) {
-  return `<section class="hero hero-compact"><div class="badge">🛠️ ${localizedText(ui.projects)}</div><h1>${localizedBlock(ui.projects)}</h1><p class="lede">${localizedBlock(ui.projectIntro)}</p></section><section class="section">${sectionHead('projects', null)}<div class="project-preview-grid">${projects.map(projectPreviewCard).join('')}</div></section>${repoBar('repo-section')}`;
+  return `<section class="hero hero-compact">${renderBadge({ content: `🛠️ ${localizedText(ui.projects)}` })}<h1>${localizedBlock(ui.projects)}</h1><p class="lede">${localizedBlock(ui.projectIntro)}</p></section><section class="section">${sectionHead('projects', null)}<div class="project-preview-grid">${projects.map(projectPreviewCard).join('')}</div></section>${repoBar('repo-section')}`;
 }
 
 export function renderPostBody({
@@ -108,17 +109,23 @@ export function renderPostBody({
     : '';
   const footerLinks = [
     neighbors.newer
-      ? `<a class="post-nav-link" href="/posts/${neighbors.newer.slug}.html"><span data-i18n="newerPost">${localizedText(ui.newerPost)}</span><strong>${localizedBlock(neighbors.newer.title)}</strong></a>`
+      ? renderPostNavLink({ href: `/posts/${neighbors.newer.slug}.html`, kicker: localizedText(ui.newerPost), title: localizedBlock(neighbors.newer.title) })
       : '',
     neighbors.older
-      ? `<a class="post-nav-link${neighbors.newer ? ' align-right' : ''}" href="/posts/${neighbors.older.slug}.html"><span data-i18n="olderPost">${localizedText(ui.olderPost)}</span><strong>${localizedBlock(neighbors.older.title)}</strong></a>`
+      ? renderPostNavLink({ href: `/posts/${neighbors.older.slug}.html`, kicker: localizedText(ui.olderPost), title: localizedBlock(neighbors.older.title), alignRight: !!neighbors.newer })
       : '',
   ].filter(Boolean);
   const footerNav = footerLinks.length
     ? `<nav class="post-footer-nav ${footerLinks.length === 1 ? 'is-single' : 'is-dual'}">${footerLinks.join('')}</nav>`
     : '';
 
-  return `<article class="post-article"><p class="eyebrow"><a href="/">← <span data-i18n="home">${localizedText(ui.home)}</span></a> · <a href="/archive.html" data-i18n="archive">${localizedText(ui.archive)}</a></p>${metaRow(post, 'detail')}<h1>${localizedBlock(post.title)}</h1><p class="lede">${localizedBlock(post.summary)}</p>${bodyList(post)}${relatedSection}${footerNav}</article>`;
+  const eyebrow = renderEyebrowTrail([
+    { href: '/', label: `← ${localizedText(ui.home)}`, i18nKey: 'home' },
+    { href: '/archive.html', label: localizedText(ui.archive), i18nKey: 'archive' },
+  ]);
+
+  return `<article class="post-article">${eyebrow}${metaRow(post, 'detail')}<h1>${localizedBlock(post.title)}</h1><p class="lede">${localizedBlock(post.summary)}</p>${bodyList(post)}${relatedSection}${footerNav}</article>`;
+
 }
 
 export function renderProjectBody({
@@ -135,5 +142,14 @@ export function renderProjectBody({
     ? `<img class="project-hero" src="${esc(project.heroImage)}" alt="${esc(project.name)} hero" />`
     : '';
 
-  return `<article class="post-article"><p class="eyebrow"><a href="/">← <span data-i18n="home">${localizedText(ui.home)}</span></a> · <a href="/projects/" data-i18n="projects">${localizedText(ui.projects)}</a></p><div class="reading-meta reading-meta-detail"><time class="meta-date">${esc(project.date)}</time><small class="meta-separator" aria-hidden="true">·</small><small class="meta-text">${localizedBlock(typeCopy.project)}</small><small class="meta-separator" aria-hidden="true">·</small><small class="meta-text">${esc(project.name)}</small></div><h1>${localizedBlock(project.title)}</h1><p class="lede">${localizedBlock(project.summary)}</p>${hero}${projectMetaBar(project)}${bodyList(project)}</article>`;
+  const eyebrow = renderEyebrowTrail([
+    { href: '/', label: `← ${localizedText(ui.home)}`, i18nKey: 'home' },
+    { href: '/projects/', label: localizedText(ui.projects), i18nKey: 'projects' },
+  ]);
+  const detailMeta = renderMetaLine([
+    esc(project.date),
+    localizedBlock(typeCopy.project),
+    esc(project.name),
+  ], { className: 'reading-meta reading-meta-detail ui-meta', dateTag: 'time', textTag: 'small', separatorTag: 'small' });
+  return `<article class="post-article">${eyebrow}${detailMeta}<h1>${localizedBlock(project.title)}</h1><p class="lede">${localizedBlock(project.summary)}</p>${hero}${projectMetaBar(project)}${bodyList(project)}</article>`;
 }

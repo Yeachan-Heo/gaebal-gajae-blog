@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { renderArchiveBody, renderHomeBody, renderPostBody, renderProjectBody, renderProjectsIndexBody } from './page-components.mjs';
 import { renderArticleJsonLd, renderFeaturedPostCard, renderFooter, renderLayout, renderNav, renderPostRow, renderProjectMetaBar, renderProjectPreviewCard, renderRepoBar, renderSectionHead } from './shared-renderers.mjs';
+import { renderMetaLine } from './ui-components.mjs';
+
 
 const root = process.cwd();
 const site = readJSON('data/site.json');
@@ -99,6 +101,18 @@ function writeFile(relPath, content) {
   fs.writeFileSync(outPath, content);
 }
 
+function bundleStyles() {
+  const stylesDir = path.join(root, 'assets/styles');
+  const styleFiles = fs.readdirSync(stylesDir)
+    .filter((name) => name.endsWith('.css'))
+    .sort();
+  const bundled = styleFiles
+    .map((name) => `/* ${name} */\n${fs.readFileSync(path.join(stylesDir, name), 'utf8').trimEnd()}`)
+    .join('\n\n');
+  writeFile('assets/style.css', `${bundled}\n`);
+}
+
+
 function esc(value = '') {
   return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 }
@@ -127,6 +141,7 @@ function pageRoute(relPath) {
   return `/${relPath}`;
 }
 
+bundleStyles();
 const navHtml = renderNav({ langs, langLabel });
 const footerHtml = renderFooter();
 
@@ -229,14 +244,20 @@ function readTimeMap(minutes) {
 
 function metaRow(item, variant = 'default') {
   const minutes = estimateReadMinutes(item);
+  const parts = [
+    esc(item.date),
+    localizedBlock(typeCopy[item.type] || typeCopy.blog),
+    localizedBlock(readTimeMap(minutes)),
+  ];
   if (variant === 'compact') {
-    return `<div class="reading-meta reading-meta-compact"><span class="meta-date">${esc(item.date)}</span><span class="meta-separator" aria-hidden="true">·</span><span class="meta-text">${localizedBlock(typeCopy[item.type] || typeCopy.blog)}</span><span class="meta-separator" aria-hidden="true">·</span><span class="meta-text">${localizedBlock(readTimeMap(minutes))}</span></div>`;
+    return renderMetaLine(parts, { className: 'reading-meta reading-meta-compact ui-meta' });
   }
   if (variant === 'detail') {
-    return `<div class="reading-meta reading-meta-detail"><time class="meta-date">${esc(item.date)}</time><small class="meta-separator" aria-hidden="true">·</small><small class="meta-text">${localizedBlock(typeCopy[item.type] || typeCopy.blog)}</small><small class="meta-separator" aria-hidden="true">·</small><small class="meta-text">${localizedBlock(readTimeMap(minutes))}</small></div>`;
+    return renderMetaLine(parts, { className: 'reading-meta reading-meta-detail ui-meta', dateTag: 'time', textTag: 'small', separatorTag: 'small' });
   }
-  return `<div class="reading-meta"><span>${esc(item.date)}</span><span>${localizedBlock(typeCopy[item.type] || typeCopy.blog)}</span><span>${localizedBlock(readTimeMap(minutes))}</span></div>`;
+  return renderMetaLine(parts, { className: 'reading-meta ui-meta' });
 }
+
 
 function sectionHead(titleKey, descriptionMap = null, actionHref = '', actionKey = '') {
   return renderSectionHead(titleKey, descriptionMap, actionHref, actionKey, { localizedText, localizedBlock, ui });
@@ -251,7 +272,7 @@ function featuredPostCard(item) {
 }
 
 function projectPreviewCard(item) {
-  return renderProjectPreviewCard(item, { esc, localizedBlock, typeCopy, localizedText, ui });
+  return renderProjectPreviewCard(item, { esc, localizedBlock, typeCopy });
 }
 
 const repoBar = renderRepoBar(repos, { esc, localizedText });
