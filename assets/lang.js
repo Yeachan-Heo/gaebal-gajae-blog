@@ -43,6 +43,7 @@
 
   function syncLangUrl(lang) {
     const url = new URL(location.href);
+    if (!url.searchParams.has('lang')) return;
     url.searchParams.set('lang', lang);
     history.replaceState({}, '', url);
   }
