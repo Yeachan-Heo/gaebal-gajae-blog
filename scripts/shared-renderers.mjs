@@ -29,7 +29,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
   <link rel="icon" href="/assets/og/gaebal-gajae-blog-og.png" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="/assets/style.css?v=20260622d" />
+  <link rel="stylesheet" href="/assets/style.css?v=20260622g" />
   ${extraHead}
 </head>
 <body data-ui='${esc(JSON.stringify(ui))}'>
@@ -38,7 +38,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
     ${body}
   </main>
   ${footerHtml}
-  <script src="/assets/lang.js?v=20260622d"></script>
+  <script src="/assets/lang.js?v=20260622g"></script>
 </body>
 </html>`;
 }

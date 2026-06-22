@@ -497,7 +497,7 @@ hr { border-color: rgba(215,185,138,.16); }
   font-size: .9rem;
 }
 
-.reading-meta span {
+.reading-meta > span {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -814,7 +814,7 @@ article li {
 
 .hero .meta,
 .kicker,
-.reading-meta span,
+.reading-meta > span,
 .repo-strip-head,
 .post-row .reading-meta,
 .post-article .reading-meta,
@@ -827,7 +827,7 @@ pre {
 
 :root[data-theme="light"] .hero .meta,
 :root[data-theme="light"] .kicker,
-:root[data-theme="light"] .reading-meta span,
+:root[data-theme="light"] .reading-meta > span,
 :root[data-theme="light"] .repo-strip-head,
 :root[data-theme="light"] .stat-pill,
 :root[data-theme="light"] .badge,
@@ -872,7 +872,7 @@ article,
 }
 
 .badge,
-.reading-meta span,
+.reading-meta > span,
 .project-stat,
 .geobench-stat {
   background: var(--surface-inset) !important;
@@ -895,7 +895,7 @@ article,
 .topnav a,
 .button-link,
 .repo-pill,
-.reading-meta span,
+.reading-meta > span,
 .geobench-stat {
   border-radius: 999px;
 }
@@ -1008,7 +1008,7 @@ article,
   filter: saturate(.95) contrast(.98) brightness(1) !important;
 }
 
-.reading-meta span,
+.reading-meta > span,
 .stat-pill,
 .repo-pill,
 .project-stat,
@@ -1086,7 +1086,7 @@ blockquote {
 }
 
 :root[data-theme="light"] .badge,
-:root[data-theme="light"] .reading-meta span,
+:root[data-theme="light"] .reading-meta > span,
 :root[data-theme="light"] .project-stat,
 :root[data-theme="light"] .geobench-stat {
   background: var(--surface-inset) !important;
@@ -1211,7 +1211,7 @@ h1 {
   letter-spacing: -.01em;
 }
 
-.reading-meta span {
+.reading-meta > span {
   padding: 5px 10px;
 }
 
@@ -1458,7 +1458,7 @@ h6 {
 }
 
 :root[data-theme="light"] .badge,
-:root[data-theme="light"] .reading-meta span,
+:root[data-theme="light"] .reading-meta > span,
 :root[data-theme="light"] .project-stat,
 :root[data-theme="light"] .geobench-stat {
   color: var(--text) !important;
@@ -1472,7 +1472,7 @@ h6 {
   color: var(--text) !important;
 }
 
-.reading-meta span,
+.reading-meta > span,
 .project-stat,
 .geobench-stat {
   color: var(--text) !important;
@@ -1491,7 +1491,7 @@ h6 {
 }
 
 .badge,
-.reading-meta span,
+.reading-meta > span,
 .stat-pill,
 .repo-pill,
 .project-stat,
@@ -1501,7 +1501,7 @@ h6 {
 }
 
 .badge,
-.reading-meta span,
+.reading-meta > span,
 .project-stat,
 .geobench-stat {
   background: var(--surface-3) !important;
@@ -1524,7 +1524,7 @@ h6 {
   font-size: .82rem;
 }
 
-.reading-meta span {
+.reading-meta > span {
   padding: 5px 9px;
   color: var(--text) !important;
 }
@@ -1994,4 +1994,56 @@ h6 {
   transform: none !important;
   background: transparent !important;
   border-color: transparent !important;
+}
+.reading-meta.reading-meta-detail,
+.reading-meta.reading-meta-detail .i18n,
+.reading-meta.reading-meta-detail time,
+.reading-meta.reading-meta-detail small {
+  background: none !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.post-footer-nav {
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 18px 28px;
+}
+
+.post-footer-nav.is-single {
+  justify-content: flex-start;
+}
+
+.post-nav-link {
+  display: grid !important;
+  gap: 6px;
+  max-width: min(30rem, 100%);
+}
+
+.post-nav-link.align-right {
+  margin-left: auto;
+  text-align: right;
+}
+
+.post-nav-link span {
+  color: var(--faint) !important;
+}
+
+.post-nav-link strong {
+  color: var(--text) !important;
+  text-wrap: balance;
+}
+
+@media (max-width: 760px) {
+  .post-footer-nav {
+    display: grid !important;
+    grid-template-columns: 1fr;
+  }
+
+  .post-nav-link.align-right {
+    margin-left: 0;
+    text-align: left;
+  }
 }

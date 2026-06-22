@@ -106,8 +106,19 @@ export function renderPostBody({
   const relatedSection = related.length
     ? `<section class="article-section related-posts"><div class="section-head"><div><p class="kicker" data-i18n="relatedPosts">${localizedText(ui.relatedPosts)}</p><h2 data-i18n="relatedPosts">${localizedText(ui.relatedPosts)}</h2></div></div><div class="post-stack post-stack-compact">${related.map(postRow).join('')}</div></section>`
     : '';
+  const footerLinks = [
+    neighbors.newer
+      ? `<a class="post-nav-link" href="/posts/${neighbors.newer.slug}.html"><span data-i18n="newerPost">${localizedText(ui.newerPost)}</span><strong>${localizedBlock(neighbors.newer.title)}</strong></a>`
+      : '',
+    neighbors.older
+      ? `<a class="post-nav-link${neighbors.newer ? ' align-right' : ''}" href="/posts/${neighbors.older.slug}.html"><span data-i18n="olderPost">${localizedText(ui.olderPost)}</span><strong>${localizedBlock(neighbors.older.title)}</strong></a>`
+      : '',
+  ].filter(Boolean);
+  const footerNav = footerLinks.length
+    ? `<nav class="post-footer-nav ${footerLinks.length === 1 ? 'is-single' : 'is-dual'}">${footerLinks.join('')}</nav>`
+    : '';
 
-  return `<article class="post-article"><p class="eyebrow"><a href="/">← <span data-i18n="home">${localizedText(ui.home)}</span></a> · <a href="/archive.html" data-i18n="archive">${localizedText(ui.archive)}</a></p>${metaRow(post, 'detail')}<h1>${localizedBlock(post.title)}</h1><p class="lede">${localizedBlock(post.summary)}</p>${bodyList(post)}${relatedSection}<nav class="post-footer-nav">${neighbors.newer ? `<a class="post-nav-link" href="/posts/${neighbors.newer.slug}.html"><span data-i18n="newerPost">${localizedText(ui.newerPost)}</span><strong>${localizedBlock(neighbors.newer.title)}</strong></a>` : '<span></span>'}${neighbors.older ? `<a class="post-nav-link align-right" href="/posts/${neighbors.older.slug}.html"><span data-i18n="olderPost">${localizedText(ui.olderPost)}</span><strong>${localizedBlock(neighbors.older.title)}</strong></a>` : '<span></span>'}</nav></article>`;
+  return `<article class="post-article"><p class="eyebrow"><a href="/">← <span data-i18n="home">${localizedText(ui.home)}</span></a> · <a href="/archive.html" data-i18n="archive">${localizedText(ui.archive)}</a></p>${metaRow(post, 'detail')}<h1>${localizedBlock(post.title)}</h1><p class="lede">${localizedBlock(post.summary)}</p>${bodyList(post)}${relatedSection}${footerNav}</article>`;
 }
 
 export function renderProjectBody({
@@ -124,5 +135,5 @@ export function renderProjectBody({
     ? `<img class="project-hero" src="${esc(project.heroImage)}" alt="${esc(project.name)} hero" />`
     : '';
 
-  return `<article class="post-article"><p class="eyebrow"><a href="/">← <span data-i18n="home">${localizedText(ui.home)}</span></a> · <a href="/projects/" data-i18n="projects">${localizedText(ui.projects)}</a></p><div class="reading-meta reading-meta-detail"><span class="meta-date">${esc(project.date)}</span><span class="meta-separator" aria-hidden="true">·</span><span class="meta-text">${localizedBlock(typeCopy.project)}</span><span class="meta-separator" aria-hidden="true">·</span><span class="meta-text">${esc(project.name)}</span></div><h1>${localizedBlock(project.title)}</h1><p class="lede">${localizedBlock(project.summary)}</p>${hero}${projectMetaBar(project)}${bodyList(project)}</article>`;
+  return `<article class="post-article"><p class="eyebrow"><a href="/">← <span data-i18n="home">${localizedText(ui.home)}</span></a> · <a href="/projects/" data-i18n="projects">${localizedText(ui.projects)}</a></p><div class="reading-meta reading-meta-detail"><time class="meta-date">${esc(project.date)}</time><small class="meta-separator" aria-hidden="true">·</small><small class="meta-text">${localizedBlock(typeCopy.project)}</small><small class="meta-separator" aria-hidden="true">·</small><small class="meta-text">${esc(project.name)}</small></div><h1>${localizedBlock(project.title)}</h1><p class="lede">${localizedBlock(project.summary)}</p>${hero}${projectMetaBar(project)}${bodyList(project)}</article>`;
 }
