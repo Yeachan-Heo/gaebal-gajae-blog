@@ -31,7 +31,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
   <link rel="icon" href="/assets/og/gaebal-gajae-blog-og.png" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="/assets/style.css?v=20260622k" />
+  <link rel="stylesheet" href="/assets/style.css?v=20260622q" />
   ${extraHead}
 </head>
 <body data-ui='${esc(JSON.stringify(ui))}'>
@@ -40,7 +40,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
     ${body}
   </main>
   ${footerHtml}
-  <script src="/assets/lang.js?v=20260622k"></script>
+  <script src="/assets/lang.js?v=20260622q"></script>
 </body>
 </html>`;
 }
@@ -60,9 +60,13 @@ export function renderFeaturedPostCard(item, { localizedText, localizedBlock, ui
   return `<a class="featured-post" href="/posts/${item.slug}.html"><div class="featured-copy"><p class="kicker" data-i18n="featured">${localizedText(ui.featured, 'ko')}</p>${metaRow(item)}<h2>${localizedBlock(item.title)}</h2><p class="lede small">${localizedBlock(item.summary)}</p></div></a>`;
 }
 
-export function renderProjectPreviewCard(item, { esc, localizedBlock, typeCopy }) {
-  return `<a class="card project-card" href="/projects/${item.slug}.html">${item.characterImage ? `<img class="card-thumb" src="${esc(item.characterImage)}" alt="${esc(item.name)}" />` : ''}<div class="card-body"><div class="reading-meta"><span>${esc(item.date)}</span><span>${localizedBlock(typeCopy.project)}</span></div><h3>${localizedBlock(item.title)}</h3><p>${localizedBlock(item.summary)}</p></div></a>`;
+export function renderProjectPreviewCard(item, { esc, localizedBlock }) {
+  const previewImage = item.previewImage || item.heroImage || item.characterImage;
+  return `<a class="card project-card ui-project-card" href="/projects/${item.slug}.html">${previewImage ? `<div class="project-card-media"><img class="card-thumb" src="${esc(previewImage)}" alt="${esc(item.name)} preview" /></div>` : ''}<div class="card-body"><h3>${localizedBlock(item.title)}</h3><p>${localizedBlock(item.summary)}</p></div></a>`;
 }
+
+
+
 
 export function renderRepoBar(repos, { esc, localizedText }) {
   return function repoBar(extraClass = '') {

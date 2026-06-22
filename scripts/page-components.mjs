@@ -90,7 +90,7 @@ export function renderProjectsIndexBody({
   projectPreviewCard,
   repoBar,
 }) {
-  return `<section class="hero hero-compact">${renderBadge({ content: `🛠️ ${localizedText(ui.projects)}` })}<h1>${localizedBlock(ui.projects)}</h1><p class="lede">${localizedBlock(ui.projectIntro)}</p></section><section class="section">${sectionHead('projects', null)}<div class="project-preview-grid">${projects.map(projectPreviewCard).join('')}</div></section>${repoBar('repo-section')}`;
+  return `<section class="hero hero-compact">${renderBadge({ content: `🛠️ ${localizedText(ui.projects)}` })}<h1>${localizedBlock(ui.projects)}</h1><p class="lede">${localizedBlock(ui.projectIntro)}</p></section><section class="section section-project-index">${sectionHead('projects', null)}<div class="project-preview-grid">${projects.map(projectPreviewCard).join('')}</div></section>${repoBar('repo-section')}`;
 }
 
 export function renderPostBody({

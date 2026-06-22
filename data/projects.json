@@ -39,6 +39,7 @@
       ]
     },
     "heroImage": "/assets/projects/omc-social-preview.jpg",
+    "previewImage": "/assets/projects/omc-social-preview.jpg",
     "characterImage": "/assets/projects/omc-character.jpg",
     "geobenchSpec": "/geobench/omc.yaml"
   },
@@ -82,6 +83,7 @@
       ]
     },
     "heroImage": "/assets/projects/omx-character-spark-initiative.jpg",
+    "previewImage": "/assets/projects/omx-card-thumb.jpg",
     "characterImage": "/assets/projects/omx-character-spark-initiative.jpg",
     "geobenchSpec": "/geobench/omx.yaml"
   },
@@ -125,6 +127,7 @@
       ]
     },
     "heroImage": "/assets/projects/clawhip-mascot.jpg",
+    "previewImage": "/assets/projects/clawhip-card-thumb.jpg",
     "characterImage": "/assets/projects/clawhip-mascot.jpg",
     "geobenchSpec": "/geobench/clawhip.yaml"
   },
@@ -168,6 +171,7 @@
       ]
     },
     "heroImage": "/assets/projects/gajae-code-hero.png",
+    "previewImage": "/assets/projects/gajae-code-card-thumb.jpg",
     "characterImage": "/assets/projects/gajae-code-character.png",
     "geobenchSpec": "/geobench/gajae-code.yaml"
   },
@@ -211,6 +215,7 @@
       ]
     },
     "heroImage": "/assets/og/gaebal-gajae-blog-og.png",
+    "previewImage": "/assets/og/gaebal-gajae-blog-og.png",
     "characterImage": "/assets/og/gaebal-gajae-blog-og.png",
     "geobenchSpec": "/geobench/gaebal-gajae-blog.yaml"
   }

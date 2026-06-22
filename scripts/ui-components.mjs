@@ -23,12 +23,15 @@ export function renderMetaLine(parts, {
   dateTag = 'span',
   textTag = 'span',
   separatorTag = 'span',
+  separatorContent = '·',
 } = {}) {
   if (!parts.length) return '';
   const [date, ...rest] = parts;
   const items = [`<${dateTag} class="meta-date">${date}</${dateTag}>`];
   for (const part of rest) {
-    items.push(`<${separatorTag} class="meta-separator" aria-hidden="true">·</${separatorTag}>`);
+    if (separatorContent) {
+      items.push(`<${separatorTag} class="meta-separator" aria-hidden="true">${separatorContent}</${separatorTag}>`);
+    }
     items.push(`<${textTag} class="meta-text">${part}</${textTag}>`);
   }
   return `<div class="${className}">${items.join('')}</div>`;
