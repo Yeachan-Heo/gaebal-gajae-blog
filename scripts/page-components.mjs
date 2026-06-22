@@ -68,8 +68,16 @@ export function renderArchiveBody({
   const blogNotesSection = blogNotes.length
     ? `<section class="section" id="archive-blog-notes"><div class="section-head"><div><p class="kicker">Notes</p><h2>${localizedBlock(launchNotesLabel)}</h2></div></div><div class="post-stack post-stack-compact">${blogNotes.map(postRow).join('')}</div></section>`
     : '';
+  const archiveJumpPills = [
+    { href: '#all-posts', content: archiveCountPill(totals.posts, ui.allPosts) },
+    { href: '#archive-reflections', content: archiveCountPill(totals.reflections, ui.reflections) },
+    { href: '#archive-setup-tips', content: archiveCountPill(totals.setupTips, ui.tips) },
+    ...(blogNotes.length
+      ? [{ href: '#archive-blog-notes', content: archiveCountPill(totals.blogNotes, launchNotesLabel) }]
+      : []),
+  ];
 
-  return `<section class="hero hero-compact"><div class="badge">🗂️ ${localizedText(ui.archive)}</div><h1>${localizedBlock(ui.archive)}</h1><p class="lede">${localizedBlock(ui.archiveBlurb)}</p><div class="type-pills"><a href="#all-posts" class="stat-pill">${archiveCountPill(totals.posts, ui.allPosts)}</a><a href="#archive-reflections" class="stat-pill">${archiveCountPill(totals.reflections, ui.reflections)}</a><a href="#archive-setup-tips" class="stat-pill">${archiveCountPill(totals.setupTips, ui.tips)}</a>${blogNotes.length ? `<a href="#archive-blog-notes" class="stat-pill">${archiveCountPill(totals.blogNotes, launchNotesLabel)}</a>` : ''}</div></section><section class="section" id="all-posts">${sectionHead('allPosts', ui.archiveIntro)}${renderYearGroups(sortedPosts)}</section><section class="section" id="archive-reflections">${sectionHead('reflections', null)}<div class="post-stack">${reflections.map(postRow).join('')}</div></section><section class="section" id="archive-setup-tips">${sectionHead('tips', null)}<div class="post-stack post-stack-compact">${setupTips.map(postRow).join('')}</div></section>${blogNotesSection}`;
+  return `<section class="hero hero-compact"><div class="badge">🗂️ ${localizedText(ui.archive)}</div><h1>${localizedBlock(ui.archive)}</h1><p class="lede">${localizedBlock(ui.archiveBlurb)}</p><div class="type-pills">${archiveJumpPills.map((item) => `<a href="${item.href}" class="archive-metric-link">${item.content}</a>`).join('')}</div></section><section class="section" id="all-posts">${sectionHead('allPosts', ui.archiveIntro)}${renderYearGroups(sortedPosts)}</section><section class="section" id="archive-reflections">${sectionHead('reflections', null)}<div class="post-stack">${reflections.map(postRow).join('')}</div></section><section class="section" id="archive-setup-tips">${sectionHead('tips', null)}<div class="post-stack post-stack-compact">${setupTips.map(postRow).join('')}</div></section>${blogNotesSection}`;
 }
 
 export function renderProjectsIndexBody({
