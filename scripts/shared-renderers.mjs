@@ -1,10 +1,11 @@
 import { renderActionLink, renderBadge, renderMetaLine } from './ui-components.mjs';
+import { laneEntries, laneFromKey, laneFromType } from './lane-registry.mjs';
 
-export const publicLaneCopy = {
-  retrospective: { label: { ko: 'Daily Reflection', en: 'Daily Reflection', zh: 'Daily Reflection', ja: 'Daily Reflection' }, homeHref: '/#daily-reflection', archiveHref: '/archive.html#archive-reflections' },
-  'setup-tip': { label: { ko: 'Setup Tip', en: 'Setup Tip', zh: 'Setup Tip', ja: 'Setup Tip' }, homeHref: '/#setup-tip', archiveHref: '/archive.html#archive-setup-tip' },
-  blog: { label: { ko: 'Behind the Gajae', en: 'Behind the Gajae', zh: 'Behind the Gajae', ja: 'Behind the Gajae' }, homeHref: '/#behind-the-gajae', archiveHref: '/archive.html#archive-behind-the-gajae' },
-};
+export const publicLaneCopy = Object.fromEntries(laneEntries().map((lane) => [lane.key, {
+  label: lane.label,
+  href: lane.route,
+  navMatch: lane.navMatch,
+}]));
 
 function escapeHtml(value = '') {
   return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -15,7 +16,9 @@ function inlineLocalized(map, className = 'i18n') {
 }
 
 function laneLabel(type) {
-  return publicLaneCopy[type]?.label || publicLaneCopy.blog.label;
+  const lane = laneFromType(type);
+  if (!lane) throw new Error(`Unknown lane type in shared renderer: ${type}`);
+  return lane.label;
 }
 
 function translationMap(status, keys) {
@@ -27,17 +30,20 @@ function translationMap(status, keys) {
 }
 
 export function renderNav({ langs, langLabel }) {
-  const reflectionLabel = inlineLocalized(publicLaneCopy.retrospective.label);
-  const setupLabel = inlineLocalized(publicLaneCopy['setup-tip'].label);
-  const blogLabel = inlineLocalized(publicLaneCopy.blog.label);
-  return `<nav class="topnav nav-shell"><div class="nav-links"><a href="/" data-i18n="home" data-nav-match="home">홈</a><a href="${publicLaneCopy.retrospective.homeHref}" data-nav-match="daily-reflection">${reflectionLabel}</a><a href="${publicLaneCopy['setup-tip'].homeHref}" data-nav-match="setup-tip">${setupLabel}</a><a href="${publicLaneCopy.blog.homeHref}" data-nav-match="behind-the-gajae">${blogLabel}</a><a href="/projects/" data-i18n="projects" data-nav-match="projects">프로젝트</a><a href="/archive.html" data-i18n="archive" data-nav-match="archive">아카이브</a></div><div class="theme-controls"><button type="button" class="theme-toggle" data-theme-toggle data-theme-label-dark="switchToDarkTheme" data-theme-label-light="switchToLightTheme" aria-label="라이트 모드로 전환" title="라이트 모드로 전환"><span class="theme-toggle-icon" aria-hidden="true"></span></button><div class="lang-switch" role="group" aria-label="Language">${langs.map((lang) => `<button type="button" data-lang-button="${lang}">${langLabel[lang]}</button>`).join('')}</div></div></nav>`;
+  const reflection = laneFromKey('reflection');
+  const tip = laneFromKey('tip');
+  const behind = laneFromKey('behind');
+  const reflectionLabel = inlineLocalized(reflection.label);
+  const setupLabel = inlineLocalized(tip.label);
+  const blogLabel = inlineLocalized(behind.label);
+  return `<nav class="topnav nav-shell"><div class="nav-links"><a href="/" data-i18n="home" data-nav-match="home">홈</a><a href="${reflection.route}" data-nav-match="${reflection.navMatch}">${reflectionLabel}</a><a href="${tip.route}" data-nav-match="${tip.navMatch}">${setupLabel}</a><a href="${behind.route}" data-nav-match="${behind.navMatch}">${blogLabel}</a><a href="/projects/" data-i18n="projects" data-nav-match="projects">프로젝트</a><a href="/archive.html" data-i18n="archive" data-nav-match="archive">아카이브</a></div><div class="theme-controls"><button type="button" class="theme-toggle" data-theme-toggle data-theme-label-dark="switchToDarkTheme" data-theme-label-light="switchToLightTheme" aria-label="라이트 모드로 전환" title="라이트 모드로 전환"><span class="theme-toggle-icon" aria-hidden="true"></span></button><div class="lang-switch" role="group" aria-label="Language">${langs.map((lang) => `<button type="button" data-lang-button="${lang}">${langLabel[lang]}</button>`).join('')}</div></div></nav>`;
 }
 
 export function renderFooter() {
   return `<footer class="wrap site-footer"><span data-i18n="built">Built by gaebal-gajae 🦞</span><div class="footer-links"><a href="/archive.html" data-i18n="footerArchive">아카이브</a><a href="/projects/" data-i18n="footerProjects">프로젝트</a><a href="/rss.xml" data-i18n="footerFeed">RSS</a></div></footer>`;
 }
 
-export function renderLayout({ title, description, body, canonicalRoute, extraHead = '', pageType = 'website', absoluteUrl, esc, ui, navHtml, footerHtml, assetVersion }) {
+export function renderLayout({ title, description, body, canonicalRoute, extraHead = '', pageType = 'website', absoluteUrl, esc, ui, navHtml, footerHtml, assetVersion, navMatch = 'home' }) {
   const canonical = absoluteUrl(canonicalRoute);
   return `<!doctype html>
 <html lang="ko">
@@ -63,7 +69,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
   <link rel="stylesheet" href="/assets/style.css?v=${assetVersion}" />
   ${extraHead}
 </head>
-<body data-ui='${esc(JSON.stringify(ui))}'>
+<body data-ui='${esc(JSON.stringify(ui))}' data-page-nav-match="${esc(navMatch)}">
   <main class="wrap">
     ${navHtml}
     ${body}
@@ -108,17 +114,35 @@ export function renderTranslationHonesty(status, { localizedBlock }) {
   return `<section class="translation-honesty">${badge ? renderBadge({ content: localizedBlock(badge), className: 'badge ui-badge translation-badge' }) : ''}${message ? `<p class="translation-honesty-copy">${localizedBlock(message)}</p>` : ''}</section>`;
 }
 
+export function renderProofSignals(item, { localizedBlock, limit = 2, className = 'proof-signal-list' }) {
+  const signals = (item.proofSignals || []).slice(0, limit);
+  if (!signals.length) return '';
+  return `<ul class="${className}">${signals.map((signal) => `<li><strong>${localizedBlock(signal.label)}</strong><span class="proof-signal-text">${localizedBlock(signal.textByLang)}</span></li>`).join('')}</ul>`;
+}
+
+function renderProjectPreviewMeta(item) {
+  return renderMetaLine([
+    escapeHtml(item.date),
+    escapeHtml(item.name),
+  ], {
+    className: 'project-card-meta reading-meta ui-meta ui-meta-pills ui-meta-project',
+    dateTag: 'small',
+    textTag: 'small',
+    separatorTag: 'small',
+  });
+}
+
 export function renderPostRow(item, { localizedBlock }) {
-  return `<a class="post-row" href="/posts/${item.slug}.html"><div class="post-row-copy">${renderPostMeta(item, { localizedBlock, variant: 'compact' })}<h3>${localizedBlock(item.title)}</h3><p>${localizedBlock(item.summary)}</p></div></a>`;
+  return `<a class="logbook-entry workbench-card" href="/posts/${item.slug}.html"><div class="logbook-entry-copy">${renderPostMeta(item, { localizedBlock, variant: 'compact' })}<h3>${localizedBlock(item.title)}</h3>${renderProofSignals(item, { localizedBlock, limit: 2, className: 'proof-signal-list proof-signal-list-compact' })}<p>${localizedBlock(item.summary)}</p></div></a>`;
 }
 
 export function renderFeaturedPostCard(item, { localizedText, localizedBlock, ui }) {
-  return `<a class="featured-post" href="/posts/${item.slug}.html"><div class="featured-copy"><p class="kicker" data-i18n="featured">${localizedText(ui.featured, 'ko')}</p>${renderPostMeta(item, { localizedBlock })}<h2>${localizedBlock(item.title)}</h2><p class="lede small">${localizedBlock(item.summary)}</p></div></a>`;
+  return `<a class="featured-log workbench-card" href="/posts/${item.slug}.html"><div class="featured-log-copy">${renderLaneBadge(item.type, { localizedBlock })}<p class="kicker" data-i18n="featured">${localizedText(ui.featured, 'ko')}</p>${renderPostMeta(item, { localizedBlock })}<h2>${localizedBlock(item.title)}</h2>${renderProofSignals(item, { localizedBlock, limit: 2, className: 'proof-signal-list proof-signal-list-featured' })}<p class="lede small">${localizedBlock(item.summary)}</p></div></a>`;
 }
 
 export function renderProjectPreviewCard(item, { esc, localizedBlock }) {
   const previewImage = item.previewImage || item.heroImage || item.characterImage;
-  return `<a class="card project-card ui-project-card" href="/projects/${item.slug}.html">${previewImage ? `<div class="project-card-media"><img class="card-thumb" src="${esc(previewImage)}" alt="${esc(item.name)} preview" /></div>` : ''}<div class="card-body"><h3>${localizedBlock(item.title)}</h3><p>${localizedBlock(item.summary)}</p></div></a>`;
+  return `<a class="evidence-slip workbench-card ui-project-card" href="/projects/${item.slug}.html">${previewImage ? `<div class="evidence-slip-media"><img class="evidence-slip-thumb" src="${esc(previewImage)}" alt="${esc(item.name)} preview" /></div>` : ''}<div class="evidence-slip-copy">${renderProjectPreviewMeta(item)}<h3>${localizedBlock(item.title)}</h3><p>${localizedBlock(item.summary)}</p></div></a>`;
 }
 
 export function renderRepoBar(repos, { esc, localizedText }) {
@@ -133,11 +157,9 @@ export function renderProjectMetaBar(project, repos, { esc }) {
   const rel = repo.latestRelease;
   const stats = [
     { label: 'version', value: esc(repo.version || 'n/a') },
-    { label: 'stars', value: `★ ${Number(repo.stars).toLocaleString()}` },
-    { label: 'forks', value: `⑂ ${Number(repo.forks).toLocaleString()}` },
     { label: 'release', value: rel ? `<a href="${esc(rel.url)}" target="_blank" rel="noopener noreferrer">${esc(rel.tag)}</a>` : 'n/a' },
   ];
-  return `<section class="project-meta" aria-label="Project metadata"><a class="project-repo-main" href="${esc(repo.url)}" target="_blank" rel="noopener noreferrer"><span>repository</span><strong>${esc(repo.fullName)}</strong></a><dl class="project-stat-list">${stats.map((stat) => `<div class="project-stat-item"><dt>${stat.label}</dt><dd>${stat.value}</dd></div>`).join('')}</dl></section>`;
+  return `<section class="report-meta-rail" aria-label="Project metadata"><a class="report-repo-main" href="${esc(repo.url)}" target="_blank" rel="noopener noreferrer"><span>repository</span><strong>${esc(repo.fullName)}</strong></a><dl class="report-stat-list">${stats.map((stat) => `<div class="report-stat-item"><dt>${stat.label}</dt><dd>${stat.value}</dd></div>`).join('')}</dl></section>`;
 }
 
 export function renderArticleJsonLd(item, route, kind = 'BlogPosting', { absoluteUrl }) {

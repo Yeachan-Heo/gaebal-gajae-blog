@@ -1,8 +1,9 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
-import { renderArchiveBody, renderHomeBody, renderPostBody, renderProjectBody, renderProjectsIndexBody } from './page-components.mjs';
+import { renderArchiveBody, renderHomeBody, renderLaneIndexBody, renderPostBody, renderProjectBody, renderProjectsIndexBody } from './page-components.mjs';
 import { renderArticleJsonLd, renderFeaturedPostCard, renderFooter, renderLayout, renderNav, renderPostRow, renderProjectMetaBar, renderProjectPreviewCard, renderRepoBar, renderSectionHead } from './shared-renderers.mjs';
+import { laneEntries, laneFromType } from './lane-registry.mjs';
 
 
 const root = process.cwd();
@@ -129,12 +130,6 @@ function absoluteUrl(route) {
   return `${siteUrl}${route}`;
 }
 
-function pageRoute(relPath) {
-  if (relPath === 'index.html') return '/';
-  if (relPath.endsWith('/index.html')) return `/${relPath.slice(0, -'index.html'.length)}`;
-  return `/${relPath}`;
-}
-
 const translationSentinels = {
   en: '[Full Korean original retained until human/LLM translation pass]',
   zh: '[保留完整韩文原文，等待翻译校对]',
@@ -189,12 +184,178 @@ function translationStatusFor(item) {
   };
 }
 
+const proofLabels = {
+  ruleLearned: { ko: '배운 규칙', en: 'Rule learned', zh: '学到的规则', ja: '学んだルール' },
+  failureExample: { ko: '실패 예시', en: 'Failure example', zh: '失败例子', ja: '失敗例' },
+  applicationContext: { ko: '적용 상황', en: 'Application context', zh: '适用场景', ja: '適用場面' },
+};
+
+
+function headingText(block = '') {
+  const firstLine = String(block).split('\n')[0]?.trim() || '';
+  const match = firstLine.match(/^(?:\[[^\]]+\]\s*)?(#{1,6})\s+(.+)$/);
+  return match ? match[2].trim() : null;
+}
+
+function contentLine(block = '') {
+  const lines = String(block).split('\n').map((line) => line.trim()).filter(Boolean);
+  for (const line of lines) {
+    const heading = headingText(line);
+    if (heading) continue;
+    const bullet = line.match(/^[-*]\s+(.+)$/);
+    if (bullet) return bullet[1].trim();
+    const numbered = line.match(/^\d+[.)]\s+(.+)$/);
+    if (numbered) return numbered[1].trim();
+    return line;
+  }
+  return null;
+}
+
+function firstSectionSignal(blocks, patterns = []) {
+  for (let index = 0; index < blocks.length; index += 1) {
+    const currentHeading = headingText(blocks[index]);
+    if (!currentHeading) continue;
+    if (!patterns.some((pattern) => pattern.test(currentHeading))) continue;
+    const lines = String(blocks[index]).split('\n');
+    const inlineBody = contentLine(lines.slice(1).join('\n'));
+    if (inlineBody) return { index, text: inlineBody };
+    for (let next = index + 1; next < blocks.length; next += 1) {
+      if (headingText(blocks[next])) break;
+      const value = contentLine(blocks[next]);
+      if (value) return { index: next, text: value };
+    }
+  }
+  return null;
+}
+
+function paragraphBlocks(blocks) {
+  return blocks
+    .map((block, index) => ({ index, raw: block, heading: headingText(block), text: contentLine(block) }))
+    .filter((entry) => !entry.heading && entry.text);
+}
+
+function detectSetupFamily(blocks) {
+  const headings = new Set(blocks.map((block) => headingText(block)).filter(Boolean));
+  if (headings.has('왜 필요한가') && headings.has('작은 운영 패턴') && headings.has('공개 안전선')) return 'familyA';
+  if (headings.has('문제') && headings.has('운영 패턴') && headings.has('왜 중요한가')) return 'familyB';
+  if (headings.has('운영 규칙') && headings.has('왜 중요한가')) return 'familyC';
+  return null;
+}
+
+function signalFromMap(map = {}) {
+  const textByLang = Object.fromEntries(langs.map((lang) => [lang, String(map?.[lang] || map?.ko || map?.en || '').trim()]));
+  const canonical = textByLang.ko || textByLang.en || '';
+  if (!canonical) return null;
+  return { canonical, textByLang };
+}
+
+function signalFromTitle(item) {
+  return signalFromMap(item.title || {});
+}
+
+function signalFromSummary(item) {
+  return signalFromMap(item.summary || {});
+}
+
+function signalFromBlockIndex(item, index) {
+  if (index == null) return null;
+  const textByLang = Object.fromEntries(langs.map((lang) => [lang, String(contentLine(item.localizedBody?.[lang]?.[index] || '') || '').trim()]));
+  const canonical = textByLang.ko || textByLang.en || '';
+  if (!canonical) return null;
+  return { canonical, textByLang };
+}
+
+function proofCandidatesFor(item) {
+  const blocks = item.localizedBody?.ko || [];
+  const paragraphs = paragraphBlocks(blocks);
+  if (item.type === 'retrospective') {
+    const context = firstSectionSignal(blocks, [/있었던 일보다 중요한 것/]);
+    const rule = firstSectionSignal(blocks, [/오늘 배운 운영 철학/]);
+    const tomorrow = firstSectionSignal(blocks, [/내일의 나에게/]);
+    const failure = firstSectionSignal(blocks, [/실수\s*\/\s*교정/]);
+    return {
+      applicationContext: [signalFromBlockIndex(item, context?.index), signalFromSummary(item), signalFromTitle(item)],
+      ruleLearned: [signalFromBlockIndex(item, rule?.index), signalFromBlockIndex(item, tomorrow?.index), signalFromSummary(item)],
+      failureExample: [signalFromBlockIndex(item, failure?.index), signalFromBlockIndex(item, context?.index)],
+    };
+  }
+  if (item.type === 'setup-tip') {
+    const family = detectSetupFamily(blocks);
+    if (family === 'familyA') {
+      return {
+        applicationContext: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/왜 필요한가/])?.index), signalFromSummary(item), signalFromTitle(item)],
+        ruleLearned: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/작은 운영 패턴/])?.index), signalFromBlockIndex(item, firstSectionSignal(blocks, [/공개 안전선/])?.index), signalFromSummary(item)],
+        failureExample: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/왜 필요한가/])?.index), signalFromSummary(item)],
+      };
+    }
+    if (family === 'familyB') {
+      return {
+        applicationContext: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/왜 중요한가/])?.index), signalFromSummary(item), signalFromTitle(item)],
+        ruleLearned: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/운영 패턴/])?.index), signalFromBlockIndex(item, firstSectionSignal(blocks, [/왜 중요한가/])?.index), signalFromSummary(item)],
+        failureExample: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/문제/])?.index), signalFromSummary(item)],
+      };
+    }
+    if (family === 'familyC') {
+      return {
+        applicationContext: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/왜 중요한가/])?.index), signalFromSummary(item), signalFromTitle(item)],
+        ruleLearned: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/운영 규칙/])?.index), signalFromBlockIndex(item, firstSectionSignal(blocks, [/왜 중요한가/])?.index), signalFromSummary(item)],
+        failureExample: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/문제/])?.index), signalFromSummary(item)],
+      };
+    }
+    return {
+      applicationContext: [signalFromTitle(item), signalFromSummary(item)],
+      ruleLearned: [signalFromSummary(item)],
+      failureExample: [],
+    };
+  }
+  const numbered = blocks.some((block) => /^\d+\./.test(headingText(block) || ''));
+  if (numbered) {
+    return {
+      applicationContext: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/^1\./])?.index), signalFromSummary(item), signalFromTitle(item)],
+      ruleLearned: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/^6\./, /배운 것/])?.index), signalFromSummary(item)],
+      failureExample: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/^3\./, /실수/, /어려운/, /좆같/])?.index)],
+    };
+  }
+  return {
+    applicationContext: [signalFromBlockIndex(item, paragraphs[0]?.index), signalFromSummary(item), signalFromTitle(item)],
+    ruleLearned: [signalFromBlockIndex(item, paragraphs[1]?.index), signalFromSummary(item)],
+    failureExample: [signalFromBlockIndex(item, paragraphs[2]?.index)],
+  };
+}
+
+function normalizeProofSignals(item) {
+  const candidates = proofCandidatesFor(item);
+  const used = new Set();
+  const extracted = {};
+  for (const field of ['applicationContext', 'ruleLearned', 'failureExample']) {
+    for (const candidate of candidates[field] || []) {
+      if (!candidate?.canonical) continue;
+      const normalized = candidate.canonical.replace(/\s+/g, ' ').trim();
+      if (!normalized || used.has(normalized)) continue;
+      used.add(normalized);
+      extracted[field] = {
+        key: field,
+        label: proofLabels[field],
+        textByLang: candidate.textByLang,
+      };
+      break;
+    }
+  }
+  return ['ruleLearned', 'failureExample', 'applicationContext']
+    .map((field) => extracted[field])
+    .filter(Boolean);
+}
+
 function normalizePost(item) {
   const localizedBody = Object.fromEntries(langs.map((lang) => [lang, (item.body?.[lang] || []).map((block) => stripTranslationSentinel(block, lang))]));
-  return {
+  const normalized = {
     ...item,
     localizedBody,
     translationStatus: translationStatusFor(item),
+  };
+  return {
+    ...normalized,
+    proofSignals: normalizeProofSignals(normalized),
   };
 }
 function assetVersionToken(relPaths) {
@@ -231,8 +392,8 @@ function footer() {
   return footerHtml;
 }
 
-function layout({ title, description, body, canonicalRoute, extraHead = '', pageType = 'website' }) {
-  return renderLayout({ title, description, body, canonicalRoute, extraHead, pageType, absoluteUrl, esc, ui, navHtml, footerHtml, assetVersion });
+function layout({ title, description, body, canonicalRoute, extraHead = '', pageType = 'website', navMatch = 'home' }) {
+  return renderLayout({ title, description, body, canonicalRoute, extraHead, pageType, absoluteUrl, esc, ui, navHtml, footerHtml, assetVersion, navMatch });
 }
 
 function inlineMarkdown(text = '') {
@@ -343,10 +504,23 @@ function articleJsonLd(item, route, kind = 'BlogPosting') {
   return renderArticleJsonLd(item, route, kind, { absoluteUrl });
 }
 
+function owningLane(post) {
+  const lane = laneFromType(post.type);
+  if (!lane) {
+    throw new Error(`Unknown post.type for lane ownership: ${post.type}`);
+  }
+  return lane;
+}
+
 const sortedPosts = [...posts].sort((left, right) => right.date.localeCompare(left.date));
-const reflections = sortedPosts.filter((post) => post.type === 'retrospective');
-const setupTips = sortedPosts.filter((post) => post.type === 'setup-tip');
-const blogNotes = sortedPosts.filter((post) => post.type === 'blog');
+const postsByLane = {
+  reflection: sortedPosts.filter((post) => owningLane(post).key === 'reflection'),
+  tip: sortedPosts.filter((post) => owningLane(post).key === 'tip'),
+  behind: sortedPosts.filter((post) => owningLane(post).key === 'behind'),
+};
+const reflections = postsByLane.reflection;
+const setupTips = postsByLane.tip;
+const blogNotes = postsByLane.behind;
 const featuredPost = reflections[0] || sortedPosts[0];
 const latestReflections = reflections.filter((post) => post.slug !== featuredPost?.slug).slice(0, 6);
 const latestTips = setupTips.slice(0, 4);
@@ -415,6 +589,7 @@ writeFile('index.html', layout({
   description: site.tagline?.ko || site.tagline?.en || '개발가재의 공개 성장 로그북',
   body: homeBody,
   canonicalRoute: '/',
+  navMatch: 'home',
 }));
 
 const archiveBody = renderArchiveBody({
@@ -437,7 +612,30 @@ writeFile('archive.html', layout({
   description: 'Daily Reflection, Setup Tip, Behind the Gajae를 먼저 고르는 레인 우선 아카이브.',
   body: archiveBody,
   canonicalRoute: '/archive.html',
+  navMatch: 'archive',
 }));
+
+for (const lane of laneEntries()) {
+  const lanePosts = postsByLane[lane.key] || [];
+  const laneBody = renderLaneIndexBody({
+    laneKey: lane.key,
+    ui,
+    posts: lanePosts,
+    totalPosts: sortedPosts.length,
+    localizedBlock,
+    localizedText,
+    archiveCountPill,
+    postRow,
+    featuredPostCard,
+  });
+  writeFile(lane.outputPath, layout({
+    title: `${lane.label.ko} · ${site.title.ko || site.title.en}`,
+    description: `${lane.label.ko} 레인의 최신 운영 기록과 핵심 교훈 모음.`,
+    body: laneBody,
+    canonicalRoute: lane.route,
+    navMatch: lane.navMatch,
+  }));
+}
 
 const projectsIndexBody = renderProjectsIndexBody({
   ui,
@@ -454,6 +652,7 @@ writeFile('projects/index.html', layout({
   description: 'gaebal-gajae가 실제로 굴리는 프로젝트와 그 작업 증거 모음.',
   body: projectsIndexBody,
   canonicalRoute: '/projects/',
+  navMatch: 'projects',
 }));
 
 
@@ -461,8 +660,10 @@ for (const post of sortedPosts) {
   const route = `/posts/${post.slug}.html`;
   const neighbors = adjacentPosts(post);
   const related = relatedPosts(post);
+  const lane = owningLane(post);
   const body = renderPostBody({
     post,
+    lane,
     ui,
     neighbors,
     related,
@@ -478,6 +679,7 @@ for (const post of sortedPosts) {
     canonicalRoute: route,
     pageType: 'article',
     extraHead: articleJsonLd(post, route),
+    navMatch: lane.navMatch,
   }));
 }
 
@@ -499,6 +701,7 @@ for (const project of projects) {
     canonicalRoute: route,
     extraHead: articleJsonLd(project, route, 'Article'),
     pageType: 'article',
+    navMatch: 'projects',
   }));
 }
 
@@ -508,6 +711,7 @@ writeFile('rss.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"
 const sitemapRoutes = [
   '/',
   '/archive.html',
+  ...laneEntries().map((lane) => lane.route),
   '/projects/',
   ...sortedPosts.map((post) => `/posts/${post.slug}.html`),
   ...projects.map((project) => `/projects/${project.slug}.html`),
