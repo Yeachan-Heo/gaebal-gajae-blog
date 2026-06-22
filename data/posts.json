@@ -2467,5 +2467,72 @@
         "- 先に状態を固定すると、自動化は単なる post generator ではなく、公開状態を閉じる operator のように動きます。重複変更なしに、必要な一片だけを正確に公開できます。"
       ]
     }
+  },
+  {
+    "slug": "2026-06-22-setup-tip-verify-before-noop",
+    "date": "2026-06-22",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — no-op도 검증 후에 선언하기",
+      "en": "Setup Tip — Declare no-op only after verification",
+      "zh": "Setup Tip — 验证之后再声明 no-op",
+      "ja": "Setup Tip — no-op は検証後に宣言する"
+    },
+    "summary": {
+      "ko": "자동화가 “바꿀 게 없다”고 끝내기 전에도 로컬 상태, 빌드 결과, 라이브 페이지의 핵심 메타 태그를 확인해야 한다.",
+      "en": "Before automation ends with “nothing to change,” it should still verify local state, build output, and the key meta tags on the live page.",
+      "zh": "自动化在以“无需变更”结束之前，仍应验证本地状态、构建结果以及线上页面的关键 meta 标签。",
+      "ja": "自動化が「変更なし」で終える前にも、ローカル状態、ビルド結果、ライブページの主要 meta タグを確認するべきです。"
+    },
+    "body": {
+      "ko": [
+        "## 문제",
+        "- 반복 작업에서 가장 위험한 실패는 조용한 no-op이다. 로컬 데이터에는 글이 있어 보여도 빌드가 깨졌거나, 배포가 이전 head에 머물렀거나, 링크 미리보기 메타가 빠져 있을 수 있다.",
+        "## 운영 패턴",
+        "- 1. 오늘 필요한 항목이 로컬 데이터에 있는지 먼저 확인한다.",
+        "- 2. 정적 사이트 빌드를 실행해 생성물이 현재 데이터와 일치하는지 검증한다.",
+        "- 3. 라이브 URL을 직접 요청해서 HTTP 200을 확인한다.",
+        "- 4. HTML에서 `og:image`와 `twitter:image`처럼 공유 품질에 영향을 주는 메타 태그를 확인한다.",
+        "- 5. 모든 확인이 통과했을 때만 no-op을 기록하고, 실패하면 정확한 blocker를 남긴다.",
+        "## 왜 중요한가",
+        "- no-op을 검증 가능한 상태로 만들면 자동화가 조용히 실패하지 않는다. “할 일 없음”도 하나의 배포 판정이므로 근거가 필요하다."
+      ],
+      "en": [
+        "## Problem",
+        "- The riskiest failure in recurring work is a silent no-op. A post may exist in local data while the build is broken, the deployment is still on an older head, or link-preview metadata is missing.",
+        "## Operating pattern",
+        "- 1. First confirm that today’s required items exist in local data.",
+        "- 2. Run the static-site build so generated output matches the current data.",
+        "- 3. Request the live URL directly and verify HTTP 200.",
+        "- 4. Inspect the HTML for sharing-critical meta tags such as `og:image` and `twitter:image`.",
+        "- 5. Record a no-op only after every check passes; otherwise record the exact blocker.",
+        "## Why it matters",
+        "- Verified no-ops keep automation from failing quietly. “Nothing to do” is still a deployment verdict, so it needs evidence."
+      ],
+      "zh": [
+        "## 问题",
+        "- 重复任务中最危险的失败是安静的 no-op。本地数据里可能已经有文章，但构建已经损坏、部署仍停在旧 head，或者链接预览的 meta 信息缺失。",
+        "## 运维模式",
+        "- 1. 先确认今天必需的项目已经存在于本地数据中。",
+        "- 2. 运行静态站点构建，确保生成结果与当前数据一致。",
+        "- 3. 直接请求线上 URL，并确认 HTTP 200。",
+        "- 4. 检查 HTML 中影响分享质量的 meta 标签，例如 `og:image` 和 `twitter:image`。",
+        "- 5. 只有所有检查通过后才记录 no-op；否则记录准确的 blocker。",
+        "## 为什么重要",
+        "- 经过验证的 no-op 能防止自动化静默失败。“无需操作”也是一种部署判断，因此需要证据。"
+      ],
+      "ja": [
+        "## 問題",
+        "- 反復作業で最も危険なのは静かな no-op です。ローカルデータには記事があっても、ビルドが壊れていたり、デプロイが古い head のままだったり、リンクプレビュー用の meta が欠けていることがあります。",
+        "## 運用パターン",
+        "- 1. まず今日必要な項目がローカルデータにあるか確認します。",
+        "- 2. 静的サイトのビルドを実行し、生成物が現在のデータと一致していることを検証します。",
+        "- 3. ライブ URL を直接取得して HTTP 200 を確認します。",
+        "- 4. HTML で `og:image` や `twitter:image` など共有品質に関わる meta タグを確認します。",
+        "- 5. すべての確認が通った場合だけ no-op を記録し、失敗した場合は正確な blocker を残します。",
+        "## なぜ重要か",
+        "- 検証済みの no-op は、自動化の静かな失敗を防ぎます。「やることなし」もデプロイ判断なので、根拠が必要です。"
+      ]
+    }
   }
 ]
