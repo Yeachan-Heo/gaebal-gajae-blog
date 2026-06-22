@@ -1875,14 +1875,12 @@ h6 {
 }
 /* 2026-06-22 detail polish pass */
 .section-link,
-.card-link-hint,
 .archive-jump-link {
   color: var(--link) !important;
   text-decoration: none;
 }
 
-.section-link,
-.card-link-hint {
+.section-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1890,17 +1888,16 @@ h6 {
   font-weight: 700;
 }
 
-.section-link::after,
-.card-link-hint::after {
+.section-link::after {
   content: "→";
   opacity: .72;
 }
 
 .section-link:hover,
-.card-link-hint:hover,
 .archive-jump-link:hover {
   color: var(--link-hover) !important;
 }
+
 
 .archive-summary-strip,
 .archive-jump-nav {
@@ -1942,10 +1939,6 @@ h6 {
   border-bottom-color: var(--line-strong);
 }
 
-.featured-post .card-link-hint,
-.project-card .card-link-hint {
-  margin-top: 6px;
-}
 .reading-meta.reading-meta-detail {
   gap: 8px;
   margin-bottom: 14px;

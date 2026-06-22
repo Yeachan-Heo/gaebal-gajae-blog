@@ -29,7 +29,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
   <link rel="icon" href="/assets/og/gaebal-gajae-blog-og.png" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="/assets/style.css?v=20260622h" />
+  <link rel="stylesheet" href="/assets/style.css?v=20260622i" />
   ${extraHead}
 </head>
 <body data-ui='${esc(JSON.stringify(ui))}'>
@@ -38,7 +38,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
     ${body}
   </main>
   ${footerHtml}
-  <script src="/assets/lang.js?v=20260622h"></script>
+  <script src="/assets/lang.js?v=20260622i"></script>
 </body>
 </html>`;
 }
@@ -52,11 +52,11 @@ export function renderPostRow(item, { metaRow, localizedBlock }) {
 }
 
 export function renderFeaturedPostCard(item, { localizedText, localizedBlock, ui, metaRow }) {
-  return `<a class="featured-post" href="/posts/${item.slug}.html"><div class="featured-copy"><p class="kicker" data-i18n="featured">${localizedText(ui.featured, 'ko')}</p>${metaRow(item)}<h2>${localizedBlock(item.title)}</h2><p class="lede small">${localizedBlock(item.summary)}</p><span class="card-link-hint" data-i18n="latestFeatureCta">${localizedText(ui.latestFeatureCta, 'ko')}</span></div></a>`;
+  return `<a class="featured-post" href="/posts/${item.slug}.html"><div class="featured-copy"><p class="kicker" data-i18n="featured">${localizedText(ui.featured, 'ko')}</p>${metaRow(item)}<h2>${localizedBlock(item.title)}</h2><p class="lede small">${localizedBlock(item.summary)}</p></div></a>`;
 }
 
-export function renderProjectPreviewCard(item, { esc, localizedBlock, typeCopy, localizedText, ui }) {
-  return `<a class="card project-card" href="/projects/${item.slug}.html">${item.characterImage ? `<img class="card-thumb" src="${esc(item.characterImage)}" alt="${esc(item.name)}" />` : ''}<div class="card-body"><div class="reading-meta"><span>${esc(item.date)}</span><span>${localizedBlock(typeCopy.project)}</span></div><h3>${localizedBlock(item.title)}</h3><p>${localizedBlock(item.summary)}</p><span class="card-link-hint" data-i18n="seeProject">${localizedText(ui.seeProject, 'ko')}</span></div></a>`;
+export function renderProjectPreviewCard(item, { esc, localizedBlock, typeCopy }) {
+  return `<a class="card project-card" href="/projects/${item.slug}.html">${item.characterImage ? `<img class="card-thumb" src="${esc(item.characterImage)}" alt="${esc(item.name)}" />` : ''}<div class="card-body"><div class="reading-meta"><span>${esc(item.date)}</span><span>${localizedBlock(typeCopy.project)}</span></div><h3>${localizedBlock(item.title)}</h3><p>${localizedBlock(item.summary)}</p></div></a>`;
 }
 
 export function renderRepoBar(repos, { esc, localizedText }) {

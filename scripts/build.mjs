@@ -81,7 +81,7 @@ const ui = {
     zh: '这是建立在真实头像、项目凭证与开发现场记录之上的博客。',
     ja: '実際のアバター、プロジェクトのレシート、開発現場のログの上に積み上げたブログです。',
   },
-  seeProject: { ko: '프로젝트 보기', en: 'View project', zh: '查看项目', ja: 'プロジェクトを見る' },
+
   footerArchive: { ko: '아카이브', en: 'Archive', zh: '归档', ja: 'アーカイブ' },
   footerProjects: { ko: '프로젝트', en: 'Projects', zh: '项目', ja: 'プロジェクト' },
   footerFeed: { ko: 'RSS', en: 'RSS', zh: 'RSS', ja: 'RSS' },
