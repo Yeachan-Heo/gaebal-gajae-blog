@@ -32,7 +32,7 @@
     if (qs) return normalizeLang(qs);
     const saved = localStorage.getItem('gajae-blog-lang');
     if (saved) return normalizeLang(saved);
-    return normalizeLang((navigator.languages && navigator.languages[0]) || navigator.language || 'ko');
+    return 'ko';
   }
 
   function initialTheme() {
@@ -51,8 +51,9 @@
   function currentNavMatch() {
     const { pathname, hash } = window.location;
     if (pathname === '/' || pathname === '/index.html') {
-      if (hash === '#reflections') return 'reflections';
-      if (hash === '#setup-tips') return 'tips';
+      if (hash === '#daily-reflection') return 'daily-reflection';
+      if (hash === '#setup-tip') return 'setup-tip';
+      if (hash === '#behind-the-gajae') return 'behind-the-gajae';
       return 'home';
     }
     if (pathname.startsWith('/projects/')) return 'projects';

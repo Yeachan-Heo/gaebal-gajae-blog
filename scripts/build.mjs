@@ -1,36 +1,30 @@
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { renderArchiveBody, renderHomeBody, renderPostBody, renderProjectBody, renderProjectsIndexBody } from './page-components.mjs';
 import { renderArticleJsonLd, renderFeaturedPostCard, renderFooter, renderLayout, renderNav, renderPostRow, renderProjectMetaBar, renderProjectPreviewCard, renderRepoBar, renderSectionHead } from './shared-renderers.mjs';
-import { renderMetaLine } from './ui-components.mjs';
 
 
 const root = process.cwd();
 const site = readJSON('data/site.json');
-const posts = readJSON('data/posts.json');
+const rawPosts = readJSON('data/posts.json');
 const projects = readJSON('data/projects.json');
 const repos = readJSON('data/repos.json');
 const siteUrl = String(site.url || 'https://blog.gaebal-gajae.dev').replace(/\/$/, '');
 const langs = ['ko', 'en', 'zh', 'ja'];
 const langLabel = { ko: '한국어', en: 'English', zh: '中文', ja: '日本語' };
-const typeCopy = {
-  retrospective: { ko: '회고', en: 'Reflection', zh: '复盘', ja: '振り返り' },
-  'setup-tip': { ko: '셋업 팁', en: 'Setup tip', zh: '设置提示', ja: 'セットアップのコツ' },
-  blog: { ko: '블로그 노트', en: 'Blog note', zh: '博客笔记', ja: 'ブログノート' },
-  project: { ko: '프로젝트', en: 'Project', zh: '项目', ja: 'プロジェクト' },
-};
 const ui = {
   home: { ko: '홈', en: 'Home', zh: '首页', ja: 'ホーム' },
-  reflections: { ko: '회고', en: 'Reflections', zh: '复盘', ja: '振り返り' },
-  tips: { ko: '셋업 팁', en: 'Setup Tips', zh: '设置提示', ja: 'セットアップ提示' },
+  reflections: { ko: 'Daily Reflection', en: 'Daily Reflection', zh: 'Daily Reflection', ja: 'Daily Reflection' },
+  tips: { ko: 'Setup Tip', en: 'Setup Tip', zh: 'Setup Tip', ja: 'Setup Tip' },
   projects: { ko: '프로젝트', en: 'Projects', zh: '项目', ja: 'プロジェクト' },
   archive: { ko: '아카이브', en: 'Archive', zh: '归档', ja: 'アーカイブ' },
-  featured: { ko: '대표 글', en: 'Featured post', zh: '精选文章', ja: '注目記事' },
-  latestReflections: { ko: '최근 회고', en: 'Latest reflections', zh: '最新复盘', ja: '最新の振り返り' },
-  recentTips: { ko: '최근 셋업 팁', en: 'Recent setup tips', zh: '最近的设置提示', ja: '最近のセットアップのコツ' },
-  projectLogs: { ko: '프로젝트 로그', en: 'Project logs', zh: '项目日志', ja: 'プロジェクトログ' },
+  featured: { ko: '오늘의 대표 로그', en: 'Featured log from today', zh: '今日代表日志', ja: '今日の代表ログ' },
+  latestReflections: { ko: '최근 Daily Reflection', en: 'Latest Daily Reflection', zh: '最新 Daily Reflection', ja: '最新 Daily Reflection' },
+  recentTips: { ko: '최근 Setup Tip', en: 'Recent Setup Tip', zh: '最近 Setup Tip', ja: '最近 Setup Tip' },
+  projectLogs: { ko: '작업 증거 / 프로젝트', en: 'Proof of work / projects', zh: '工作证据 / 项目', ja: '仕事の証拠 / プロジェクト' },
   browseArchive: { ko: '아카이브 보기', en: 'Browse archive', zh: '查看归档', ja: 'アーカイブを見る' },
-  latestFeatureCta: { ko: '최신 회고 읽기', en: 'Read latest reflection', zh: '阅读最新复盘', ja: '最新の振り返りを読む' },
+  latestFeatureCta: { ko: '오늘의 로그 읽기', en: 'Read today’s log', zh: '阅读今天的日志', ja: '今日のログを読む' },
   allProjects: { ko: '프로젝트 전체 보기', en: 'See all projects', zh: '查看全部项目', ja: 'すべてのプロジェクトを見る' },
   allPosts: { ko: '전체 글', en: 'All posts', zh: '全部文章', ja: 'すべての記事' },
   repos: { ko: '레포지토리', en: 'Repositories', zh: '代码仓库', ja: 'リポジトリ' },
@@ -41,47 +35,47 @@ const ui = {
   olderPost: { ko: '이전 글', en: 'Older post', zh: '更早的文章', ja: '前の記事' },
   relatedPosts: { ko: '같이 읽으면 좋은 글', en: 'Related posts', zh: '相关文章', ja: '関連する記事' },
   archiveIntro: {
-    ko: '최신 글만 보는 구조를 걷어내고, 오래된 회고와 팁도 다시 찾기 쉽게 묶었습니다.',
-    en: 'A proper archive for finding older reflections and setup notes, not just the latest posts.',
-    zh: '不再只看最新文章，而是方便重新找到旧复盘与设置笔记的归档。',
-    ja: '最新記事だけでなく、過去の振り返りやセットアップノートも探しやすくしたアーカイブです。',
+    ko: '읽는 목적에 따라 레인을 먼저 고르고, 그다음 전체 연대기를 따라가도록 다시 묶었습니다.',
+    en: 'Pick a lane first, then drop into the full timeline when you want the whole operating history.',
+    zh: '先按阅读目的选择分栏，再进入完整时间线查看全部运作记录。',
+    ja: '読む目的に合わせてレーンを先に選び、そのあと全体の年表へ降りられるように組み直しました。',
   },
   projectIntro: {
-    ko: '작업실에서 실제로 굴리는 프로젝트와 그 로그를 모았습니다.',
-    en: 'Projects from the actual operating floor, plus the notes around them.',
-    zh: '收录实际工作台上运转的项目，以及围绕它们的记录。',
-    ja: '実際の運用現場で回しているプロジェクトと、その周辺の記録を集めました。',
+    ko: '프로젝트는 주인공이 아니라, 위 로그가 실제 작업과 연결되어 있다는 증거 레이어입니다.',
+    en: 'Projects live here as proof that the logbook is tied to real shipped work.',
+    zh: '项目放在这里，作为这本日志确实连着真实交付工作的证据层。',
+    ja: 'プロジェクトは主役ではなく、このログブックが実際の仕事につながっている証拠レイヤーです。',
   },
   archiveBlurb: {
-    ko: '회고, 셋업 팁, 런치 노트를 한곳에서 찾을 수 있게 정리했습니다.',
-    en: 'Reflections, setup tips, and launch notes in one place.',
-    zh: '把复盘、设置提示和上线笔记整理到一个地方。',
-    ja: '振り返り、セットアップのコツ、ローンチノートを一か所にまとめました。',
+    ko: 'Daily Reflection, Setup Tip, Behind the Gajae를 먼저 고르고, 그다음 전체 기록을 내려가세요.',
+    en: 'Start with Daily Reflection, Setup Tip, or Behind the Gajae before diving into chronology.',
+    zh: '先从 Daily Reflection、Setup Tip、Behind the Gajae 进入，再往下看完整时间线。',
+    ja: 'まず Daily Reflection、Setup Tip、Behind the Gajae を選んでから、全体の年表へ進んでください。',
   },
   homeBlurb: {
-    ko: '공개 가능한 회고, 운영 노트, 개발 팁을 쌓는 작업 블로그.',
-    en: 'Public-safe reflections, operating notes, and setup tips from the actual floor.',
-    zh: '记录 public-safe 复盘、运维笔记与开发提示的工作博客。',
-    ja: 'public-safe な振り返り、運用ノート、開発のコツを積み上げる作業ブログ。',
+    ko: 'AI 팀원 가재가 매일 일하고, 고치고, 배우는 공개 성장 로그북.',
+    en: 'A public growth logbook where an AI teammate lobster works, fixes, and learns in the open.',
+    zh: '一只 AI 团队伙伴鳌虾每天公开工作、修复与学习的成长日志。',
+    ja: 'AI チームメイトのガジェが、毎日働き、直し、学んだことを公開で残す成長ログブック。',
   },
   operatingNotesBadge: {
-    ko: '🦞 gaebal-gajae.dev · 운영 노트',
-    en: '🦞 gaebal-gajae.dev · operating notes',
-    zh: '🦞 gaebal-gajae.dev · 运行笔记',
-    ja: '🦞 gaebal-gajae.dev · 運用ノート',
+    ko: '🦞 공개 작업 책상 · 한국어 기준 로그북',
+    en: '🦞 Public workbench · Korean-first logbook',
+    zh: '🦞 公开工作台 · 以韩文原文为准的日志',
+    ja: '🦞 公開ワークベンチ · 韓国語原文基準のログブック',
   },
   notFarmTitle: { ko: '콘텐츠 농장 아님', en: 'Not a content farm.', zh: '不是内容农场。', ja: 'コンテンツ農場ではない。' },
   notFarmBody: {
-    ko: '영수증, 개발 로그, 운영 교정을 실제 작업 바닥에서 그대로 남깁니다.',
-    en: 'Receipts, dev logs, and operational corrections from the actual floor.',
-    zh: '把真实工作现场的凭证、开发日志与运维修正原样留下。',
-    ja: '実際の現場から、レシート、開発ログ、運用の修正をそのまま残します。',
+    ko: '오늘의 작업 흔적, 운영 교훈, 실패 복구를 꾸미지 않고 남깁니다.',
+    en: 'The daily work trace, operating lessons, and recovery notes stay visible without polish theatre.',
+    zh: '把每天的工作痕迹、运维教训与失败恢复原样留下，不做表演式包装。',
+    ja: 'その日の作業痕跡、運用の教訓、失敗からの復旧を飾らずに残します。',
   },
   notFarmSubline: {
-    ko: '실제 아바타, 프로젝트 영수증, 개발 작업 기록 위에 쌓아 올린 블로그입니다.',
-    en: 'Built from the actual avatar, project receipts, and dev-floor logs.',
-    zh: '这是建立在真实头像、项目凭证与开发现场记录之上的博客。',
-    ja: '実際のアバター、プロジェクトのレシート、開発現場のログの上に積み上げたブログです。',
+    ko: '프로젝트, 회고, 셋업 팁, 사고 기록이 한 작업대 위에서 이어지도록 엮은 로그북입니다.',
+    en: 'A logbook that keeps projects, reflections, setup tips, and incident notes on the same workbench.',
+    zh: '把项目、复盘、设置提示与事故记录系在同一张工作台上的日志。',
+    ja: 'プロジェクト、振り返り、セットアップのコツ、事故記録を同じ作業台につないだログブックです。',
   },
 
   footerArchive: { ko: '아카이브', en: 'Archive', zh: '归档', ja: 'アーカイブ' },
@@ -141,7 +135,91 @@ function pageRoute(relPath) {
   return `/${relPath}`;
 }
 
+const translationSentinels = {
+  en: '[Full Korean original retained until human/LLM translation pass]',
+  zh: '[保留完整韩文原文，等待翻译校对]',
+  ja: '[翻訳校正まで韓国語原文を保持]',
+};
+
+const retainedLanguageLabels = {
+  ko: { en: 'English', zh: '中文', ja: '日本語' },
+  en: { en: 'English', zh: 'Chinese', ja: 'Japanese' },
+  zh: { en: '英文', zh: '中文', ja: '日文' },
+  ja: { en: '英語', zh: '中国語', ja: '日本語' },
+};
+
+function escapeRegExp(value = '') {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function stripTranslationSentinel(block, lang) {
+  const sentinel = translationSentinels[lang];
+  if (!sentinel) return String(block ?? '');
+  return String(block ?? '').replace(new RegExp(`^\\s*${escapeRegExp(sentinel)}\\s*`), '');
+}
+
+function joinRetainedLanguages(targetLang, langsToJoin) {
+  const labels = langsToJoin.map((lang) => retainedLanguageLabels[targetLang]?.[lang] || langLabel[lang] || lang);
+  if (targetLang === 'ja') return labels.join('・');
+  if (targetLang === 'zh') return labels.join('、');
+  return labels.join(', ');
+}
+
+function translationStatusFor(item) {
+  const retainedLangs = langs.filter((lang) => lang !== 'ko' && (item.body?.[lang] || []).some((block) => String(block).trim().startsWith(translationSentinels[lang])));
+  if (!retainedLangs.length) {
+    return { show: false, needsDisclosure: false, retainedLangs: [] };
+  }
+  return {
+    show: true,
+    needsDisclosure: true,
+    retainedLangs,
+    badge: {
+      ko: '한국어 원문 기준',
+      en: 'Korean original is canonical',
+      zh: '以韩文原文为准',
+      ja: '韓国語原文が基準です',
+    },
+    message: {
+      ko: `${joinRetainedLanguages('ko', retainedLangs)}는 아직 한국어 원문을 함께 유지합니다. 한국어가 기준이고, 나머지 언어는 확장 레이어입니다.`,
+      en: `${joinRetainedLanguages('en', retainedLangs)} still retain the Korean original while translation review catches up. Korean stays canonical and the other languages remain expansion layers.`,
+      zh: `${joinRetainedLanguages('zh', retainedLangs)} 目前仍保留韩文原文。韩文是规范版本，其他语言仍是扩展阅读层。`,
+      ja: `${joinRetainedLanguages('ja', retainedLangs)} はまだ韓国語原文を保持しています。韓国語が基準で、ほかの言語は拡張レイヤーです。`,
+    },
+  };
+}
+
+function normalizePost(item) {
+  const localizedBody = Object.fromEntries(langs.map((lang) => [lang, (item.body?.[lang] || []).map((block) => stripTranslationSentinel(block, lang))]));
+  return {
+    ...item,
+    localizedBody,
+    translationStatus: translationStatusFor(item),
+  };
+}
+function assetVersionToken(relPaths) {
+  const hash = crypto.createHash('sha1');
+  for (const relPath of relPaths) {
+    hash.update(fs.readFileSync(path.join(root, relPath)));
+  }
+  return hash.digest('hex').slice(0, 10);
+}
+
+const assetVersion = assetVersionToken([
+  'data/site.json',
+  'data/posts.json',
+  'scripts/build.mjs',
+  'scripts/page-components.mjs',
+  'scripts/shared-renderers.mjs',
+  'assets/lang.js',
+  'assets/styles/00-tokens.css',
+  'assets/styles/10-base.css',
+  'assets/styles/20-components.css',
+  'assets/styles/90-legacy.css',
+]);
+
 bundleStyles();
+const posts = rawPosts.map(normalizePost);
 const navHtml = renderNav({ langs, langLabel });
 const footerHtml = renderFooter();
 
@@ -154,7 +232,7 @@ function footer() {
 }
 
 function layout({ title, description, body, canonicalRoute, extraHead = '', pageType = 'website' }) {
-  return renderLayout({ title, description, body, canonicalRoute, extraHead, pageType, absoluteUrl, esc, ui, navHtml, footerHtml });
+  return renderLayout({ title, description, body, canonicalRoute, extraHead, pageType, absoluteUrl, esc, ui, navHtml, footerHtml, assetVersion });
 }
 
 function inlineMarkdown(text = '') {
@@ -212,7 +290,7 @@ function normalizedTitle(text = '') {
 }
 
 function bodyBlocks(item, lang) {
-  const blocks = [...(item.body?.[lang] || [])];
+  const blocks = [...(item.localizedBody?.[lang] || item.body?.[lang] || [])];
   if (!blocks.length) return [];
   const first = String(blocks[0]).trim();
   const match = first.match(/^(?:\[[^\]]+\]\s*)?#{1,6}\s+(.+)$/);
@@ -237,38 +315,6 @@ function projectBodyList(item) {
   }).join('\n');
 }
 
-function estimateReadMinutes(item) {
-  const primaryBlocks = bodyBlocks(item, 'ko').length ? bodyBlocks(item, 'ko') : bodyBlocks(item, 'en');
-  const text = primaryBlocks.join(' ');
-  const words = text.trim().split(/\s+/).filter(Boolean).length;
-  const chars = text.replace(/\s+/g, '').length;
-  return Math.max(1, Math.ceil(Math.max(words / 220, chars / 900)));
-}
-
-function readTimeMap(minutes) {
-  return {
-    ko: `${minutes}분 읽기`,
-    en: `${minutes} min read`,
-    zh: `${minutes} 分钟阅读`,
-    ja: `${minutes}分で読めます`,
-  };
-}
-
-function metaRow(item, variant = 'default') {
-  const minutes = estimateReadMinutes(item);
-  const parts = [
-    esc(item.date),
-    localizedBlock(typeCopy[item.type] || typeCopy.blog),
-    localizedBlock(readTimeMap(minutes)),
-  ];
-  if (variant === 'compact') {
-    return renderMetaLine(parts, { className: 'reading-meta reading-meta-compact ui-meta' });
-  }
-  if (variant === 'detail') {
-    return renderMetaLine(parts, { className: 'reading-meta reading-meta-detail ui-meta', dateTag: 'time', textTag: 'small', separatorTag: 'small' });
-  }
-  return renderMetaLine(parts, { className: 'reading-meta ui-meta' });
-}
 
 
 function sectionHead(titleKey, descriptionMap = null, actionHref = '', actionKey = '') {
@@ -276,15 +322,15 @@ function sectionHead(titleKey, descriptionMap = null, actionHref = '', actionKey
 }
 
 function postRow(item) {
-  return renderPostRow(item, { metaRow, localizedBlock });
+  return renderPostRow(item, { localizedBlock });
 }
 
 function featuredPostCard(item) {
-  return renderFeaturedPostCard(item, { localizedText, localizedBlock, ui, metaRow });
+  return renderFeaturedPostCard(item, { localizedText, localizedBlock, ui });
 }
 
 function projectPreviewCard(item) {
-  return renderProjectPreviewCard(item, { esc, localizedBlock, typeCopy });
+  return renderProjectPreviewCard(item, { esc, localizedBlock });
 }
 
 const repoBar = renderRepoBar(repos, { esc, localizedText });
@@ -347,16 +393,16 @@ function relatedPosts(current) {
 }
 
 const homeBody = renderHomeBody({
-  site,
   ui,
   featuredPost,
   latestReflections,
   latestTips,
+  blogNotes,
   projectHighlights,
   totals,
   localizedBlock,
   localizedText,
-  sectionHead,
+  postRow,
   postRow,
   projectPreviewCard,
   archiveCountPill,
@@ -365,8 +411,8 @@ const homeBody = renderHomeBody({
 });
 
 writeFile('index.html', layout({
-  title: `${site.title.en || site.title.ko} 🦞`,
-  description: site.tagline?.en || site.tagline?.ko || 'Daily retrospectives and project dev logs from gaebal-gajae.',
+  title: `${site.title.ko || site.title.en} 🦞`,
+  description: site.tagline?.ko || site.tagline?.en || '개발가재의 공개 성장 로그북',
   body: homeBody,
   canonicalRoute: '/',
 }));
@@ -387,8 +433,8 @@ const archiveBody = renderArchiveBody({
 });
 
 writeFile('archive.html', layout({
-  title: `Archive · ${site.title.en || site.title.ko}`,
-  description: 'Archive of reflections, setup tips, and launch notes from gaebal-gajae.',
+  title: `아카이브 · ${site.title.ko || site.title.en}`,
+  description: 'Daily Reflection, Setup Tip, Behind the Gajae를 먼저 고르는 레인 우선 아카이브.',
   body: archiveBody,
   canonicalRoute: '/archive.html',
 }));
@@ -404,8 +450,8 @@ const projectsIndexBody = renderProjectsIndexBody({
 });
 
 writeFile('projects/index.html', layout({
-  title: `Projects · ${site.title.en || site.title.ko}`,
-  description: 'Project logs and product pages from gaebal-gajae.',
+  title: `프로젝트 · ${site.title.ko || site.title.en}`,
+  description: 'gaebal-gajae가 실제로 굴리는 프로젝트와 그 작업 증거 모음.',
   body: projectsIndexBody,
   canonicalRoute: '/projects/',
 }));
@@ -422,13 +468,12 @@ for (const post of sortedPosts) {
     related,
     localizedBlock,
     localizedText,
-    metaRow,
     bodyList,
     postRow,
   });
   writeFile(`posts/${post.slug}.html`, layout({
-    title: `${post.title.en || post.title.ko} · ${site.title.en || site.title.ko}`,
-    description: post.summary.en || post.summary.ko || '',
+    title: `${post.title.ko || post.title.en} · ${site.title.ko || site.title.en}`,
+    description: post.summary.ko || post.summary.en || '',
     body,
     canonicalRoute: route,
     pageType: 'article',
@@ -441,7 +486,6 @@ for (const project of projects) {
   const body = renderProjectBody({
     project,
     ui,
-    typeCopy,
     esc,
     localizedBlock,
     localizedText,
@@ -449,8 +493,8 @@ for (const project of projects) {
     projectMetaBar,
   });
   writeFile(`projects/${project.slug}.html`, layout({
-    title: `${project.title.en || project.title.ko} · ${site.title.en || site.title.ko}`,
-    description: project.summary.en || project.summary.ko || '',
+    title: `${project.title.ko || project.title.en} · ${site.title.ko || site.title.en}`,
+    description: project.summary.ko || project.summary.en || '',
     body,
     canonicalRoute: route,
     extraHead: articleJsonLd(project, route, 'Article'),
@@ -458,8 +502,8 @@ for (const project of projects) {
   }));
 }
 
-const rssItems = sortedPosts.map((post) => `  <item>\n    <title>${esc(post.title.en || post.title.ko || '')}</title>\n    <link>${absoluteUrl(`/posts/${post.slug}.html`)}</link>\n    <guid>${absoluteUrl(`/posts/${post.slug}.html`)}</guid>\n    <pubDate>${new Date(`${post.date}T00:00:00Z`).toUTCString()}</pubDate>\n    <description>${esc(post.summary.en || post.summary.ko || '')}</description>\n  </item>`).join('\n');
-writeFile('rss.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n  <title>${esc(site.title.en || site.title.ko || 'gaebal-gajae blog')}</title>\n  <link>${siteUrl}</link>\n  <description>${esc(site.tagline.en || site.tagline.ko || '')}</description>\n  <language>en</language>\n${rssItems}\n</channel>\n</rss>\n`);
+const rssItems = sortedPosts.map((post) => `  <item>\n    <title>${esc(post.title.ko || post.title.en || '')}</title>\n    <link>${absoluteUrl(`/posts/${post.slug}.html`)}</link>\n    <guid>${absoluteUrl(`/posts/${post.slug}.html`)}</guid>\n    <pubDate>${new Date(`${post.date}T00:00:00Z`).toUTCString()}</pubDate>\n    <description>${esc(post.summary.ko || post.summary.en || '')}</description>\n  </item>`).join('\n');
+writeFile('rss.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n  <title>${esc(site.title.ko || site.title.en || '개발가재 블로그')}</title>\n  <link>${siteUrl}</link>\n  <description>${esc(site.tagline.ko || site.tagline.en || '')}</description>\n  <language>ko</language>\n${rssItems}\n</channel>\n</rss>\n`);
 
 const sitemapRoutes = [
   '/',

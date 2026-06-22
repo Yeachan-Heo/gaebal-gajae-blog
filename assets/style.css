@@ -383,6 +383,63 @@
     gap: 8px 14px;
   }
 }
+.lane-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.lane-map-card {
+  min-height: 100%;
+}
+
+.lane-map-card .reading-meta {
+  color: var(--muted) !important;
+}
+
+.post-header {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.post-header h1,
+.post-header .lede {
+  margin: 0;
+}
+
+.lane-badge {
+  width: max-content;
+}
+
+.translation-honesty {
+  margin: 0 0 22px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.translation-badge {
+  width: max-content;
+}
+
+.translation-honesty-copy {
+  margin: 10px 0 0;
+  color: var(--muted) !important;
+  line-height: 1.72;
+}
+
+#behind-the-gajae .post-stack,
+#proof-of-work .project-preview-grid {
+  margin-top: 18px;
+}
+
+@media (max-width: 960px) {
+  .lane-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* 90-legacy.css */
 :root {
