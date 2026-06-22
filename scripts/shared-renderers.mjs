@@ -31,7 +31,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
   <link rel="icon" href="/assets/og/gaebal-gajae-blog-og.png" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="/assets/style.css?v=20260622q" />
+  <link rel="stylesheet" href="/assets/style.css?v=20260622af" />
   ${extraHead}
 </head>
 <body data-ui='${esc(JSON.stringify(ui))}'>
@@ -40,7 +40,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
     ${body}
   </main>
   ${footerHtml}
-  <script src="/assets/lang.js?v=20260622q"></script>
+  <script src="/assets/lang.js?v=20260622af"></script>
 </body>
 </html>`;
 }
@@ -78,9 +78,15 @@ export function renderProjectMetaBar(project, repos, { esc }) {
   const repo = repos.find((candidate) => candidate.fullName === project.repo);
   if (!repo) return '';
   const rel = repo.latestRelease;
-  const releaseHtml = rel ? `<a href="${esc(rel.url)}" target="_blank" rel="noopener noreferrer">${esc(rel.tag)}</a>` : '<span>n/a</span>';
-  return `<section class="project-meta" aria-label="Project metadata"><a class="project-repo-main" href="${esc(repo.url)}" target="_blank" rel="noopener noreferrer">${esc(repo.fullName)}</a><div class="project-stat"><span>version</span><strong>${esc(repo.version || 'n/a')}</strong></div><div class="project-stat"><span>stars</span><strong>★ ${Number(repo.stars).toLocaleString()}</strong></div><div class="project-stat"><span>forks</span><strong>⑂ ${Number(repo.forks).toLocaleString()}</strong></div><div class="project-stat"><span>release</span><strong>${releaseHtml}</strong></div>${project.geobenchSpec ? `<a class="project-stat geobench-stat" href="${esc(project.geobenchSpec)}"><span>GEO</span><strong>geobench spec</strong></a>` : ''}</section>`;
+  const stats = [
+    { label: 'version', value: esc(repo.version || 'n/a') },
+    { label: 'stars', value: `★ ${Number(repo.stars).toLocaleString()}` },
+    { label: 'forks', value: `⑂ ${Number(repo.forks).toLocaleString()}` },
+    { label: 'release', value: rel ? `<a href="${esc(rel.url)}" target="_blank" rel="noopener noreferrer">${esc(rel.tag)}</a>` : 'n/a' },
+  ];
+  return `<section class="project-meta" aria-label="Project metadata"><a class="project-repo-main" href="${esc(repo.url)}" target="_blank" rel="noopener noreferrer"><span>repository</span><strong>${esc(repo.fullName)}</strong></a><dl class="project-stat-list">${stats.map((stat) => `<div class="project-stat-item"><dt>${stat.label}</dt><dd>${stat.value}</dd></div>`).join('')}</dl></section>`;
 }
+
 
 export function renderArticleJsonLd(item, route, kind = 'BlogPosting', { absoluteUrl }) {
   const payload = {

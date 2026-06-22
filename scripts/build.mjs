@@ -225,6 +225,18 @@ function bodyList(item) {
   return langs.map((lang) => `<div class="lang-block prose" data-lang-block="${lang}">${bodyBlocks(item, lang).map(renderMarkdownBlock).join('\n')}</div>`).join('\n');
 }
 
+function projectBodyList(item) {
+  return langs.map((lang) => {
+    const blocks = bodyBlocks(item, lang);
+    if (!blocks.length) return `<div class="lang-block prose prose-project" data-lang-block="${lang}"></div>`;
+    const [intro, ...points] = blocks;
+    const pointsMarkup = points.length
+      ? `<div class="project-points">${points.map((block) => `<div class="project-point">${renderMarkdownBlock(block)}</div>`).join('\n')}</div>`
+      : '';
+    return `<div class="lang-block prose prose-project" data-lang-block="${lang}"><div class="project-intro">${renderMarkdownBlock(intro)}</div>${pointsMarkup}</div>`;
+  }).join('\n');
+}
+
 function estimateReadMinutes(item) {
   const primaryBlocks = bodyBlocks(item, 'ko').length ? bodyBlocks(item, 'ko') : bodyBlocks(item, 'en');
   const text = primaryBlocks.join(' ');
@@ -433,7 +445,7 @@ for (const project of projects) {
     esc,
     localizedBlock,
     localizedText,
-    bodyList,
+    bodyList: projectBodyList,
     projectMetaBar,
   });
   writeFile(`projects/${project.slug}.html`, layout({

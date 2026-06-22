@@ -138,8 +138,9 @@ export function renderProjectBody({
   bodyList,
   projectMetaBar,
 }) {
-  const hero = project.heroImage
-    ? `<img class="project-hero" src="${esc(project.heroImage)}" alt="${esc(project.name)} hero" />`
+  const heroSrc = project.detailImage || project.heroImage;
+  const hero = heroSrc
+    ? `<div class="project-hero-frame"><img class="project-hero" src="${esc(heroSrc)}" alt="${esc(project.name)} hero" /></div>`
     : '';
 
   const eyebrow = renderEyebrowTrail([
@@ -148,8 +149,7 @@ export function renderProjectBody({
   ]);
   const detailMeta = renderMetaLine([
     esc(project.date),
-    localizedBlock(typeCopy.project),
     esc(project.name),
-  ], { className: 'reading-meta reading-meta-detail ui-meta', dateTag: 'time', textTag: 'small', separatorTag: 'small' });
-  return `<article class="post-article">${eyebrow}${detailMeta}<h1>${localizedBlock(project.title)}</h1><p class="lede">${localizedBlock(project.summary)}</p>${hero}${projectMetaBar(project)}${bodyList(project)}</article>`;
+  ], { className: 'reading-meta reading-meta-detail ui-meta project-detail-meta', dateTag: 'time', textTag: 'small', separatorTag: 'small', separatorContent: '·' });
+  return `<article class="post-article project-article">${eyebrow}<header class="project-header">${detailMeta}<h1>${localizedBlock(project.title)}</h1><p class="lede">${localizedBlock(project.summary)}</p></header>${hero}${projectMetaBar(project)}<section class="project-body">${bodyList(project)}</section></article>`;
 }
