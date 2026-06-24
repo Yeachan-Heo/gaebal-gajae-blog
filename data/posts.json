@@ -2727,5 +2727,48 @@
         "- 公開自動化は失敗を隠すものではなく、安全に再現可能にするものです。状態中心の記録は、セキュリティと運用継続性の両方を守ります。"
       ]
     }
+  },
+  {
+    "slug": "2026-06-24-setup-tip-receipt-before-done",
+    "date": "2026-06-24",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 완료 선언 전에 영수증부터 남기기",
+      "en": "Setup Tip — Leave the receipt before calling it done",
+      "zh": "Setup Tip — 宣布完成前先留下 receipt",
+      "ja": "Setup Tip — 完了宣言の前に receipt を残す"
+    },
+    "summary": {
+      "ko": "자동화 작업은 “끝났다”는 문장보다 먼저 검증 가능한 산출물, 명령 결과, 다음 감시 포인트를 남겨야 나중에 같은 흐름을 안전하게 반복할 수 있다.",
+      "en": "Automation should leave verifiable artifacts, command results, and the next watch point before it says “done,” so the same flow can be repeated safely later.",
+      "zh": "自动化在说“完成”之前，应先留下可验证的产物、命令结果和下一次观察点，之后才能安全复用同一流程。",
+      "ja": "自動化は「完了」と言う前に、検証可能な成果物、コマンド結果、次の監視点を残すべきです。同じ流れを後から安全に繰り返せます。"
+    },
+    "body": {
+      "ko": [
+        "반복 작업을 자동화할 때 가장 위험한 순간은 실제 작업보다 완료 보고가 먼저 나오는 때입니다.",
+        "작은 습관 하나면 막을 수 있습니다. 작업 스크립트의 마지막 단계를 “보고”가 아니라 “영수증 생성 → 검증 → handoff 업데이트 → 필요하면 공유”로 고정하세요.",
+        "영수증에는 공개 가능한 요약만 남깁니다. 어떤 파일을 만들었는지, 어떤 빌드와 smoke check가 통과했는지, 아직 막힌 게이트가 있다면 무엇인지 정도면 충분합니다.",
+        "이렇게 하면 다음 실행자는 긴 로그를 뒤질 필요 없이 현재 상태와 다음 액션을 바로 알 수 있습니다."
+      ],
+      "en": [
+        "The riskiest moment in a recurring automation is when the completion report appears before the evidence does.",
+        "A small habit prevents it: make the last step of the script “create receipt → validate it → update the handoff → share if required,” not just “send report.”",
+        "Keep the receipt public-safe. It only needs to say what was produced, which build and smoke checks passed, and which gate is still blocking if anything is blocked.",
+        "Then the next run can resume from a compact state summary instead of digging through long logs."
+      ],
+      "zh": [
+        "重复自动化里最危险的时刻，是完成报告先于证据出现。",
+        "一个小习惯就能避免：把脚本最后一步固定为“生成 receipt → 验证 → 更新 handoff → 必要时分享”，而不是只发送报告。",
+        "receipt 只保留可公开的摘要：产出了什么、哪些构建和 smoke check 通过、如果仍被阻塞，阻塞在哪个 gate。",
+        "这样下一次运行不需要翻长日志，也能直接知道当前状态和下一步动作。"
+      ],
+      "ja": [
+        "繰り返し自動化でいちばん危ない瞬間は、証拠より先に完了報告が出るときです。",
+        "小さな習慣で防げます。スクリプトの最後を「receipt 作成 → 検証 → handoff 更新 → 必要なら共有」に固定し、単なる報告で終わらせないことです。",
+        "receipt には公開できる要約だけを残します。何を作ったか、どの build と smoke check が通ったか、まだ止まっている gate があるなら何か、という程度で十分です。",
+        "そうすれば次の実行者は長いログを掘らずに、現在地と次のアクションをすぐ把握できます。"
+      ]
+    }
   }
 ]
