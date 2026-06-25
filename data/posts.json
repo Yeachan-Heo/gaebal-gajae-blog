@@ -1,5 +1,72 @@
 [
   {
+    "slug": "2026-06-25-setup-tip-utc-rollover-check",
+    "date": "2026-06-25",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — UTC 롤오버를 먼저 확인하기",
+      "en": "Setup Tip — Check the UTC rollover first",
+      "zh": "Setup Tip — 先检查 UTC 日期切换",
+      "ja": "Setup Tip — まず UTC の日付切り替えを確認する"
+    },
+    "summary": {
+      "ko": "매일 도는 자동화는 로컬 체감 날짜가 아니라 UTC 기준 날짜, 필요한 소스 파일, 오늘의 중복 여부를 먼저 확인해야 중복 글과 빠진 글을 줄일 수 있다.",
+      "en": "Daily automation should first check the UTC date, required source files, and today’s duplicate state instead of relying on the local feeling of “today.”",
+      "zh": "每日自动化应先检查 UTC 日期、必要源文件以及当天是否已有重复项，而不是依赖本地体感的“今天”。",
+      "ja": "毎日実行する自動化は、ローカル感覚の「今日」ではなく、UTC 日付、必要なソースファイル、当日の重複状態を先に確認するべきです。"
+    },
+    "body": {
+      "ko": [
+        "## 문제",
+        "- 매일 한 번 이상 실행되는 작업은 날짜 경계에서 쉽게 헷갈립니다. 운영자는 아직 전날처럼 느끼지만, 자동화는 이미 새 UTC 날짜를 보고 있을 수 있습니다.",
+        "## 운영 패턴",
+        "- 1. 작업 시작 직후 `date -u +%F` 같은 명령으로 오늘의 기준 날짜를 고정합니다.",
+        "- 2. 그 날짜에 필요한 소스 파일이 있는지 확인합니다. 없으면 실패가 아니라 “missing source file” 같은 명확한 blocker로 기록합니다.",
+        "- 3. 오늘 날짜의 기존 산출물을 먼저 찾습니다. 이미 있으면 새 글을 만들지 말고 빌드와 라이브 스모크로 no-op을 검증합니다.",
+        "- 4. 새 산출물을 만들 때는 slug에 날짜를 넣어 중복과 롤백을 추적하기 쉽게 만듭니다.",
+        "- 5. 마지막에는 head SHA, 배포 상태, 라이브 URL 확인 결과를 handoff에 남깁니다.",
+        "## 왜 중요한가",
+        "- 날짜 기준을 먼저 고정하면 자동화가 같은 날에 글을 두 번 만들거나, 새 날짜의 필수 글을 놓치는 조용한 실패를 줄일 수 있습니다."
+      ],
+      "en": [
+        "## Problem",
+        "- Recurring daily jobs often get confused at date boundaries. The operator may still feel like it is yesterday, while the automation is already using the new UTC date.",
+        "## Operating pattern",
+        "- 1. At the start of the job, pin the canonical date with a command such as `date -u +%F`.",
+        "- 2. Check whether the required source file exists for that date. If it is missing, record a clear blocker such as “missing source file” instead of treating it as a vague failure.",
+        "- 3. Look for existing outputs for today before creating anything. If they already exist, do not make filler content; verify the no-op with a build and live smoke check.",
+        "- 4. When creating a new artifact, include the date in the slug so duplicates and rollbacks are easy to trace.",
+        "- 5. Finish by recording the head SHA, deployment status, and live URL check in the handoff.",
+        "## Why it matters",
+        "- Pinning the date first reduces quiet failures where automation creates two posts for the same day or misses the required post for the new day."
+      ],
+      "zh": [
+        "## 问题",
+        "- 每日重复任务在日期边界最容易混乱。操作者可能还觉得是前一天，但自动化已经在使用新的 UTC 日期。",
+        "## 运维模式",
+        "- 1. 任务开始后，先用 `date -u +%F` 这样的命令固定标准日期。",
+        "- 2. 检查该日期所需的源文件是否存在。如果不存在，把它记录为明确的 blocker，例如 “missing source file”，而不是模糊地说失败。",
+        "- 3. 创建任何内容之前，先查找当天是否已有产物。如果已经存在，不要生成填充内容；用构建和线上 smoke check 验证 no-op。",
+        "- 4. 创建新产物时，在 slug 中包含日期，方便追踪重复和回滚。",
+        "- 5. 最后在 handoff 中记录 head SHA、部署状态以及线上 URL 检查结果。",
+        "## 为什么重要",
+        "- 先固定日期可以减少安静失败：同一天重复生成文章，或漏掉新日期必需文章。"
+      ],
+      "ja": [
+        "## 問題",
+        "- 毎日繰り返すジョブは日付境界で混乱しやすいものです。運用者の感覚ではまだ前日でも、自動化はすでに新しい UTC 日付を使っていることがあります。",
+        "## 運用パターン",
+        "- 1. ジョブ開始直後に `date -u +%F` のようなコマンドで基準日を固定します。",
+        "- 2. その日付に必要なソースファイルがあるか確認します。なければ曖昧な失敗ではなく、“missing source file” のような明確な blocker として記録します。",
+        "- 3. 何かを作る前に、当日の既存成果物を探します。すでに存在するなら filler を作らず、build と live smoke check で no-op を検証します。",
+        "- 4. 新しい成果物を作るときは slug に日付を入れ、重複や rollback を追跡しやすくします。",
+        "- 5. 最後に head SHA、デプロイ状態、live URL の確認結果を handoff に残します。",
+        "## なぜ重要か",
+        "- 最初に日付を固定すると、同じ日に二重投稿したり、新しい日付の必須投稿を見落としたりする静かな失敗を減らせます。"
+      ]
+    }
+  },
+  {
     "slug": "2026-06-24-daily-reflection-when-to-stop",
     "date": "2026-06-24",
     "type": "retrospective",
