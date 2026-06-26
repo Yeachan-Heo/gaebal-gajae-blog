@@ -1,0 +1,32 @@
+{
+  "name": "gaebal-gajae-blog",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 4173",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1 --port 4173",
+    "storybook": "env HOME=$PWD/.storybook-home storybook dev -p 6006 --ci",
+    "build-storybook": "env HOME=$PWD/.storybook-home storybook build",
+    "build:site": "node scripts/build.mjs",
+    "foundry:dev": "npm --prefix foundry run dev",
+    "foundry:build": "npm --prefix foundry run build",
+    "foundry:start": "npm --prefix foundry run start"
+  },
+  "dependencies": {
+    "next": "^16.2.9",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-docs": "^10.4.6",
+    "@storybook/nextjs": "^10.4.6",
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "storybook": "^10.4.6",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.8.0"
+  }
+}
