@@ -1,5 +1,72 @@
 [
   {
+    "slug": "2026-06-26-setup-tip-verify-live-not-just-local",
+    "date": "2026-06-26",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 로컬 생성이 아니라 라이브 확인으로 끝내기",
+      "en": "Setup Tip — Finish with live verification, not local generation",
+      "zh": "Setup Tip — 以线上验证结束，而不是本地生成",
+      "ja": "Setup Tip — ローカル生成ではなく live 確認で終える"
+    },
+    "summary": {
+      "ko": "정적 사이트 자동화는 파일을 만들고 빌드하는 데서 끝나지 않는다. 배포된 URL이 200을 반환하고 미리보기 메타가 들어있는지 확인해야 실제 완료다.",
+      "en": "Static-site automation does not end when files are generated and built. It is complete only after the deployed URL returns 200 and includes preview metadata.",
+      "zh": "静态站点自动化不能停在生成文件和构建成功。只有部署后的 URL 返回 200，并包含预览元数据，才算真正完成。",
+      "ja": "静的サイトの自動化は、ファイル生成と build で終わりではありません。デプロイ済み URL が 200 を返し、preview metadata を含むことを確認して初めて完了です。"
+    },
+    "body": {
+      "ko": [
+        "## 문제",
+        "- 자동화가 로컬 파일만 만들고 멈추면 운영자는 “발행됐다”고 착각하기 쉽습니다. 하지만 사용자가 보는 것은 저장소가 아니라 배포된 페이지입니다.",
+        "## 운영 패턴",
+        "- 1. 먼저 오늘 날짜의 필수 글이 이미 있는지 확인합니다. 있으면 새 filler를 만들지 않습니다.",
+        "- 2. 새 글을 만들었다면 build를 통과시킨 뒤 commit과 push까지 끝냅니다.",
+        "- 3. 배포 워크플로가 있다면 새 head SHA의 Pages run이 성공했는지 확인합니다.",
+        "- 4. 마지막으로 실제 URL을 `curl -fsSL`로 열어 HTTP 200, `og:image`, `twitter:image`, 언어 블록을 확인합니다.",
+        "- 5. 확인 결과와 head SHA를 handoff에 남겨 다음 실행이 같은 일을 반복하지 않게 합니다.",
+        "## 왜 중요한가",
+        "- “로컬에는 있음”과 “공개 웹에서 보임”은 다릅니다. 라이브 스모크를 끝까지 붙이면 조용한 미배포와 깨진 링크 미리보기를 빨리 잡을 수 있습니다."
+      ],
+      "en": [
+        "## Problem",
+        "- When automation stops after creating local files, operators can easily assume the post is published. But users see the deployed page, not the repository checkout.",
+        "## Operating pattern",
+        "- 1. First check whether today’s required posts already exist. If they do, do not create filler content.",
+        "- 2. If you create a new post, run the build, then commit and push it.",
+        "- 3. If the site uses a deployment workflow, confirm that the Pages run for the new head SHA succeeded.",
+        "- 4. Finally, open the real URL with `curl -fsSL` and verify HTTP 200, `og:image`, `twitter:image`, and language blocks.",
+        "- 5. Record the result and head SHA in the handoff so the next run does not repeat the same work.",
+        "## Why it matters",
+        "- “Exists locally” is not the same as “visible on the public web.” A live smoke check catches quiet deployment misses and broken link previews early."
+      ],
+      "zh": [
+        "## 问题",
+        "- 如果自动化只生成本地文件就停止，运维者很容易误以为文章已经发布。但用户看到的是部署后的页面，而不是仓库工作区。",
+        "## 运维模式",
+        "- 1. 先检查当天必需的文章是否已经存在。如果已经存在，不要再生成填充内容。",
+        "- 2. 如果创建了新文章，先通过 build，再 commit 和 push。",
+        "- 3. 如果站点使用部署工作流，确认新 head SHA 对应的 Pages run 已经成功。",
+        "- 4. 最后用 `curl -fsSL` 打开真实 URL，验证 HTTP 200、`og:image`、`twitter:image` 和语言区块。",
+        "- 5. 将结果和 head SHA 写入 handoff，避免下一次运行重复同样的工作。",
+        "## 为什么重要",
+        "- “本地存在”和“公开网站可见”不是一回事。live smoke check 可以及早发现静默部署失败和链接预览损坏。"
+      ],
+      "ja": [
+        "## 問題",
+        "- 自動化がローカルファイルを作っただけで止まると、運用者は「公開された」と思い込みがちです。しかしユーザーが見るのは repository checkout ではなく、デプロイ済みページです。",
+        "## 運用パターン",
+        "- 1. まず当日の必須記事がすでに存在するか確認します。存在するなら filler content は作りません。",
+        "- 2. 新しい記事を作った場合は build を通し、commit と push まで完了します。",
+        "- 3. デプロイ workflow があるなら、新しい head SHA の Pages run が成功したか確認します。",
+        "- 4. 最後に実 URL を `curl -fsSL` で開き、HTTP 200、`og:image`、`twitter:image`、language block を確認します。",
+        "- 5. 結果と head SHA を handoff に残し、次回実行が同じ作業を繰り返さないようにします。",
+        "## なぜ重要か",
+        "- 「ローカルにある」と「公開 Web で見える」は別物です。live smoke check まで行うことで、静かな未デプロイや壊れた link preview を早く見つけられます。"
+      ]
+    }
+  },
+  {
     "slug": "2026-06-25-setup-tip-utc-rollover-check",
     "date": "2026-06-25",
     "type": "setup-tip",
