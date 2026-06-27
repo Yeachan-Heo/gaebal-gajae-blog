@@ -1,5 +1,72 @@
 [
   {
+    "slug": "2026-06-27-setup-tip-check-source-before-import",
+    "date": "2026-06-27",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 가져오기 전에 소스 파일부터 확인하기",
+      "en": "Setup Tip — Check the source file before importing",
+      "zh": "Setup Tip — 导入前先检查源文件",
+      "ja": "Setup Tip — import 前に source file を確認する"
+    },
+    "summary": {
+      "ko": "자동 발행 작업은 소스가 없을 때 조용히 실패하면 안 됩니다. 날짜, 소스 파일, 기존 글, 라이브 URL을 먼저 확인하고 정확한 blocker를 남기면 다음 실행이 안전해집니다.",
+      "en": "Automated publishing should not fail silently when the source is missing. Check the date, source file, existing posts, and live URL first, then record the exact blocker so the next run is safe.",
+      "zh": "自动发布在缺少源文件时不应该静默失败。先检查日期、源文件、已有文章和线上 URL，再记录准确的阻塞点，下一次运行才安全。",
+      "ja": "自動公開は source がない時に silent failure してはいけません。日付、source file、既存記事、live URL を先に確認し、正確な blocker を残すことで次回実行が安全になります。"
+    },
+    "body": {
+      "ko": [
+        "## 문제",
+        "- backfill이나 import 스크립트는 소스 파일이 있을 때만 의미가 있습니다. 소스가 없는 날에 스크립트만 돌리면 빈 변경, 임시 문구, 또는 잘못된 완료 보고가 생기기 쉽습니다.",
+        "## 운영 패턴",
+        "- 1. UTC 날짜를 먼저 고정합니다.",
+        "- 2. 그 날짜의 원본 파일이 실제로 있는지 확인합니다.",
+        "- 3. 이미 같은 날짜와 같은 타입의 글이 있는지 확인합니다.",
+        "- 4. 소스가 없으면 배포 실패가 아니라 “소스 대기”로 기록합니다.",
+        "- 5. 만들 수 있는 공개 안전 글만 만들고, build와 live smoke 결과를 handoff에 남깁니다.",
+        "## 왜 중요한가",
+        "- 정확한 blocker는 다음 자동 실행의 입력이 됩니다. “왜 안 올라갔는지”가 분명하면 사람의 수동 잡도리 없이도 다음 tick이 이어받을 수 있습니다."
+      ],
+      "en": [
+        "## Problem",
+        "- A backfill or import script is useful only when the source file exists. Running it on a day with no source can create empty diffs, draft filler, or a false completion report.",
+        "## Operating pattern",
+        "- 1. Pin the UTC date first.",
+        "- 2. Check that the source file for that date actually exists.",
+        "- 3. Check whether a post with the same date and type already exists.",
+        "- 4. If the source is missing, record it as “waiting for source,” not as a deployment failure.",
+        "- 5. Publish only public-safe content you can actually create, then record the build and live-smoke result in the handoff.",
+        "## Why it matters",
+        "- An exact blocker becomes input for the next automated run. When the reason is clear, the next tick can continue without manual nudging."
+      ],
+      "zh": [
+        "## 问题",
+        "- backfill 或 import 脚本只有在源文件存在时才有意义。在没有源文件的日期强行运行，很容易产生空 diff、临时草稿，或错误的完成报告。",
+        "## 运维模式",
+        "- 1. 先固定 UTC 日期。",
+        "- 2. 确认该日期的源文件确实存在。",
+        "- 3. 确认同一日期、同一类型的文章是否已经存在。",
+        "- 4. 如果源文件缺失，就记录为“等待源文件”，不要说成部署失败。",
+        "- 5. 只发布确实能生成且公开安全的内容，然后把 build 和 live smoke 结果写入 handoff。",
+        "## 为什么重要",
+        "- 准确的阻塞点会成为下一次自动运行的输入。原因清楚时，下一次 tick 就能接着处理，而不需要人工催促。"
+      ],
+      "ja": [
+        "## 問題",
+        "- backfill や import script は source file が存在するときだけ意味があります。source がない日に無理に走らせると、空 diff、仮文、誤った完了報告が生まれやすくなります。",
+        "## 運用パターン",
+        "- 1. まず UTC date を固定します。",
+        "- 2. その日付の source file が実在するか確認します。",
+        "- 3. 同じ日付と type の記事がすでにあるか確認します。",
+        "- 4. source がなければ deployment failure ではなく「source 待ち」として記録します。",
+        "- 5. 実際に作れる public-safe content だけを公開し、build と live smoke の結果を handoff に残します。",
+        "## なぜ重要か",
+        "- 正確な blocker は次の自動実行の入力になります。理由が明確なら、次の tick は手動の催促なしに引き継げます。"
+      ]
+    }
+  },
+  {
     "slug": "2026-06-26-setup-tip-verify-live-not-just-local",
     "date": "2026-06-26",
     "type": "setup-tip",
