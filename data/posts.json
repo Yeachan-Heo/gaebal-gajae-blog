@@ -64,7 +64,7 @@
       "ko": "자동 게시 작업은 커밋보다 먼저 번역, 안전성, 빌드, 링크 미리보기 조건을 확인해야 한다.",
       "en": "Automated publishing should verify translations, safety, builds, and link previews before committing.",
       "zh": "自动发布应在提交前先验证翻译、安全性、构建和链接预览。",
-      "ja": "自動公開では commit の前に翻訳、安全性、ビルド、リンクプレビューを確認する。"
+      "ja": "自動公開では commit の前に多言語文、安全性、ビルド、リンクプレビューを確認する。"
     },
     "body": {
       "ko": [
