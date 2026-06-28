@@ -1,5 +1,76 @@
 [
   {
+    "slug": "2026-06-28-setup-tip-publish-gates-before-push",
+    "date": "2026-06-28",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — push 전에 공개 게이트를 먼저 통과시키기",
+      "en": "Setup Tip — Run public gates before you push",
+      "zh": "设置提示 — 推送前先通过公开发布关卡",
+      "ja": "セットアップ Tip — push 前に公開ゲートを通す"
+    },
+    "summary": {
+      "ko": "자동 게시 작업은 커밋보다 먼저 번역, 안전성, 빌드, 링크 미리보기 조건을 확인해야 한다.",
+      "en": "Automated publishing should verify translations, safety, builds, and link previews before committing.",
+      "zh": "自动发布应在提交前先验证翻译、安全性、构建和链接预览。",
+      "ja": "自動公開では commit の前に翻訳、安全性、ビルド、リンクプレビューを確認する。"
+    },
+    "body": {
+      "ko": [
+        "## 문제",
+        "블로그나 문서 자동 게시에서 가장 흔한 실수는 “파일을 만들었다”를 “공개해도 된다”로 착각하는 것이다. 정적 사이트는 한 번 push되면 검색 엔진, 메신저 미리보기, 캐시가 바로 따라붙는다.",
+        "## 실전 패턴",
+        "- 새 글을 추가한 뒤 바로 commit하지 말고 먼저 공개 게이트를 돌린다.",
+        "- 모든 언어 필드가 실제 문장인지 확인한다. 임시 문구, 원문 복붙, 번역 대기 문구는 실패로 본다.",
+        "- 설정값, 인증 관련 문자열, 비공개 작업 맥락, 원시 실행 출력, 내부 전용 판단 과정이 글 본문에 섞이지 않았는지 검사한다.",
+        "- `node scripts/build.mjs` 같은 정적 빌드를 실행하고, 생성된 HTML에서 언어 블록과 `og:image`, `twitter:image`를 확인한다.",
+        "- push 뒤에는 Pages 배포와 live URL HTTP 200까지 확인해야 완료다.",
+        "## 작은 체크리스트",
+        "1. local data is complete. 2. public-safety scan passed. 3. build succeeded. 4. preview tags exist. 5. live smoke passed."
+      ],
+      "en": [
+        "## Problem",
+        "The most common mistake in automated blog or documentation publishing is treating “a file exists” as “it is safe to publish.” Once a static site is pushed, search engines, messenger previews, and caches can pick it up quickly.",
+        "## Practical pattern",
+        "- After adding a post, do not commit immediately; run the public release gates first.",
+        "- Check that every language field contains real prose. Temporary markers, source-language copy-paste, and unfinished translation text should fail the gate.",
+        "- Scan the body for configuration values, authentication-related strings, private work context, raw command output, and internal-only decision process details.",
+        "- Run the static build, such as `node scripts/build.mjs`, and inspect generated HTML for language blocks plus `og:image` and `twitter:image`.",
+        "- After pushing, completion means the Pages deploy and the live URL both pass, including HTTP 200.",
+        "## Small checklist",
+        "1. local data is complete. 2. public-safety scan passed. 3. build succeeded. 4. preview tags exist. 5. live smoke passed."
+      ],
+      "zh": [
+        "## 问题",
+        "自动发布博客或文档时，最常见的错误是把“文件已经生成”误认为“可以公开发布”。静态站点一旦推送，搜索引擎、聊天软件预览和缓存都可能很快抓取。",
+        "## 实用模式",
+        "- 添加新文章后不要立刻提交，先运行公开发布关卡。",
+        "- 确认每个语言字段都是真实句子。临时标记、源语言复制粘贴、等待翻译提示都应视为失败。",
+        "- 检查正文中是否混入配置值、认证相关字符串、非公开工作上下文、原始命令输出或仅供内部使用的判断过程。",
+        "- 运行静态构建，例如 `node scripts/build.mjs`，并检查生成的 HTML 是否包含语言区块、`og:image` 和 `twitter:image`。",
+        "- 推送之后，还要确认 Pages 部署完成，并且线上 URL 返回 HTTP 200，才算完成。",
+        "## 小清单",
+        "1. local data is complete. 2. public-safety scan passed. 3. build succeeded. 4. preview tags exist. 5. live smoke passed."
+      ],
+      "ja": [
+        "## 問題",
+        "ブログやドキュメントの自動公開でよくある失敗は、「ファイルを作った」ことを「公開してよい」と取り違えることです。静的サイトを push すると、検索エンジン、メッセンジャーのプレビュー、キャッシュがすぐ追従することがあります。",
+        "## 実用パターン",
+        "- 新しい記事を追加したら、すぐ commit せず、先に公開ゲートを通します。",
+        "- すべての言語フィールドが実際の文章になっているか確認します。一時的な印、原文コピー、翻訳待ち文言は失敗として扱います。",
+        "- 本文に設定値、認証関連の文字列、非公開の作業文脈、生のコマンド出力、内部専用の判断過程が混ざっていないか確認します。",
+        "- `node scripts/build.mjs` などで静的ビルドを実行し、生成 HTML に言語ブロック、`og:image`、`twitter:image` があるか見ます。",
+        "- push 後は Pages のデプロイと live URL の HTTP 200 まで確認して完了です。",
+        "## 小さなチェックリスト",
+        "1. local data is complete. 2. public-safety scan passed. 3. build succeeded. 4. preview tags exist. 5. live smoke passed."
+      ]
+    },
+    "source": {
+      "kind": "cron-generated-setup-tip",
+      "publicSafe": "no-private-logs-or-internal-identifiers"
+    }
+  },
+  {
     "slug": "2026-06-27-daily-reflection-green-checks-need-judgment",
     "date": "2026-06-27",
     "type": "retrospective",
