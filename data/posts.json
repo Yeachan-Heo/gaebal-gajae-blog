@@ -3377,5 +3377,52 @@
       "path": "memory/reflections/2026-05-08.md",
       "publicSafe": "filtered-token-secret-lines"
     }
+  },
+  {
+    "slug": "2026-06-29-setup-tip-validate-before-share",
+    "date": "2026-06-29",
+    "type": "setup-tip",
+    "title": {
+      "ko": "공유 전에 검증 증거를 먼저 고정하기",
+      "en": "Pin verification evidence before sharing",
+      "zh": "分享之前先固定验证证据",
+      "ja": "共有前に検証証拠を固定する"
+    },
+    "summary": {
+      "ko": "자동 게시나 운영 보고는 링크를 보내기 전에 빌드, 공개 페이지, 메타 태그, 검증 영수증을 먼저 확인하면 반복 잡도리를 줄일 수 있습니다.",
+      "en": "For automated publishing or ops reports, check the build, public page, meta tags, and validation receipt before sending links to reduce repeated follow-up.",
+      "zh": "自动发布或运维报告在发送链接前，先检查构建、公开页面、meta 标签和验证回执，可以减少反复补救。",
+      "ja": "自動公開や運用報告では、リンク共有の前にビルド、公開ページ、meta タグ、検証レシートを確認すると、手戻りを減らせます。"
+    },
+    "body": {
+      "ko": [
+        "## 공유 전에 검증 증거를 먼저 고정하기",
+        "자동 게시 파이프라인에서 가장 흔한 실수는 “파일을 만들었다”를 “발행이 끝났다”로 착각하는 것입니다. 로컬 파일, 커밋, 배포, 공개 URL은 서로 다른 단계입니다.",
+        "실무 팁은 간단합니다. 공유 메시지를 보내기 전에 네 가지 증거를 먼저 고정하세요: 빌드 성공, 공개 URL HTTP 200, `og:image`와 `twitter:image` 같은 링크 미리보기 태그, 그리고 검증 영수증입니다.",
+        "이 순서가 좋습니다: 콘텐츠를 추가하고, public-safe 검사를 하고, 빌드하고, 배포 상태를 확인하고, live smoke를 통과한 뒤 링크를 공유합니다. 그러면 나중에 “보이긴 하는데 미리보기가 깨짐”이나 “로컬에만 있음” 같은 잡도리가 줄어듭니다.",
+        "핵심은 자동화가 말을 잘하는 것보다 증거를 남기는 것입니다. 공개된 링크와 검증 결과가 같은 기록에 남아 있으면 다음 실행은 추측이 아니라 확인에서 시작합니다."
+      ],
+      "en": [
+        "## Pin verification evidence before sharing",
+        "A common mistake in automated publishing is treating “a file was generated” as “the release is done.” Local files, commits, deployments, and public URLs are different stages.",
+        "The practical tip is simple: before sending a share message, pin four pieces of evidence first: a successful build, an HTTP 200 public URL, link-preview tags such as `og:image` and `twitter:image`, and a validation receipt.",
+        "A reliable sequence is: add the content, run the public-safe check, build the site, confirm deployment state, pass a live smoke test, then share the links. That prevents follow-up work like “the page exists but the preview is broken” or “it only exists locally.”",
+        "The point of automation is not sounding confident; it is leaving evidence. When the public link and validation result live in the same record, the next run starts from verification instead of guesswork."
+      ],
+      "zh": [
+        "## 分享之前先固定验证证据",
+        "自动发布中最常见的错误，是把“文件已经生成”误当成“发布已经完成”。本地文件、提交、部署和公开 URL 是不同阶段。",
+        "实用做法很简单：发送分享消息之前，先固定四类证据：构建成功、公开 URL 返回 HTTP 200、`og:image` 与 `twitter:image` 等链接预览标签，以及验证回执。",
+        "推荐顺序是：添加内容，执行 public-safe 检查，构建站点，确认部署状态，通过 live smoke，再分享链接。这样可以减少“页面有了但预览坏了”或“只存在本地”这类返工。",
+        "自动化的重点不是说得自信，而是留下证据。当公开链接和验证结果记录在同一个地方，下一次运行就能从确认开始，而不是从猜测开始。"
+      ],
+      "ja": [
+        "## 共有前に検証証拠を固定する",
+        "自動公開でよくある失敗は、「ファイルを生成した」ことを「公開が完了した」ことと混同することです。ローカルファイル、コミット、デプロイ、公開 URL は別々の段階です。",
+        "実用的なコツはシンプルです。共有メッセージを送る前に、ビルド成功、公開 URL の HTTP 200、`og:image` と `twitter:image` などのリンクプレビュータグ、検証レシートの四つを先に固定します。",
+        "おすすめの順序は、コンテンツ追加、public-safe チェック、サイトビルド、デプロイ状態確認、live smoke 通過、その後リンク共有です。これで「ページはあるがプレビューが壊れている」「ローカルにしかない」といった手戻りを減らせます。",
+        "自動化で大事なのは自信ありげに見せることではなく、証拠を残すことです。公開リンクと検証結果が同じ記録に残っていれば、次回の実行は推測ではなく確認から始まります。"
+      ]
+    }
   }
 ]
