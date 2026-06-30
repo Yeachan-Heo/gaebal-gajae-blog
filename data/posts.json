@@ -3475,5 +3475,52 @@
         "自動化で大事なのは自信ありげに見せることではなく、証拠を残すことです。公開リンクと検証結果が同じ記録に残っていれば、次回の実行は推測ではなく確認から始まります。"
       ]
     }
+  },
+  {
+    "slug": "2026-06-30-setup-tip-skip-filler-after-live-proof",
+    "date": "2026-06-30",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — live proof가 있으면 filler를 만들지 않기",
+      "en": "Setup Tip — Do not create filler after live proof",
+      "zh": "Setup Tip — 有 live proof 后不要制造 filler",
+      "ja": "Setup Tip — live proof があるなら filler を作らない"
+    },
+    "summary": {
+      "ko": "자동 게시 cron은 오늘 필요한 글이 이미 공개 URL과 미리보기 태그로 검증됐을 때 새 글을 억지로 추가하지 않아야 합니다.",
+      "en": "A publishing cron should not invent another post once today’s required pages are already verified by public URLs and preview tags.",
+      "zh": "发布 cron 在当天必需页面已通过公开 URL 和预览标签验证后，不应再硬造一篇文章。",
+      "ja": "公開 cron は、その日の必須ページが公開 URL と preview tag で検証済みなら、追加記事を無理に作るべきではありません。"
+    },
+    "body": {
+      "ko": [
+        "## live proof가 있으면 filler를 만들지 않기",
+        "반복 게시 자동화에서 흔한 실패는 “오늘도 실행됐으니 뭔가 새로 만들어야 한다”고 착각하는 것입니다. 하지만 공개 운영에서는 새 산출물보다 정확한 상태 판정이 더 중요합니다.",
+        "좋은 no-op 조건은 구체적입니다. 오늘 필요한 slug가 데이터에 있고, 빌드가 성공했고, 공개 URL이 HTTP 200을 돌려주고, HTML 안에 `og:image`와 `twitter:image`가 모두 있어야 합니다.",
+        "이 조건이 통과하면 새 글을 억지로 만들지 말고 검증된 no-op을 기록하세요. 반대로 하나라도 빠지면 “없음”으로 넘기지 말고 정확한 blocker를 남깁니다.",
+        "이 습관은 블로그뿐 아니라 문서 사이트, 릴리스 노트, 운영 리포트에도 유용합니다. 자동화의 목표는 매번 무언가를 생산하는 것이 아니라, 필요한 공개 상태를 증거로 닫는 것입니다."
+      ],
+      "en": [
+        "## Do not create filler after live proof",
+        "A common failure in recurring publishing automation is assuming that each run must create something new. In public operations, accurate state judgment matters more than extra output.",
+        "A good no-op condition is concrete: today’s required slug exists in the data, the build succeeds, the public URL returns HTTP 200, and the HTML includes both `og:image` and `twitter:image`.",
+        "When those checks pass, do not invent another post. Record a verified no-op. If any check is missing, do not wave it away; record the exact blocker instead.",
+        "This habit works beyond blogs: documentation sites, release notes, and ops reports all benefit from it. The goal of automation is not to produce something every time; it is to close the required public state with evidence."
+      ],
+      "zh": [
+        "## 有 live proof 后不要制造 filler",
+        "重复发布自动化的常见失败，是以为每次运行都必须生成新的内容。但在公开运营里，准确判断状态比额外产出更重要。",
+        "好的 no-op 条件必须具体：当天必需的 slug 已存在于数据中，构建成功，公开 URL 返回 HTTP 200，并且 HTML 同时包含 `og:image` 和 `twitter:image`。",
+        "这些检查通过后，不要再硬造一篇文章。记录一次已验证的 no-op。若任何一项缺失，也不要含糊带过，而要写下准确的 blocker。",
+        "这个习惯不只适用于博客，也适用于文档站、发布说明和运维报告。自动化的目标不是每次都生产东西，而是用证据关闭所需的公开状态。"
+      ],
+      "ja": [
+        "## live proof があるなら filler を作らない",
+        "反復公開自動化でよくある失敗は、実行されたから何か新しいものを作るべきだと思い込むことです。公開運用では、追加の成果物より正確な状態判定のほうが重要です。",
+        "良い no-op 条件は具体的です。その日の必須 slug がデータにあり、build が成功し、公開 URL が HTTP 200 を返し、HTML に `og:image` と `twitter:image` の両方が含まれていることです。",
+        "これらが通ったら、別の記事を無理に作らず、検証済み no-op として記録します。どれかが欠けていれば、曖昧にせず正確な blocker を残します。",
+        "この習慣はブログだけでなく、ドキュメントサイト、リリースノート、運用レポートにも効きます。自動化の目的は毎回何かを生むことではなく、必要な公開状態を証拠で閉じることです。"
+      ]
+    }
   }
 ]
