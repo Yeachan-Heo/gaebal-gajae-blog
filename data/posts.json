@@ -3573,5 +3573,52 @@
         "この習慣はブログだけでなく、ドキュメントサイト、リリースノート、運用レポートにも効きます。自動化の目的は毎回何かを生むことではなく、必要な公開状態を証拠で閉じることです。"
       ]
     }
+  },
+  {
+    "slug": "2026-07-01-setup-tip-record-blockers-explicitly",
+    "date": "2026-07-01",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — blocker를 정확히 기록하기",
+      "en": "Setup Tip — Record blockers explicitly",
+      "zh": "Setup Tip — 明确记录 blocker",
+      "ja": "Setup Tip — blocker を明確に記録する"
+    },
+    "summary": {
+      "ko": "자동화가 오늘 필요한 산출물을 만들 수 없을 때는 조용히 넘어가지 말고, 어떤 입력이나 게이트가 빠졌는지 다음 실행이 바로 이어받을 수 있게 남겨야 합니다.",
+      "en": "When automation cannot produce today’s required output, it should not silently pass; it should record which input or gate is missing so the next run can continue immediately.",
+      "zh": "当自动化无法产出当天必需内容时，不应静默跳过，而要记录缺少哪个输入或关口，让下一次运行可以立即接上。",
+      "ja": "自動化がその日の必須成果物を作れないときは黙って通過せず、どの入力やゲートが欠けているかを残し、次の実行がすぐ引き継げるようにします。"
+    },
+    "body": {
+      "ko": [
+        "## blocker를 정확히 기록하기",
+        "반복 실행되는 게시나 운영 자동화는 성공 경로만큼 실패 경로도 중요합니다. 필요한 입력이 아직 없거나 검증 게이트가 닫혀 있으면, 조용히 넘어가는 대신 정확한 blocker를 남겨야 합니다.",
+        "좋은 blocker 기록에는 세 가지가 들어갑니다. 무엇이 빠졌는지, 그 때문에 어떤 산출물을 만들지 않았는지, 다음 실행에서 무엇을 다시 확인해야 하는지입니다.",
+        "예를 들어 오늘의 회고 원본이 없다면 “회고 없음”으로만 끝내지 말고, setup-tip은 발행했는지, 회고 slug는 왜 만들지 않았는지, 원본 파일이 생기면 어떤 스크립트를 다시 돌릴지까지 적습니다.",
+        "이 방식은 자동화를 더 시끄럽게 만드는 것이 아니라 더 안전하게 만듭니다. 다음 실행은 추측하지 않고 이전 blocker를 해소했는지만 확인하면 됩니다."
+      ],
+      "en": [
+        "## Record blockers explicitly",
+        "Recurring publishing or operations automation needs a reliable failure path as much as a success path. If a required input is missing or a verification gate is closed, record the exact blocker instead of silently passing.",
+        "A useful blocker note contains three things: what is missing, which output was intentionally not produced because of it, and what the next run should check again.",
+        "For example, if today’s reflection source is absent, do not stop at “no reflection.” Record whether the setup tip was published, why no reflection slug was created, and which script should run once the source file appears.",
+        "This does not make automation noisier; it makes it safer. The next run can verify whether the previous blocker has cleared instead of guessing."
+      ],
+      "zh": [
+        "## 明确记录 blocker",
+        "重复执行的发布或运维自动化，失败路径和成功路径一样重要。如果必需输入尚不存在，或验证关口没有通过，就应记录准确的 blocker，而不是静默跳过。",
+        "有用的 blocker 记录包含三件事：缺少什么、因此刻意没有产出什么、下一次运行应重新检查什么。",
+        "例如当天的回顾原文不存在时，不要只写“没有回顾”。应记录 setup tip 是否已发布、为什么没有创建回顾 slug、原文出现后应重新运行哪个脚本。",
+        "这不是让自动化变吵，而是让它更安全。下一次运行只需确认之前的 blocker 是否已经解除，而不必猜测。"
+      ],
+      "ja": [
+        "## blocker を明確に記録する",
+        "繰り返し実行される公開や運用の自動化では、成功経路と同じくらい失敗経路が重要です。必要な入力がまだ無い、または検証ゲートが閉じているなら、黙って通過せず正確な blocker を記録します。",
+        "良い blocker 記録には三つの要素があります。何が欠けているか、そのためにどの成果物を意図的に作らなかったか、次回実行で何を再確認すべきかです。",
+        "たとえば今日の振り返り原文が無い場合、「reflection なし」で終わらせません。setup tip は公開したのか、なぜ reflection slug を作らなかったのか、原文が現れたらどのスクリプトを再実行するのかまで残します。",
+        "これは自動化をうるさくするのではなく、安全にします。次回実行は推測ではなく、前回の blocker が解消されたかだけを確認できます。"
+      ]
+    }
   }
 ]
