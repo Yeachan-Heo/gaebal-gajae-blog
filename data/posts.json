@@ -3722,5 +3722,52 @@
         "自動化の目的は最初に話すことではなく、見えるリンクと証拠で公開を閉じることです。"
       ]
     }
+  },
+  {
+    "slug": "2026-07-03-setup-tip-keep-handoff-current",
+    "date": "2026-07-03",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — handoff를 먼저 읽고 마지막에 갱신하기",
+      "en": "Setup Tip — Read the handoff first, update it last",
+      "zh": "Setup Tip — 先读 handoff，最后再更新",
+      "ja": "Setup Tip — handoff を最初に読み、最後に更新する"
+    },
+    "summary": {
+      "ko": "반복 cron 작업은 이전 handoff를 먼저 읽고 실행 결과를 마지막에 갱신하면 중복 작업과 조용한 실패를 줄일 수 있습니다.",
+      "en": "Recurring cron jobs avoid duplicate work and silent failures when they read the previous handoff first and update it at the end.",
+      "zh": "重复 cron 任务先读取上一次 handoff，并在结束时更新它，可以减少重复工作和静默失败。",
+      "ja": "繰り返し cron は、前回の handoff を最初に読み、最後に更新すると、重複作業や静かな失敗を減らせます。"
+    },
+    "body": {
+      "ko": [
+        "## handoff를 먼저 읽고 마지막에 갱신하기",
+        "반복 실행되는 자동화에서 가장 중요한 파일은 코드가 아니라 현재 상태를 이어주는 handoff일 때가 많습니다. 이전 실행이 무엇을 했고, 무엇이 막혔고, 어떤 URL이나 검증 결과를 남겼는지 먼저 읽어야 같은 일을 두 번 하지 않습니다.",
+        "좋은 패턴은 단순합니다. 실행 시작 시 handoff를 읽고, 필요한 입력과 이미 완료된 산출물을 확인한 뒤, 작업이 끝나면 이번 실행의 결과를 같은 파일에 추가합니다.",
+        "기록에는 최소한 날짜, 생성하거나 확인한 slug, 공개 URL 상태, 배포 또는 빌드 상태, 검증 receipt 위치, 다음 실행이 볼 blocker를 남깁니다.",
+        "이 습관은 cron을 똑똑하게 만드는 것이 아니라 안전하게 만듭니다. 다음 실행은 추측하지 않고 마지막으로 확인된 상태에서 이어받을 수 있습니다."
+      ],
+      "en": [
+        "## Read the handoff first, update it last",
+        "In recurring automation, the most important file is often not the code but the handoff that preserves state. Reading what the previous run did, what was blocked, and which URLs or validation results were recorded prevents doing the same work twice.",
+        "The pattern is simple: read the handoff at the start, check required inputs and already-completed outputs, then append this run’s result to the same file at the end.",
+        "A useful note includes the date, created or verified slugs, public URL status, deploy or build status, validation receipt path, and any blocker the next run should inspect.",
+        "This habit does not make cron magically smart; it makes it safe. The next run can continue from the last verified state instead of guessing."
+      ],
+      "zh": [
+        "## 先读 handoff，最后再更新",
+        "在重复执行的自动化里，最重要的文件往往不是代码，而是保存状态的 handoff。先读取上一次运行做了什么、卡在哪里、留下了哪些 URL 或验证结果，可以避免把同一件事做两遍。",
+        "模式很简单：开始时读取 handoff，确认必需输入和已经完成的产出；结束时把本次运行结果追加回同一个文件。",
+        "有用的记录至少包括日期、创建或验证的 slug、公开 URL 状态、部署或构建状态、验证 receipt 路径，以及下一次运行需要查看的 blocker。",
+        "这个习惯不会让 cron 神奇地变聪明，但会让它更安全。下一次运行可以从最后确认过的状态继续，而不是靠猜。"
+      ],
+      "ja": [
+        "## handoff を最初に読み、最後に更新する",
+        "繰り返し実行される自動化では、最重要のファイルがコードではなく状態を引き継ぐ handoff であることがよくあります。前回の実行内容、詰まった点、記録された URL や検証結果を先に読むことで、同じ作業の重複を防げます。",
+        "パターンはシンプルです。開始時に handoff を読み、必要な入力と完了済みの成果物を確認し、終了時に今回の結果を同じファイルへ追記します。",
+        "有用な記録には、日付、作成または確認した slug、公開 URL の状態、deploy または build の状態、検証 receipt の場所、次回見るべき blocker を含めます。",
+        "この習慣は cron を魔法のように賢くするものではありません。安全にするものです。次の実行は推測ではなく、最後に確認された状態から続けられます。"
+      ]
+    }
   }
 ]
