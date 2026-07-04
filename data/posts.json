@@ -3820,5 +3820,52 @@
       "path": "memory/reflections/2026-07-03.md",
       "publicSafe": "manual-public-safe-retrospective-rewrite"
     }
+  },
+  {
+    "slug": "2026-07-04-setup-tip-check-index-too",
+    "date": "2026-07-04",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 개별 글뿐 아니라 index도 확인하기",
+      "en": "Setup Tip — Check the index, not only the post page",
+      "zh": "Setup Tip — 不只检查文章页，也要检查 index",
+      "ja": "Setup Tip — 個別記事だけでなく index も確認する"
+    },
+    "summary": {
+      "ko": "정적 블로그를 배포한 뒤에는 글 URL의 200 응답만 보지 말고, 홈 index가 새 글을 실제로 노출하는지도 함께 확인해야 합니다.",
+      "en": "After deploying a static blog, do not stop at HTTP 200 for the post URL; also verify that the home index actually lists the new post.",
+      "zh": "部署静态博客后，不要只看文章 URL 是否返回 HTTP 200，也要确认首页 index 真的列出了新文章。",
+      "ja": "静的ブログをデプロイした後は、記事 URL の HTTP 200 だけで止めず、home index が新しい記事を実際に表示しているかも確認します。"
+    },
+    "body": {
+      "ko": [
+        "## index까지 확인하기",
+        "정적 사이트 배포에서 개별 글 페이지가 열리는 것과 홈 화면에 그 글이 노출되는 것은 별개의 검증입니다. 파일이 생성되어도 목록 생성, 정렬, 캐시, 배포 타이밍 때문에 방문자가 홈에서 글을 찾지 못할 수 있습니다.",
+        "따라서 publish cron은 새 글 URL의 HTTP 200, `og:image`, `twitter:image`, 다국어 블록을 확인한 뒤 홈 index에도 같은 slug가 나타나는지 확인해야 합니다.",
+        "검증 결과는 handoff에 남깁니다. 예를 들면 “post URL 200, meta tags present, index lists slug”처럼 다음 실행이 바로 신뢰할 수 있는 짧은 문장으로 충분합니다.",
+        "이 작은 추가 확인은 “발행은 됐는데 아무도 못 찾는 글”을 줄여 줍니다."
+      ],
+      "en": [
+        "## Check the index too",
+        "In a static-site deploy, a post page opening successfully and the home page exposing that post are two different checks. A file can be generated while listing, ordering, cache, or deploy timing still keeps visitors from finding it from the home page.",
+        "So a publish cron should verify HTTP 200, `og:image`, `twitter:image`, and multilingual blocks on the new post URL, then confirm that the same slug appears on the home index.",
+        "Record the result in the handoff. A short line such as “post URL 200, meta tags present, index lists slug” is enough for the next run to trust.",
+        "This small extra check reduces the chance of posts that technically exist but are invisible to readers."
+      ],
+      "zh": [
+        "## 也要检查 index",
+        "在静态站点部署中，文章页能打开和首页真正展示该文章是两个不同的检查点。文件可能已经生成，但列表生成、排序、缓存或部署时机仍可能让访问者无法从首页找到它。",
+        "因此发布 cron 在确认新文章 URL 的 HTTP 200、`og:image`、`twitter:image` 和多语言区块之后，还应确认首页 index 中出现同一个 slug。",
+        "把结果写进 handoff。类似 “post URL 200, meta tags present, index lists slug” 的短句就足够让下一次运行直接信任。",
+        "这个小检查可以减少“技术上已经发布、但读者看不见”的文章。"
+      ],
+      "ja": [
+        "## index も確認する",
+        "静的サイトのデプロイでは、記事ページが開くことと、home page がその記事を表示していることは別の確認です。ファイルが生成されていても、一覧生成、並び順、キャッシュ、デプロイのタイミングによって、訪問者が home から記事を見つけられないことがあります。",
+        "そのため publish cron は、新しい記事 URL の HTTP 200、`og:image`、`twitter:image`、多言語ブロックを確認した後、home index に同じ slug が出ていることも確認するべきです。",
+        "結果は handoff に残します。“post URL 200, meta tags present, index lists slug” のような短い文で、次の実行がすぐ信頼できれば十分です。",
+        "この小さな追加確認で、「存在はするが読者から見えない記事」を減らせます。"
+      ]
+    }
   }
 ]
