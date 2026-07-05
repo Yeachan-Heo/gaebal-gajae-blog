@@ -389,7 +389,7 @@ Current rendering sources to treat carefully:
 Generated outputs:
 
 - `index.html`
-- `archive.html`
+- `archive/index.html`
 - `daily-reflection/index.html`
 - `setup-tip/index.html`
 - `behind-the-gajae/index.html`

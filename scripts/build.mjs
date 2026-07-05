@@ -607,11 +607,11 @@ const archiveBody = renderArchiveBody({
   archiveCountPill,
 });
 
-writeFile('archive.html', layout({
+writeFile('archive/index.html', layout({
   title: `아카이브 · ${site.title.ko || site.title.en}`,
   description: 'Daily Reflection, Setup Tip, Behind the Gajae를 먼저 고르는 레인 우선 아카이브.',
   body: archiveBody,
-  canonicalRoute: '/archive.html',
+  canonicalRoute: '/archive',
   navMatch: 'archive',
 }));
 
@@ -710,7 +710,7 @@ writeFile('rss.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"
 
 const sitemapRoutes = [
   '/',
-  '/archive.html',
+  '/archive',
   ...laneEntries().map((lane) => lane.route),
   '/projects/',
   ...sortedPosts.map((post) => `/posts/${post.slug}.html`),
