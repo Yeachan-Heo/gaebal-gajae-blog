@@ -430,34 +430,34 @@ hr { border-color: rgba(215,185,138,.16); }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f1ece3;
-  --panel: #faf7f1;
-  --panel2: #e9e1d7;
-  --nav-surface: rgba(250, 247, 241, .92);
-  --surface-1: rgba(250, 247, 241, .96);
-  --surface-2: rgba(242, 236, 227, .98);
-  --surface-3: rgba(233, 225, 215, .98);
-  --surface-accent: linear-gradient(180deg, rgba(250,247,241,.98), rgba(240,232,222,.98));
-  --surface-inset: rgba(238, 230, 220, .92);
-  --text: #2d2722;
-  --text-strong: #171412;
-  --muted: #5f5650;
-  --faint: #73695f;
-  --line: rgba(45, 39, 34, .12);
-  --line-strong: rgba(45, 39, 34, .2);
-  --accent: #825a45;
-  --accent2: #a88b76;
-  --accent-contrast: #fff9f4;
-  --link: #6f5647;
-  --link-hover: #5c473a;
-  --button-primary-bg: linear-gradient(180deg, #825a45, #714c3a);
-  --button-primary-hover: linear-gradient(180deg, #8d634d, #7a5441);
-  --button-secondary-bg: rgba(255, 252, 247, .94);
-  --button-secondary-hover: rgba(247, 241, 233, .98);
-  --shadow-soft: 0 14px 34px rgba(58, 42, 26, .07);
-  --shadow-strong: 0 18px 40px rgba(58, 42, 26, .1);
-  --bg-radial-1: rgba(130, 90, 69, .018);
-  --bg-radial-2: rgba(111, 86, 71, .014);
+  --bg: #f7f1e8;
+  --panel: #fffaf2;
+  --panel2: #f0e5d8;
+  --nav-surface: rgba(255, 250, 242, .92);
+  --surface-1: rgba(255, 250, 242, .96);
+  --surface-2: rgba(240, 229, 216, .98);
+  --surface-3: rgba(232, 218, 204, .98);
+  --surface-accent: linear-gradient(180deg, rgba(255,250,242,.98), rgba(240,229,216,.98));
+  --surface-inset: rgba(240, 229, 216, .92);
+  --text: #201815;
+  --text-strong: #201815;
+  --muted: #75685e;
+  --faint: #9a8b7e;
+  --line: rgba(222, 208, 194, .9);
+  --line-strong: rgba(200, 183, 168, .95);
+  --accent: #c9472f;
+  --accent2: #7a2118;
+  --accent-contrast: #fffaf2;
+  --link: #7a2118;
+  --link-hover: #c9472f;
+  --button-primary-bg: linear-gradient(180deg, #c9472f, #a33424);
+  --button-primary-hover: linear-gradient(180deg, #d8583f, #b23b2b);
+  --button-secondary-bg: rgba(255, 250, 242, .94);
+  --button-secondary-hover: rgba(240, 229, 216, .98);
+  --shadow-soft: 0 14px 34px rgba(78, 55, 35, .07);
+  --shadow-strong: 0 18px 40px rgba(78, 55, 35, .1);
+  --bg-radial-1: rgba(201, 71, 47, .018);
+  --bg-radial-2: rgba(122, 33, 24, .014);
 }
 
 
@@ -617,7 +617,7 @@ blockquote {
   background:
     radial-gradient(circle at 10% 0%, var(--bg-radial-1), transparent 18rem),
     radial-gradient(circle at 82% 8%, var(--bg-radial-2), transparent 16rem),
-    linear-gradient(180deg, #f3eee5 0%, #eee6dc 48%, #f1ece3 100%);
+    linear-gradient(180deg, #f7f1e8 0%, #f0e5d8 48%, #f7f1e8 100%);
 }
 
 :root[data-theme="light"] .stat-pill,
