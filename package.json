@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --hostname 127.0.0.1 --port 4173",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start --hostname 127.0.0.1 --port 4173",
+    "start": "next start",
     "storybook": "env HOME=$PWD/.storybook-home storybook dev -p 6006 --ci",
     "build-storybook": "env HOME=$PWD/.storybook-home storybook build",
     "build:site": "node scripts/build.mjs",
