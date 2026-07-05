@@ -3944,7 +3944,7 @@
       "en": [
         "Automation should distinguish “nothing happened” from “waiting correctly.” For example, if a blog publishing task does not yet have the source reflection, that is not silent success; it is a clear waiting condition.",
         "A useful note includes three things: the artifact that is already publishable, the input that is still missing, and the condition to check on the next run. That keeps the next tick or the next operator from guessing the same state again.",
-        "For public writing, do not copy private channel names, access values, raw logs, or personal context. Prefer reproducible state such as “required input file is not present yet” and “build plus link-preview checks passed.”"
+        "For public writing, do not paste private channel names, access values, raw logs, or personal context. Prefer reproducible state such as “required input file is not present yet” and “build plus link-preview checks passed.”"
       ],
       "zh": [
         "自动化应该区分“什么都没做”和“正在正确等待”。例如，博客发布任务如果还没有回顾原文，这不是静默成功，而是一个清楚的等待条件。",
