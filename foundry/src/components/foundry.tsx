@@ -1,6 +1,11 @@
-import type { PreviewCard as PreviewCardData, TripleRow } from '@/lib/foundry-data';
+import type { Cell, PreviewCard as PreviewCardData, TripleRow } from '@/lib/foundry-data';
+
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
+
+function cellText(value: Cell): string {
+  return typeof value === 'string' ? value : value.ko || value.en || Object.values(value)[0] || '';
+}
 
 export function Section({ id, title, description, children }: { id: string; title: string; description: string; children: ReactNode }) {
   return (
@@ -29,12 +34,13 @@ export function DataTable({ headers, rows }: { headers: string[]; rows: TripleRo
         </thead>
         <tbody>
           {rows.map(([a, b, c]) => (
-            <tr key={a}>
+            <tr key={cellText(a)}>
               <th scope="row" className="border-b border-[var(--muted-rule)] py-3 pr-4 text-left align-top text-[var(--ink-strong)]">
-                {a}
+                {cellText(a)}
               </th>
-              <td className="border-b border-[var(--muted-rule)] py-3 align-top text-[var(--ink-soft)]">{b}</td>
-              <td className="border-b border-[var(--muted-rule)] py-3 align-top text-[var(--ink-soft)]">{c}</td>
+              <td className="border-b border-[var(--muted-rule)] py-3 align-top text-[var(--ink-soft)]">{cellText(b)}</td>
+              <td className="border-b border-[var(--muted-rule)] py-3 align-top text-[var(--ink-soft)]">{cellText(c)}</td>
+
             </tr>
           ))}
         </tbody>
@@ -43,14 +49,16 @@ export function DataTable({ headers, rows }: { headers: string[]; rows: TripleRo
   );
 }
 
-export function SwatchCard({ token, description }: { token: string; description: string }) {
+export function SwatchCard({ token, description }: { token: string; description: Cell }) {
+
   return (
     <article className="grid grid-cols-[4rem_minmax(0,1fr)] items-center gap-3 rounded-[var(--radius-lg)] border border-[var(--muted-rule)] bg-[color-mix(in_srgb,var(--paper-sheet-raised)_90%,transparent)] p-4">
       <div className="h-16 rounded-[var(--radius-md)] border border-[color-mix(in_srgb,var(--muted-rule-strong)_70%,transparent)]" style={{ background: `var(--${token})` }} />
       <div className="grid gap-1">
         <strong className="text-[var(--ink-strong)]">{token}</strong>
         <code className="text-sm text-[var(--ink-soft)]">{`var(--${token})`}</code>
-        <p className="text-sm leading-6 text-[var(--ink-soft)]">{description}</p>
+        <p className="text-sm leading-6 text-[var(--ink-soft)]">{cellText(description)}</p>
+
       </div>
     </article>
   );
@@ -71,23 +79,23 @@ export function PreviewCard({ card }: { card: PreviewCardData }) {
   return (
     <article className={cardClassName(card)}>
       <p className="preview-type-label">{card.label}</p>
-      <h3 className="text-3xl font-black tracking-tight text-[var(--ink-strong)]">{card.title}</h3>
-      <p className="font-bold leading-7 text-[var(--ink-strong)]">{card.role}</p>
+      <h3 className="text-3xl font-black tracking-tight text-[var(--ink-strong)]">{cellText(card.title)}</h3>
+      <p className="font-bold leading-7 text-[var(--ink-strong)]">{cellText(card.role)}</p>
       {card.legend ? (
         <div className="flex flex-wrap gap-2">
           {card.legend.map((item) => (
-            <span key={item} className="badge ui-badge status-stamp status-stamp-neutral">{item}</span>
+            <span key={cellText(item)} className="badge ui-badge status-stamp status-stamp-neutral">{cellText(item)}</span>
           ))}
         </div>
       ) : null}
       {card.bullets ? (
         <ul className="grid gap-2 pl-5 text-[var(--ink-soft)]">
           {card.bullets.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={cellText(item)}>{cellText(item)}</li>
           ))}
         </ul>
       ) : null}
-      <p className="text-[var(--ink-soft)]"><strong className="text-[var(--ink-strong)]">허용 차이:</strong> {card.note}</p>
+      <p className="text-[var(--ink-soft)]"><strong className="text-[var(--ink-strong)]">허용 차이:</strong> {cellText(card.note)}</p>
     </article>
   );
 }
