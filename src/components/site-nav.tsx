@@ -21,7 +21,7 @@ type NavLink = {
 const navLinks: NavLink[] = [
   ...lanes,
   { href: '/projects/', navMatch: 'projects', label: '프로젝트', i18n: 'projects' },
-  { href: '/archive.html', navMatch: 'archive', label: '아카이브', i18n: 'archive' },
+  { href: '/archive', navMatch: 'archive', label: '아카이브', i18n: 'archive' },
 ];
 
 function BrandLink() {

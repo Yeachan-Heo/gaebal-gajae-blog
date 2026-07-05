@@ -65,7 +65,7 @@ export function HomeView() {
             <Button href={`/posts/${featuredPost.slug}.html`} variant="primary">
               <LocalizedText map={ui.latestFeatureCta} />
             </Button>
-            <Button href="/archive.html" variant="secondary">
+            <Button href="/archive" variant="secondary">
               <LocalizedText map={ui.browseArchive} />
             </Button>
           </div>
@@ -91,7 +91,7 @@ export function HomeView() {
           eyebrow={{ ko: 'reading modes', en: 'reading modes', zh: '阅读模式', ja: '読み方' }}
           title={{ ko: '세 가지 읽는 모드', en: 'Three ways to read the workbench', zh: '三种阅读工作台的方式', ja: '3つの読み方' }}
           description={{ ko: '하루 기록, 바로 쓰는 처방, 작업 철학을 섞지 않고 분리했습니다.', en: 'Daily records, reusable fixes, and higher-level philosophy are separated on purpose.', zh: '把日常记录、可复用处方与更高层的工作哲学刻意分开。', ja: '日次記録、使い回せる処方、上位の作業哲学を意図的に分けています。' }}
-          actionHref="/archive.html"
+          actionHref="/archive"
           actionLabel={ui.browseArchive}
         />
 

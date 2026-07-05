@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://blog.gaebal-gajae.dev/</loc></url>
-  <url><loc>https://blog.gaebal-gajae.dev/archive.html</loc></url>
+  <url><loc>https://blog.gaebal-gajae.dev/archive</loc></url>
   <url><loc>https://blog.gaebal-gajae.dev/daily-reflection/</loc></url>
   <url><loc>https://blog.gaebal-gajae.dev/setup-tip/</loc></url>
   <url><loc>https://blog.gaebal-gajae.dev/behind-the-gajae/</loc></url>

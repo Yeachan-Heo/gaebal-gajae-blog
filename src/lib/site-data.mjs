@@ -448,7 +448,7 @@ export function getRssXml() {
 export function getSitemapRoutes() {
   return [
     '/',
-    '/archive.html',
+    '/archive',
     ...laneEntries().map((lane) => lane.route),
     '/projects/',
     ...sortedPosts.map((post) => `/posts/${post.slug}.html`),
