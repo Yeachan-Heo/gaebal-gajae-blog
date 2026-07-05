@@ -114,6 +114,14 @@
       btn.classList.toggle('active', active);
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
+    document.querySelectorAll('[data-lang-select]').forEach((select) => {
+      select.value = nextLang;
+    });
+    document.querySelectorAll('[data-lang-current]').forEach((el) => {
+      el.textContent = nextLang.toUpperCase();
+    });
+
+
     localStorage.setItem('gajae-blog-lang', nextLang);
     syncLangUrl(nextLang);
     syncNavState();
@@ -123,17 +131,51 @@
   window.gajaeBlogSetLang = applyLang;
   window.gajaeBlogSetTheme = applyTheme;
 
+  function setMobileNavOpen(open) {
+    document.querySelectorAll('[data-mobile-nav-panel]').forEach((panel) => {
+      panel.hidden = !open;
+    });
+    document.querySelectorAll('[data-mobile-nav-toggle]').forEach((toggle) => {
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.classList.toggle('active', open);
+    });
+  }
+
+
   document.addEventListener('click', (event) => {
     const langButton = event.target.closest('[data-lang-button]');
     if (langButton) {
       applyLang(langButton.getAttribute('data-lang-button'));
+      document.querySelectorAll('.lang-menu[open]').forEach((menu) => {
+        menu.open = false;
+      });
       return;
     }
+    const mobileNavToggle = event.target.closest('[data-mobile-nav-toggle]');
+    if (mobileNavToggle) {
+      setMobileNavOpen(mobileNavToggle.getAttribute('aria-expanded') !== 'true');
+      return;
+    }
+    const mobileNavLink = event.target.closest('[data-mobile-nav-panel] a');
+    if (mobileNavLink) {
+      setMobileNavOpen(false);
+      return;
+    }
+
     const themeToggle = event.target.closest('[data-theme-toggle]');
     if (themeToggle) {
       const current = normalizeTheme(document.documentElement.dataset.theme || initialTheme());
       applyTheme(current === 'dark' ? 'light' : 'dark');
     }
+  });
+
+  document.addEventListener('change', (event) => {
+    const langSelect = event.target.closest('[data-lang-select]');
+    if (langSelect) applyLang(langSelect.value);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setMobileNavOpen(false);
   });
 
   applyTheme(initialTheme());

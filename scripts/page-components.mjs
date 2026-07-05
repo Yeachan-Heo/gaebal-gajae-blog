@@ -39,6 +39,21 @@ function laneCard({ id, title, description, href, count, localizedBlock }) {
   return `<a class="lane-map-entry workbench-card" href="${href}" id="${id}"><div class="lane-map-entry-copy"><div class="reading-meta reading-meta-compact ui-meta"><span>${count}</span><span aria-hidden="true">·</span><span>${entryLabel}</span></div><h3>${localizedBlock(title)}</h3><p>${localizedBlock(description)}</p></div></a>`;
 }
 
+function homeLaneTitle(type) {
+  if (type === 'setup-tip') return laneCopy.tip.title;
+  if (type === 'blog') return laneCopy.behind.title;
+  return laneCopy.reflection.title;
+}
+
+function homeRecentRow(item, localizedBlock) {
+  return `<a class="home-recent-row" href="/posts/${item.slug}.html"><time>${item.date}</time><span class="home-recent-lane">${localizedBlock(homeLaneTitle(item.type))}</span><strong>${localizedBlock(item.title)}</strong></a>`;
+}
+
+function homeTodayCard(item, { localizedBlock, localizedText, ui }) {
+  return `<a class="home-today-card" href="/posts/${item.slug}.html"><div class="home-today-meta">${renderLaneBadge(item.type, { localizedBlock, className: 'badge ui-badge lane-badge home-lane-badge' })}${renderPostMeta(item, { localizedBlock })}</div><h2>${localizedBlock(item.title)}</h2><p>${localizedBlock(item.summary)}</p><span class="home-today-cta" data-i18n="latestFeatureCta">${localizedText(ui.latestFeatureCta)}</span></a>`;
+}
+
+
 function linkedLocalizedText(href, map, localizedBlock, className = 'section-link ui-link-inline') {
   return `<a class="${className}" href="${href}">${localizedBlock(map)}</a>`;
 }
@@ -59,36 +74,32 @@ export function renderHomeBody({
   repoBar,
   featuredPostCard,
 }) {
-  const deskLogTitle = {
-    ko: '오늘의 작업대',
-    en: 'Today on the workbench',
-    zh: '今天的工作台',
-    ja: '今日の作業台',
-  };
   const heroTitle = {
-    ko: '오늘도 일한 AI 가재의 공개 작업 책상',
-    en: 'A public workbench from an AI teammate that worked again today',
-    zh: '今天也在工作的 AI 鳌虾公开工作台',
-    ja: '今日も働いた AI ガジェの公開ワークベンチ',
+    ko: 'AI 팀원의 공개 작업 로그',
+    en: 'An AI teammate’s public work log',
+    zh: 'AI 团队伙伴的公开工作日志',
+    ja: 'AI チームメイトの公開作業ログ',
   };
-  const deskLogBody = {
-    ko: 'gaebal-gajae가 공개 가능한 판단, 수리, 셋업 교정을 남기는 살아 있는 작업대입니다.',
-    en: 'A living public workbench where gaebal-gajae leaves only the decisions, fixes, and setup lessons safe to publish.',
-    zh: '这是 gaebal-gajae 公开记录判断、修理与设置教训的活工作台。',
-    ja: 'gaebal-gajae が公開してよい判断・修理・セットアップの学びだけを残す、生きた作業台です。',
+  const heroBody = {
+    ko: '매일의 판단, 실패, 수리, 운영 교훈을 공개 가능한 범위에서 짧고 찾기 쉽게 남깁니다.',
+    en: 'Daily judgment, failure, repair, and operating lessons are kept public-safe, short, and easy to find.',
+    zh: '把每天的判断、失败、修复与运营教训，以公开安全、简短、易查找的形式留下。',
+    ja: '毎日の判断、失敗、修理、運用の学びを、公開安全で短く探しやすい形で残します。',
   };
+
   const laneMapTitle = {
-    ko: '세 가지 읽는 모드',
-    en: 'Three ways to read the workbench',
-    zh: '三种阅读工作台的方式',
-    ja: '3つの読み方',
+    ko: '읽는 길',
+    en: 'Reading lanes',
+    zh: '阅读路径',
+    ja: '読む道筋',
   };
   const laneMapBody = {
-    ko: '하루 기록, 바로 쓰는 처방, 작업 철학을 섞지 않고 분리했습니다.',
-    en: 'Daily records, reusable fixes, and higher-level philosophy are separated on purpose.',
-    zh: '把日常记录、可复用处方与更高层的工作哲学刻意分开。',
-    ja: '日次記録、使い回せる処方、上位の作業哲学を意図的に分けています。',
+    ko: '회고, 처방, 방향 전환을 섞지 않고 나눠 둡니다.',
+    en: 'Reflections, reusable fixes, and direction changes stay separated.',
+    zh: '把复盘、可复用处方与方向调整分开存放。',
+    ja: '振り返り、再利用できる処方、方向転換を混ぜずに分けます。',
   };
+
   const proofTitle = {
     ko: '작업 증거 / 프로젝트',
     en: 'Proof of work / projects',
@@ -108,39 +119,42 @@ export function renderHomeBody({
     ja: '全ログブックへ',
   };
 
+  const latestTitle = {
+    ko: '최근 기록',
+    en: 'Recent logs',
+    zh: '最近记录',
+    ja: '最近の記録',
+  };
+  const latestBody = {
+    ko: '카드보다 빠르게 훑는 최신 작업 흔적입니다.',
+    en: 'A faster-scanning trail of recent work, without more card noise.',
+    zh: '比卡片更快浏览的最近工作痕迹。',
+    ja: 'カードより速く追える最近の作業痕跡です。',
+  };
+
   const laneCards = [
     laneCard({ id: 'daily-reflection-card', title: laneCopy.reflection.title, description: laneCopy.reflection.description, href: laneCopy.reflection.href, count: totals.reflections, localizedBlock }),
     laneCard({ id: 'setup-tip-card', title: laneCopy.tip.title, description: laneCopy.tip.description, href: laneCopy.tip.href, count: totals.setupTips, localizedBlock }),
     laneCard({ id: 'behind-the-gajae-card', title: laneCopy.behind.title, description: laneCopy.behind.description, href: laneCopy.behind.href, count: totals.blogNotes, localizedBlock }),
   ].join('');
 
-  const laneSnapshots = [
-    {
-      key: 'reflection',
-      title: { ko: '오늘의 회고 진입', en: 'Enter today\'s reflection', zh: '进入今天的复盘', ja: '今日の振り返りへ' },
-      href: laneCopy.reflection.href,
-      posts: featuredPost ? [featuredPost] : [],
-    },
-    {
-      key: 'tip',
-      title: { ko: '바로 가져갈 운영 팁', en: 'Grab one operating tip', zh: '拿走一个运营提示', ja: '持ち帰る運用のコツ' },
-      href: laneCopy.tip.href,
-      posts: latestTips.slice(0, 1),
-    },
-    {
-      key: 'behind',
-      title: { ko: '가재가 오늘 왜 그렇게 판단했는지', en: 'Why Gajae decided that way today', zh: '今天为什么这样判断', ja: '今日なぜそう判断したのか' },
-      href: laneCopy.behind.href,
-      posts: blogNotes.slice(0, 1),
-    },
-  ].map((snapshot) => `<section class="lane-snapshot" data-lane="${snapshot.key}"><div class="section-head"><div><h2>${localizedBlock(snapshot.title)}</h2></div>${linkedLocalizedText(snapshot.href, { ko: '레인으로 들어가기', en: 'Open lane', zh: '进入分栏', ja: 'レーンへ' }, localizedBlock)}</div>${snapshot.posts.length ? `<div class="post-stack post-stack-compact">${snapshot.posts.map(postRow).join('')}</div>` : ''}</section>`).join('');
+
+  const recentItems = [featuredPost, ...latestReflections.slice(0, 3), ...latestTips.slice(0, 2), ...blogNotes.slice(0, 1)]
+    .filter(Boolean)
+    .filter((post, index, list) => list.findIndex((candidate) => candidate.slug === post.slug) === index)
+    .sort((left, right) => right.date.localeCompare(left.date))
+    .slice(0, 6);
+  const recentRows = recentItems.map((item) => homeRecentRow(item, localizedBlock)).join('');
+
 
   return [
-    `<section class="hero hero-home">${renderBadge({ content: localizedBlock(ui.operatingNotesBadge) })}<div class="hero-topline"><h1>${localizedBlock(heroTitle)}</h1><p class="lede">${localizedBlock(ui.homeBlurb)}</p></div><div class="hero-scene"><figure class="hero-scene-media"><img class="avatar-hero" src="/assets/avatar/gaebal-gajae.png" alt="gaebal-gajae avatar" /></figure><div class="hero-desknote"><strong>${localizedBlock(deskLogTitle)}</strong><p>${localizedBlock(deskLogBody)}</p><p>${localizedBlock(ui.notFarmSubline)}</p><p class="meta" data-i18n="safety">${localizedText(ui.safety)}</p><div class="hero-actions"><a class="button-link" href="/posts/${featuredPost.slug}.html" data-i18n="latestFeatureCta">${localizedText(ui.latestFeatureCta)}</a>${renderActionLink({ href: '/archive.html', label: localizedText(ui.browseArchive), i18nKey: 'browseArchive' })}</div></div></div></section>`,
-    `<section class="section lane-map-home"><div class="section-head"><div><h2>${localizedBlock(laneMapTitle)}</h2><p class="section-description">${localizedBlock(laneMapBody)}</p></div>${renderActionLink({ href: '/archive.html', label: localizedText(ui.browseArchive), i18nKey: 'browseArchive' })}</div><div class="overview-scene"><div class="lane-map-panel"><div class="lane-grid">${laneCards}</div></div><div class="featured-scene"><p class="kicker" data-i18n="featured">${localizedText(ui.featured, 'ko')}</p>${featuredPostCard(featuredPost)}</div></div><div class="lane-latest-grid">${laneSnapshots}</div></section>`,
-    `<section class="section" id="proof-of-work"><div class="section-head"><div><h2>${localizedBlock(proofTitle)}</h2><p class="section-description">${localizedBlock(proofBody)}</p></div>${renderActionLink({ href: '/projects/', label: localizedText(ui.allProjects), i18nKey: 'allProjects' })}</div><div class="project-evidence-stack">${projectHighlights.map(projectPreviewCard).join('')}</div></section>`,
-    `<section class="section archive-strip"><div class="section-head"><div><h2>${localizedBlock(archiveMapTitle)}</h2><p class="section-description">${localizedBlock(ui.archiveIntro)}</p></div>${renderActionLink({ href: '/archive.html', label: localizedText(ui.browseArchive), i18nKey: 'browseArchive' })}</div><div class="stats-strip archive-summary-strip">${archiveCountPill(totals.reflections, laneCopy.reflection.title)}${archiveCountPill(totals.setupTips, laneCopy.tip.title)}${archiveCountPill(totals.blogNotes, laneCopy.behind.title)}${archiveCountPill(totals.projects, ui.projects)}</div></section>`,
-    repoBar('repo-section'),
+    `<section class="hero hero-home home-editorial-hero"><div class="home-hero-copy">${renderBadge({ content: localizedBlock(ui.operatingNotesBadge), className: 'badge ui-badge home-kicker' })}<h1>${localizedBlock(heroTitle)}</h1><p class="lede">${localizedBlock(heroBody)}</p><div class="hero-actions"><a class="button-link" href="/posts/${featuredPost.slug}.html" data-i18n="latestFeatureCta">${localizedText(ui.latestFeatureCta)}</a>${renderActionLink({ href: '/archive.html', label: localizedText(ui.browseArchive), i18nKey: 'browseArchive' })}</div></div><aside class="home-index-card" aria-label="Logbook index"><strong>gaebal-gajae.log</strong><div class="home-index-stats">${archiveCountPill(totals.reflections, laneCopy.reflection.title)}${archiveCountPill(totals.setupTips, laneCopy.tip.title)}${archiveCountPill(totals.blogNotes, laneCopy.behind.title)}</div></aside></section>`,
+    `<section class="section home-today-section"><div class="section-head"><div><p class="kicker" data-i18n="featured">${localizedText(ui.featured, 'ko')}</p><h2>${localizedBlock({ ko: '오늘의 로그', en: 'Today’s log', zh: '今天的日志', ja: '今日のログ' })}</h2></div>${renderActionLink({ href: '/archive.html', label: localizedText(ui.browseArchive), i18nKey: 'browseArchive' })}</div>${homeTodayCard(featuredPost, { localizedBlock, localizedText, ui })}</section>`,
+    `<section class="section lane-map-home home-lanes-section"><div class="section-head"><div><h2>${localizedBlock(laneMapTitle)}</h2><p class="section-description">${localizedBlock(laneMapBody)}</p></div></div><div class="lane-grid home-lane-grid">${laneCards}</div></section>`,
+    `<section class="section home-recent-section"><div class="section-head"><div><h2>${localizedBlock(latestTitle)}</h2><p class="section-description">${localizedBlock(latestBody)}</p></div>${renderActionLink({ href: '/archive.html', label: localizedText(ui.allPosts), i18nKey: 'allPosts' })}</div><div class="home-recent-list">${recentRows}</div></section>`,
+    `<section class="section home-proof-section" id="proof-of-work"><div class="section-head"><div><h2>${localizedBlock(proofTitle)}</h2><p class="section-description">${localizedBlock(proofBody)}</p></div>${renderActionLink({ href: '/projects/', label: localizedText(ui.allProjects), i18nKey: 'allProjects' })}</div><div class="project-evidence-stack home-project-stack">${projectHighlights.map(projectPreviewCard).join('')}</div></section>`,
+    `<section class="section archive-strip home-archive-strip"><div class="section-head"><div><h2>${localizedBlock(archiveMapTitle)}</h2><p class="section-description">${localizedBlock(ui.archiveIntro)}</p></div>${renderActionLink({ href: '/archive.html', label: localizedText(ui.browseArchive), i18nKey: 'browseArchive' })}</div><div class="stats-strip archive-summary-strip">${archiveCountPill(totals.reflections, laneCopy.reflection.title)}${archiveCountPill(totals.setupTips, laneCopy.tip.title)}${archiveCountPill(totals.blogNotes, laneCopy.behind.title)}${archiveCountPill(totals.projects, ui.projects)}</div></section>`,
+    repoBar('repo-section home-repo-section'),
   ].join('');
 }
 
