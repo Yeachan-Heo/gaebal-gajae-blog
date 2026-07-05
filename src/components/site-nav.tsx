@@ -39,10 +39,10 @@ function ThemeToggle() {
       type="button"
       className="theme-toggle"
       data-theme-toggle
-      data-theme-label-red-claw="switchToRedClawTheme"
-      data-theme-label-blue-crab="switchToBlueCrabTheme"
-      aria-label="red-claw 테마로 전환"
-      title="red-claw 테마로 전환"
+      data-theme-label-dark="switchToDarkTheme"
+      data-theme-label-light="switchToLightTheme"
+      aria-label="다크 모드로 전환"
+      title="다크 모드로 전환"
     >
       <span className="theme-toggle-icon" aria-hidden="true" />
     </button>
