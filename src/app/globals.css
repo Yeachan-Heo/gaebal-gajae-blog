@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./design-tokens.css";
 @import "../../assets/style.css";
 
 /* Compatibility tokens for TSX-only components. Keep the imported static CSS as the visual source of truth. */

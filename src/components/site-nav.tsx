@@ -40,6 +40,9 @@ function ThemeToggle() {
       data-theme-label-light="switchToLightTheme"
       aria-label="다크 모드로 전환"
       title="다크 모드로 전환"
+      aria-pressed="true"
+      data-theme-current="light"
+      suppressHydrationWarning
     >
       <span className="theme-toggle-icon" aria-hidden="true" />
     </button>

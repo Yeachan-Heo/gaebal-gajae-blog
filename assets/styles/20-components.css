@@ -1557,6 +1557,20 @@ body:has(.home-editorial-hero) {
   color: var(--home-ink) !important;
 }
 
+:root[data-theme="dark"] body:has(.home-editorial-hero) {
+  --home-bg: #11100f;
+  --home-paper: #191715;
+  --home-paper-muted: #211e1b;
+  --home-ink: #f4ede4;
+  --home-ink-soft: #b9aa9a;
+  --home-ink-faint: #8f8174;
+  --home-line: #3a312c;
+  --home-line-strong: #51443c;
+  --home-accent: #e05a3b;
+  --home-accent-dark: #f08b73;
+  --home-accent-soft: rgba(224, 90, 59, 0.16);
+}
+
 body:has(.home-editorial-hero) main a {
   color: var(--home-accent-dark);
 }
