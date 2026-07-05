@@ -1,214 +1,54 @@
 @import "tailwindcss";
+@import "./design-tokens.css";
+@import "../../assets/style.css";
 
-:root,
-[data-theme="light"],
-[data-theme="blue-crab"] {
-  color-scheme: dark;
-  /* Source: gajae-code blue-crab.json */
-  --paper-canvas: #020812;
-  --paper-sheet: #061321;
-  --paper-sheet-raised: #0a1d31;
-  --paper-sheet-soft: #081b2a;
-  --paper-sheet-muted: #0c1a2c;
-  --surface-panel: #061321;
-  --surface-panel-strong: #0a1d31;
-  --surface-panel-soft: #0a1d31;
-  --surface-terminal: #020812;
-  --surface-terminal-soft: #061321;
-  --surface-message: #0a1d31;
-  --surface-custom: #061321;
-  --surface-tool: #061321;
-  --surface-selected: #12314a;
-  --ink-strong: #e6f7ff;
-  --ink-soft: #9db5c9;
-  --ink-faint: #55708a;
-  --ink-inverse: #020812;
-  --ink-terminal: #e6f7ff;
-  --ink-terminal-soft: #9db5c9;
-  --accent: #5ec8ff;
-  --accent-hover: #7dd3fc;
-  --accent-soft: color-mix(in srgb, var(--accent) 18%, transparent);
-  --link: #7dd3fc;
-  --rule: #0b4f8a;
-  --rule-strong: #2f9bff;
-  --rule-muted: #55708a;
-  --card-border: var(--rule-muted);
-  --card-border-strong: var(--rule);
-  --card-border-accent: var(--rule-strong);
-  --surface: var(--surface-panel);
-  --surface-soft: var(--surface-message);
-  --surface-muted: var(--surface-custom);
-  --surface-evidence: var(--surface-tool);
+/* Compatibility tokens for TSX-only components. Keep the imported static CSS as the visual source of truth. */
+:root {
+  --paper-canvas: var(--bg);
+  --surface-panel: var(--panel);
+  --surface-panel-strong: var(--panel2);
+  --surface-message: var(--surface-1, var(--panel));
+  --surface-custom: var(--surface-2, var(--panel2));
+  --surface-tool: var(--surface-inset, var(--panel2));
+  --surface-selected: var(--surface-3, var(--panel2));
+  --ink-strong: var(--text);
+  --ink-soft: var(--muted);
+  --ink-faint: var(--faint, var(--muted));
+  --ink-inverse: var(--accent-contrast, #fff9f4);
+  --accent-hover: var(--link-hover);
+  --accent-soft: var(--wb-accent-soft);
+  --rule: var(--line);
+  --rule-strong: var(--line-strong, var(--line));
+  --rule-muted: var(--line);
+  --card-border: var(--line);
+  --card-border-strong: var(--line-strong, var(--line));
+  --card-border-accent: var(--accent);
+  --surface: var(--surface-1, var(--panel));
+  --surface-soft: var(--surface-2, var(--panel2));
+  --surface-muted: var(--surface-3, var(--panel2));
+  --surface-evidence: var(--surface-inset, var(--panel2));
   --surface-evidence-soft: var(--surface-soft);
-  --bg: var(--paper-canvas);
-  --surface-raised: var(--paper-sheet-raised);
-  --surface-raised-soft: var(--surface-selected);
-  --surface-nav: var(--rule);
-  --surface-nav-group: var(--surface-custom);
-  --surface-nav-active: var(--surface-selected);
-  --surface-code: var(--surface-tool);
+  --surface-raised: var(--surface-2, var(--panel2));
+  --surface-raised-soft: var(--surface-3, var(--panel2));
+  --surface-nav-active: var(--surface-3, var(--panel2));
+  --surface-code: var(--surface-inset, var(--panel2));
   --surface-evidence-chip: var(--surface-soft);
   --surface-evidence-code: var(--surface-selected);
-  --evidence-rule: var(--rule);
-  --success: #62d9a8;
-  --success-soft: color-mix(in srgb, var(--success) 16%, transparent);
-  --warning: #f5bd58;
-  --warning-soft: color-mix(in srgb, var(--warning) 18%, transparent);
-  --grid-opacity: 0.05;
-  --shadow: 0 0 0 1px color-mix(in srgb, var(--rule-strong) 6%, transparent), 0 0.65rem 1.3rem rgba(0, 0, 0, 0.2);
-  --shadow-lift: 0 0 0 1px color-mix(in srgb, var(--rule-strong) 10%, transparent), 0 0.9rem 1.8rem rgba(0, 0, 0, 0.26);
+  --evidence-rule: var(--line);
+  --success: #79b697;
+  --success-soft: color-mix(in srgb, var(--success) 14%, transparent);
+  --warning: #d5a15b;
+  --warning-soft: color-mix(in srgb, var(--warning) 16%, transparent);
+  --shadow: var(--shadow-soft, var(--wb-shadow));
+  --shadow-lift: var(--shadow-strong, var(--wb-shadow-lift));
   --shadow-focus: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent);
-  --button-primary-shadow: 0 0 0 1px color-mix(in srgb, var(--rule-strong) 20%, transparent), 0 0.65rem 1rem rgba(2, 8, 18, 0.28);
-  --card-highlight: transparent;
-  --card-highlight-strong: transparent;
-  --button-secondary-highlight: transparent;
+  --button-primary-shadow: var(--shadow-soft, var(--wb-shadow));
   --radius-xl: 1rem;
   --radius-lg: 0.8rem;
   --radius-md: 0.6rem;
   --card-bg: var(--surface);
   --card-bg-soft: var(--surface-raised);
-  --button-primary-bg: var(--accent);
-  --button-primary-hover: var(--accent-hover);
-  --button-secondary-bg: var(--surface-custom);
-  --button-secondary-hover: var(--surface-selected);
   --button-secondary-border: var(--card-border);
-}
-
-
-:root[data-theme="dark"],
-[data-theme="dark"],
-[data-theme="red-claw"] {
-  color-scheme: dark;
-  /* Source basis: gajae-code red-claw, retuned for burgundy, cream, and warm charcoal balance */
-  --paper-canvas: #120b0c;
-  --paper-sheet: #1a1012;
-  --paper-sheet-raised: #291719;
-  --paper-sheet-soft: #211517;
-  --paper-sheet-muted: #2a1b1e;
-  --surface-panel: #1a1012;
-  --surface-panel-strong: #291719;
-  --surface-panel-soft: #332022;
-  --surface-terminal: #140d0f;
-  --surface-terminal-soft: #1b1213;
-  --surface-message: #241517;
-  --surface-custom: #201315;
-  --surface-tool: #170f11;
-  --surface-selected: #835656;
-  --ink-strong: #f8e7dc;
-  --ink-soft: #c7a295;
-  --ink-faint: #7f5c58;
-  --ink-inverse: #140d0f;
-  --ink-terminal: #f3e3d8;
-  --ink-terminal-soft: #c6afa2;
-  --accent: #dd7754;
-  --accent-hover: #e69270;
-  --accent-soft: color-mix(in srgb, var(--accent) 14%, transparent);
-  --link: #efba93;
-  --rule: #744240;
-  --rule-strong: #c9675a;
-  --rule-muted: #6a4744;
-  --card-border: var(--rule-muted);
-  --card-border-strong: var(--rule);
-  --card-border-accent: var(--rule-strong);
-  --surface: var(--surface-panel);
-  --surface-soft: var(--surface-message);
-  --surface-muted: var(--surface-custom);
-  --surface-evidence: var(--surface-tool);
-  --surface-evidence-soft: var(--surface-soft);
-  --bg: var(--paper-canvas);
-  --surface-raised: var(--paper-sheet-raised);
-  --surface-raised-soft: #352123;
-  --surface-nav: #221214;
-  --surface-nav-group: #2f1b1d;
-  --surface-nav-active: var(--surface-selected);
-  --surface-code: var(--surface-tool);
-  --surface-evidence-chip: var(--surface-soft);
-  --surface-evidence-code: #3d2326;
-  --evidence-rule: var(--rule);
-  --success: #79b697;
-  --success-soft: color-mix(in srgb, var(--success) 14%, transparent);
-  --warning: #d5a15b;
-  --warning-soft: color-mix(in srgb, var(--warning) 16%, transparent);
-  --grid-opacity: 0.05;
-  --button-secondary-bg: var(--surface-custom);
-  --button-secondary-hover: var(--surface-raised-soft);
-  --button-secondary-border: var(--card-border);
-  --shadow: 0 0 0 1px color-mix(in srgb, var(--rule-strong) 4%, transparent), 0 0.65rem 1.3rem rgba(0, 0, 0, 0.24);
-  --shadow-lift: 0 0 0 1px color-mix(in srgb, var(--rule-strong) 8%, transparent), 0 0.9rem 1.8rem rgba(0, 0, 0, 0.32);
-  --shadow-focus: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent);
-  --button-primary-shadow: 0 0 0 1px color-mix(in srgb, var(--rule-strong) 16%, transparent), 0 0.65rem 1rem rgba(17, 11, 11, 0.34);
-  --card-highlight: transparent;
-  --card-highlight-strong: transparent;
-  --button-secondary-highlight: transparent;
-}
-
-
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 2rem;
-  background: var(--paper-canvas);
-}
-
-body {
-  position: relative;
-  margin: 0;
-  min-height: 100vh;
-  color: var(--ink-strong);
-  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
-  text-rendering: optimizeLegibility;
-  background: var(--bg);
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, var(--rule-muted) 0 1px, transparent 1px calc(100% - 1px), var(--rule-muted) calc(100% - 1px) 100%),
-    linear-gradient(180deg, var(--rule-muted) 0 1px, transparent 1px calc(100% - 1px), var(--rule-muted) calc(100% - 1px) 100%);
-  opacity: var(--grid-opacity);
-}
-
-* {
-  box-sizing: border-box;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-button {
-  color: inherit;
-}
-
-a {
-  color: var(--link);
-  text-decoration: none;
-  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
-}
-
-a:hover {
-  color: var(--accent-hover);
-}
-
-::selection {
-  background: var(--surface-selected);
-  color: var(--ink-strong);
-}
-
-:focus-visible {
-  outline: none;
-  box-shadow: var(--shadow-focus);
 }
 
 @layer components {

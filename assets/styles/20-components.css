@@ -1542,19 +1542,33 @@
 
 /* Editorial logbook home redesign. Scope with :has() so post/archive pages stay on the current system until their redesign pass. */
 body:has(.home-editorial-hero) {
-  --home-bg: #f7f1e8;
-  --home-paper: #fffaf2;
-  --home-paper-muted: #f0e5d8;
-  --home-ink: #201815;
-  --home-ink-soft: #75685e;
-  --home-ink-faint: #9a8b7e;
-  --home-line: #ded0c2;
-  --home-line-strong: #c8b7a8;
-  --home-accent: #c9472f;
-  --home-accent-dark: #7a2118;
-  --home-accent-soft: #f4d7cc;
+  --home-bg: var(--color-background);
+  --home-paper: var(--color-paper);
+  --home-paper-muted: var(--color-paper-muted);
+  --home-ink: var(--color-ink);
+  --home-ink-soft: var(--color-ink-soft);
+  --home-ink-faint: var(--color-ink-faint);
+  --home-line: var(--color-line);
+  --home-line-strong: var(--color-line-strong);
+  --home-accent: var(--color-accent);
+  --home-accent-dark: var(--color-accent-dark);
+  --home-accent-soft: var(--color-accent-soft);
   background: var(--home-bg) !important;
   color: var(--home-ink) !important;
+}
+
+:root[data-theme="dark"] body:has(.home-editorial-hero) {
+  --home-bg: var(--color-dark-background);
+  --home-paper: var(--color-dark-paper);
+  --home-paper-muted: var(--color-dark-paper-raised);
+  --home-ink: var(--color-dark-ink);
+  --home-ink-soft: var(--color-dark-ink-soft);
+  --home-ink-faint: color-mix(in srgb, var(--color-dark-ink-soft) 78%, transparent);
+  --home-line: var(--color-dark-line);
+  --home-line-strong: color-mix(in srgb, var(--color-dark-line) 70%, var(--color-dark-ink) 30%);
+  --home-accent: var(--color-dark-accent);
+  --home-accent-dark: color-mix(in srgb, var(--color-dark-accent) 76%, var(--color-dark-ink) 24%);
+  --home-accent-soft: color-mix(in srgb, var(--color-dark-accent) 16%, transparent);
 }
 
 body:has(.home-editorial-hero) main a {
@@ -1870,7 +1884,7 @@ body:has(.home-editorial-hero) .section-description .i18n {
 
 @media (max-width: 760px) {
   body:has(.home-editorial-hero) .wrap {
-    width: min(100% - 28px, 1120px);
+    width: min(100% - 32px, 1120px);
   }
 
   .home-editorial-hero {
@@ -2543,17 +2557,17 @@ body:has(.home-editorial-hero) .mobile-nav-action-row {
 }
 /* One navbar skin everywhere: use the home editorial nav as the canonical component. */
 .topnav.responsive-nav {
-  --nav-paper: #fffaf2;
-  --nav-paper-muted: #f0e5d8;
-  --nav-ink: #201815;
-  --nav-ink-soft: #75685e;
-  --nav-line: #ded0c2;
-  --nav-accent-dark: #7a2118;
+  --nav-paper: var(--color-paper);
+  --nav-paper-muted: var(--color-paper-muted);
+  --nav-ink: var(--color-ink);
+  --nav-ink-soft: var(--color-ink-soft);
+  --nav-line: var(--color-line);
+  --nav-accent-dark: var(--color-accent-dark);
   margin-top: 22px;
   border-color: var(--nav-line) !important;
   background: color-mix(in srgb, var(--nav-paper) 88%, transparent) !important;
   box-shadow: none !important;
-  width: min(1120px, calc(100vw - 28px));
+  width: min(1120px, calc(100vw - 32px));
   margin-left: 50%;
   transform: translateX(-50%);
   box-sizing: border-box;
@@ -2564,6 +2578,15 @@ body:has(.home-editorial-hero) .mobile-nav-action-row {
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   backdrop-filter: blur(18px) saturate(140%);
 
+}
+
+:root[data-theme="dark"] .topnav.responsive-nav {
+  --nav-paper: var(--color-dark-paper);
+  --nav-paper-muted: var(--color-dark-paper-raised);
+  --nav-ink: var(--color-dark-ink);
+  --nav-ink-soft: var(--color-dark-ink-soft);
+  --nav-line: var(--color-dark-line);
+  --nav-accent-dark: var(--color-dark-accent);
 }
 
 .responsive-nav .nav-links,

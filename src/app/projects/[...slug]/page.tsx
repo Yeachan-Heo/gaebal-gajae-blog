@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { ProjectView } from '@/components/blog-ui';
+import { PageShell } from '@/components/page-shell';
 import { pageMetadata } from '@/lib/metadata';
 import { getProjectPageData, getProjectSlugs } from '@/lib/site-data.mjs';
 
@@ -29,5 +29,5 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug?:
   if (!slug) notFound();
   const page = getProjectPageData(slug);
   if (!page) notFound();
-  return <ProjectView slug={slug} />;
+  return <PageShell navMatch={page.navMatch} bodyHtml={page.bodyHtml} />;
 }

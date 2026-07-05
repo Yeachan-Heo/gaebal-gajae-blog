@@ -3,12 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --hostname 127.0.0.1 --port 4173",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start --hostname 127.0.0.1 --port 4173",
+    "start": "next start",
     "storybook": "env HOME=$PWD/.storybook-home storybook dev -p 6006 --ci",
     "build-storybook": "env HOME=$PWD/.storybook-home storybook build",
     "build:site": "node scripts/build.mjs",
+    "design:lint": "design.md lint DESIGN.md",
+    "design:export:tailwind": "design.md export DESIGN.md --format css-tailwind",
+    "design:sync-tailwind": "node scripts/sync-design-tokens.mjs",
     "foundry:dev": "npm --prefix foundry run dev",
     "foundry:build": "npm --prefix foundry run build",
     "foundry:start": "npm --prefix foundry run start"
@@ -19,6 +22,7 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@google/design.md": "^0.3.0",
     "@storybook/addon-docs": "^10.4.6",
     "@storybook/nextjs": "^10.4.6",
     "@tailwindcss/postcss": "^4.1.0",

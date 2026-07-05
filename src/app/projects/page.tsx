@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ProjectsView } from '@/components/blog-ui';
+import { PageShell } from '@/components/page-shell';
 import { pageMetadata } from '@/lib/metadata';
 import { getProjectsPageData } from '@/lib/site-data.mjs';
 
@@ -8,5 +8,5 @@ const page = getProjectsPageData();
 export const metadata: Metadata = pageMetadata({ title: page.title, description: page.description });
 
 export default function ProjectsPage() {
-  return <ProjectsView />;
+  return <PageShell navMatch={page.navMatch} bodyHtml={page.bodyHtml} />;
 }

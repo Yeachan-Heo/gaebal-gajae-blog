@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 type UiMap = Record<string, Record<string, string>>;
 
 const supportedLangs = ['ko', 'en', 'zh', 'ja'] as const;
-const supportedThemes = ['blue-crab', 'red-claw'] as const;
-const themeAliases: Record<string, (typeof supportedThemes)[number]> = { light: 'blue-crab', dark: 'red-claw' };
+const supportedThemes = ['light', 'dark'] as const;
+const themeAliases: Record<string, (typeof supportedThemes)[number]> = { 'blue-crab': 'light', 'red-claw': 'dark' };
 const aliases: Record<string, string> = { 'zh-cn': 'zh', 'zh-tw': 'zh', 'zh-hans': 'zh', 'zh-hant': 'zh', 'ja-jp': 'ja', 'ko-kr': 'ko', 'en-us': 'en', 'en-gb': 'en' };
 
 function normalizeLang(raw: string | null | undefined) {
@@ -25,7 +25,7 @@ function normalizeTheme(raw: string | null | undefined) {
 }
 
 function themeColorScheme(theme: (typeof supportedThemes)[number]) {
-  return 'dark';
+  return theme;
 }
 
 export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
@@ -41,11 +41,11 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
     };
 
     const initialTheme = () => {
-      const docTheme = normalizeTheme(document.documentElement.dataset.theme);
-      if (docTheme) return docTheme;
       const saved = normalizeTheme(window.localStorage.getItem('gajae-blog-theme'));
       if (saved) return saved;
-      return 'blue-crab';
+      const docTheme = normalizeTheme(document.documentElement.dataset.theme);
+      if (docTheme) return docTheme;
+      return 'light';
     };
 
     const syncLangUrl = (lang: string) => {
@@ -64,15 +64,15 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
     };
 
     const updateThemeControl = (lang: string, theme: string) => {
-      const toggle = document.querySelector<HTMLElement>('[data-theme-toggle]');
-      if (!toggle) return;
-      const nextTheme = theme === 'red-claw' ? 'blue-crab' : 'red-claw';
-      const key = nextTheme === 'red-claw' ? toggle.getAttribute('data-theme-label-red-claw') : toggle.getAttribute('data-theme-label-blue-crab');
-      const label = (key && ui[key]?.[lang]) || (key && ui[key]?.ko) || 'Toggle theme';
-      toggle.setAttribute('aria-label', label);
-      toggle.setAttribute('title', label);
-      toggle.setAttribute('aria-pressed', theme === 'blue-crab' ? 'true' : 'false');
-      toggle.dataset.themeCurrent = theme;
+      document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach((toggle) => {
+        const nextTheme = theme === 'dark' ? 'light' : 'dark';
+        const key = nextTheme === 'dark' ? toggle.getAttribute('data-theme-label-dark') : toggle.getAttribute('data-theme-label-light');
+        const label = (key && ui[key]?.[lang]) || (key && ui[key]?.ko) || 'Toggle theme';
+        toggle.setAttribute('aria-label', label);
+        toggle.setAttribute('title', label);
+        toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+        toggle.dataset.themeCurrent = theme;
+      });
     };
 
     const applyTheme = (theme?: string | null) => {
@@ -104,6 +104,10 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
         btn.classList.toggle('active', active);
         btn.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
+      document.querySelectorAll<HTMLElement>('[data-lang-current]').forEach((el) => {
+        el.textContent = nextLang.toUpperCase();
+      });
+
       window.localStorage.setItem('gajae-blog-lang', nextLang);
       syncLangUrl(nextLang);
       syncNavState();
@@ -115,12 +119,10 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
       const langButton = target?.closest<HTMLElement>('[data-lang-button]');
       if (langButton) {
         applyLang(langButton.getAttribute('data-lang-button'));
+        document.querySelectorAll<HTMLDetailsElement>('.lang-menu[open]').forEach((menu) => {
+          menu.open = false;
+        });
         return;
-      }
-      const themeToggle = target?.closest<HTMLElement>('[data-theme-toggle]');
-      if (themeToggle) {
-        const current = normalizeTheme(document.documentElement.dataset.theme || initialTheme()) || 'blue-crab';
-        applyTheme(current === 'red-claw' ? 'blue-crab' : 'red-claw');
       }
     };
 

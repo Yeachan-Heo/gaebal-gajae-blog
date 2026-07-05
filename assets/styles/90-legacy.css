@@ -397,26 +397,26 @@ hr { border-color: rgba(215,185,138,.16); }
 :root,
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #101214;
-  --panel: #16191d;
-  --panel2: #1c2025;
-  --nav-surface: rgba(16, 19, 22, .82);
-  --surface-1: rgba(20, 24, 28, .9);
-  --surface-2: rgba(24, 29, 34, .95);
-  --surface-3: rgba(29, 34, 39, .98);
-  --surface-accent: linear-gradient(180deg, rgba(24,28,33,.96), rgba(20,24,28,.98));
-  --surface-inset: rgba(14, 17, 20, .78);
-  --text: #e6ddd2;
-  --text-strong: #f4efe7;
-  --muted: #afa396;
-  --faint: #887c70;
-  --line: rgba(230, 221, 210, .1);
-  --line-strong: rgba(230, 221, 210, .16);
-  --accent: #8f6a54;
-  --accent2: #b7a28f;
-  --accent-contrast: #fffaf6;
-  --link: #9f846d;
-  --link-hover: #b0957c;
+  --bg: var(--color-dark-background);
+  --panel: var(--color-dark-paper);
+  --panel2: var(--color-dark-paper-raised);
+  --nav-surface: color-mix(in srgb, var(--color-dark-paper) 82%, transparent);
+  --surface-1: color-mix(in srgb, var(--color-dark-paper) 90%, transparent);
+  --surface-2: color-mix(in srgb, var(--color-dark-paper-raised) 95%, transparent);
+  --surface-3: color-mix(in srgb, var(--color-dark-paper-raised) 98%, transparent);
+  --surface-accent: linear-gradient(180deg, color-mix(in srgb, var(--color-dark-paper-raised) 96%, transparent), color-mix(in srgb, var(--color-dark-paper) 98%, transparent));
+  --surface-inset: color-mix(in srgb, var(--color-dark-background) 78%, transparent);
+  --text: var(--color-dark-ink);
+  --text-strong: var(--color-dark-ink);
+  --muted: var(--color-dark-ink-soft);
+  --faint: color-mix(in srgb, var(--color-dark-ink-soft) 78%, transparent);
+  --line: var(--color-dark-line);
+  --line-strong: color-mix(in srgb, var(--color-dark-line) 70%, var(--color-dark-ink) 30%);
+  --accent: var(--color-dark-accent);
+  --accent2: color-mix(in srgb, var(--color-dark-accent) 72%, var(--color-dark-ink) 28%);
+  --accent-contrast: var(--color-dark-ink);
+  --link: color-mix(in srgb, var(--color-dark-accent) 72%, var(--color-dark-ink) 28%);
+  --link-hover: color-mix(in srgb, var(--color-dark-accent) 84%, var(--color-dark-ink) 16%);
   --button-primary-bg: linear-gradient(180deg, #8e6954, #785847);
   --button-primary-hover: linear-gradient(180deg, #9a735c, #84624f);
   --button-secondary-bg: rgba(20, 24, 28, .84);
@@ -430,34 +430,34 @@ hr { border-color: rgba(215,185,138,.16); }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f1ece3;
-  --panel: #faf7f1;
-  --panel2: #e9e1d7;
-  --nav-surface: rgba(250, 247, 241, .92);
-  --surface-1: rgba(250, 247, 241, .96);
-  --surface-2: rgba(242, 236, 227, .98);
-  --surface-3: rgba(233, 225, 215, .98);
-  --surface-accent: linear-gradient(180deg, rgba(250,247,241,.98), rgba(240,232,222,.98));
-  --surface-inset: rgba(238, 230, 220, .92);
-  --text: #2d2722;
-  --text-strong: #171412;
-  --muted: #5f5650;
-  --faint: #73695f;
-  --line: rgba(45, 39, 34, .12);
-  --line-strong: rgba(45, 39, 34, .2);
-  --accent: #825a45;
-  --accent2: #a88b76;
-  --accent-contrast: #fff9f4;
-  --link: #6f5647;
-  --link-hover: #5c473a;
-  --button-primary-bg: linear-gradient(180deg, #825a45, #714c3a);
-  --button-primary-hover: linear-gradient(180deg, #8d634d, #7a5441);
-  --button-secondary-bg: rgba(255, 252, 247, .94);
-  --button-secondary-hover: rgba(247, 241, 233, .98);
-  --shadow-soft: 0 14px 34px rgba(58, 42, 26, .07);
-  --shadow-strong: 0 18px 40px rgba(58, 42, 26, .1);
-  --bg-radial-1: rgba(130, 90, 69, .018);
-  --bg-radial-2: rgba(111, 86, 71, .014);
+  --bg: var(--color-background);
+  --panel: var(--color-paper);
+  --panel2: var(--color-paper-muted);
+  --nav-surface: color-mix(in srgb, var(--color-paper) 92%, transparent);
+  --surface-1: color-mix(in srgb, var(--color-paper) 96%, transparent);
+  --surface-2: color-mix(in srgb, var(--color-paper-muted) 98%, transparent);
+  --surface-3: color-mix(in srgb, var(--color-paper-muted) 88%, var(--color-line) 12%);
+  --surface-accent: linear-gradient(180deg, color-mix(in srgb, var(--color-paper) 98%, transparent), color-mix(in srgb, var(--color-paper-muted) 98%, transparent));
+  --surface-inset: color-mix(in srgb, var(--color-paper-muted) 92%, transparent);
+  --text: var(--color-ink);
+  --text-strong: var(--color-ink);
+  --muted: var(--color-ink-soft);
+  --faint: var(--color-ink-faint);
+  --line: color-mix(in srgb, var(--color-line) 90%, transparent);
+  --line-strong: color-mix(in srgb, var(--color-line-strong) 95%, transparent);
+  --accent: var(--color-accent);
+  --accent2: var(--color-accent-dark);
+  --accent-contrast: var(--color-paper);
+  --link: var(--color-accent-dark);
+  --link-hover: var(--color-accent);
+  --button-primary-bg: linear-gradient(180deg, #c9472f, #a33424);
+  --button-primary-hover: linear-gradient(180deg, #d8583f, #b23b2b);
+  --button-secondary-bg: rgba(255, 250, 242, .94);
+  --button-secondary-hover: rgba(240, 229, 216, .98);
+  --shadow-soft: 0 14px 34px rgba(78, 55, 35, .07);
+  --shadow-strong: 0 18px 40px rgba(78, 55, 35, .1);
+  --bg-radial-1: rgba(201, 71, 47, .018);
+  --bg-radial-2: rgba(122, 33, 24, .014);
 }
 
 
@@ -617,7 +617,7 @@ blockquote {
   background:
     radial-gradient(circle at 10% 0%, var(--bg-radial-1), transparent 18rem),
     radial-gradient(circle at 82% 8%, var(--bg-radial-2), transparent 16rem),
-    linear-gradient(180deg, #f3eee5 0%, #eee6dc 48%, #f1ece3 100%);
+    linear-gradient(180deg, #f7f1e8 0%, #f0e5d8 48%, #f7f1e8 100%);
 }
 
 :root[data-theme="light"] .stat-pill,

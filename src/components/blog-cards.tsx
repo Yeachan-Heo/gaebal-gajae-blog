@@ -116,7 +116,8 @@ export function ProofSignalList({ signals, featured = false, tone = 'default' }:
 export function PostCard({ post, featured = false }: { post: PostItem; featured?: boolean }) {
   const lane = getOwningLane(post)
   return (
-    <Card href={`/posts/${post.slug}.html`} variant={featured ? 'strong' : 'default'} className="group block transition hover:-translate-y-0.5">
+    <Card href={featured ? undefined : `/posts/${post.slug}.html`} variant={featured ? 'strong' : 'default'} className="group block transition hover:-translate-y-0.5">
+
       <CardHeader>
         {featured ? <LaneBadge map={lane.label} /> : null}
         <ReadingMeta parts={[post.date, lane.label]} />
@@ -165,7 +166,7 @@ export function LaneCard({ laneKey, count, description }: { laneKey: 'reflection
 export function ProjectCard({ project }: { project: ProjectItem }) {
   const preview = project.previewImage || project.heroImage || project.characterImage
   return (
-    <Card href={`/projects/${project.slug}.html`} variant="evidence" className="group block overflow-hidden transition hover:-translate-y-0.5">
+    <Card variant="evidence" className="group block overflow-hidden transition hover:-translate-y-0.5">
       {preview ? (
         <div className="relative aspect-[2.5/1] overflow-hidden border-b border-[var(--evidence-rule)]">
           <img src={preview} alt={`${project.name} preview`} className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
