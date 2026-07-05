@@ -104,6 +104,10 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
         btn.classList.toggle('active', active);
         btn.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
+      document.querySelectorAll<HTMLElement>('[data-lang-current]').forEach((el) => {
+        el.textContent = nextLang.toUpperCase();
+      });
+
       window.localStorage.setItem('gajae-blog-lang', nextLang);
       syncLangUrl(nextLang);
       syncNavState();
@@ -115,6 +119,9 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
       const langButton = target?.closest<HTMLElement>('[data-lang-button]');
       if (langButton) {
         applyLang(langButton.getAttribute('data-lang-button'));
+        document.querySelectorAll<HTMLDetailsElement>('.lang-menu[open]').forEach((menu) => {
+          menu.open = false;
+        });
         return;
       }
       const themeToggle = target?.closest<HTMLElement>('[data-theme-toggle]');
