@@ -8,12 +8,12 @@
   padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: 18px;
-  background: rgba(21,24,29,.72);
+  background: var(--surface-inset);
   color: var(--muted);
 }
 .site-shell .geo-note strong { color: var(--text); }
 .site-shell .geobench-stat { text-decoration: none; color: inherit; }
-.site-shell .geobench-stat:hover { border-color: rgba(215,185,138,.42); }
+.site-shell .geobench-stat:hover { border-color: var(--line-strong); }
 @media (max-width: 760px) { .site-shell .geo-note { display: block; } .site-shell .geo-note span { display: block; margin-top: 6px; } }
 
 /* 2026-06-21 editorial redesign */
@@ -69,7 +69,7 @@
 }
 
 .site-shell .button-link.subtle {
-  color: #d7b98a;
+  color: var(--link);
 }
 .site-shell .button-link.secondary {
   background: var(--button-secondary-bg) !important;
@@ -85,8 +85,8 @@
 }
 
 :root[data-theme="light"] .site-shell .button-link.secondary {
-  background: rgba(255, 252, 247, .88) !important;
-  border-color: rgba(48, 41, 35, .1) !important;
+  background: var(--button-secondary-bg) !important;
+  border-color: var(--line) !important;
 }
 
 .site-shell .button-link.inline {
@@ -94,7 +94,7 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: #d7b98a;
+  color: var(--link);
 }
 
 .site-shell .section {
@@ -105,7 +105,7 @@
 
 .site-shell .kicker {
   margin: 0 0 8px;
-  color: #b9aea2;
+  color: var(--muted);
   text-transform: uppercase;
   letter-spacing: .08em;
   font-size: .78rem;
@@ -114,12 +114,12 @@
 .site-shell .section-description {
   margin: 10px 0 0;
   max-width: 68ch;
-  color: #d0c6ba;
+  color: var(--muted);
 }
 
 .site-shell .stat-pill {
-  border: 1px solid rgba(215, 185, 138, .16);
-  background: rgba(13, 17, 24, .9);
+  border: 1px solid var(--line);
+  background: var(--surface-inset);
   border-radius: 24px;
 }
 
@@ -144,7 +144,7 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 12px;
-  color: #b9aea2;
+  color: var(--muted);
   font-size: .9rem;
 }
 
@@ -154,8 +154,8 @@
   gap: 6px;
   padding: 6px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(215, 185, 138, .12);
-  background: rgba(255, 255, 255, .02);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
 }
 
 
@@ -170,8 +170,8 @@
 
 
 .site-shell .stat-pill:hover {
-  border-color: rgba(215, 185, 138, .42);
-  background: rgba(18, 22, 31, .96);
+  border-color: var(--line-strong);
+  background: var(--surface-3);
   transform: translateY(-1px);
 }
 
@@ -204,7 +204,7 @@
   gap: 10px;
   padding: 14px 16px;
   text-decoration: none;
-  color: #f6efe4;
+  color: var(--text);
 }
 
 .site-shell .stat-pill strong {
@@ -226,24 +226,24 @@
 
 
 
-.archive-year {
+.site-shell .archive-year {
   margin-top: 28px;
 }
 
-.archive-year-head {
+.site-shell .archive-year-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
 
-.archive-year-head h3 {
+.site-shell .archive-year-head h3 {
   margin: 0;
   font-size: 1.35rem;
 }
 
-.archive-year-head span {
-  color: #b9aea2;
+.site-shell .archive-year-head span {
+  color: var(--muted);
 }
 
 
@@ -273,10 +273,10 @@
   --accent-contrast: var(--color-dark-ink);
   --link: color-mix(in srgb, var(--color-dark-accent) 72%, var(--color-dark-ink) 28%);
   --link-hover: color-mix(in srgb, var(--color-dark-accent) 84%, var(--color-dark-ink) 16%);
-  --button-primary-bg: linear-gradient(180deg, #8e6954, #785847);
-  --button-primary-hover: linear-gradient(180deg, #9a735c, #84624f);
-  --button-secondary-bg: rgba(20, 24, 28, .84);
-  --button-secondary-hover: rgba(24, 29, 34, .92);
+  --button-primary-bg: linear-gradient(180deg, color-mix(in srgb, var(--color-dark-accent) 70%, var(--color-dark-paper) 30%), color-mix(in srgb, var(--color-dark-accent) 58%, var(--color-dark-background) 42%));
+  --button-primary-hover: linear-gradient(180deg, color-mix(in srgb, var(--color-dark-accent) 78%, var(--color-dark-paper) 22%), color-mix(in srgb, var(--color-dark-accent) 64%, var(--color-dark-background) 36%));
+  --button-secondary-bg: color-mix(in srgb, var(--color-dark-paper) 84%, transparent);
+  --button-secondary-hover: color-mix(in srgb, var(--color-dark-paper-raised) 92%, transparent);
   --shadow-soft: 0 16px 44px rgba(0,0,0,.16);
   --shadow-strong: 0 24px 64px rgba(0,0,0,.24);
   --bg-radial-1: rgba(143, 106, 84, .045);
@@ -306,10 +306,10 @@
   --accent-contrast: var(--color-paper);
   --link: var(--color-accent-dark);
   --link-hover: var(--color-accent);
-  --button-primary-bg: linear-gradient(180deg, #c9472f, #a33424);
-  --button-primary-hover: linear-gradient(180deg, #d8583f, #b23b2b);
-  --button-secondary-bg: rgba(255, 250, 242, .94);
-  --button-secondary-hover: rgba(240, 229, 216, .98);
+  --button-primary-bg: linear-gradient(180deg, var(--color-accent), color-mix(in srgb, var(--color-accent) 78%, var(--color-accent-dark) 22%));
+  --button-primary-hover: linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 88%, var(--color-paper) 12%), color-mix(in srgb, var(--color-accent) 82%, var(--color-accent-dark) 18%));
+  --button-secondary-bg: color-mix(in srgb, var(--color-paper) 94%, transparent);
+  --button-secondary-hover: color-mix(in srgb, var(--color-paper-muted) 98%, transparent);
   --shadow-soft: 0 14px 34px rgba(78, 55, 35, .07);
   --shadow-strong: 0 18px 40px rgba(78, 55, 35, .1);
   --bg-radial-1: rgba(201, 71, 47, .018);
@@ -471,7 +471,7 @@ body {
   background:
     radial-gradient(circle at 10% 0%, var(--bg-radial-1), transparent 18rem),
     radial-gradient(circle at 82% 8%, var(--bg-radial-2), transparent 16rem),
-    linear-gradient(180deg, #f7f1e8 0%, #f0e5d8 48%, #f7f1e8 100%);
+    linear-gradient(180deg, var(--color-background) 0%, var(--color-paper-muted) 48%, var(--color-background) 100%);
 }
 
 :root[data-theme="light"] .site-shell .stat-pill,
@@ -493,8 +493,8 @@ body {
 }
 
 html[data-theme="light"] .site-shell .button-link.secondary {
-  background: rgba(255, 252, 247, .94) !important;
-  border-color: rgba(45, 39, 34, .12) !important;
+  background: var(--button-secondary-bg) !important;
+  border-color: var(--line) !important;
   color: var(--link) !important;
 }
 :root[data-theme="light"] .site-shell .card-thumb {
@@ -502,8 +502,8 @@ html[data-theme="light"] .site-shell .button-link.secondary {
 }
 
 :root[data-theme="light"] .site-shell .button-link.subtle {
-  background: rgba(255, 252, 247, .94) !important;
-  border-color: rgba(45, 39, 34, .12) !important;
+  background: var(--button-secondary-bg) !important;
+  border-color: var(--line) !important;
 }
 
 :root[data-theme="light"] .site-shell .featured-copy .lede.small {
