@@ -1,4 +1,6 @@
 import { renderActionLink, renderBadge, renderMetaLine } from './ui-components.mjs';
+import { renderIcon } from './icons.mjs';
+
 import { laneEntries, laneFromKey, laneFromType } from './lane-registry.mjs';
 
 export const publicLaneCopy = Object.fromEntries(laneEntries().map((lane) => [lane.key, {
@@ -11,9 +13,6 @@ function escapeHtml(value = '') {
   return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 }
 
-function inlineLocalized(map, className = 'i18n') {
-  return `<span class="${className}" data-i18n-text='${escapeHtml(JSON.stringify(map))}'>${escapeHtml(map?.ko ?? map?.en ?? '')}</span>`;
-}
 
 function laneLabel(type) {
   const lane = laneFromType(type);
@@ -33,10 +32,15 @@ export function renderNav({ langs, langLabel }) {
   const reflection = laneFromKey('reflection');
   const tip = laneFromKey('tip');
   const behind = laneFromKey('behind');
-  const reflectionLabel = inlineLocalized(reflection.label);
-  const setupLabel = inlineLocalized(tip.label);
-  const blogLabel = inlineLocalized(behind.label);
-  return `<nav class="topnav nav-shell"><div class="nav-links"><a href="/" data-i18n="home" data-nav-match="home">홈</a><a href="${reflection.route}" data-nav-match="${reflection.navMatch}">${reflectionLabel}</a><a href="${tip.route}" data-nav-match="${tip.navMatch}">${setupLabel}</a><a href="${behind.route}" data-nav-match="${behind.navMatch}">${blogLabel}</a><a href="/projects/" data-i18n="projects" data-nav-match="projects">프로젝트</a><a href="/archive.html" data-i18n="archive" data-nav-match="archive">아카이브</a></div><div class="theme-controls"><button type="button" class="theme-toggle" data-theme-toggle data-theme-label-dark="switchToDarkTheme" data-theme-label-light="switchToLightTheme" aria-label="라이트 모드로 전환" title="라이트 모드로 전환"><span class="theme-toggle-icon" aria-hidden="true"></span></button><div class="lang-switch" role="group" aria-label="Language">${langs.map((lang) => `<button type="button" data-lang-button="${lang}">${langLabel[lang]}</button>`).join('')}</div></div></nav>`;
+  const reflectionLabel = '<span>Daily</span>';
+  const setupLabel = '<span>Tips</span>';
+  const blogLabel = '<span>Behind</span>';
+
+  const chevronDownIcon = renderIcon('chevronDown', { className: 'lang-menu-chevron lang-menu-chevron-down', size: 14 });
+  const chevronUpIcon = renderIcon('chevronUp', { className: 'lang-menu-chevron lang-menu-chevron-up', size: 14 });
+  const checkIcon = renderIcon('check', { className: 'lang-option-check', size: 16, strokeWidth: 2.4 });
+  const langMenu = `<details class="lang-menu"><summary aria-label="Language"><span data-lang-current>KO</span><span class="lang-menu-chevrons">${chevronDownIcon}${chevronUpIcon}</span></summary><div class="lang-menu-panel" role="group" aria-label="Language">${langs.map((lang) => `<button type="button" data-lang-button="${lang}"><span class="lang-option-label">${lang.toUpperCase()}</span>${checkIcon}</button>`).join('')}</div></details>`;
+  return `<nav class="topnav responsive-nav"><div class="nav-mode nav-mode-desktop"><a class="nav-brand" href="/" data-nav-match="home" aria-label="gaebal-gajae home"><span aria-hidden="true">🦞</span><strong>gaebal-gajae</strong></a><div class="nav-links"><a href="${reflection.route}" data-nav-match="${reflection.navMatch}">${reflectionLabel}</a><a href="${tip.route}" data-nav-match="${tip.navMatch}">${setupLabel}</a><a href="${behind.route}" data-nav-match="${behind.navMatch}">${blogLabel}</a><a href="/projects/" data-i18n="projects" data-nav-match="projects">프로젝트</a><a href="/archive.html" data-i18n="archive" data-nav-match="archive">아카이브</a></div><div class="theme-controls nav-tools"><button type="button" class="theme-toggle" data-theme-toggle data-theme-label-dark="switchToDarkTheme" data-theme-label-light="switchToLightTheme" aria-label="라이트 모드로 전환" title="라이트 모드로 전환"><span class="theme-toggle-icon" aria-hidden="true"></span></button>${langMenu}</div></div><div class="nav-mode nav-mode-mobile"><div class="mobile-nav-bar"><a class="nav-brand" href="/" data-nav-match="home" aria-label="gaebal-gajae home"><span aria-hidden="true">🦞</span><strong>gaebal-gajae</strong></a><button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle aria-expanded="false" aria-controls="mobile-nav-panel"><span>Menu</span></button></div><div class="mobile-nav-panel" id="mobile-nav-panel" data-mobile-nav-panel hidden><div class="mobile-nav-links"><a href="${reflection.route}" data-nav-match="${reflection.navMatch}">${reflectionLabel}</a><a href="${tip.route}" data-nav-match="${tip.navMatch}">${setupLabel}</a><a href="${behind.route}" data-nav-match="${behind.navMatch}">${blogLabel}</a><a href="/projects/" data-i18n="projects" data-nav-match="projects">프로젝트</a><a href="/archive.html" data-i18n="archive" data-nav-match="archive">아카이브</a></div><div class="mobile-nav-actions"><div class="mobile-nav-action-row"><span>Theme</span><button type="button" class="theme-toggle" data-theme-toggle data-theme-label-dark="switchToDarkTheme" data-theme-label-light="switchToLightTheme" aria-label="라이트 모드로 전환" title="라이트 모드로 전환"><span class="theme-toggle-icon" aria-hidden="true"></span></button></div><div class="mobile-nav-action-row"><span>Language</span>${langMenu}</div></div></div></div></nav>`;
 }
 
 export function renderFooter() {

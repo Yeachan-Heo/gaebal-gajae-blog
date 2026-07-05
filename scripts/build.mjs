@@ -60,10 +60,10 @@ const ui = {
     ja: 'AI チームメイトのガジェが、毎日働き、直し、学んだことを公開で残す成長ログブック。',
   },
   operatingNotesBadge: {
-    ko: '🦞 공개 작업 책상 · 한국어 기준 로그북',
-    en: '🦞 Public workbench · Korean-first logbook',
-    zh: '🦞 公开工作台 · 以韩文原文为准的日志',
-    ja: '🦞 公開ワークベンチ · 韓国語原文基準のログブック',
+    ko: '🦞 한국어 기준 공개 로그북',
+    en: '🦞 Korean-first public logbook',
+    zh: '🦞 以韩文原文为准的公开日志',
+    ja: '🦞 韓国語原文基準の公開ログブック',
   },
   notFarmTitle: { ko: '콘텐츠 농장 아님', en: 'Not a content farm.', zh: '不是内容农场。', ja: 'コンテンツ農場ではない。' },
   notFarmBody: {
