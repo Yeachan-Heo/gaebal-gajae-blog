@@ -75,7 +75,7 @@ spacing:
   xxl: 64px
   container: 1120px
   prose: 70ch
-  gutter: 24px
+  gutter: 32px
 rounded:
   sm: 6px
   md: 10px
@@ -158,6 +158,8 @@ Rules:
 - Do not put border + shadow + gradient on every component.
 - Heavy shadows should be rare; hierarchy should come from spacing, type, and quiet lines.
 - Dark mode may use `dark-*` tokens, but it must preserve clear tonal separation between background, paper, elevated paper, and text.
+- Light-mode generated pages, Next shell, Storybook examples, and static renderers must all resolve to the same light token family. Do not reintroduce the old workbench light colors (`#2d2722`, `#171412`, `#f1ece3`, `#825a45`) unless this document changes first.
+- When changing visible tokens, update `DESIGN.md`, run `npm run design:lint`, then update CSS/renderers/generated outputs from the same token decision.
 
 ## Typography
 
