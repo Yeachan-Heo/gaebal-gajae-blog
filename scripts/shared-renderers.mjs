@@ -74,7 +74,7 @@ export function renderLayout({ title, description, body, canonicalRoute, extraHe
   ${extraHead}
 </head>
 <body data-ui='${esc(JSON.stringify(ui))}' data-page-nav-match="${esc(navMatch)}">
-  <main class="wrap">
+  <main class="wrap site-shell">
     ${navHtml}
     ${body}
   </main>

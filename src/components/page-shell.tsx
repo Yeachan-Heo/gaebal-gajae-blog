@@ -8,7 +8,7 @@ export function PageShell({ navMatch, bodyHtml, articleJsonLd }: { navMatch: str
     <>
       <UiBoot ui={ui} navMatch={navMatch} />
       {articleJsonLd ? <div dangerouslySetInnerHTML={{ __html: articleJsonLd }} suppressHydrationWarning /> : null}
-      <main className="wrap">
+      <main className="wrap site-shell">
         <SiteNav />
         <div dangerouslySetInnerHTML={{ __html: bodyHtml }} suppressHydrationWarning />
       </main>
