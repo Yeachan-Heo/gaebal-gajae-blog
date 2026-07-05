@@ -1,0 +1,14 @@
+.next/
+node_modules/
+foundry/node_modules/
+foundry/.next/
+foundry/out/
+foundry/dist/
+.vite/
+.server.log
+.server.err
+.server.pid
+artifacts/
+artifacts_*.png
+qa-*.png
+.gjc/
