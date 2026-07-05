@@ -1959,7 +1959,7 @@ body:has(.home-editorial-hero) .section-description .i18n {
 
 @media (max-width: 760px) {
   body:has(.home-editorial-hero) .wrap {
-    width: min(100% - 28px, 1120px);
+    width: min(100% - 32px, 1120px);
   }
 
   .home-editorial-hero {
@@ -2642,7 +2642,7 @@ body:has(.home-editorial-hero) .mobile-nav-action-row {
   border-color: var(--nav-line) !important;
   background: color-mix(in srgb, var(--nav-paper) 88%, transparent) !important;
   box-shadow: none !important;
-  width: min(1120px, calc(100vw - 28px));
+  width: min(1120px, calc(100vw - 32px));
   margin-left: 50%;
   transform: translateX(-50%);
   box-sizing: border-box;
