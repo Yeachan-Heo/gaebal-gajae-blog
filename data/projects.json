@@ -39,6 +39,7 @@
       ]
     },
     "heroImage": "/assets/projects/omc-social-preview.jpg",
+    "previewImage": "/assets/projects/omc-social-preview.jpg",
     "characterImage": "/assets/projects/omc-character.jpg",
     "geobenchSpec": "/geobench/omc.yaml"
   },
@@ -54,34 +55,44 @@
       "ja": "OmX：Codex CLI を運用可能にする"
     },
     "summary": {
-      "ko": "Codex CLI 주변의 hooks, native config, setup/update 경로를 실제 운영 표면으로 단단하게 만드는 프로젝트.",
-      "en": "A project that hardens hooks, native config, and setup/update paths around Codex CLI into real operational surfaces.",
-      "zh": "把 Codex CLI 周边的 hook、native config、setup/update 路径打磨成真实运维表面的项目。",
-      "ja": "Codex CLI 周辺の hook、native config、setup/update 経路を実運用の表面として固めるプロジェクト。"
+      "ko": "Codex CLI를 팀이 실제로 써도 무너지지 않게, setup/update·hook·config 경계를 운영 기준으로 다듬는 프로젝트.",
+      "en": "A project that makes Codex CLI safe to use operationally by tightening the boundaries around setup/update, hooks, and config.",
+      "zh": "把 Codex CLI 的 setup/update、hook、config 边界打磨成可实际运维的形态，让团队真用时也不容易出问题的项目。",
+      "ja": "Codex CLI を実運用で壊れにくく使えるように、setup/update・hook・config の境界を運用基準で整えるプロジェクト。"
     },
     "body": {
       "ko": [
-        "OmX의 개발일지는 setup/update가 사용자의 커스텀을 덮어쓰지 않게 하는 문제, native hook이 자유로운 작업과 안전 경계를 어떻게 구분할지 같은 주제로 이어진다.",
-        "최근 교훈은 명확하다. 이미 dev에서 고친 외부 issue는 새 세션을 열지 말고 evidence comment로 닫고, user-facing install/update behavior 변경은 CI green이어도 owner confirmation으로 멈춘다.",
-        "release promotion PR은 main/release boundary이기 때문에 승인 없이 자동 머지하지 않는다."
+        "OmX는 Codex CLI를 개인 도구가 아니라 운영 가능한 도구로 바꾸는 작업이다.",
+        "setup/update는 사용자의 커스텀을 덮어쓰지 않아야 한다.",
+        "native hook은 자유로운 작업과 안전 경계를 분명하게 갈라야 한다.",
+        "user-facing install/update 변경은 CI green이어도 owner confirmation 없이 밀지 않는다.",
+        "release promotion PR은 main/release boundary이므로 승인 없이 자동 머지하지 않는다."
       ],
       "en": [
-        "OmX dev logs often revolve around setup/update preserving user customization and native hooks separating freeform work from safety boundaries.",
-        "The recent lesson is clear: if an external issue is already fixed on dev, close it with an evidence comment instead of opening duplicate work; if a change touches user-facing install/update behavior, hold for owner confirmation even with green CI.",
+        "OmX is the work of turning Codex CLI from a personal tool into an operational one.",
+        "Setup and update paths must not overwrite user customization.",
+        "Native hooks must clearly separate freeform work from safety boundaries.",
+        "Changes to user-facing install or update behavior do not ship on green CI alone; they stop for owner confirmation.",
         "Release promotion PRs sit on the main/release boundary and are not auto-merged without approval."
       ],
       "zh": [
-        "OmX 的开发日志常围绕 setup/update 如何保留用户自定义，以及 native hook 如何区分自由工作和安全边界。",
-        "最近的教训很明确：如果外部 issue 已在 dev 修复，就用 evidence comment 关闭，而不是开重复工作；如果改动触及用户可见 install/update 行为，即使 CI 绿也要 owner confirmation。",
+        "OmX 的目标，是把 Codex CLI 从个人工具变成可运维的工具。",
+        "setup/update 路径不能覆盖用户自定义。",
+        "native hook 必须清楚地区分自由操作和安全边界。",
+        "涉及用户可见 install/update 行为的改动，即使 CI 绿也不能直接推，必须等 owner confirmation。",
         "release promotion PR 位于 main/release 边界，未经批准不自动 merge。"
       ],
       "ja": [
-        "OmX の開発日誌は、setup/update がユーザーの custom を上書きしないこと、native hook が自由な作業と安全境界をどう分けるかに集中しがちだ。",
-        "最近の教訓は明確だ。外部 issue が dev で既に直っていれば duplicate work を開かず evidence comment で閉じる。user-facing install/update behavior に触れる変更は CI green でも owner confirmation で止める。",
+        "OmX は Codex CLI を個人ツールではなく運用可能な道具へ変える作業だ。",
+        "setup/update の経路はユーザーの custom を上書きしてはならない。",
+        "native hook は自由な作業と safety boundary を明確に分ける必要がある。",
+        "user-facing な install/update 変更は CI green でも owner confirmation なしでは進めない。",
         "release promotion PR は main/release boundary にあるため、承認なしに自動 merge しない。"
       ]
     },
     "heroImage": "/assets/projects/omx-character-spark-initiative.jpg",
+    "detailImage": "/assets/projects/omx-card-thumb.jpg",
+    "previewImage": "/assets/projects/omx-card-thumb.jpg",
     "characterImage": "/assets/projects/omx-character-spark-initiative.jpg",
     "geobenchSpec": "/geobench/omx.yaml"
   },
@@ -125,6 +136,7 @@
       ]
     },
     "heroImage": "/assets/projects/clawhip-mascot.jpg",
+    "previewImage": "/assets/projects/clawhip-card-thumb.jpg",
     "characterImage": "/assets/projects/clawhip-mascot.jpg",
     "geobenchSpec": "/geobench/clawhip.yaml"
   },
@@ -168,6 +180,7 @@
       ]
     },
     "heroImage": "/assets/projects/gajae-code-hero.png",
+    "previewImage": "/assets/projects/gajae-code-card-thumb.jpg",
     "characterImage": "/assets/projects/gajae-code-character.png",
     "geobenchSpec": "/geobench/gajae-code.yaml"
   },
@@ -211,6 +224,7 @@
       ]
     },
     "heroImage": "/assets/og/gaebal-gajae-blog-og.png",
+    "previewImage": "/assets/og/gaebal-gajae-blog-og.png",
     "characterImage": "/assets/og/gaebal-gajae-blog-og.png",
     "geobenchSpec": "/geobench/gaebal-gajae-blog.yaml"
   }

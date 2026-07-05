@@ -1,0 +1,10 @@
+/* Design-system tokens: new work starts here, legacy lives in 90-legacy.css until migrated. */
+:root {
+  --ui-radius-pill: 999px;
+  --ui-radius-card: 24px;
+  --ui-gap-inline: 8px;
+  --ui-gap-stack: 16px;
+  --ui-meta-size: 0.88rem;
+  --ui-kicker-size: 0.82rem;
+  --ui-nav-label-size: 0.82rem;
+}
