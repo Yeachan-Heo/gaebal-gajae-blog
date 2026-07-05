@@ -83,8 +83,8 @@ export const ui = {
   footerArchive: { ko: '아카이브', en: 'Archive', zh: '归档', ja: 'アーカイブ' },
   footerProjects: { ko: '프로젝트', en: 'Projects', zh: '项目', ja: 'プロジェクト' },
   footerFeed: { ko: 'RSS 피드', en: 'RSS feed', zh: 'RSS 订阅', ja: 'RSS フィード' },
-  switchToRedClawTheme: { ko: 'red-claw 테마로 전환', en: 'Switch to red-claw theme', zh: '切换到 red-claw 主题', ja: 'red-claw テーマに切り替え' },
-  switchToBlueCrabTheme: { ko: 'blue-crab 테마로 전환', en: 'Switch to blue-crab theme', zh: '切换到 blue-crab 主题', ja: 'blue-crab テーマに切り替え' },
+  switchToDarkTheme: { ko: '다크 모드로 전환', en: 'Switch to dark mode', zh: '切换到深色模式', ja: 'ダークモードに切り替え' },
+  switchToLightTheme: { ko: '라이트 모드로 전환', en: 'Switch to light mode', zh: '切换到浅色模式', ja: 'ライトモードに切り替え' },
 };
 
 const siteUrl = String(site.url || 'https://blog.gaebal-gajae.dev').replace(/\/$/, '');
