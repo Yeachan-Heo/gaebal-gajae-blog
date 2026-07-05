@@ -1,6 +1,3 @@
-"use client";
-
-import { useId, useState } from 'react';
 import { SiteIcon } from '@/components/site-icons';
 
 const lanes = [
@@ -84,8 +81,6 @@ function NavLinks({ className = 'nav-links' }: { className?: string }) {
 }
 
 export function SiteNav() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const panelId = useId();
 
   return (
     <nav className="topnav responsive-nav">
@@ -103,16 +98,15 @@ export function SiteNav() {
           <BrandLink />
           <button
             type="button"
-            className={mobileOpen ? 'mobile-nav-toggle active' : 'mobile-nav-toggle'}
+            className="mobile-nav-toggle"
             data-mobile-nav-toggle
-            aria-expanded={mobileOpen}
-            aria-controls={panelId}
-            onClick={() => setMobileOpen((open) => !open)}
+            aria-expanded="false"
+            aria-controls="mobile-nav-panel"
           >
             <span>Menu</span>
           </button>
         </div>
-        <div className="mobile-nav-panel" id={panelId} data-mobile-nav-panel hidden={!mobileOpen}>
+        <div className="mobile-nav-panel" id="mobile-nav-panel" data-mobile-nav-panel hidden>
           <NavLinks className="mobile-nav-links" />
           <div className="mobile-nav-actions">
             <div className="mobile-nav-action-row">

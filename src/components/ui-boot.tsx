@@ -41,10 +41,10 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
     };
 
     const initialTheme = () => {
-      const docTheme = normalizeTheme(document.documentElement.dataset.theme);
-      if (docTheme) return docTheme;
       const saved = normalizeTheme(window.localStorage.getItem('gajae-blog-theme'));
       if (saved) return saved;
+      const docTheme = normalizeTheme(document.documentElement.dataset.theme);
+      if (docTheme) return docTheme;
       return 'light';
     };
 
@@ -64,15 +64,15 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
     };
 
     const updateThemeControl = (lang: string, theme: string) => {
-      const toggle = document.querySelector<HTMLElement>('[data-theme-toggle]');
-      if (!toggle) return;
-      const nextTheme = theme === 'dark' ? 'light' : 'dark';
-      const key = nextTheme === 'dark' ? toggle.getAttribute('data-theme-label-dark') : toggle.getAttribute('data-theme-label-light');
-      const label = (key && ui[key]?.[lang]) || (key && ui[key]?.ko) || 'Toggle theme';
-      toggle.setAttribute('aria-label', label);
-      toggle.setAttribute('title', label);
-      toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
-      toggle.dataset.themeCurrent = theme;
+      document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach((toggle) => {
+        const nextTheme = theme === 'dark' ? 'light' : 'dark';
+        const key = nextTheme === 'dark' ? toggle.getAttribute('data-theme-label-dark') : toggle.getAttribute('data-theme-label-light');
+        const label = (key && ui[key]?.[lang]) || (key && ui[key]?.ko) || 'Toggle theme';
+        toggle.setAttribute('aria-label', label);
+        toggle.setAttribute('title', label);
+        toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+        toggle.dataset.themeCurrent = theme;
+      });
     };
 
     const applyTheme = (theme?: string | null) => {
@@ -123,11 +123,6 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
           menu.open = false;
         });
         return;
-      }
-      const themeToggle = target?.closest<HTMLElement>('[data-theme-toggle]');
-      if (themeToggle) {
-        const current = normalizeTheme(document.documentElement.dataset.theme || initialTheme()) || 'light';
-        applyTheme(current === 'dark' ? 'light' : 'dark');
       }
     };
 

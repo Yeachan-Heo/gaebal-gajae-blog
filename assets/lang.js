@@ -71,16 +71,16 @@
   }
 
   function updateThemeControl(lang, theme) {
-    const toggle = document.querySelector('[data-theme-toggle]');
-    if (!toggle) return;
     const ui = currentUi();
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    const key = nextTheme === 'dark' ? toggle.getAttribute('data-theme-label-dark') : toggle.getAttribute('data-theme-label-light');
-    const label = ui[key]?.[lang] || ui[key]?.ko || 'Toggle theme';
-    toggle.setAttribute('aria-label', label);
-    toggle.setAttribute('title', label);
-    toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
-    toggle.dataset.themeCurrent = theme;
+    document.querySelectorAll('[data-theme-toggle]').forEach((toggle) => {
+      const nextTheme = theme === 'dark' ? 'light' : 'dark';
+      const key = nextTheme === 'dark' ? toggle.getAttribute('data-theme-label-dark') : toggle.getAttribute('data-theme-label-light');
+      const label = ui[key]?.[lang] || ui[key]?.ko || 'Toggle theme';
+      toggle.setAttribute('aria-label', label);
+      toggle.setAttribute('title', label);
+      toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+      toggle.dataset.themeCurrent = theme;
+    });
   }
 
   function applyTheme(theme) {
