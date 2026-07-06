@@ -1,6 +1,7 @@
 import { SiteNav } from '@/components/site-nav';
+import { SiteFooter } from '@/components/site-footer';
 import { UiBoot } from '@/components/ui-boot';
-import { footerHtml, ui } from '@/lib/site-data.mjs';
+import { ui } from '@/lib/site-data.mjs';
 
 
 export function PageShell({ navMatch, bodyHtml, articleJsonLd }: { navMatch: string; bodyHtml: string; articleJsonLd?: string | null }) {
@@ -12,7 +13,7 @@ export function PageShell({ navMatch, bodyHtml, articleJsonLd }: { navMatch: str
         <SiteNav />
         <div dangerouslySetInnerHTML={{ __html: bodyHtml }} suppressHydrationWarning />
       </main>
-      <div dangerouslySetInnerHTML={{ __html: footerHtml }} suppressHydrationWarning />
+      <SiteFooter ui={ui} />
     </>
   );
 }

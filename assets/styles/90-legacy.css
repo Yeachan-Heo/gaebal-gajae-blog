@@ -28,7 +28,6 @@
 }
 
 .site-shell .hero-actions,
-.site-footer .footer-links,
 .site-shell .type-pills,
 .site-shell .stats-strip {
   display: flex;
@@ -215,12 +214,6 @@
   margin: 22px 0 0;
 }
 
-.site-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
 
 
 
@@ -344,7 +337,6 @@ body {
 .site-shell .meta,
 .site-shell .reading-meta:not(.reading-meta-detail),
 .site-shell .archive-year-head span,
-.site-footer,
 .site-shell .geobench-stat,
 .site-shell .geo-note,
 .site-shell .geo-note strong {
@@ -414,16 +406,14 @@ body {
 
 .site-shell .button-link.subtle,
 .site-shell .button-link.inline,
-.site-shell .project-repo-main,
-.site-footer .footer-links a {
+.site-shell .project-repo-main {
   color: var(--link) !important;
 }
 
 
 .site-shell .button-link.subtle:hover,
 .site-shell .button-link.inline:hover,
-.site-shell .project-repo-main:hover,
-.site-footer .footer-links a:hover {
+.site-shell .project-repo-main:hover {
   color: var(--link-hover) !important;
 }
 
@@ -522,7 +512,6 @@ html[data-theme="light"] .site-shell .button-link.secondary {
 :root[data-theme="light"] .site-shell .meta,
 :root[data-theme="light"] .site-shell .reading-meta,
 :root[data-theme="light"] .site-shell .archive-year-head span,
-:root[data-theme="light"] .site-footer,
 :root[data-theme="light"] .site-shell .geo-note,
 :root[data-theme="light"] .site-shell .geo-note strong {
   color: var(--muted) !important;

@@ -3,7 +3,7 @@ import rawPosts from '../../data/posts.json' with { type: 'json' };
 import projects from '../../data/projects.json' with { type: 'json' };
 import repos from '../../data/repos.json' with { type: 'json' };
 import { renderHomeBody, renderArchiveBody, renderLaneIndexBody, renderPostBody, renderProjectBody, renderProjectsIndexBody } from '../../scripts/page-components.mjs';
-import { renderArticleJsonLd, renderFeaturedPostCard, renderFooter, renderNav, renderPostRow, renderProjectMetaBar, renderProjectPreviewCard, renderRepoBar, renderSectionHead } from '../../scripts/shared-renderers.mjs';
+import { renderArticleJsonLd, renderFeaturedPostCard, renderNav, renderPostRow, renderProjectMetaBar, renderProjectPreviewCard, renderRepoBar, renderSectionHead } from '../../scripts/shared-renderers.mjs';
 import { laneEntries, laneFromType } from '../../scripts/lane-registry.mjs';
 
 export const langs = ['ko', 'en', 'zh', 'ja'];
@@ -252,7 +252,6 @@ const totals = {
 };
 
 export const navHtml = renderNav({ langs, langLabel });
-export const footerHtml = renderFooter();
 
 function inlineMarkdown(text = '') {
   let out = esc(text);
