@@ -11,13 +11,13 @@ export function SiteFooter({ ui }: SiteFooterProps) {
     <footer className="wrap site-footer">
       <LocalizedText as="span" map={ui.built} />
       <div className="footer-links">
-        <a href="/archive" data-i18n="footerArchive">
+        <a href="/archive">
           <LocalizedText map={ui.footerArchive} />
         </a>
-        <a href="/projects/" data-i18n="footerProjects">
+        <a href="/projects/">
           <LocalizedText map={ui.footerProjects} />
         </a>
-        <a href="/rss.xml" data-i18n="footerFeed">
+        <a href="/rss.xml">
           <LocalizedText map={ui.footerFeed} />
         </a>
       </div>

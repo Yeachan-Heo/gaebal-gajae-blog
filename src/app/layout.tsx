@@ -45,7 +45,9 @@ const themeBootScript = `(() => {
 
 const interactionBootScript = `(() => {
   const supportedThemes = new Set(["light", "dark"]);
+  const supportedLangs = new Set(["ko", "en", "zh", "ja"]);
   const themeAliases = { "blue-crab": "light", "red-claw": "dark" };
+  const langAliases = { "zh-cn": "zh", "zh-tw": "zh", "zh-hans": "zh", "zh-hant": "zh", "ja-jp": "ja", "ko-kr": "ko", "en-us": "en", "en-gb": "en" };
   const labels = {
     ko: { dark: "다크 모드로 전환", light: "라이트 모드로 전환" },
     en: { dark: "Switch to dark mode", light: "Switch to light mode" },
@@ -57,9 +59,31 @@ const interactionBootScript = `(() => {
     if (supportedThemes.has(value)) return value;
     return themeAliases[value] || null;
   };
-  const currentLang = () => {
-    const value = String(document.documentElement.lang || "ko").toLowerCase().split("-")[0];
-    return labels[value] ? value : "ko";
+  const normalizeLang = (raw) => {
+    const value = String(raw || "").toLowerCase();
+    if (!value) return null;
+    if (langAliases[value]) return langAliases[value];
+    const base = value.split("-")[0];
+    return supportedLangs.has(base) ? base : null;
+  };
+  const initialLang = () => {
+    const qs = normalizeLang(new URLSearchParams(window.location.search).get("lang"));
+    if (qs) return qs;
+    try {
+      const saved = normalizeLang(window.localStorage.getItem("gajae-blog-lang"));
+      if (saved) return saved;
+    } catch {}
+    return normalizeLang(document.documentElement.lang) || "ko";
+  };
+  const currentLang = () => normalizeLang(document.documentElement.lang) || "ko";
+  const parseMap = (el) => {
+    try { return JSON.parse(el.getAttribute("data-i18n-text") || "{}"); } catch { return {}; }
+  };
+  const syncLangUrl = (lang) => {
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has("lang")) return;
+    url.searchParams.set("lang", lang);
+    window.history.replaceState({}, "", url);
   };
   const updateThemeControls = (theme) => {
     const nextTheme = theme === "dark" ? "light" : "dark";
@@ -81,6 +105,28 @@ const interactionBootScript = `(() => {
     } catch {}
     updateThemeControls(theme);
   };
+  const applyLang = (raw) => {
+    const lang = normalizeLang(raw) || currentLang();
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n-text]").forEach((el) => {
+      const map = parseMap(el);
+      el.textContent = map[lang] || map.ko || map.en || el.textContent || "";
+    });
+    document.querySelectorAll("[data-lang-block]").forEach((el) => {
+      el.hidden = el.getAttribute("data-lang-block") !== lang;
+    });
+    document.querySelectorAll("[data-lang-button]").forEach((button) => {
+      const active = button.getAttribute("data-lang-button") === lang;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    document.querySelectorAll("[data-lang-current]").forEach((el) => {
+      el.textContent = lang.toUpperCase();
+    });
+    try { window.localStorage.setItem("gajae-blog-lang", lang); } catch {}
+    syncLangUrl(lang);
+    updateThemeControls(normalizeTheme(document.documentElement.dataset.theme) || "light");
+  };
   const setMobileNavOpen = (open) => {
     document.querySelectorAll("[data-mobile-nav-panel]").forEach((panel) => {
       panel.hidden = !open;
@@ -93,6 +139,12 @@ const interactionBootScript = `(() => {
   document.addEventListener("click", (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
+    const langButton = target.closest("[data-lang-button]");
+    if (langButton) {
+      applyLang(langButton.getAttribute("data-lang-button"));
+      document.querySelectorAll(".lang-menu[open]").forEach((menu) => { menu.open = false; });
+      return;
+    }
     const themeToggle = target.closest("[data-theme-toggle]");
     if (themeToggle) {
       const current = normalizeTheme(document.documentElement.dataset.theme) || "light";
@@ -109,10 +161,14 @@ const interactionBootScript = `(() => {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") setMobileNavOpen(false);
   });
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => updateThemeControls(normalizeTheme(document.documentElement.dataset.theme) || "light"), { once: true });
-  } else {
+  const boot = () => {
+    applyLang(initialLang());
     updateThemeControls(normalizeTheme(document.documentElement.dataset.theme) || "light");
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
   }
 })();`;
 
