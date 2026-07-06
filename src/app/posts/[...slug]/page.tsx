@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { PageShell } from '@/components/page-shell';
+import { PostView } from '@/components/blog-patterns';
 import { pageMetadata } from '@/lib/metadata';
 import { getPostPageData, getPostSlugs } from '@/lib/site-data.mjs';
 
@@ -29,5 +29,5 @@ export default async function PostPage({ params }: { params: Promise<{ slug?: st
   if (!slug) notFound();
   const page = getPostPageData(slug);
   if (!page) notFound();
-  return <PageShell navMatch={page.navMatch} bodyHtml={page.bodyHtml} articleJsonLd={page.articleJsonLd} />;
+  return <PostView slug={slug} />;
 }
