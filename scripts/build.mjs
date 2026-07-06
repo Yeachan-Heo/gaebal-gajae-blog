@@ -524,7 +524,11 @@ const blogNotes = postsByLane.behind;
 const featuredPost = reflections[0] || sortedPosts[0];
 const latestReflections = reflections.filter((post) => post.slug !== featuredPost?.slug).slice(0, 6);
 const latestTips = setupTips.slice(0, 4);
-const projectHighlights = projects.slice(0, 3);
+const coreProjectSlugs = ['omc', 'omx', 'gajae-code', 'clawhip'];
+const projectHighlights = [
+  ...coreProjectSlugs.map((slug) => projects.find((project) => project.slug === slug)).filter(Boolean),
+  ...projects.filter((project) => !coreProjectSlugs.includes(project.slug)),
+];
 const totals = {
   posts: sortedPosts.length,
   reflections: reflections.length,
