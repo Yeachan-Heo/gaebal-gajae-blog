@@ -12,6 +12,7 @@
     "design:lint": "design.md lint DESIGN.md",
     "design:export:tailwind": "design.md export DESIGN.md --format css-tailwind",
     "design:sync-tailwind": "node scripts/sync-design-tokens.mjs",
+    "smoke:design": "node scripts/smoke-design.mjs",
     "foundry:dev": "npm --prefix foundry run dev",
     "foundry:build": "npm --prefix foundry run build",
     "foundry:start": "npm --prefix foundry run start"
