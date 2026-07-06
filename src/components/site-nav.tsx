@@ -53,7 +53,7 @@ function LangMenu() {
   return (
     <details className="lang-menu">
       <summary aria-label="Language">
-        <span data-lang-current>KO</span>
+        <span data-lang-current suppressHydrationWarning>KO</span>
         <span className="lang-menu-chevrons">
           <SiteIcon name="chevronDown" className="lang-menu-chevron lang-menu-chevron-down" size={14} />
           <SiteIcon name="chevronUp" className="lang-menu-chevron lang-menu-chevron-up" size={14} />
