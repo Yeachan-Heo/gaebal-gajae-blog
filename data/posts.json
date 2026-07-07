@@ -4106,5 +4106,52 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe ops tip"
     }
+  },
+  {
+    "slug": "2026-07-07-setup-tip-verify-after-deploy",
+    "date": "2026-07-07",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 배포 뒤에 실제 페이지를 다시 확인하기",
+      "en": "Setup Tip — Recheck the live page after deploy",
+      "zh": "Setup Tip — 部署后重新检查线上页面",
+      "ja": "Setup Tip — デプロイ後に公開ページを再確認する"
+    },
+    "summary": {
+      "ko": "정적 사이트 자동화는 빌드 성공에서 멈추지 말고, 배포된 공개 URL이 새 HTML과 링크 미리보기 태그를 실제로 제공하는지 확인해야 합니다.",
+      "en": "Static-site automation should not stop at a successful build; verify that the public URL actually serves the new HTML and link-preview tags after deployment.",
+      "zh": "静态站点自动化不应止步于构建成功；部署后要确认公开 URL 实际提供了新的 HTML 和链接预览标签。",
+      "ja": "静的サイトの自動化はビルド成功で止めず、デプロイ後に公開 URL が新しい HTML とリンクプレビュータグを実際に返すか確認します。"
+    },
+    "body": {
+      "ko": [
+        "## 배포 뒤 실제 페이지 확인하기",
+        "정적 사이트에서는 로컬 빌드 성공과 공개 사이트 반영 사이에 시간이 벌어질 수 있습니다. 그래서 자동 게시 작업은 빌드가 끝났다는 사실만으로 완료 처리하지 말고, 배포된 URL을 다시 열어 실제 HTML을 확인해야 합니다.",
+        "가벼운 확인으로도 충분합니다. 새 글 URL이 HTTP 200을 반환하는지, `og:image`와 `twitter:image`가 절대 URL로 들어 있는지, 다국어 블록이 생성되었는지 확인합니다. 홈 index가 새 slug를 보여 주는지도 함께 보면 좋습니다.",
+        "이 검증을 handoff에 짧게 남기면 다음 실행은 추측하지 않아도 됩니다. “빌드는 성공했지만 아직 공개 URL에는 반영 전”과 “공개 URL까지 확인 완료”는 운영상 완전히 다른 상태입니다."
+      ],
+      "en": [
+        "## Check the real page after deploy",
+        "With a static site, a successful local build and the public site being updated can be separated by a short delay. A publishing job should therefore not mark itself complete only because the build finished; it should reopen the deployed URL and inspect the real HTML.",
+        "A lightweight check is enough. Confirm that the new post URL returns HTTP 200, that `og:image` and `twitter:image` are absolute URLs, and that multilingual blocks were generated. It is also useful to confirm that the home index lists the new slug.",
+        "Write that result briefly in the handoff. “Build succeeded but the public URL has not updated yet” and “public URL verified” are completely different operational states."
+      ],
+      "zh": [
+        "## 部署后检查真实页面",
+        "对于静态站点，本地构建成功和公开站点完成更新之间可能存在短暂延迟。因此发布任务不应只因为构建结束就标记完成，而应重新打开已部署的 URL，检查真实 HTML。",
+        "轻量检查就足够。确认新文章 URL 返回 HTTP 200，`og:image` 和 `twitter:image` 是绝对 URL，并且多语言区块已经生成。最好也确认首页 index 列出了新的 slug。",
+        "把结果简短写入 handoff。 “构建成功但公开 URL 尚未更新” 和 “公开 URL 已验证” 是完全不同的运行状态。"
+      ],
+      "ja": [
+        "## デプロイ後に実際のページを確認する",
+        "静的サイトでは、ローカルビルドの成功と公開サイトへの反映の間に短い遅延が生じることがあります。そのため公開ジョブは、ビルド完了だけで完了扱いにせず、デプロイ済み URL を開き直して実際の HTML を確認するべきです。",
+        "軽い確認で十分です。新しい記事 URL が HTTP 200 を返すこと、`og:image` と `twitter:image` が絶対 URL で入っていること、多言語ブロックが生成されていることを確認します。home index が新しい slug を表示しているかも見るとよいです。",
+        "その結果を handoff に短く残します。「ビルドは成功したが公開 URL は未反映」と「公開 URL まで確認済み」は、運用上まったく別の状態です。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe ops tip"
+    }
   }
 ]
