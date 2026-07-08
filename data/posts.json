@@ -4205,5 +4205,52 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe ops tip"
     }
+  },
+  {
+    "slug": "2026-07-08-setup-tip-keep-smoke-tests-small",
+    "date": "2026-07-08",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 스모크 테스트는 작고 선명하게 유지하기",
+      "en": "Setup Tip — Keep smoke tests small and clear",
+      "zh": "Setup Tip — 让冒烟测试保持小而清晰",
+      "ja": "Setup Tip — スモークテストは小さく明確に保つ"
+    },
+    "summary": {
+      "ko": "배포 확인은 거대한 회귀 테스트가 아니라, 공개 URL이 실제로 열리고 핵심 메타 태그와 언어 블록을 제공하는지 빠르게 확인하는 작은 계약이어야 합니다.",
+      "en": "Deployment verification should be a small contract, not a giant regression suite: confirm that the public URL opens and serves the key meta tags and language blocks.",
+      "zh": "部署验证应是一个小而明确的契约，而不是庞大的回归套件：确认公开 URL 能打开，并提供关键 meta 标签和语言区块。",
+      "ja": "デプロイ確認は巨大な回帰テストではなく、小さな契約にします。公開 URL が開き、主要なメタタグと言語ブロックを返すことを確認します。"
+    },
+    "body": {
+      "ko": [
+        "## 스모크 테스트는 작고 선명하게",
+        "배포 자동화에서 스모크 테스트는 모든 것을 증명하려는 장치가 아닙니다. 공개 페이지가 열리는지, 새 글의 핵심 HTML이 반영되었는지, 링크 미리보기용 `og:image`와 `twitter:image`가 들어 있는지처럼 운영상 바로 필요한 신호만 빠르게 확인하는 계약입니다.",
+        "작게 유지하면 실패도 선명해집니다. HTTP 200이 아니면 배포나 라우팅 문제이고, 메타 태그가 없으면 렌더링 템플릿 문제이며, 언어 블록이 없으면 콘텐츠 생성이나 빌드 입력 문제입니다. 한 번에 너무 많은 것을 검사하면 실패 원인이 흐려집니다.",
+        "실무에서는 빌드 성공 뒤 대표 URL 몇 개만 확인하고, 결과를 handoff에 날짜·slug·상태로 남깁니다. 이렇게 하면 다음 실행은 긴 로그를 다시 읽지 않고도 “무엇이 공개됐고 무엇이 아직 막혔는지”를 바로 이어받을 수 있습니다."
+      ],
+      "en": [
+        "## Keep smoke tests small and clear",
+        "In deployment automation, a smoke test is not supposed to prove everything. It is a compact contract for the signals that matter immediately: the public page opens, the new post HTML is present, and link-preview tags such as `og:image` and `twitter:image` are included.",
+        "Keeping the check small makes failures easier to understand. A non-200 response points to deployment or routing. Missing meta tags point to the rendering template. Missing language blocks point to content generation or build input. If the smoke test tries to check too much at once, the failure becomes noisy.",
+        "In practice, after a successful build, check a few representative URLs and record the date, slug, and status in the handoff. The next run can then continue from “what is live” and “what is still blocked” without rereading long logs."
+      ],
+      "zh": [
+        "## 让冒烟测试保持小而清晰",
+        "在部署自动化中，冒烟测试不是用来证明一切的工具。它应是一个紧凑的契约，只检查立即重要的信号：公开页面能打开，新文章 HTML 已经出现，并且包含 `og:image`、`twitter:image` 等链接预览标签。",
+        "检查越小，失败越容易理解。非 200 响应通常指向部署或路由问题；缺少 meta 标签通常指向渲染模板；缺少语言区块通常指向内容生成或构建输入。如果冒烟测试一次检查太多内容，失败原因就会变得嘈杂。",
+        "实际操作中，构建成功后只检查几个代表性 URL，并在 handoff 中记录日期、slug 和状态。下一次运行就能直接接上“哪些已经上线、哪些仍被阻塞”，不用重新阅读冗长日志。"
+      ],
+      "ja": [
+        "## スモークテストは小さく明確に保つ",
+        "デプロイ自動化におけるスモークテストは、すべてを証明するためのものではありません。公開ページが開くこと、新しい記事の HTML が反映されていること、`og:image` や `twitter:image` などのリンクプレビュー用タグが含まれていることを確認する、小さな契約です。",
+        "チェックを小さく保つと、失敗も読みやすくなります。HTTP 200 でなければデプロイやルーティングの問題、メタタグがなければレンダリングテンプレートの問題、言語ブロックがなければコンテンツ生成やビルド入力の問題です。一度に多くを検査しすぎると、失敗原因がぼやけます。",
+        "実務では、ビルド成功後に代表的な URL を数個だけ確認し、日付・slug・状態を handoff に残します。次の実行は長いログを読み直さずに、「何が公開済みで、何がまだブロックされているか」から続けられます。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe ops tip"
+    }
   }
 ]
