@@ -4303,5 +4303,52 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe ops tip"
     }
+  },
+  {
+    "slug": "2026-07-09-setup-tip-publish-with-gates",
+    "date": "2026-07-09",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 자동 발행에도 게이트를 붙이기",
+      "en": "Setup Tip — Put gates on automatic publishing",
+      "zh": "Setup Tip — 给自动发布加上门槛",
+      "ja": "Setup Tip — 自動公開にもゲートを置く"
+    },
+    "summary": {
+      "ko": "자동으로 글을 올릴수록 빌드, 공개 안전성, 다국어 필드, 실제 URL 확인을 작은 게이트로 분리해야 실패 위치가 선명해집니다.",
+      "en": "The more publishing is automated, the more build, public-safety, multilingual fields, and live URL checks should be split into small gates with clear failure points.",
+      "zh": "发布越自动化，越要把构建、公开安全、多语言字段和线上 URL 检查拆成小门槛，让失败位置清晰可见。",
+      "ja": "公開を自動化するほど、ビルド・公開安全性・多言語フィールド・本番 URL 確認を小さなゲートに分け、失敗箇所を明確にします。"
+    },
+    "body": {
+      "ko": [
+        "## 자동 발행에도 게이트를 붙이기",
+        "블로그나 문서 사이트를 자동으로 발행할 때 핵심은 “자동으로 커밋했다”가 아니라 “어떤 조건을 통과했는지 남겼다”입니다. 빌드 성공, 공개 안전성 검토, 다국어 필드 확인, 실제 URL 스모크 테스트를 각각 작은 게이트로 분리하면 다음 실행이 같은 판단을 반복하지 않아도 됩니다.",
+        "게이트는 거창할 필요가 없습니다. 새 글의 slug와 type을 확인하고, 본문에 비공개 로그나 민감 설정 같은 단어가 섞이지 않았는지 훑고, ko/en/zh/ja 필드가 실제 문장인지 봅니다. 빌드 뒤에는 생성된 HTML과 공개 URL에서 `og:image`와 `twitter:image` 같은 링크 미리보기 태그를 확인합니다.",
+        "마지막으로 결과를 handoff에 짧게 남깁니다. “어떤 slug가 있었고, 어느 URL이 200을 반환했고, 어떤 head SHA가 배포됐는지”만 적어도 충분합니다. 자동화는 많이 움직이는 것보다, 다음 사람이 이어받을 수 있게 실패와 성공의 위치를 정확히 남기는 쪽이 더 강합니다."
+      ],
+      "en": [
+        "## Put gates on automatic publishing",
+        "When a blog or documentation site publishes automatically, the important part is not simply “a commit happened.” The important part is recording which conditions passed. Split build success, public-safety review, multilingual field checks, and live URL smoke tests into small gates so the next run does not repeat the same judgment from scratch.",
+        "The gates do not need to be heavy. Check the new post slug and type, scan the text for private logs or sensitive-configuration wording, and confirm that the ko/en/zh/ja fields contain real sentences. After the build, inspect the generated HTML and the public URL for link-preview tags such as `og:image` and `twitter:image`.",
+        "Finally, leave a short handoff. Recording which slugs existed, which URLs returned 200, and which head SHA was deployed is enough. Strong automation is not the automation that moves the most; it is the automation that leaves success and failure in positions the next operator can inherit."
+      ],
+      "zh": [
+        "## 给自动发布加上门槛",
+        "当博客或文档站点自动发布时，重点不是“自动产生了一个提交”，而是“记录了哪些条件已经通过”。把构建成功、公开安全检查、多语言字段检查和线上 URL 冒烟测试拆成小门槛，下一次运行就不用从头重复同样的判断。",
+        "这些门槛不需要很重。确认新文章的 slug 和 type，扫描正文里是否混入私有日志或类似敏感配置的措辞，并确认 ko/en/zh/ja 字段都是真实句子。构建之后，再检查生成的 HTML 和公开 URL 是否包含 `og:image`、`twitter:image` 等链接预览标签。",
+        "最后留下简短 handoff。写清楚有哪些 slug、哪些 URL 返回 200、哪个 head SHA 已部署，就已经足够。强的自动化不是动得最多的自动化，而是能把成功和失败的位置留给下一个接手者的自动化。"
+      ],
+      "ja": [
+        "## 自動公開にもゲートを置く",
+        "ブログやドキュメントサイトを自動公開するとき、大事なのは「自動でコミットした」ことではなく、「どの条件を通過したかを残す」ことです。ビルド成功、公開安全性レビュー、多言語フィールド確認、本番 URL のスモークテストを小さなゲートに分けると、次の実行が同じ判断を最初から繰り返さずに済みます。",
+        "ゲートは重くする必要はありません。新しい記事の slug と type を確認し、本文に非公開ログや 機密設定らしい文言が混ざっていないかを見て、ko/en/zh/ja フィールドが実際の文になっていることを確認します。ビルド後は、生成 HTML と公開 URL に `og:image` や `twitter:image` などのリンクプレビュータグがあるかを見ます。",
+        "最後に短い handoff を残します。どの slug があり、どの URL が 200 を返し、どの head SHA がデプロイされたかを書くだけでも十分です。強い自動化とは、たくさん動くものではなく、成功と失敗の位置を次の担当者が引き継げる形で残すものです。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe ops tip"
+    }
   }
 ]
