@@ -4401,5 +4401,52 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe ops tip"
     }
+  },
+  {
+    "slug": "2026-07-10-setup-tip-start-with-a-small-repro",
+    "date": "2026-07-10",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 작은 재현부터 시작하기",
+      "en": "Setup Tip — Start with a small reproduction",
+      "zh": "Setup Tip — 从一个小复现开始",
+      "ja": "Setup Tip — 小さな再現から始める"
+    },
+    "summary": {
+      "ko": "설정이나 자동화가 이상하게 보일 때는 전체 시스템을 먼저 바꾸지 말고, 가장 짧은 입력과 기대 결과를 한 줄씩 확인하는 작은 재현을 만드세요.",
+      "en": "When configuration or automation behaves strangely, do not change the whole system first. Create a small reproduction that checks the shortest input and expected result one step at a time.",
+      "zh": "当配置或自动化表现异常时，不要先改动整个系统。先建立一个小复现，逐步检查最短输入和预期结果。",
+      "ja": "設定や自動化が不思議な動きをするとき、最初にシステム全体を変えないでください。最短の入力と期待結果を一つずつ確認する小さな再現を作ります。"
+    },
+    "body": {
+      "ko": [
+        "## 작은 재현부터 시작하기",
+        "자동화나 설정이 기대와 다르게 움직일 때는 곧바로 전체 구성을 고치기보다, 가장 작은 재현을 먼저 만드세요. 입력 하나, 실행 하나, 기대 결과 하나만 남기면 문제를 관찰할 수 있는 표면이 생깁니다.",
+        "예를 들어 명령 한 줄이 실패한다면 같은 명령에 필요한 최소 옵션만 남기고, 성공 여부와 종료 코드를 기록합니다. 그 다음에만 환경 변수, 파일 경로, 네트워크 같은 변수를 하나씩 추가합니다. 여러 변수를 동시에 바꾸면 원인을 고쳤는지 우연히 가렸는지 알기 어렵습니다.",
+        "작은 재현은 수정 자체보다 전달에도 유용합니다. 팀원에게는 짧은 명령, 기대한 결과, 실제 결과만 공유하면 됩니다. 해결 뒤에도 이 재현은 회귀 테스트나 운영 체크의 씨앗이 되어 같은 문제가 다시 커지는 것을 막아줍니다."
+      ],
+      "en": [
+        "## Start with a small reproduction",
+        "When automation or configuration behaves differently from what you expect, build the smallest reproduction before changing the whole setup. One input, one execution, and one expected result create a surface you can actually observe.",
+        "For example, if a single command fails, keep only the minimum required options and record whether it succeeds and its exit code. Only then add variables such as environment settings, file paths, or network access one at a time. Changing several variables together makes it hard to tell whether you fixed the cause or merely hid it.",
+        "A small reproduction is useful for communication as well as repair. Share a short command, the expected result, and the actual result with a teammate. After the fix, that reproduction can become the seed of a regression test or an operational check that keeps the same problem from growing again."
+      ],
+      "zh": [
+        "## 从一个小复现开始",
+        "当自动化或配置的行为与预期不同时，先建立最小复现，再去修改整个配置。一个输入、一次执行和一个预期结果，就能形成真正可观察的问题表面。",
+        "例如，一条命令失败时，只保留必要的最少选项，并记录是否成功及退出码。之后再一次只增加一个变量，例如环境设置、文件路径或网络访问。一次改变多个变量，很难分辨是修复了原因，还是偶然把问题遮住了。",
+        "小复现不仅利于修复，也利于沟通。向队友分享简短命令、预期结果和实际结果即可。修复后，这个复现还能成为回归测试或运维检查的种子，避免同一个问题再次扩大。"
+      ],
+      "ja": [
+        "## 小さな再現から始める",
+        "自動化や設定が期待と違う動きをしたら、構成全体を変える前に最小の再現を作ります。入力一つ、実行一つ、期待結果一つだけにすると、実際に観察できる表面ができます。",
+        "たとえば一つのコマンドが失敗するなら、必要最小限のオプションだけを残し、成功したかと終了コードを記録します。その後で環境設定、ファイルパス、ネットワークアクセスなどの変数を一つずつ加えます。複数の変数を同時に変えると、原因を直したのか偶然隠したのか判断しにくくなります。",
+        "小さな再現は修正だけでなく共有にも役立ちます。短いコマンド、期待結果、実際の結果をチームメイトに渡せば十分です。修正後も、その再現は回帰テストや運用チェックの種になり、同じ問題が再び大きくなるのを防げます。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
   }
 ]
