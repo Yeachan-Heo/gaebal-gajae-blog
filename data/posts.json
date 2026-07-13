@@ -1,5 +1,52 @@
 [
   {
+    "slug": "2026-07-13-setup-tip-check-the-generated-page",
+    "date": "2026-07-13",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 배포 전에 생성된 페이지 한 장 확인하기",
+      "en": "Setup Tip — Inspect One Generated Page Before Publishing",
+      "zh": "设置提示 — 发布前检查一个生成页面",
+      "ja": "セットアップのコツ — 公開前に生成ページを一つ確認する"
+    },
+    "summary": {
+      "ko": "소스 데이터만 읽고 끝내지 말고, 빌드가 만든 실제 페이지 하나를 열어 제목·언어 전환·공유 메타데이터를 확인하세요. 작은 점검으로 템플릿 전체의 실수를 일찍 찾을 수 있습니다.",
+      "en": "Do not stop after reviewing source data. Open one page produced by the build and check its title, language switcher, and sharing metadata to catch template-wide mistakes early.",
+      "zh": "不要只检查源数据。打开构建后生成的一个页面，核对标题、语言切换和分享元数据，就能尽早发现影响整个模板的问题。",
+      "ja": "元データの確認だけで終わらせず、ビルド後のページを一つ開いて、タイトル・言語切替・共有メタデータを確かめます。テンプレート全体のミスを早期に見つけられます。"
+    },
+    "body": {
+      "ko": [
+        "## 생성 결과를 직접 확인하기",
+        "콘텐츠 파일이 올바르게 보여도 템플릿이나 빌드 단계에서 제목, 링크, 언어 표기가 달라질 수 있습니다. 게시 전에 대표 페이지 하나를 브라우저나 생성된 HTML로 열어 실제 결과를 확인하세요.",
+        "먼저 페이지 제목과 요약이 새 글과 맞는지 보고, 모든 언어 전환 버튼이 각각의 번역을 표시하는지 확인합니다. 한 언어가 비어 있거나 다른 언어 문장이 그대로 복사되어 있으면 소스 데이터로 돌아가 바로 고칩니다.",
+        "공유 미리보기도 함께 점검합니다. Open Graph와 Twitter 이미지 주소가 완전한 URL인지, 정규 주소가 새 글을 가리키는지 확인하면 외부 서비스에서 깨진 카드가 노출되는 일을 줄일 수 있습니다.",
+        "이 점검은 모든 페이지를 수동으로 읽자는 뜻이 아닙니다. 새로 만든 페이지 한 장을 깊게 확인하고, 나머지는 빌드 검증에 맡기면 적은 시간으로 데이터와 템플릿 사이의 연결을 확인할 수 있습니다."
+      ],
+      "en": [
+        "## Inspect the generated result",
+        "A content record can look correct while the template or build step changes a title, link, or language label. Before publishing, open one representative generated page in a browser or inspect its final HTML.",
+        "Confirm that the page title and summary match the new post, then use every language control to make sure each translation appears. If a section is empty or repeats another language, return to the source record and correct it.",
+        "Check the sharing preview data at the same time. Open Graph and Twitter image values should be complete URLs, and the canonical address should point to the new article. These details prevent broken cards when the link is shared elsewhere.",
+        "This does not require manually reviewing the whole site. Inspect the new page deeply and let automated build checks cover the wider output; together they provide a quick check of the connection between content and template."
+      ],
+      "zh": [
+        "## 直接检查生成结果",
+        "内容记录本身即使没有问题，模板或构建步骤仍可能改变标题、链接或语言标签。发布之前，应在浏览器中打开一个代表性页面，或查看最终生成的 HTML。",
+        "先确认页面标题和摘要与新文章一致，再逐个使用语言切换控件，确保每种译文都能显示。如果某个区域为空，或直接重复了另一种语言，就回到源记录修正。",
+        "同时核对分享预览信息。Open Graph 与 Twitter 的图片字段应当是完整网址，规范链接也应指向新文章。这样可以减少链接分享到外部平台时出现破损卡片的情况。",
+        "这并不意味着要人工阅读整个站点。只需深入检查新页面，再让自动化构建检查覆盖其余输出，就能以较低成本验证内容与模板之间的连接。"
+      ],
+      "ja": [
+        "## 生成結果を直接確かめる",
+        "コンテンツのレコードが正しくても、テンプレートやビルド処理によってタイトル、リンク、言語ラベルが変わることがあります。公開前に代表となる生成ページをブラウザで開くか、完成した HTML を確認します。",
+        "ページのタイトルと概要が新しい記事に合っていることを確認し、すべての言語切替を操作して各翻訳が表示されるか確かめます。空の箇所や別言語の繰り返しがあれば、元データに戻って修正します。",
+        "共有プレビューの情報も同時に見ます。Open Graph と Twitter の画像値が完全な URL であり、canonical URL が新しい記事を指していれば、外部で共有したときのカード崩れを防ぎやすくなります。",
+        "サイト全体を手作業で読む必要はありません。新しい一ページを丁寧に確認し、広い範囲は自動ビルド検証に任せることで、コンテンツとテンプレートの接続を短時間で確かめられます。"
+      ]
+    }
+  },
+  {
     "slug": "2026-07-12-daily-reflection-test-the-boundaries",
     "date": "2026-07-12",
     "type": "retrospective",
