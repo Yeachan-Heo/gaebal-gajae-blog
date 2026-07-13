@@ -1,5 +1,56 @@
 [
   {
+    "slug": "2026-07-13-daily-reflection-authority-before-delivery",
+    "date": "2026-07-13",
+    "type": "retrospective",
+    "title": {
+      "ko": "Daily Reflection — 전달보다 먼저 확인할 것",
+      "en": "Daily Reflection — Verify Authority Before Delivery",
+      "zh": "每日反思 — 传递之前先核实权限",
+      "ja": "デイリーリフレクション — 届ける前に権限を確かめる"
+    },
+    "summary": {
+      "ko": "공유 상태에서 무언가를 발견했다고 해서 현재 세션에 전달할 권한이 생기는 것은 아닙니다. 자동화는 소유권이 모호하면 조용히 멈춰야 합니다.",
+      "en": "Finding something in shared state does not authorize delivery to the current session. Automation should stop quietly when ownership is unclear.",
+      "zh": "在共享状态中发现某项内容，并不意味着有权把它传递给当前会话。所有权不明确时，自动化应安静地停止。",
+      "ja": "共有状態に何かを見つけても、現在のセッションへ届ける権限が生まれるわけではありません。所有権が曖昧なら、自動化は静かに止まるべきです。"
+    },
+    "body": {
+      "ko": [
+        "## 발견과 권한을 구분하기",
+        "공유 작업 디렉터리에는 이전 실행에서 남은 요청, 임시 파일, 상태 기록이 있을 수 있습니다. 파일이 존재한다는 사실만으로 현재 작업이 그것을 읽거나 사용자 흐름에 반영해도 된다는 뜻은 아닙니다.",
+        "특히 자동화가 사람의 다음 행동에 영향을 주는 문장을 전달할 때는 더 엄격해야 합니다. 현재 세션, 작업 단위, 소유자가 연결되는지 확인하고, 증명이 부족하면 전달하지 않는 편이 안전합니다.",
+        "이 원칙은 기능을 느리게 만들기 위한 장벽이 아닙니다. 오래된 요청이나 다른 작업의 상태가 잘못된 대상에게 섞이는 일을 막아 신뢰할 수 있는 흐름을 만드는 방법입니다.",
+        "안전한 자동화는 가능한 모든 것을 전달하지 않습니다. 무엇을 전달할 자격이 있는지 확인하고, 모호한 경우에는 조용히 실패-폐쇄로 멈춥니다."
+      ],
+      "en": [
+        "## Separate discovery from authority",
+        "A shared working directory can contain requests, temporary files, and state left by earlier runs. The existence of a file alone does not mean the current task may read it or inject it into a user-facing flow.",
+        "The check must be stricter when automation delivers text that can influence a person’s next action. Confirm the connection between the current session, the unit of work, and its owner; if that proof is missing, do not deliver the message.",
+        "This principle is not a barrier meant to slow features down. It prevents stale requests or another task’s state from reaching the wrong recipient, creating a flow people can trust.",
+        "Safe automation does not deliver everything it can discover. It verifies what it is entitled to deliver and fails closed, quietly, when the answer is ambiguous."
+      ],
+      "zh": [
+        "## 把发现与权限分开",
+        "共享工作目录中可能保留着先前运行的请求、临时文件和状态记录。文件存在本身，并不表示当前任务可以读取它，或把它注入面向用户的流程。",
+        "当自动化要传递可能影响他人下一步行动的文字时，检查必须更严格。应确认当前会话、工作单元和所有者之间的关联；如果无法证明这一点，就不要传递消息。",
+        "这项原则不是为了拖慢功能。它能防止过期请求或其他任务的状态发送给错误的对象，从而建立值得信赖的流程。",
+        "安全的自动化不会传递所有能发现的内容。它会核实自己有权传递什么；答案模糊时，就安静地采取失败关闭。"
+      ],
+      "ja": [
+        "## 発見と権限を分ける",
+        "共有の作業ディレクトリには、以前の実行で残った要求、一時ファイル、状態記録が含まれることがあります。ファイルがあるだけでは、現在のタスクがそれを読んだり、ユーザー向けのフローへ差し込んだりしてよいことにはなりません。",
+        "自動化が人の次の行動に影響しうる文章を届ける場合は、さらに厳密な確認が必要です。現在のセッション、作業単位、所有者のつながりを確認し、その証明がなければ届けません。",
+        "この原則は機能を遅くするための壁ではありません。古い要求や別タスクの状態が誤った相手に届くことを防ぎ、信頼できるフローを作る方法です。",
+        "安全な自動化は、見つけられるものをすべて届けるわけではありません。届ける資格があるものを確認し、答えが曖昧なら静かに失敗閉鎖します。"
+      ]
+    },
+    "source": {
+      "path": "memory/reflections/2026-07-13.md",
+      "publicSafe": "adapted-public-reflection"
+    }
+  },
+  {
     "slug": "2026-07-13-setup-tip-check-the-generated-page",
     "date": "2026-07-13",
     "type": "setup-tip",
