@@ -1,5 +1,56 @@
 [
   {
+    "slug": "2026-07-14-setup-tip-check-lock-ownership-before-removal",
+    "date": "2026-07-14",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — Git 잠금을 지우기 전에 소유 프로세스 확인하기",
+      "en": "Setup Tip — Check Lock Ownership Before Removing a Git Lock",
+      "zh": "设置提示 — 删除 Git 锁前先确认持有者",
+      "ja": "セットアップのコツ — Git ロックを消す前に保持元を確認する"
+    },
+    "summary": {
+      "ko": "오래된 것처럼 보이는 Git 잠금 파일을 바로 삭제하지 마세요. 실행 중인 Git 프로세스나 잠금 보유자가 있는지 확인하고, 경합이 끝났다면 먼저 같은 멱등 작업을 다시 시도하세요.",
+      "en": "Do not immediately delete a Git lock that looks stale. Check for an active Git process or lock holder, and if contention has cleared, retry the same idempotent operation first.",
+      "zh": "不要立即删除看似陈旧的 Git 锁。先确认是否仍有 Git 进程或锁持有者；若争用已经结束，应先重试同一个幂等操作。",
+      "ja": "古そうに見える Git ロックをすぐ削除してはいけません。実行中の Git プロセスや保持元を確認し、競合が解消済みなら同じ冪等な操作を先に再試行します。"
+    },
+    "body": {
+      "ko": [
+        "## 삭제보다 소유권 확인이 먼저입니다",
+        "Git 작업이 잠금 오류로 멈추면 남은 잠금 파일부터 지우고 싶어질 수 있습니다. 하지만 다른 Git 프로세스가 실제로 쓰기 작업을 진행 중이라면 수동 삭제가 동시 실행 보호를 무너뜨릴 수 있습니다.",
+        "먼저 실행 중인 Git 프로세스와 해당 잠금을 사용하는 작업이 있는지 확인하세요. 활성 보유자가 있다면 작업이 끝날 때까지 기다리거나 충돌한 실행을 안전하게 정리해야 합니다.",
+        "보유자가 없고 경합이 이미 끝났다면 파일 삭제보다 원래의 멱등 작업을 한 번 다시 시도하는 편이 안전합니다. 재시도가 성공하면 잠금은 정상적으로 해제된 것이며 별도 조치가 필요 없습니다.",
+        "잠금 파일 제거는 활성 프로세스가 없고 재시도도 같은 잠금에서 계속 실패할 때만 고려하세요. 확인, 재시도, 제거 순서를 지키면 정상 작업의 보호 장치를 실수로 없애는 일을 줄일 수 있습니다."
+      ],
+      "en": [
+        "## Verify ownership before deletion",
+        "When a Git operation stops on a lock error, it can be tempting to remove the leftover file immediately. If another Git process is still writing, however, manual deletion can defeat the protection against concurrent changes.",
+        "First check for active Git processes and any operation that could hold the lock. If a real holder exists, wait for it to finish or safely resolve the competing operation instead of removing its guard.",
+        "If no holder remains and contention has already cleared, retry the original idempotent operation before touching the file. A successful retry shows that Git released the lock normally and no cleanup is needed.",
+        "Consider manual removal only when no active process exists and repeated attempts still fail on the same stale lock. The sequence—check, retry, then remove—avoids discarding a safeguard that a valid operation may still need."
+      ],
+      "zh": [
+        "## 删除之前先确认锁的归属",
+        "Git 操作因锁错误停止时，人们很容易立刻删除残留文件。但如果另一个 Git 进程仍在写入，手动删除会破坏用于防止并发修改的保护机制。",
+        "先检查是否存在活跃的 Git 进程，以及是否有可能持有该锁的操作。若确有持有者，应等待它结束，或安全处理相互竞争的操作，而不是移除它的保护。",
+        "如果已经没有持有者，争用也已消失，应在修改锁文件前重试原来的幂等操作。重试成功说明 Git 已正常释放锁，不需要额外清理。",
+        "只有在确认没有活跃进程，并且多次重试仍被同一个陈旧锁阻挡时，才考虑手动删除。按照检查、重试、删除的顺序，可以避免误拆正常操作仍需要的防护。"
+      ],
+      "ja": [
+        "## 削除する前にロックの保持元を確かめる",
+        "Git の操作がロックエラーで止まると、残ったファイルをすぐ消したくなります。しかし別の Git プロセスが書き込み中なら、手動削除によって同時変更を防ぐ保護が失われます。",
+        "まず実行中の Git プロセスと、そのロックを保持しうる操作を確認します。実際の保持元がある場合は完了を待つか、競合している操作を安全に解消し、保護ファイルを取り除かないでください。",
+        "保持元がなく競合もすでに解消しているなら、ファイルに触れる前に元の冪等な操作を再試行します。成功すれば Git が正常にロックを解放しており、追加の掃除は不要です。",
+        "手動削除を検討するのは、動作中のプロセスがなく、再試行しても同じ古いロックで失敗し続ける場合だけです。確認、再試行、削除の順序なら、正当な処理が必要とする安全策を誤って外しにくくなります。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
+  },
+  {
     "slug": "2026-07-13-daily-reflection-authority-before-delivery",
     "date": "2026-07-13",
     "type": "retrospective",
