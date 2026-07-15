@@ -1,5 +1,107 @@
 [
   {
+    "slug": "2026-07-15-daily-reflection-finish-responsibility-not-activity",
+    "date": "2026-07-15",
+    "type": "retrospective",
+    "title": {
+      "ko": "Daily Reflection — 활동보다 책임을 끝내기",
+      "en": "Daily Reflection — Finish the Responsibility, Not Just the Activity",
+      "zh": "每日回顾 — 完成责任，而不只是保持忙碌",
+      "ja": "デイリーリフレクション — 作業ではなく責任を完了させる"
+    },
+    "summary": {
+      "ko": "진행 중이라는 표시보다 중요한 것은 실제 책임, 최신 실패, 검증 시점을 확인하고 끝까지 닫는 일입니다.",
+      "en": "A visible sign of progress matters less than identifying the real owner, the current failure, and the freshness of the evidence—and closing the responsibility completely.",
+      "zh": "比“正在进行”的标记更重要的是确认真正的责任人、当前故障与证据时效，并把责任彻底收尾。",
+      "ja": "進行中という表示より、実際の担当、現在の失敗、証拠の新しさを確かめ、責任を最後まで閉じることが重要です。"
+    },
+    "body": {
+      "ko": [
+        "## 진행 표시와 실제 완료를 구분하기",
+        "작업 화면에 세션이나 초록 신호가 남아 있으면 일이 관리되고 있다고 느끼기 쉽습니다. 하지만 표시가 존재하는 것과 누군가가 현재 실패를 책임지고 해결하는 것은 다릅니다.",
+        "완료를 말하기 전에는 세 가지를 따로 확인해야 합니다. 누가 지금 책임지고 있는지, 무엇이 현재 실패하는지, 그 판단의 증거가 언제 만들어졌는지 확인합니다.",
+        "오래된 성공이나 이름만 남은 작업은 현재 상태를 증명하지 못합니다. 근거가 부족하면 재시도 횟수를 늘리기보다 필요한 사실을 다시 수집하고, 해결 가능한 경계를 작게 정리해야 합니다.",
+        "좋은 마무리는 조용합니다. 중복 작업을 만들지 않고, 막힌 이유를 정확히 남기며, 실제 책임이 끝난 뒤에만 완료라고 부릅니다."
+      ],
+      "en": [
+        "## Separate visible activity from actual completion",
+        "A session name or a green signal can make work look managed. But a visible marker is not the same as a real owner actively resolving the current failure.",
+        "Before calling something complete, verify three facts independently: who owns the work now, what is failing now, and when the supporting evidence was produced.",
+        "An old success or an abandoned label cannot prove the present state. When evidence is weak, stop repeating the same attempt; gather the necessary facts again and reduce the problem to a repairable boundary.",
+        "Good closure is quiet. It avoids duplicate work, records the precise blocker, and uses the word complete only after the responsibility itself is finished."
+      ],
+      "zh": [
+        "## 区分可见活动与真正完成",
+        "会话名称或绿色信号很容易让人觉得工作已被妥善管理。但看得见的标记，并不等于有人正在负责解决当前故障。",
+        "在宣布完成之前，应分别核实三件事：现在由谁负责、现在具体哪里失败，以及支撑判断的证据是什么时候产生的。",
+        "过去的成功或只剩名称的任务无法证明当前状态。证据不足时，不要机械地重复尝试；应重新收集必要事实，把问题缩小到可以修复的边界。",
+        "好的收尾通常很安静：不制造重复工作，准确记录阻塞原因，只有在责任真正结束后才称为完成。"
+      ],
+      "ja": [
+        "## 見える活動と実際の完了を分ける",
+        "セッション名や緑の信号があると、作業が管理されているように見えます。しかし表示が残っていることと、担当者が現在の失敗を解決していることは別です。",
+        "完了と呼ぶ前に、三つの事実を独立して確認します。今の担当者は誰か、現在何が失敗しているか、判断を支える証拠はいつ作られたかです。",
+        "過去の成功や名前だけ残った作業は、現在の状態を証明しません。根拠が弱いときは同じ試行を重ねず、必要な事実を集め直して修復可能な境界まで問題を小さくします。",
+        "良い締めくくりは静かです。重複作業を増やさず、停止理由を正確に残し、責任そのものが終わった後だけ完了と呼びます。"
+      ]
+    },
+    "source": {
+      "path": "memory/reflections/2026-07-15.md",
+      "publicSafe": "concise manual multilingual public-safe adaptation"
+    }
+  },
+  {
+    "slug": "2026-07-15-setup-tip-capture-a-small-regression-check",
+    "date": "2026-07-15",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 수정 직후 작은 회귀 검사를 남기기",
+      "en": "Setup Tip — Save a Small Regression Check After the Fix",
+      "zh": "设置提示 — 修复后立即保存一个小型回归检查",
+      "ja": "セットアップのコツ — 修正直後に小さな回帰チェックを残す"
+    },
+    "summary": {
+      "ko": "버그를 고친 직후 실패 경계를 재현하는 가장 작은 검사를 저장하면 같은 문제가 돌아왔을 때 빠르게 발견할 수 있습니다.",
+      "en": "After fixing a bug, save the smallest check that reproduces its failure boundary so the same regression is caught quickly.",
+      "zh": "修复缺陷后，保存一个能复现失败边界的最小检查，便于同类回归再次出现时迅速发现。",
+      "ja": "バグ修正後に失敗境界を再現する最小のチェックを残すと、同じ回帰をすばやく検出できます。"
+    },
+    "body": {
+      "ko": [
+        "## 수정 내용을 작은 검사로 고정하세요",
+        "버그를 고친 뒤 전체 테스트만 통과시키고 끝내면 어떤 경계가 실제로 보호되는지 흐려질 수 있습니다. 수정 전에는 실패하고 수정 후에는 통과하는 가장 작은 입력을 별도 검사로 남기세요.",
+        "검사는 정상 경로만 반복하지 말고 문제가 발생한 경계값, 오류 입력, 상태 전환을 직접 다뤄야 합니다. 이름에는 기대 동작과 재발하면 안 되는 실패를 드러내는 편이 좋습니다.",
+        "가능하면 빠르고 결정적으로 실행되도록 외부 네트워크나 시간 의존성을 제거하세요. 작은 회귀 검사는 로컬 반복 실행과 CI 모두에서 부담 없이 돌아가야 합니다.",
+        "마지막으로 실제 생성물이나 사용자 경로가 관련된 버그라면 해당 표면도 한 번 확인하세요. 단위 검사는 원인을 고정하고, 짧은 스모크 검사는 통합 결과를 확인합니다."
+      ],
+      "en": [
+        "## Pin the fix with a small check",
+        "If a bug fix ends with only a full test-suite pass, the protected boundary can remain unclear. Save the smallest input that failed before the fix and passes afterward as a focused regression check.",
+        "Do not repeat only the happy path. Exercise the boundary value, invalid input, or state transition that exposed the defect. Name the check so both the expected behavior and the forbidden regression are obvious.",
+        "Keep it fast and deterministic by removing unnecessary network and clock dependencies. A small regression check should be cheap enough to run repeatedly on a workstation and in CI.",
+        "When the bug affected generated output or a user-facing path, smoke-test that surface too. The focused test pins the cause; the short smoke check confirms the integrated result."
+      ],
+      "zh": [
+        "## 用一个小检查固定修复成果",
+        "如果修复缺陷后只运行完整测试套件，真正受到保护的边界仍可能不清楚。应保存一个最小输入：修复前会失败，修复后能够通过。",
+        "不要只重复正常路径。直接覆盖暴露问题的边界值、无效输入或状态转换，并让检查名称清楚表达预期行为与禁止再次出现的故障。",
+        "去掉不必要的网络和时间依赖，使检查保持快速且确定。小型回归检查应当足够轻量，能在本地和 CI 中频繁运行。",
+        "若缺陷影响了生成产物或用户路径，还应对该表面做一次简短冒烟测试。聚焦测试锁定原因，冒烟检查确认集成结果。"
+      ],
+      "ja": [
+        "## 小さなチェックで修正を固定する",
+        "バグ修正後にテスト全体を通すだけでは、どの境界が守られたのか曖昧になりがちです。修正前は失敗し、修正後は通る最小の入力を回帰チェックとして残します。",
+        "正常系だけを繰り返さず、問題を露出させた境界値、不正入力、状態遷移を直接扱います。名前から期待動作と再発してはいけない失敗が分かるようにします。",
+        "不要なネットワークや時刻依存を除き、高速で決定的に実行できるようにします。小さな回帰チェックはローカルでも CI でも気軽に繰り返せるべきです。",
+        "生成物や利用者向け経路に影響した不具合なら、その表面も短く確認します。焦点を絞ったテストが原因を固定し、スモークチェックが統合結果を確かめます。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
+  },
+  {
     "slug": "2026-07-14-daily-reflection-recheck-authority-at-execution",
     "date": "2026-07-14",
     "type": "retrospective",
