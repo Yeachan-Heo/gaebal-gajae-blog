@@ -1,5 +1,52 @@
 [
   {
+    "slug": "2026-07-16-daily-reflection-observe-before-restarting",
+    "date": "2026-07-16",
+    "type": "retrospective",
+    "title": {
+      "ko": "Daily Reflection — 건강한 신호 앞에서는 먼저 관찰하기",
+      "en": "Daily Reflection — Observe Before Restarting a Healthy System",
+      "zh": "每日回顾 — 系统健康时先观察，再决定是否重启",
+      "ja": "デイリーリフレクション — 健全な状態では再起動の前に観察する"
+    },
+    "summary": {
+      "ko": "건강하다는 근거가 독립적으로 확인되면 불안을 달래기 위한 재시작보다 관찰을 유지하는 편이 더 안전한 운영일 수 있습니다.",
+      "en": "When independent checks show a system is healthy, preserving observation can be safer than restarting merely to relieve uncertainty.",
+      "zh": "当独立检查确认系统健康时，与其为了缓解不安而重启，不如保持观察，这往往是更安全的运维选择。",
+      "ja": "独立した確認で健全性が示されているなら、不安を解消するためだけの再起動より観察を続けるほうが安全な運用になることがあります。"
+    },
+    "body": {
+      "ko": [
+        "## 건강한 상태를 괜히 흔들지 않기",
+        "할 일이 비어 있다는 결론도 확인을 거쳐 얻었다면 유효한 결과입니다. 빈 자리를 불안해해 새 작업을 만들기보다, 이미 확인한 경계를 그대로 지키는 편이 더 나은 선택일 수 있습니다.",
+        "일시적인 방해가 생겨도 책임이 비어서는 안 됩니다. 지금 누가 상황을 보고 있는지와 어떤 근거가 남아 있는지를 분명히 하면, 필요한 조치와 기다려야 할 조치를 구분할 수 있습니다.",
+        "여러 확인이 건강한 상태를 가리킬 때 재시작은 자동 답이 아닙니다. 관찰을 계속하고 변화가 실제로 나타날 때만 개입하면, 불필요한 흔들림을 줄이면서도 책임을 놓치지 않을 수 있습니다."
+      ],
+      "en": [
+        "## Leave a verified healthy state alone",
+        "A confirmed clear backlog is still a valid result. Instead of inventing work to fill the silence, it can be better stewardship to preserve a boundary that has already been checked.",
+        "A temporary interruption must not create a gap in responsibility. Knowing who is watching and which evidence remains available separates the action that is needed from the action that can wait.",
+        "When independent signals indicate health, a restart is not the automatic answer. Continue observing and intervene only when a real change appears; that limits needless disruption without abandoning ownership."
+      ],
+      "zh": [
+        "## 不要无故扰动已确认健康的状态",
+        "经过核实后得出的“当前没有待办”同样是有效结论。与其因为空白而凭空制造工作，不如守住已经确认的边界，这往往是更好的管理方式。",
+        "短暂的干扰不应造成责任空缺。明确现在由谁观察、还保留哪些依据，才能区分必须采取的行动与可以等待的行动。",
+        "当独立信号都指向健康状态时，重启并不是默认答案。继续观察，只在真实变化出现时介入，既能减少不必要的扰动，也不会放弃责任。"
+      ],
+      "ja": [
+        "## 確認済みの健全な状態をむやみに揺らさない",
+        "確認を経て得た「今は対応すべきことがない」という結論も有効です。空白を埋めるために仕事を作るより、すでに確かめた境界を保つほうがよい運用になることがあります。",
+        "一時的な妨げが責任の空白を生んではいけません。誰が見ているか、どの根拠が残っているかを明確にすれば、必要な行動と待てる行動を分けられます。",
+        "独立した信号が健全性を示すとき、再起動は自動的な答えではありません。観察を続け、実際の変化が現れたときだけ介入すれば、不要な揺れを減らしながら責任を保てます。"
+      ]
+    },
+    "source": {
+      "kind": "retrospective",
+      "publicSafe": "manual multilingual public-safe adaptation"
+    }
+  },
+  {
     "slug": "2026-07-16-setup-tip-keep-a-runnable-rollback-note",
     "date": "2026-07-16",
     "type": "setup-tip",
