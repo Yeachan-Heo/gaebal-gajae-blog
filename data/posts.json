@@ -1,5 +1,56 @@
 [
   {
+    "slug": "2026-07-16-setup-tip-keep-a-runnable-rollback-note",
+    "date": "2026-07-16",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 위험한 변경마다 실행 가능한 롤백 메모 남기기",
+      "en": "Setup Tip — Keep a Runnable Rollback Note for Every Risky Change",
+      "zh": "设置提示 — 为每次高风险变更留一份可执行的回滚备注",
+      "ja": "セットアップのコツ — 危険な変更ごとに実行可能なロールバック手順を残す"
+    },
+    "summary": {
+      "ko": "설정이나 배포를 바꾸기 전에 되돌리는 정확한 방법을 함께 적어 두면, 문제가 생겼을 때 추측 없이 빠르고 확실하게 복구할 수 있습니다.",
+      "en": "Before you change a setting or deploy, write down the exact way to undo it so recovery is fast and certain instead of a guess under pressure.",
+      "zh": "在修改配置或部署之前，写下确切的撤销方法，这样出问题时就能快速而确定地恢复，而不是在压力下靠猜测。",
+      "ja": "設定変更やデプロイの前に、元へ戻す正確な手順を書いておくと、問題が起きても推測ではなく速く確実に復旧できます。"
+    },
+    "body": {
+      "ko": [
+        "## 되돌리는 방법을 변경과 함께 기록하세요",
+        "위험한 설정 변경을 적용할 때 앞으로 나아가는 절차만 준비하고 되돌리는 절차는 생략하기 쉽습니다. 하지만 문제가 드러나는 순간은 대개 압박이 큰 상황이라, 그때 롤백 방법을 처음부터 떠올리면 실수가 늘어납니다. 변경을 계획할 때 복구 절차도 같은 무게로 함께 적어 두세요.",
+        "롤백 메모는 설명이 아니라 실행 가능한 형태여야 합니다. 이전 값이 무엇이었는지, 어떤 명령이나 단계로 되돌리는지, 되돌린 뒤 무엇을 확인해 정상 복구를 판단하는지 구체적으로 남깁니다. 비밀 값 자체가 아니라 어디서 어떻게 다시 적용하는지를 가리키면 충분합니다.",
+        "가능하면 되돌리기를 미리 한 번 시험하세요. 스테이징이나 로컬에서 변경을 적용하고 즉시 롤백해 보면 메모의 빠진 단계나 잘못된 순서를 실제 사고 전에 발견할 수 있습니다. 검증되지 않은 롤백 계획은 계획이 아니라 희망입니다.",
+        "마지막으로 롤백 메모를 변경과 같은 위치에 두세요. 커밋 메시지, 풀 리퀘스트 설명, 변경 티켓처럼 나중에 상황을 조사하는 사람이 바로 찾을 수 있는 곳이 좋습니다. 되돌리는 방법이 분명하면 변경은 덜 무섭고 복구는 더 빨라집니다."
+      ],
+      "en": [
+        "## Record how to undo the change alongside the change",
+        "When you apply a risky configuration change, it is easy to prepare only the forward steps and skip the way back. But problems usually surface under pressure, and inventing the rollback from scratch at that moment invites mistakes. Plan the recovery path with the same care as the change itself.",
+        "A rollback note should be runnable, not a description. Capture what the previous value was, the exact command or steps that restore it, and what to check afterward to confirm a clean recovery. Point to where and how to reapply the state rather than pasting any secret value itself.",
+        "When possible, rehearse the undo once. Applying the change on staging or locally and immediately rolling it back reveals missing steps or a wrong order before the real incident. An untested rollback plan is a hope, not a plan.",
+        "Finally, keep the rollback note next to the change. A commit message, pull request description, or change ticket lets whoever investigates later find it immediately. When the way back is clear, the change is less frightening and recovery is faster."
+      ],
+      "zh": [
+        "## 把撤销方法和变更记录在一起",
+        "应用高风险配置变更时，人们容易只准备向前的步骤，却省略了退回的办法。但问题往往在压力之下才暴露，若此时才从头设计回滚，很容易出错。规划变更时，应以同等的谨慎准备恢复路径。",
+        "回滚备注应当是可执行的，而不是一段描述。要记录原先的值是什么、用哪条命令或哪些步骤能恢复，以及事后检查什么来确认已干净恢复。指出在何处、以何种方式重新应用状态即可，不要粘贴任何机密值本身。",
+        "条件允许时，先演练一次撤销。在预发布或本地应用变更并立即回滚，能在真正事故之前发现缺失的步骤或错误的顺序。未经验证的回滚计划只是愿望，而非计划。",
+        "最后，把回滚备注放在变更旁边。提交信息、合并请求说明或变更工单，都能让日后排查的人立刻找到它。退路清晰时，变更就不那么可怕，恢复也更快。"
+      ],
+      "ja": [
+        "## 戻し方を変更と一緒に記録する",
+        "危険な設定変更を適用するとき、前に進む手順だけ用意して戻す手順を省きがちです。しかし問題が表に出るのは多くの場合プレッシャーの高い状況で、その場でロールバックを一から考えると失敗が増えます。変更を計画する際は、復旧手順も同じ重さで併せて書いておきましょう。",
+        "ロールバック手順は説明ではなく実行可能な形にします。以前の値が何だったか、どのコマンドや手順で戻すか、戻した後に何を確認して正常復旧と判断するかを具体的に残します。秘密の値そのものではなく、どこでどう再適用するかを指し示せば十分です。",
+        "可能なら戻す操作を一度リハーサルします。ステージングやローカルで変更を適用してすぐロールバックすると、手順の抜けや順序の誤りを本番の障害前に見つけられます。検証していないロールバック計画は計画ではなく願望です。",
+        "最後にロールバック手順を変更と同じ場所に置きます。コミットメッセージ、プルリクエストの説明、変更チケットなど、後で調査する人がすぐ見つけられる場所がよいです。戻し方が明確なら、変更は怖くなくなり、復旧も速くなります。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
+  },
+  {
     "slug": "2026-07-15-daily-reflection-finish-responsibility-not-activity",
     "date": "2026-07-15",
     "type": "retrospective",
