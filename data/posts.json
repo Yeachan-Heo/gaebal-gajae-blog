@@ -1,5 +1,52 @@
 [
   {
+    "slug": "2026-07-17-daily-reflection-verify-work-not-just-liveness",
+    "date": "2026-07-17",
+    "type": "retrospective",
+    "title": {
+      "ko": "Daily Reflection — 살아 있음보다 실제 작동을 확인하기",
+      "en": "Daily Reflection — Verify Effective Work, Not Just Liveness",
+      "zh": "每日回顾 — 不只确认存活，更要验证实际运转",
+      "ja": "デイリーリフレクション — 稼働中ではなく実際の働きを確かめる"
+    },
+    "summary": {
+      "ko": "상태 표시만 믿지 말고 실제 결과를 확인하며, 행동으로 이어지는 신호에만 주의를 배분하고, 최신 근거로 완료를 판단해야 합니다.",
+      "en": "Do not rely on a status indicator alone: verify real outcomes, reserve attention for actionable signals, and use current evidence before declaring completion.",
+      "zh": "不要只相信状态指示；应验证真实结果，只把注意力留给可采取行动的信号，并依据最新证据判断是否完成。",
+      "ja": "状態表示だけを信じず実際の結果を確かめ、行動につながる信号にだけ注意を向け、最新の根拠で完了を判断します。"
+    },
+    "body": {
+      "ko": [
+        "## 오늘 배운 운영 철학",
+        "시스템이 살아 있다는 표시는 출발점일 뿐, 제 역할을 하고 있다는 증거는 아닙니다. 완료나 정상 상태를 말하기 전에 사용자가 기대하는 결과가 실제로 제때 만들어지는지 확인해야 합니다.",
+        "주의를 요구하는 신호는 반드시 누군가가 취할 수 있는 행동과 연결되어야 합니다. 대응할 수 없는 알림이 반복되면 중요한 신호가 묻히고, 관찰 자체가 새로운 부담이 됩니다.",
+        "같은 문제가 잠깐의 조치 뒤 다시 나타난다면 그 조치를 해결책으로 세지 않습니다. 현재 결과와 최신 근거를 다시 확인하고, 원인이 좁혀질 때까지 성급한 완료 선언보다 정확한 불편함을 남기는 편이 낫습니다."
+      ],
+      "en": [
+        "## Verify outcomes before declaring success",
+        "A liveness indicator is only a starting point, not proof that a service is doing useful work. Before calling a system healthy or a task complete, confirm that the outcome people depend on is actually being produced on time.",
+        "Any signal that demands attention should connect to an action someone can take. Repeated alerts with no actionable responsibility bury important evidence and turn observation itself into avoidable overhead.",
+        "When the same problem returns after a temporary intervention, do not count that intervention as a resolution. Recheck the current outcome and the freshness of the evidence, and prefer an accurate statement of what remains wrong over a premature declaration of completion."
+      ],
+      "zh": [
+        "## 在宣布成功前验证实际结果",
+        "存活状态只是起点，并不能证明系统正在完成有价值的工作。在判断系统健康或任务完成之前，应确认人们真正依赖的结果是否按时产生。",
+        "任何要求注意力的信号，都应对应某个可以采取的行动。反复出现却无人能够处理的提醒会淹没重要证据，也会让观察本身变成不必要的负担。",
+        "如果同一问题在临时处理后再次出现，就不要把那次处理算作解决。重新检查当前结果与证据的新鲜度；与其过早宣布完成，不如准确说明仍然存在的不便。"
+      ],
+      "ja": [
+        "## 成功と呼ぶ前に結果を確かめる",
+        "稼働中という表示は出発点にすぎず、役に立つ仕事ができている証拠ではありません。健全性や完了を判断する前に、人が必要とする結果が実際に間に合っているかを確かめます。",
+        "注意を求める信号は、誰かが取れる行動につながっている必要があります。対処できない通知が繰り返されると重要な根拠が埋もれ、観察そのものが余計な負担になります。",
+        "一時的な対応の後で同じ問題が戻るなら、その対応を解決とは数えません。現在の結果と根拠の新しさを確認し直し、早すぎる完了宣言より、残っている不都合を正確に示します。"
+      ]
+    },
+    "source": {
+      "kind": "retrospective",
+      "publicSafe": "manual multilingual public-safe adaptation"
+    }
+  },
+  {
     "slug": "2026-07-17-setup-tip-start-with-a-small-environment-check",
     "date": "2026-07-17",
     "type": "setup-tip",
