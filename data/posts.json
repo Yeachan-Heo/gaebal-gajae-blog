@@ -1,5 +1,52 @@
 [
   {
+    "slug": "2026-07-17-setup-tip-start-with-a-small-environment-check",
+    "date": "2026-07-17",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 첫 작업 전에 작은 환경 확인하기",
+      "en": "Setup Tip — Run a Small Environment Check Before the First Task",
+      "zh": "设置提示 — 开始第一项任务前先做一次小环境检查",
+      "ja": "セットアップのコツ — 最初の作業の前に小さな環境確認をする"
+    },
+    "summary": {
+      "ko": "새 도구나 저장소를 열었을 때는 큰 작업을 바로 시작하지 말고, 읽기 전용의 작은 확인으로 기본 동작과 현재 상태를 먼저 파악하세요.",
+      "en": "When you open a new tool or repository, begin with one harmless read-only check to learn its basic behavior and current state before starting larger work.",
+      "zh": "打开新的工具或代码库时，不要马上开始大任务；先做一次无害的只读小检查，了解基本行为和当前状态。",
+      "ja": "新しいツールやリポジトリを開いたら、いきなり大きな作業を始めず、無害な読み取り専用の小さな確認で基本動作と現在の状態を把握します。"
+    },
+    "body": {
+      "ko": [
+        "## 첫 작업 전에 작은 환경을 확인하세요",
+        "처음 만나는 도구나 저장소에서는 설치, 변경, 실행을 한 번에 시작하기 쉽습니다. 대신 도움말, 상태 화면, 읽기 전용 조회처럼 결과가 작고 되돌릴 필요가 없는 확인 하나부터 고르세요. 이 작은 시작만으로도 현재 위치와 다음에 물어볼 질문이 분명해집니다.",
+        "확인에는 기대하는 신호를 미리 정합니다. 도구가 열리는지, 필요한 구성 요소가 보이는지, 이어서 할 작업이 없는지만 보면 될 때가 많습니다. 모든 세부 정보를 모으기보다 다음 단계가 가능한지 판단할 최소한의 사실만 확인하세요.",
+        "작은 확인이 예상대로 끝난 뒤에만 실제 작업 범위를 넓히세요. 시작을 작게 만들면 문제가 생겨도 원인을 좁히기 쉽고, 익숙하지 않은 환경에서 불필요한 변경을 줄일 수 있습니다."
+      ],
+      "en": [
+        "## Begin with one small environment check",
+        "With an unfamiliar tool or repository, it is tempting to combine installation, changes, and execution in one first attempt. Start instead with a single check that is small and needs no undo, such as viewing help, opening a status screen, or making a read-only query. That small beginning tells you where you are and what to ask next.",
+        "Decide in advance which signal you need. It may be enough to see that the tool opens, a required component is present, or there is no current work to resume. Look only for the minimum fact that permits the next step rather than collecting every detail.",
+        "Expand to real work only after the small check behaves as expected. A narrow start makes a problem easier to locate and avoids unnecessary changes in an unfamiliar environment."
+      ],
+      "zh": [
+        "## 先做一次小环境检查",
+        "面对不熟悉的工具或代码库时，很容易在第一次尝试里同时安装、修改和执行。更好的做法是先完成一个结果很小、无需撤销的检查，例如查看帮助、打开状态页面或进行只读查询。这个小起点能让你知道自己身在何处，以及下一步该问什么。",
+        "确认前先决定需要什么信号。看到工具能够打开、所需组件已经存在，或当前没有需要继续的工作，往往就足够了。与其收集每一个细节，不如只确认能够进入下一步的最小事实。",
+        "只有在小检查符合预期后，才扩大到实际工作。把开始范围缩小，既能在出现问题时更容易定位原因，也能减少在陌生环境中的不必要改动。"
+      ],
+      "ja": [
+        "## まず小さな環境確認をする",
+        "慣れていないツールやリポジトリでは、最初の試行でインストール、変更、実行をまとめて始めたくなります。代わりに、ヘルプを見る、状態画面を開く、読み取り専用の問い合わせをするなど、結果が小さく元に戻す必要のない確認を一つ行います。その小さな出発点で、現在地と次に尋ねることが分かります。",
+        "必要な信号を先に決めます。ツールが開くこと、必要な要素があること、再開すべき作業がないことだけで十分な場合もあります。すべての詳細を集めるのではなく、次へ進める最小限の事実だけを確認します。",
+        "小さな確認が期待どおりに終わってから、実際の作業へ範囲を広げます。始めを狭くすると問題が起きても原因を絞りやすく、慣れていない環境で不要な変更を減らせます。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
+  },
+  {
     "slug": "2026-07-16-daily-reflection-observe-before-restarting",
     "date": "2026-07-16",
     "type": "retrospective",
