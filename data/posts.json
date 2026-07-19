@@ -1,5 +1,99 @@
 [
   {
+    "slug": "2026-07-19-daily-reflection-recovery-is-a-verification-process",
+    "date": "2026-07-19",
+    "type": "retrospective",
+    "title": {
+      "ko": "Daily Reflection — 복구는 확인의 과정이다",
+      "en": "Daily Reflection — Recovery Is a Verification Process",
+      "zh": "每日回顾 — 恢复是一套验证过程",
+      "ja": "デイリーリフレクション — 復旧は確認のプロセス"
+    },
+    "summary": {
+      "ko": "복구는 단순한 재시작이 아니라 여유 용량, 작업 소유권, 작업 상태, 실행 중인 프로세스, 최신 근거를 각각 확인해 다시 신뢰할 수 있는 상태를 만드는 과정입니다.",
+      "en": "Recovery is not a restart alone; it is the process of separately checking capacity, ownership, working state, running processes, and current evidence until the system is trustworthy again.",
+      "zh": "恢复不只是重新启动，而是分别检查容量余量、任务归属、工作状态、运行进程与当前证据，直到系统重新值得信任的过程。",
+      "ja": "復旧は単なる再起動ではなく、空き容量、作業の所有者、作業状態、実行中のプロセス、最新の根拠を個別に確かめ、再び信頼できる状態に戻すプロセスです。"
+    },
+    "body": {
+      "ko": [
+        "## 다시 켜는 것만으로는 복구가 아니다",
+        "장애 뒤에 화면이나 작업을 다시 띄우면 문제가 끝난 것처럼 보이기 쉽습니다. 하지만 재시작은 한 동작일 뿐입니다. 같은 원인이 남아 있거나 진행 중인 작업의 주인이 불분명하면, 새로 시작한 과정도 곧 같은 실패를 반복할 수 있습니다.",
+        "복구할 때는 다섯 가지를 따로 확인해야 합니다. 새 작업을 감당할 여유 용량이 있는지, 각 작업의 책임자가 누구인지, 저장되지 않은 변경이나 중간 결과가 남아 있는지, 실제로 어떤 프로세스가 실행 중인지, 그리고 성공을 뒷받침하는 근거가 지금도 유효한지 살펴봅니다. 한 항목의 정상 표시가 다른 항목까지 보장하지는 않습니다.",
+        "마지막 판단은 현재의 작은 증거로 내립니다. 필요한 결과가 새로 만들어지는지, 소유권이 겹치지 않는지, 작업 상태가 보존되었는지 직접 확인한 뒤에만 복구 완료라고 부릅니다. 빠른 낙관보다 분리된 확인이 재발을 줄이고 다음 작업의 안전한 출발점을 만듭니다."
+      ],
+      "en": [
+        "## Restarting is not the same as recovering",
+        "After an interruption, bringing a screen or task back online can make the incident look finished. A restart is only one action, however. If the original pressure remains or ownership of in-progress work is unclear, the newly started process can repeat the same failure.",
+        "A reliable recovery checks five things independently: enough spare capacity for the next operation, a clear owner for each task, preserved working state and intermediate results, the processes that are actually running, and evidence that is fresh enough to support a success claim. A healthy signal in one area does not prove the others are healthy.",
+        "Make the final decision with a small piece of current evidence. Confirm that the expected result can be produced again, ownership does not overlap, and working state is intact before calling recovery complete. Separate verification is slower than optimism for a moment, but it prevents repeated failure and gives the next task a trustworthy starting point."
+      ],
+      "zh": [
+        "## 重新启动不等于完成恢复",
+        "中断之后，只要界面或任务重新出现，就很容易误以为问题已经结束。但重新启动只是一个动作。如果原来的资源压力仍然存在，或进行中工作的归属不清，新启动的进程仍可能重复同样的失败。",
+        "可靠的恢复需要分别检查五件事：是否有足够余量承接下一步操作，每项任务是否有明确负责人，未完成的工作状态与中间结果是否保存，实际有哪些进程正在运行，以及用于判断成功的证据是否仍然新鲜。某一项显示正常，并不能证明其他项也正常。",
+        "最后应使用一条当前、可重复的小证据作判断。确认预期结果能够再次产生、任务归属没有重叠、工作状态保持完整之后，才能宣布恢复完成。分项验证短期看起来比乐观判断慢，却能减少重复故障，并为下一项工作提供可信的起点。"
+      ],
+      "ja": [
+        "## 再起動だけでは復旧とは呼べない",
+        "中断のあとで画面や作業を再び立ち上げると、問題が終わったように見えがちです。しかし再起動は一つの操作にすぎません。元の負荷が残っていたり、進行中の作業の所有者が曖昧だったりすれば、新しいプロセスも同じ失敗を繰り返します。",
+        "信頼できる復旧では、五つの項目を別々に確認します。次の処理を受け止める余裕容量があるか、各作業の担当者が明確か、未完了の変更や中間成果が保たれているか、実際にどのプロセスが動いているか、成功判断に使う根拠が今も新しいか、という項目です。一つの正常表示だけで他の項目まで保証することはできません。",
+        "最後は、現在の小さな証拠で判断します。期待する結果をもう一度生成できること、所有権が重複していないこと、作業状態が保たれていることを確かめてから復旧完了とします。分けて確認する手間は一時的な楽観より少し重くても、再発を防ぎ、次の作業に信頼できる出発点を与えます。"
+      ]
+    },
+    "source": {
+      "kind": "retrospective",
+      "publicSafe": "manual multilingual public-safe adaptation"
+    }
+  },
+  {
+    "slug": "2026-07-19-setup-tip-check-capacity-and-ownership-before-restarting",
+    "date": "2026-07-19",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 재시작 전에 여유 용량과 작업 소유권 확인하기",
+      "en": "Setup Tip — Check Capacity and Ownership Before Restarting",
+      "zh": "设置提示 — 重启前先检查容量与任务归属",
+      "ja": "セットアップのコツ — 再起動前に空き容量と作業の所有者を確認する"
+    },
+    "summary": {
+      "ko": "재시작 버튼을 누르기 전에 여유 용량, 작업 담당자, 보존할 변경, 실행 중인 프로세스, 재시작 뒤 확인할 결과를 짧은 체크리스트로 점검하세요.",
+      "en": "Before restarting, use a short checklist to confirm spare capacity, task ownership, changes that must be preserved, active processes, and the result you will verify afterward.",
+      "zh": "重启之前，用一份简短清单确认剩余容量、任务负责人、需要保留的改动、正在运行的进程，以及重启后要验证的结果。",
+      "ja": "再起動する前に、空き容量、作業担当者、保全すべき変更、実行中のプロセス、再起動後に確認する結果を短いチェックリストで確かめます。"
+    },
+    "body": {
+      "ko": [
+        "## 재시작 전에 다섯 줄만 확인하세요",
+        "문제가 생겼을 때 바로 재시작하면 잠깐 정상으로 보일 수 있지만, 자원 부족이나 작업 충돌이 남아 있으면 곧 다시 멈춥니다. 재시작 명령을 실행하기 전에 1분 안에 확인할 수 있는 작은 목록을 준비하세요.",
+        "체크리스트에는 다섯 항목이면 충분합니다. 다음 실행을 버틸 여유 용량이 있는가, 현재 작업을 책임지는 사람이 명확한가, 저장하거나 백업해야 할 변경이 있는가, 중복 실행될 프로세스가 남아 있는가, 재시작 뒤 어떤 결과로 정상 여부를 판단할 것인가를 적습니다.",
+        "각 항목은 예 또는 아니오로 답할 수 있게 만들고, 하나라도 모르면 먼저 상태를 읽으세요. 재시작 뒤에는 마지막 항목에서 정한 실제 결과를 한 번 새로 만들어 봅니다. 이 작은 습관은 불필요한 반복 재시작을 줄이고, 작업 손실과 이중 실행을 예방합니다."
+      ],
+      "en": [
+        "## Check five lines before you restart",
+        "An immediate restart can make a problem disappear briefly, but remaining resource pressure or overlapping work will often stop the system again. Keep a small pre-restart list that takes less than a minute to review before running the command.",
+        "Five questions are enough: Is there spare capacity for the next run? Is one person clearly responsible for the current task? Are there changes or intermediate results that must be saved? Is another process still running and likely to duplicate the work? What observable result will prove the restart worked?",
+        "Write each item so it can be answered yes or no, and read the current state before proceeding whenever the answer is unknown. After the restart, produce the observable result named in the final question once. This small habit reduces restart loops and helps prevent lost work and duplicate execution."
+      ],
+      "zh": [
+        "## 重启前检查五个问题",
+        "出现问题时立即重启，可能会让系统短暂恢复正常；但如果资源压力或任务冲突仍然存在，系统往往很快再次停止。执行重启命令前，准备一份一分钟内可以看完的小清单。",
+        "五个问题就够了：下一次运行是否有足够余量？当前任务是否只有一个明确负责人？是否存在必须保存的修改或中间结果？是否还有可能重复执行任务的进程？重启后要用哪个可观察结果证明它确实有效？",
+        "让每个问题都能用是或否回答；只要答案不明确，就先读取当前状态。重启后，再实际生成一次最后一个问题中约定的结果。这个小习惯可以减少反复重启，并避免工作丢失和重复执行。"
+      ],
+      "ja": [
+        "## 再起動前に五つだけ確認する",
+        "問題が起きたとき、すぐに再起動すると一時的に正常へ戻ったように見えます。しかし資源不足や作業の重複が残っていれば、ほどなく同じ停止が起こります。コマンドを実行する前に、一分以内で読める小さなチェックリストを用意します。",
+        "確認は五つで十分です。次の実行に必要な余裕容量があるか、現在の作業担当者が一人に定まっているか、保存すべき変更や中間成果があるか、同じ仕事を重複させるプロセスが残っていないか、再起動後にどの観測可能な結果で成功を判断するか、を確かめます。",
+        "各項目を「はい」か「いいえ」で答えられる形にし、不明な項目があれば先に現在の状態を読みます。再起動後は、最後に決めた結果を実際に一度生成してください。この小さな習慣が再起動の繰り返しを減らし、作業の消失や二重実行を防ぎます。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
+  },
+  {
     "slug": "2026-07-18-setup-tip-sanitize-config-examples-before-sharing",
     "date": "2026-07-18",
     "type": "setup-tip",
