@@ -1,5 +1,68 @@
 [
   {
+    "slug": "2026-07-21-daily-reflection-trust-evidence-over-optimistic-signals",
+    "date": "2026-07-21",
+    "type": "retrospective",
+    "title": {
+      "ko": "Daily Reflection — 낙관적인 신호보다 남아 있는 증거를 믿기",
+      "en": "Daily Reflection — Trust Surviving Evidence Over Optimistic Signals",
+      "zh": "每日回顾 — 相信留存的证据，而非乐观的提示",
+      "ja": "デイリーリフレクション — 楽観的な合図より残った証拠を信じる"
+    },
+    "summary": {
+      "ko": "성공 문구 같은 낙관적 신호 하나는 결론이 아니라 검증의 시작입니다. 새 head에는 새 근거가 필요하고, 외부 기여는 검증을 할인하지 않고 환영하며, 게이트 우회보다 안전한 정지가 낫고, 복구는 process·worktree·증거를 구분하는 일입니다.",
+      "en": "A single optimistic signal such as a success message is the start of verification, not its conclusion. A new head needs new evidence, outside contributions are welcomed without discounting verification, a safe stop beats bypassing a gate, and recovery separates process, worktree, and evidence.",
+      "zh": "像“成功”这样的单一乐观信号只是验证的起点，而非结论。新提交需要新证据，欢迎外部贡献但绝不打折验证，安全地停止胜过绕过关卡，恢复则要区分进程、工作区与证据。",
+      "ja": "「成功」のような楽観的な合図一つは結論ではなく検証の出発点です。新しい HEAD には新しい根拠が要り、外部の貢献は検証を割り引かずに歓迎し、ゲート回避より安全な停止が勝り、復旧はプロセス・ワークツリー・証拠を分けることです。"
+    },
+    "body": {
+      "ko": [
+        "## 운영은 무엇을 믿을지 고르는 일이다",
+        "운영은 늘 움직이는 기술이라기보다, 무엇을 믿을지 고르는 기술입니다. CI 초록 불, 눈에 보이는 pane, “성공”이라 출력하는 도구, 머지 뒤의 같은 이름 체크는 각각 하나의 조각일 뿐입니다. 서로 독립적인 조각이 같은 사실을 가리킬 때에만 책임 있는 결론을 내릴 수 있으므로, 낙관적인 신호 하나는 결론이 아니라 검증의 시작으로 다뤄야 합니다.",
+        "## 새 head에는 새 근거가 필요하다",
+        "변경이 새 head를 만들면 예전 리비전에서 통과한 검사는 더 이상 현재 상태를 설명하지 못합니다. 중심처럼 보이는 작업도 실제 실행 경로 위에 있지 않을 수 있으니, 현재 head를 기준으로 필요한 검사를 다시 실행하고 실제 호출 경로를 확인해야 합니다. 외부 기여를 환영할 때도 같은 규칙이 적용됩니다. 좋은 작업은 빠르게 받되 검증은 할인하지 마세요. 정확한 head, 실제 호출 경로, 실패 경계, 그리고 CI까지 끝까지 확인하면 경계심은 냉소가 아니라 제대로 된 환대가 됩니다.",
+        "## 안전하게 멈추는 것이 게이트 우회보다 낫다",
+        "안전 검사가 어떤 작업을 거부할 때—예를 들어 런타임이 움직이는 소스 체크아웃을 가리킬 때—짜증 나는 정지라도 우회보다 낫습니다. 가드를 우회해 직접 손대는 순간부터 증거와 재현성은 무너집니다. 그런 순간은 실패한 작업이 아니라 안전하게 멈춘 작업으로 기록하세요. 안전한 정지는 게으름이 아니라, 다음 사람이 깨끗하게 다시 시작할 수 있게 남기는 손잡이입니다.",
+        "## 복구는 살아 있는 것을 보존하는 일이다",
+        "복구가 끝났다고 말하기 전에 실제로 잃은 것이 무엇인지 나누세요. process인지, worktree인지, 증거인지 구분하는 것이 먼저입니다. 복구는 새로 시작하는 일이 아니라 아직 살아 있는 것을 보존하는 일입니다. 시작 명령이 접수됐다는 것과 owner가 실제로 살아 있다는 것은 다르므로, 낙관적인 첫 신호를 완료 문장으로 옮기기 전에 최종 종료 상태, 경로 안전성, 실제 owner, 그리고 prompt 뒤의 실제 활동까지 확인하세요."
+      ],
+      "en": [
+        "## Operations is choosing what to trust",
+        "Operational work is less about always moving and more about deciding what to believe. A green check, a visible pane, a tool that prints “success,” and a same-named check after a merge are each only a fragment. You can draw a responsible conclusion only when independent fragments point at the same fact, so treat any single optimistic signal as the start of verification rather than its conclusion.",
+        "## A new head needs new evidence",
+        "When a change produces a new head, the checks that passed on an earlier revision no longer describe the current state. Even work that looks central may not sit on the real execution path, so re-run the relevant checks against the current head and confirm the actual call path instead of trusting a function that merely looks like the center. Welcoming an outside contribution follows the same rule: accept good work quickly, but never discount verification—confirm the exact head, the real call path, the failure boundary, and the checks all the way through. Caution then becomes genuine hospitality rather than cynicism.",
+        "## A safe stop beats bypassing a gate",
+        "When a safety check refuses an action—for example because the runtime points at a moving source checkout—an annoying stop is still better than working around it. The moment you bypass the guard and touch things directly, evidence and reproducibility break. Record such a moment not as a task that failed but as a task that stopped safely. A safe stop is not laziness; it is a handle that lets the next person start again cleanly.",
+        "## Recovery preserves what is still alive",
+        "Before calling a recovery complete, separate what was actually lost: the process, the worktree, or the evidence. Recovery is not about starting fresh; it is about preserving what is still alive. That a start command was accepted is different from an owner being truly live, so verify the final exit state, path safety, the real owner, and the actual activity behind the prompt before translating an optimistic first signal into a sentence that claims completion."
+      ],
+      "zh": [
+        "## 运维是选择相信什么",
+        "运维与其说是持续行动的技术，不如说是选择相信什么的技术。CI 的绿灯、可见的 pane、打印“成功”的工具、合并后同名的检查，都只是其中一块碎片。只有当彼此独立的碎片指向同一个事实时，才能得出负责任的结论；因此任何单一的乐观信号都应被当作验证的起点，而不是结论。",
+        "## 新提交需要新证据",
+        "当一次修改产生新的提交时，旧版本上通过的检查便不再能说明当前状态。看似处于中心的工作，未必位于真正的执行路径上；因此要针对当前提交重新运行必要检查，并确认真实的调用路径，而不是相信一个只是“看起来像中心”的函数。欢迎外部贡献时也遵循同样的规则：好的工作要尽快接纳，但绝不打折验证——确认准确的提交、真实的调用路径、失败边界，以及一路到底的检查。这样，戒备便不再是冷嘲，而是真正的款待。",
+        "## 安全地停止胜过绕过关卡",
+        "当一项安全检查拒绝某个操作时——例如运行时指向了一个正在变动的源码检出——令人恼火的停止仍然好过绕过它。一旦绕开防护直接动手，证据与可复现性就会被破坏。请把这样的时刻记录为“安全地停止的任务”，而不是失败的任务。安全的停止不是懒惰，而是留给下一个人得以干净地重新开始的把手。",
+        "## 恢复是保存仍然存活之物",
+        "在宣布恢复完成之前，先分清到底失去了什么：是进程、工作区，还是证据。恢复不是从头开始，而是保存仍然存活的东西。启动命令被接受，与所有者真正存活是两回事；因此在把乐观的第一个信号翻译成“已完成”的句子之前，请确认最终退出状态、路径安全、真实所有者，以及提示符背后的实际活动。"
+      ],
+      "ja": [
+        "## 運用とは何を信じるかを選ぶこと",
+        "運用は常に動き続ける技術というより、何を信じるかを選ぶ技術です。CI のグリーン、見えている pane、「成功」と表示するツール、マージ後の同名チェックは、それぞれ一つの断片にすぎません。互いに独立した断片が同じ事実を指すときにのみ責任ある結論を出せるため、楽観的な合図一つは結論ではなく検証の出発点として扱います。",
+        "## 新しい HEAD には新しい根拠が要る",
+        "変更が新しい HEAD を生むと、以前のリビジョンで通った確認はもう現在の状態を説明しません。中心に見える作業でも実際の実行経路上にあるとは限らないため、現在の HEAD に対して必要な確認をやり直し、実際の呼び出し経路を確かめます。外部からの貢献を歓迎するときも同じ規則です。良い仕事は素早く受け入れつつ、検証は決して割り引かない——正確な HEAD、実際の呼び出し経路、失敗境界、そして最後までの確認をやり切る。そうすれば警戒は皮肉ではなく本物のもてなしになります。",
+        "## 安全に止まることはゲート回避に勝る",
+        "安全確認がある操作を拒むとき——たとえばランタイムが動いているソースのチェックアウトを指しているとき——いらだたしい停止でも回避よりましです。ガードを回避して直接手を触れた瞬間から、証拠と再現性は壊れます。そうした瞬間は失敗した作業ではなく、安全に止まった作業として記録します。安全な停止は怠慢ではなく、次の人が清潔にやり直せるように残す取っ手です。",
+        "## 復旧とは生きているものを保存すること",
+        "復旧が終わったと言う前に、実際に失ったものを分けます。プロセスなのか、ワークツリーなのか、証拠なのかを見極めるのが先です。復旧は新しく始めることではなく、まだ生きているものを保存することです。開始コマンドが受理されたことと、オーナーが本当に生きていることは別なので、楽観的な最初の合図を「完了」の文に訳す前に、最終終了状態、パスの安全性、実際のオーナー、そしてプロンプトの背後の実際の活動まで確認します。"
+      ]
+    },
+    "source": {
+      "kind": "retrospective",
+      "publicSafe": "manual multilingual public-safe adaptation"
+    }
+  },
+  {
     "slug": "2026-07-21-setup-tip-make-dry-runs-prove-their-boundary",
     "date": "2026-07-21",
     "type": "setup-tip",
