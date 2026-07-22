@@ -1,5 +1,52 @@
 [
   {
+    "slug": "2026-07-22-setup-tip-test-the-exact-invocation-shape",
+    "date": "2026-07-22",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 실제 실행 형태를 그대로 테스트하기",
+      "en": "Setup Tip — Test the Exact Invocation Shape",
+      "zh": "设置提示 — 按真实调用形式进行测试",
+      "ja": "セットアップのコツ — 実際の呼び出し形式をそのままテストする"
+    },
+    "summary": {
+      "ko": "명령의 의도만 테스트하지 말고 실제 argv, 진입점, 환경 조합을 재현하면 로컬에서는 숨고 배포 환경에서만 드러나는 라우팅 오류를 잡을 수 있습니다.",
+      "en": "Reproduce the real argv, entry point, and environment—not just the command’s intent—to catch routing bugs that stay hidden locally and appear only in deployment or CI.",
+      "zh": "不要只测试命令意图；复现真实的 argv、入口与环境组合，才能发现本地隐藏、只在部署或 CI 中出现的路由错误。",
+      "ja": "コマンドの意図だけでなく、実際の argv・エントリーポイント・環境の組み合わせを再現すると、ローカルでは隠れ、配信環境や CI でだけ現れるルーティング不具合を見つけられます。"
+    },
+    "body": {
+      "ko": [
+        "## 의미가 같아 보여도 실행 경로는 다를 수 있습니다",
+        "CLI 테스트가 내부 함수를 직접 호출하거나 단순화한 인자를 사용하면 실제 사용자가 거치는 파서와 라우터를 건너뛸 수 있습니다. 기능의 의도가 맞아도 옵션 순서, 별칭, 루트 명령의 빠른 경로, 실행 파일 래퍼 때문에 다른 분기로 들어갈 수 있으므로 실제 실행 형태 자체를 테스트해야 합니다.",
+        "문제가 발생한 명령줄을 문자열 설명으로만 남기지 말고 argv 배열, 사용한 실행 파일 또는 진입점, 작업 디렉터리, 필요한 공개 환경 조건을 작은 재현 케이스로 고정하세요. 같은 의미의 대표 변형도 추가하면 좋습니다. 예를 들어 전역 옵션의 앞뒤 위치, 축약형과 긴 옵션, 직접 실행과 패키지 스크립트 실행을 각각 확인합니다.",
+        "검증에서는 종료 코드뿐 아니라 어떤 도움말이나 하위 명령이 선택됐는지, 예상한 출력 표식이 있는지, 원치 않는 빠른 경로가 실행되지 않았는지를 단언하세요. 이렇게 실제 호출 경계를 테스트하면 로컬 단위 테스트의 낙관을 줄이고, CI나 설치된 패키지에서만 나타나는 차이를 더 일찍 발견할 수 있습니다."
+      ],
+      "en": [
+        "## Equivalent intent can still take a different execution path",
+        "A CLI test that calls an internal function directly or uses simplified arguments can skip the parser and router that real users traverse. Even when the feature intent is correct, option order, aliases, root-command fast paths, and executable wrappers can select a different branch. Test the invocation shape itself, not only the intended behavior.",
+        "Turn the failing command line into a small reproducible case that records the argv array, executable or entry point, working directory, and any necessary public environment conditions. Add representative equivalents as well—for example global options before and after the subcommand, short and long forms, and direct execution versus a package script.",
+        "Assert more than the exit code. Check which help surface or subcommand was selected, require a marker from the expected output, and prove that an unwanted fast path did not run. Testing this real invocation boundary reduces false confidence from local unit tests and exposes differences that otherwise appear only in CI or installed packages."
+      ],
+      "zh": [
+        "## 意图相同，执行路径仍可能不同",
+        "如果 CLI 测试直接调用内部函数，或使用经过简化的参数，就可能绕过真实用户会经过的解析器与路由器。即使功能意图正确，选项顺序、别名、根命令快速路径和可执行文件包装器也可能选择不同分支。因此要测试调用形式本身，而不只是预期行为。",
+        "把失败的命令行固定成一个小型可复现用例，记录 argv 数组、可执行文件或入口、工作目录，以及必要的公开环境条件。还可以加入具有相同含义的代表性变体，例如全局选项位于子命令之前或之后、短选项与长选项、直接执行与通过包脚本执行。",
+        "断言不要只看退出码。还要确认实际选择了哪个帮助界面或子命令、预期输出标记是否存在，以及不应触发的快速路径确实没有运行。测试真实调用边界可以减少本地单元测试带来的虚假信心，并更早暴露只在 CI 或已安装软件包中出现的差异。"
+      ],
+      "ja": [
+        "## 意図が同じでも実行経路は異なり得る",
+        "内部関数を直接呼ぶ CLI テストや、単純化した引数を使うテストは、実際の利用者が通るパーサーやルーターを飛ばすことがあります。機能の意図が正しくても、オプション順序、別名、ルートコマンドの高速経路、実行ファイルのラッパーによって別の分岐が選ばれます。期待する動作だけでなく、呼び出し形式そのものをテストします。",
+        "失敗したコマンドラインを小さな再現ケースとして固定し、argv 配列、実行ファイルまたはエントリーポイント、作業ディレクトリ、必要な公開環境条件を記録します。同じ意味を持つ代表的な変形も加えます。たとえばグローバルオプションをサブコマンドの前後に置く形、短縮形と長い形式、直接実行とパッケージスクリプト経由の実行です。",
+        "終了コードだけでなく、どのヘルプ画面やサブコマンドが選ばれたか、期待する出力の目印があるか、不要な高速経路が実行されなかったかを確認します。実際の呼び出し境界をテストすれば、ローカル単体テストの過信を減らし、CI やインストール済みパッケージでだけ現れる差を早く発見できます。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
+  },
+  {
     "slug": "2026-07-21-daily-reflection-trust-evidence-over-optimistic-signals",
     "date": "2026-07-21",
     "type": "retrospective",
