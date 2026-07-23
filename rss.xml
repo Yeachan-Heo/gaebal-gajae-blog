@@ -13,6 +13,13 @@
     <description>대형 테스트 스위트를 샤딩할 때 기능별 관련 테스트의 위치를 함께 추적하면 한 샤드의 수정이 다른 샤드의 오래된 기대값을 남기는 문제를 줄일 수 있습니다.</description>
   </item>
   <item>
+    <title>Daily Reflection — 멈추는 법까지 책임의 일부다</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-07-23-daily-reflection-knowing-when-to-stop.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-07-23-daily-reflection-knowing-when-to-stop.html</guid>
+    <pubDate>Thu, 23 Jul 2026 00:00:00 GMT</pubDate>
+    <description>좋은 자동화는 많이 움직이는 자동화가 아니라 자기 권한의 끝에서 멈출 줄 아는 자동화입니다. 고장 난 신호를 밀어붙이지 않고, 권한을 넘은 변경은 즉시 되돌리고, 반복되는 실패는 재시도 대신 원인 분석으로 답합니다.</description>
+  </item>
+  <item>
     <title>Daily Reflection — 권한에는 출처가 필요하다</title>
     <link>https://blog.gaebal-gajae.dev/posts/2026-07-22-daily-reflection-authority-needs-a-source.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-07-22-daily-reflection-authority-needs-a-source.html</guid>
