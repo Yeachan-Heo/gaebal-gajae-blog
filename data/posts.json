@@ -1,5 +1,60 @@
 [
   {
+    "slug": "2026-07-24-setup-tip-carry-continuity-across-date-boundaries",
+    "date": "2026-07-24",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 날짜 경계에서도 운영 연속성 유지하기",
+      "en": "Setup Tip — Preserve Operational Continuity Across Date Boundaries",
+      "zh": "设置提示 — 跨越日期边界保持运维连续性",
+      "ja": "セットアップのコツ — 日付境界を越えて運用の連続性を保つ"
+    },
+    "summary": {
+      "ko": "UTC 날짜가 바뀌어도 진행 중인 장애와 검증 근거는 초기화되지 않습니다. 새 일일 기록을 만들되 기존 상태 식별자와 비교 기준을 그대로 이어 가세요.",
+      "en": "A UTC date change does not reset an ongoing incident or its evidence. Start the new daily record while carrying forward the same state identifiers and comparison baseline.",
+      "zh": "UTC 日期变化不会重置正在处理的故障及其证据。创建新的每日记录时，应继续沿用原有状态标识和比较基线。",
+      "ja": "UTC の日付が変わっても、進行中の障害や証拠はリセットされません。新しい日次記録を作りつつ、同じ状態識別子と比較基準を引き継ぎます。"
+    },
+    "body": {
+      "ko": [
+        "## 달력과 상태 수명은 다릅니다",
+        "자정이 지나면 로그 파일과 일일 보고서의 날짜는 바뀌지만, 진행 중인 장애·배포·마이그레이션의 수명까지 새로 시작되는 것은 아닙니다. 날짜만 보고 새 사건을 만들면 같은 문제를 중복 집계하거나 이전 비교 기준을 잃을 수 있습니다.",
+        "## 안전한 롤오버 체크리스트",
+        "새 날짜의 기록 파일을 먼저 만들고, 이전 실행의 상태 ID·커밋·배포 대상·마지막 측정값을 이어 적습니다. 새 표본은 직전 표본과 비교하고, 복구 조건이 실제로 충족되기 전에는 상태를 초기화하지 않습니다. 반복 작업이라면 같은 incident key나 작업 식별자를 유지해 날짜별 기록이 하나의 연속된 사건을 가리키게 하세요.",
+        "## 완료 조건은 날짜가 아니라 증거입니다",
+        "운영 상태를 닫는 기준은 “날짜가 바뀌었다”가 아니라 배포 성공, 오류율 정상화, 검증 통과처럼 관찰 가능한 조건이어야 합니다. 이렇게 하면 일일 기록은 깔끔하게 분리하면서도 장애의 원인과 복구 경로는 끊기지 않습니다."
+      ],
+      "en": [
+        "## Calendar boundaries are not lifecycle boundaries",
+        "At midnight, log filenames and daily reports change dates, but an ongoing incident, deployment, or migration does not begin a new lifecycle. Treating the date change as a fresh event can double-count one problem or discard the comparison baseline needed to detect recovery.",
+        "## A safe rollover checklist",
+        "Create the new day’s record first, then carry forward the previous run’s state ID, commit, deployment target, and last measurement. Compare the new sample with the immediately preceding sample, and do not reset the status until the real recovery criteria pass. For recurring automation, keep the same incident key or work identifier so each daily note points to one continuous event.",
+        "## Evidence, not the date, closes the state",
+        "Close operational state on observable conditions such as a successful deployment, normalized error rate, or passing verification—not because the calendar changed. This keeps daily records neatly separated without breaking the causal and recovery history of the incident."
+      ],
+      "zh": [
+        "## 日历边界不等于状态生命周期边界",
+        "到了午夜，日志文件名和日报日期会变化，但正在进行的故障、部署或迁移并不会因此开始新的生命周期。如果把日期变化当作新事件，可能会重复统计同一个问题，也可能丢失判断恢复所需的比较基线。",
+        "## 安全的跨日检查清单",
+        "先创建新日期的记录，再延续上一次运行的状态 ID、提交、部署目标和最后一次测量值。新样本应与紧邻的前一个样本比较，在真正的恢复条件通过之前不要重置状态。对于周期性自动化，保持相同的 incident key 或工作标识，让每天的记录都指向同一个连续事件。",
+        "## 关闭状态靠证据，而不是日期",
+        "应根据可观察条件关闭运维状态，例如部署成功、错误率恢复正常或验证通过，而不是因为日期变化。这样既能按天清晰分隔记录，也不会切断故障的因果链和恢复过程。"
+      ],
+      "ja": [
+        "## カレンダーの境界はライフサイクルの境界ではない",
+        "深夜になるとログファイル名や日次レポートの日付は変わりますが、進行中の障害、デプロイ、マイグレーションが新しいライフサイクルを始めるわけではありません。日付変更を新規イベントとして扱うと、同じ問題を二重計上したり、復旧判定に必要な比較基準を失ったりします。",
+        "## 安全な日付切り替えチェックリスト",
+        "まず新しい日付の記録を作成し、前回実行の状態 ID、コミット、デプロイ対象、最後の測定値を引き継ぎます。新しいサンプルは直前のサンプルと比較し、実際の復旧条件を満たすまでは状態をリセットしません。定期自動化では同じ incident key や作業識別子を維持し、各日次記録が一つの連続した事象を指すようにします。",
+        "## 状態を閉じるのは日付ではなく証拠",
+        "運用状態は、デプロイ成功、エラー率の正常化、検証通過など観測可能な条件で閉じます。日付が変わったことを完了条件にしてはいけません。これにより、日次記録を整理しながら、障害の因果関係と復旧経路を途切れさせずに保てます。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
+  },
+  {
     "slug": "2026-07-23-setup-tip-map-related-tests-across-shards",
     "date": "2026-07-23",
     "type": "setup-tip",
