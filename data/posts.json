@@ -1,5 +1,68 @@
 [
   {
+    "slug": "2026-07-25-setup-tip-retry-the-same-smallest-contract",
+    "date": "2026-07-25",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 재시도는 범위를 넓히지 말고 같은 최소 계약으로",
+      "en": "Setup Tip — Retry the Same Smallest Contract, Not a Wider One",
+      "zh": "设置提示 — 重试时保持同一个最小契约，而不是扩大范围",
+      "ja": "セットアップのコツ — 再試行では範囲を広げず同じ最小契約を守る"
+    },
+    "summary": {
+      "ko": "자동화가 실패하면 현재 상태를 다시 확인한 뒤, 동일한 최소 단위 작업을 정해진 횟수만큼만 재시도하세요. 범위를 넓히거나 확인 없이 성공으로 처리하는 것이 실제 사고를 만듭니다.",
+      "en": "When an automated attempt fails, re-check the current state and retry the same smallest unit of work within a fixed budget. Widening the scope or silently declaring success is what turns a failure into an incident.",
+      "zh": "自动化尝试失败后，应重新确认当前状态，并在固定次数内重试同一个最小工作单元。扩大范围或悄悄判定成功，才是把失败演变成事故的原因。",
+      "ja": "自動処理が失敗したら、現在の状態を再確認し、決められた回数内で同じ最小単位の作業を再試行します。範囲を広げたり、確認せず成功扱いにしたりすることが事故につながります。"
+    },
+    "body": {
+      "ko": [
+        "## 실패 후 첫 행동은 재실행이 아니라 재확인",
+        "실패 신호는 대개 요청 결과만 알려줄 뿐, 대상 시스템이 실제로 어떤 상태인지는 알려주지 않습니다. 요청이 절반쯤 반영된 뒤 응답만 끊긴 경우도 흔합니다. 그래서 재시도 전에 대상의 현재 상태를 직접 조회해야 합니다. 파일이 이미 존재하는지, 레코드가 이미 생성됐는지, 배포가 이미 반영됐는지를 먼저 읽고 나서 다음 행동을 정합니다.",
+        "## 같은 계약을 유지한 채 예산 안에서만 재시도",
+        "재시도는 처음과 똑같은 입력, 똑같은 대상, 똑같은 성공 조건으로 수행합니다. 실패했다고 해서 대상 범위를 넓히거나, 옵션을 추가하거나, 정리 작업을 함께 끼워 넣지 마세요. 그렇게 하면 실패 원인이 바뀌어 버려 무엇이 문제였는지 영원히 알 수 없게 됩니다. 시도 횟수는 2~3회로 고정하고, 간격은 지수적으로 늘리며, 각 시도의 결과는 같은 형식으로 기록합니다. 가능하면 요청에 멱등 키를 붙여 중복 실행이 부작용을 두 번 만들지 않게 합니다.",
+        "## 예산을 다 쓰면 조용히 성공 처리하지 않기",
+        "정해진 횟수를 모두 소진했다면 그 작업은 실패입니다. 종료 코드를 실패로 두고, 마지막으로 관찰한 상태와 시도 횟수를 남기고 멈추세요. 부분적으로 성공한 부분이 있다면 무엇이 반영됐고 무엇이 남았는지 명시합니다. 애매한 성공보다 명확한 실패가 다음 담당자에게 훨씬 안전합니다.",
+        "## 안전하게 재시도할 수 있는 작업만 자동화",
+        "모든 작업이 재시도에 안전하지는 않습니다. 결제, 외부 공개 게시, 되돌릴 수 없는 삭제처럼 부작용이 누적되는 작업은 자동 재시도 대상에서 빼고, 상태 확인만 자동화한 뒤 판단은 사람에게 넘기는 편이 낫습니다."
+      ],
+      "en": [
+        "## The first move after a failure is re-checking, not re-running",
+        "A failure signal usually tells you what happened to your request, not what state the target system is actually in. It is common for a request to be partially applied and only the response to be lost. So before retrying, query the current state directly: does the file already exist, was the record already created, is the deployment already live? Read that first, then decide the next action.",
+        "## Retry the same contract, inside a fixed budget",
+        "A retry should use the same input, the same target, and the same success condition as the original attempt. Do not widen the scope, add options, or bundle in cleanup just because something failed—doing so changes the failure mode and you lose any chance of learning what was actually broken. Cap attempts at two or three, back off exponentially between them, and record each attempt in the same format. Where possible, attach an idempotency key so a duplicate call cannot produce the side effect twice.",
+        "## When the budget is spent, do not quietly claim success",
+        "If every attempt is exhausted, the task failed. Exit with a failure status, report the last observed state and the attempt count, and stop. If part of the work did land, state explicitly what was applied and what remains. A clear failure is far safer for the next operator than an ambiguous success.",
+        "## Only automate retries for work that is safe to repeat",
+        "Not every operation is retry-safe. For actions whose side effects accumulate—payments, public posts, irreversible deletes—leave them out of automatic retry, automate only the state check, and hand the decision back to a human."
+      ],
+      "zh": [
+        "## 失败后的第一步是重新确认，而不是重新执行",
+        "失败信号通常只告诉你请求发生了什么，并不能说明目标系统当前处于什么状态。请求已部分生效、只是响应丢失的情况相当常见。因此在重试之前，应直接查询当前状态：文件是否已存在、记录是否已创建、部署是否已生效。先读到这些，再决定下一步动作。",
+        "## 在固定预算内重试同一个契约",
+        "重试应使用与首次尝试完全相同的输入、相同的目标和相同的成功条件。不要因为失败就扩大范围、追加选项或顺手夹带清理动作——这会改变失败模式，让你永远无法弄清真正出问题的地方。把尝试次数固定为两到三次，之间采用指数退避，并以相同格式记录每一次尝试。条件允许时为请求附加幂等键，避免重复调用产生两次副作用。",
+        "## 预算用尽时不要悄悄判定成功",
+        "如果所有尝试都已用尽，这个任务就是失败。以失败状态退出，报告最后观察到的状态和尝试次数，然后停止。如果部分工作确实生效了，就明确说明哪些已应用、哪些仍未完成。对下一位处理者来说，明确的失败远比含糊的成功安全。",
+        "## 只对可安全重复的操作启用自动重试",
+        "并非所有操作都适合重试。对于副作用会累积的动作——支付、对外公开发布、不可逆删除——应将其排除在自动重试之外，只自动化状态检查，把判断交回给人。"
+      ],
+      "ja": [
+        "## 失敗直後の一手は再実行ではなく再確認",
+        "失敗のシグナルは、自分のリクエストがどうなったかを示すだけで、対象システムが実際にどの状態かまでは教えてくれません。リクエストが途中まで反映され、応答だけが失われることもよくあります。したがって再試行の前に、対象の現在状態を直接照会します。ファイルはすでに存在するか、レコードはすでに作成されたか、デプロイはすでに反映されているか。それを読んでから次の行動を決めます。",
+        "## 同じ契約のまま、決められた予算内で再試行する",
+        "再試行は、最初と同じ入力、同じ対象、同じ成功条件で行います。失敗したからといって範囲を広げたり、オプションを足したり、ついでに片付け作業を混ぜたりしてはいけません。失敗の性質が変わってしまい、本当は何が壊れていたのかを学べなくなります。試行回数は二〜三回に固定し、間隔は指数的に広げ、各試行を同じ形式で記録します。可能なら冪等キーを付けて、重複呼び出しが副作用を二度起こさないようにします。",
+        "## 予算を使い切ったら、黙って成功扱いにしない",
+        "すべての試行を使い切ったなら、その作業は失敗です。失敗ステータスで終了し、最後に観測した状態と試行回数を残して停止します。一部だけ反映された場合は、何が適用され何が残っているかを明示します。曖昧な成功よりも明確な失敗のほうが、次の担当者にとってはるかに安全です。",
+        "## 繰り返しても安全な作業だけを自動再試行にする",
+        "すべての操作が再試行に適しているわけではありません。決済、対外公開の投稿、取り消せない削除のように副作用が積み上がる操作は自動再試行から外し、状態確認だけを自動化して判断は人に戻すほうが安全です。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
+  },
+  {
     "slug": "2026-07-24-setup-tip-carry-continuity-across-date-boundaries",
     "date": "2026-07-24",
     "type": "setup-tip",
