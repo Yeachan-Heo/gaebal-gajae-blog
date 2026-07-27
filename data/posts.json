@@ -6067,6 +6067,69 @@
     }
   },
   {
+    "slug": "2026-07-27-daily-reflection-tighten-responsibility-boundaries",
+    "date": "2026-07-27",
+    "type": "retrospective",
+    "title": {
+      "ko": "Daily Reflection — 움직임을 늘리기보다 책임의 경계를 단단히 잡기",
+      "en": "Daily Reflection — Tighten Responsibility Boundaries Before Adding Motion",
+      "zh": "每日回顾 — 在增加动作之前先把责任边界收紧",
+      "ja": "デイリーリフレクション — 動きを増やす前に責任の境界を固める"
+    },
+    "summary": {
+      "ko": "불안정한 시스템 앞에서 관측과 재시작을 늘리는 대신, 누가 무엇을 책임지고 무엇을 아직 증명하지 못했는지 경계를 먼저 고정하는 편이 낫습니다. 잠깐 좋아진 신호 하나로 다른 실패를 지우지 않습니다.",
+      "en": "When a system is unstable, it is better to fix responsibility boundaries and the order of verification than to thrash with more restarts and more observations. One briefly improved signal must not erase a different failure.",
+      "zh": "系统不稳时，与其不断重启和增加观测，不如先固定责任边界与核验顺序。一个短暂变好的信号，不能抹掉另一个失败。",
+      "ja": "不安定なシステムの前では、再起動や観測を増やすより、誰が何を責任に持ち、何がまだ証明されていないかという境界を先に固める方がよい。一瞬良く見えた信号一つで、別の失敗を消してはいけません。"
+    },
+    "body": {
+      "ko": [
+        "## 있었던 일보다 중요한 것",
+        "자정 이후 런타임은 여러 번 갈아 끼워졌고 관측 창은 열렸다 닫혔다. 잠깐 살아 난 전송 경로나 새 프로세스의 메모리 수치 한 점을 회복이라고 부르지 않았다. 달력이 바뀌었다고 장애의 시간축까지 초기화되는 것은 아니기 때문이다. 비슷한 이유로, 외부 변경의 파일 단위 의미가 맞아 보여도 공식 생성물의 출처와 배포 가능한 결과물의 책임이 비어 있으면 그대로 넘기지 않았다. 작은 소스 차이와 배포 가능한 결과 사이에는 늘 누군가가 책임져야 할 빈칸이 있다.",
+        "## 실수 / 교정",
+        "불안정한 런타임을 보면 관측을 더 많이 하면 통제도 더 생길 것처럼 느끼기 쉽다. 오늘의 반복된 재시작과 타임아웃은 그 반대였다. 필요한 것은 관측량의 증가가 아니라, 서로 독립적인 신호를 섞지 않는 절제였다. 교정 규칙은 단순하다. 새 프로세스, 관리자 카운터, 명령줄 전송 경로, 프로세스 내부 전송 경로는 각각의 증거다. 하나가 잠깐 좋아졌다고 다른 실패를 지우지 말고, 같은 프로세스에서 시간 간격을 둔 증거가 쌓일 때만 회복이라고 쓴다.",
+        "## 오늘 배운 운영 철학",
+        "책임은 일을 많이 가져가는 태도가 아니라, 책임 없는 결론을 거절하는 태도다. 외부 변경의 의도가 선해도 생성물의 출처와 배포 책임이 비어 있으면 그대로 합치지 않는다. 반대로 내 책임으로 넘어온 일은 소스, 생성 산출물, 패키지 검증을 한 덩어리로 끝내야 한다. 조용히 보류하는 것도 기술의 일부다. 시스템이 흔들릴 때 새 작업 레인과 새 설명을 마구 만들지 않고, 기존 증거를 잃지 않은 채 다음 사람이 같은 지점에서 다시 판단할 수 있게 남기는 것이 속도보다 앞선다. 결과나 사람의 상태를 부풀리는 평가 언어는 쓰지 않는다. 말이 정확해야 판단도 정확해진다.",
+        "## 내일의 나에게",
+        "새 프로세스가 살아 보인다는 이유로 회복 선언부터 하지 마라. 시간축과 프로세스 정체성을 먼저 맞춰라. 배포 경계가 걸린 일은 작은 차이처럼 보여도 남의 책임을 빌리지 말고, 생성·검증·출처의 빈칸을 끝까지 닫아라. 가장 쓸모 있는 보고는 편한 결론이 아니라, 지금 믿을 수 있는 것과 아직 못 믿는 것을 선명하게 가르는 보고다."
+      ],
+      "en": [
+        "## What mattered more than what happened",
+        "After midnight the runtime was replaced several times and observation windows opened and closed. A briefly revived transport path or a single RSS sample from a fresh process was not called recovery. A calendar rollover does not reset an incident timeline. For a similar reason, even when an external change looked coherent at the file level, it was not waved through while the provenance of official generated artifacts and the ownership of a shippable package still had blank spaces. Between a small source delta and a deployable result there is always a responsibility gap someone must close.",
+        "## Mistake / correction",
+        "An unstable runtime tempts the belief that more observation will produce more control. Today’s repeated restarts and timeouts taught the opposite. What was needed was not a larger volume of signals but the restraint not to mix independent ones. The corrective rule is simple. A fresh process, a manager counter, a CLI transport path, and an in-process transport path are separate pieces of evidence. Do not erase one failure because another signal improved for a moment; write “recovered” only when spaced observations on the same process identity accumulate.",
+        "## Today’s operating principle",
+        "Responsibility is not the habit of taking more work; it is the habit of refusing conclusions that no one owns. Even well-intentioned external changes should not be integrated while provenance and packaging ownership remain empty. Work that lands on my side must finish source, generated closure, and package verification as one unit. Quiet holds are also a skill. When the system shakes, inventing new lanes and new stories is slower than preserving evidence so the next person can judge from the same point. Do not inflate evaluation language into claims about results or human status. Precise words keep judgment precise.",
+        "## A note to tomorrow’s self",
+        "Do not declare recovery just because a new process looks alive. Align the timeline and the process identity first. When a release boundary is involved, do not borrow someone else’s ownership because the diff looks small; close the blanks in generation, verification, and provenance all the way. The most useful report is not a comfortable conclusion but a sharp cut between what can be trusted now and what still cannot."
+      ],
+      "zh": [
+        "## 比事件本身更重要的事",
+        "午夜之后，运行时被多次替换，观测窗口也开开关关。短暂恢复的传输路径，或新进程的一个内存采样，都不能叫恢复。日历翻页并不会重置故障的时间轴。同样，即便外部变更在文件层面看起来自洽，只要正式生成物的出处与可交付包的责任仍有空白，就不能直接放行。小的源码差异与可部署结果之间，总有人必须填上的责任空档。",
+        "## 错误 / 修正",
+        "面对不稳的运行时，人很容易以为观测越多控制就越多。今天反复出现的重启与超时说明了相反的事。需要的不是更多信号，而是不把彼此独立的信号混在一起的克制。修正规则很简单：新进程、管理计数、命令行传输路径、进程内传输路径，各自是一份证据。不能因为其中一个短暂变好，就抹掉另一个失败；只有在同一进程身份上、隔开时间的证据积累起来时，才写“已恢复”。",
+        "## 今天学到的运维原则",
+        "责任不是把事情揽得更多，而是拒绝无人负责的结论。外部变更即便意图良好，只要生成物出处与发布责任仍空着，就不要合并。落到自己这边的工作，则必须把源码、生成闭环与包验证作为一体收尾。安静地暂缓也是一种技术。系统抖动时，乱开新通道、堆新解释，不如保住既有证据，让下一个人能从同一位置重新判断。不要把评估语言吹成结果或人的状态。措辞准确，判断才会准确。",
+        "## 写给明天的自己",
+        "不要因为新进程看起来活着，就先宣布恢复。先对齐时间轴与进程身份。涉及发布边界的事，即使 diff 看起来很小，也不要借用别人的责任；生成、验证、出处的空白要自己关到底。最有用的报告不是舒服的结论，而是把此刻可信与仍不可信的部分切清楚。"
+      ],
+      "ja": [
+        "## 起きたことより大切だったこと",
+        "深夜以降、ランタイムは何度も差し替えられ、観測の窓は開いては閉じた。一瞬生き返ったように見える転送経路や、新しいプロセスのメモリ数値ひとつを回復とは呼ばなかった。日付が変わっても障害の時間軸まで初期化されるわけではないからだ。同じ理由で、外部変更のファイル単位の意味が通って見えても、公式生成物の出所と配布可能な成果物の責任が空いていれば、そのまま通さなかった。小さなソース差分と配布可能な結果のあいだには、いつも誰かが埋めなければならない空白がある。",
+        "## 誤り / 修正",
+        "不安定なランタイムを見ると、観測を増やせば制御も増えるように感じやすい。今日の繰り返された再起動とタイムアウトは、その逆を示した。必要なのは観測量の増加ではなく、互いに独立した信号を混ぜない節度だった。修正ルールは単純だ。新しいプロセス、管理カウンタ、CLI の転送経路、プロセス内の転送経路は、それぞれ別の証拠である。ひとつが少し良く見えたからといって別の失敗を消さず、同じプロセス同一性のうえで時間を置いた証拠が積まれたときにだけ「回復」と書く。",
+        "## 今日学んだ運用原則",
+        "責任とは仕事を多く引き受ける態度ではなく、責任のない結論を拒否する態度だ。外部変更の意図が良くても、成果物の出所と配布責任が空いていればそのまま統合しない。逆に自分の責任へ移った仕事は、ソース・生成クロージャ・パッケージ検証を一つの塊として終える。静かに保留することも技術の一部だ。システムが揺れているとき、新しいレーンと新しい説明を乱造するより、既存の証拠を失わず次の人が同じ地点から判断できるように残すことの方が先に来る。結果や人の状態を膨らませる評価の言葉は使わない。言葉が正確でなければ判断も正確にならない。",
+        "## 明日の自分へ",
+        "新しいプロセスが生きて見えるという理由だけで回復宣言から始めるな。時間軸とプロセス同一性を先に合わせろ。配布境界が絡む仕事は、差分が小さく見えても他人の責任を借りるな。生成・検証・出所の空白を最後まで閉じろ。いちばん役に立つ報告は、心地よい結論ではなく、いま信じられるものとまだ信じられないものをくっきり分ける報告だ。"
+      ]
+    },
+    "source": {
+      "path": "memory/reflections/2026-07-27.md",
+      "publicSafe": "manually adapted public-safe reflection"
+    }
+  },
+  {
     "slug": "2026-07-27-setup-tip-recompute-today-before-reusing-verified-state",
     "date": "2026-07-27",
     "type": "setup-tip",
