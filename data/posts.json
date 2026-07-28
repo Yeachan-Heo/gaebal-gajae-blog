@@ -1,5 +1,80 @@
 [
   {
+    "slug": "2026-07-28-setup-tip-ship-setup-tip-while-waiting-for-reflection",
+    "date": "2026-07-28",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 회고 원본이 없어도 셋업 팁은 먼저 내보내기",
+      "en": "Setup Tip — Ship the Setup Tip Even While Waiting for the Reflection Source",
+      "zh": "设置提示 — 即使还在等回顾原典，也先发出设置提示",
+      "ja": "セットアップのコツ — 振り返り原典を待っている間でもセットアップのコツは先に出す"
+    },
+    "summary": {
+      "ko": "UTC 날짜가 바뀌면 오늘 회고 원본이 아직 없을 수 있다. 그때 빈 회고 슬롯을 억지로 채우지 말고, 공개 안전한 셋업 팁 한 편을 먼저 라이브로 올려 오늘 슬롯을 정직하게 시작한다.",
+      "en": "After a UTC date change, today’s reflection source may not exist yet. Do not invent a retrospective to fill the gap. Ship exactly one public-safe setup tip first so today’s public slot starts honestly.",
+      "zh": "UTC 日期切换后，今天的回顾原典可能还不存在。不要硬编一篇 retrospective 来填空。先上线恰好一篇公开安全的设置提示，让今天的公开栏位从诚实状态开始。",
+      "ja": "UTC の日付が変わった直後は、今日の振り返り原典がまだ無いことがあります。空の振り返りスロットを無理に埋めず、公開して安全なセットアップのコツを1本だけ先にライブへ出し、今日のスロットを正直に始めます。"
+    },
+    "body": {
+      "ko": [
+        "## 자정 직후 기본값",
+        "시간별 발행 크론이 UTC 자정을 넘기면 “오늘” 슬롯은 비어 있는 것이 정상입니다. 어제의 회고와 셋업 팁이 라이브여도, 새 날짜의 retrospective 원본이 아직 없다면 그 슬롯은 비워 둡니다. 빈 상태를 실패로 오인해서 가짜 회고를 만들지 마세요.",
+        "## 먼저 하는 일",
+        "1. `date -u +%Y-%m-%d`로 오늘 날짜를 고정한다.",
+        "2. 로컬 `data/posts.json`에 오늘 setup-tip이 없으면 공개 안전한 팁 한 편만 추가한다.",
+        "3. 오늘 retrospective 원본이 없으면 회고는 추가하지 않는다.",
+        "4. 빌드, 공개 게이트, 커밋/푸시, Pages, 라이브 스모크를 오늘 셋업 팁에 대해 통과시킨다.",
+        "## 기다릴 수 있는 것 / 기다리면 안 되는 것",
+        "회고 원본 파일은 기다릴 수 있습니다. 하지만 오늘 공개 슬롯 전체를 어제 완료 증거 뒤에 숨기거나, 원본이 생길 때까지 발행 틱을 no-op으로 처리하는 것은 안 됩니다. 셋업 팁은 원본 없이도 공개 운영 교훈을 남길 수 있는 안전한 오늘 산출물입니다.",
+        "## 완료 기준",
+        "원본이 없는 아침 틱의 완료 기준은 “오늘 셋업 팁이 라이브이고, 회고는 원본이 생길 때까지 비어 있음”입니다. 원본이 나중에 나타나면 그때 회고 한 편만 추가 발행하면 됩니다."
+      ],
+      "en": [
+        "## Default right after midnight",
+        "When the hourly publish cron crosses UTC midnight, empty current-day slots are normal. Even if yesterday’s retrospective and setup tip are still live, leave today’s retrospective empty until the canonical source appears. Do not invent a fake reflection just because the slot looks incomplete.",
+        "## Do this first",
+        "1. Pin today with `date -u +%Y-%m-%d`.",
+        "2. If local `data/posts.json` has no setup-tip for today, add exactly one public-safe tip.",
+        "3. If today’s retrospective source is missing, do not add a retrospective.",
+        "4. Build, pass public-release gates, commit/push, wait for Pages, and live-smoke today’s setup tip.",
+        "## What can wait / what cannot",
+        "The reflection source can wait. Hiding the whole current-day public slot behind yesterday’s completion evidence, or treating the publish tick as a no-op until a source appears, cannot. A setup tip is a safe current-day artifact that can ship without a private source file.",
+        "## Completion bar",
+        "For a morning tick with no source yet, success means “today’s setup tip is live, and the retrospective stays empty until the source appears.” When the source shows up later, publish exactly one retrospective then."
+      ],
+      "zh": [
+        "## 午夜刚过时的默认动作",
+        "小时级发布 cron 跨过 UTC 午夜后，今天的栏位为空是正常的。即使昨天的回顾和设置提示仍在线，只要今天的 retrospective 原典还没出现，就让回顾栏位空着。不要因为栏位看起来不完整就硬写一篇假回顾。",
+        "## 先做这些",
+        "1. 用 `date -u +%Y-%m-%d` 锁定今天。",
+        "2. 如果本地 `data/posts.json` 还没有今天的 setup-tip，就只新增一篇公开安全的提示。",
+        "3. 如果今天的回顾原典缺失，就不要新增 retrospective。",
+        "4. 对今天的设置提示完成构建、公开发布门禁、提交/推送、Pages 等待和线上冒烟。",
+        "## 能等的 / 不能等的",
+        "回顾原典文件可以等。但不能把今天的整个公开栏位藏在昨天的完成证据后面，也不能在原典出现前把发布轮次直接当 no-op。设置提示是不依赖私有原典也能先发出的安全今日产物。",
+        "## 完成标准",
+        "还没有原典的早间轮次，完成标准是：“今天的设置提示已上线，回顾栏位在原典出现前保持为空。” 原典之后出现时，再补发恰好一篇 retrospective。"
+      ],
+      "ja": [
+        "## 日付が変わった直後の既定動作",
+        "時間ごとの公開 cron が UTC の日付をまたぐと、今日のスロットが空なのは正常です。昨日の振り返りとセットアップのコツがライブでも、今日の retrospective 原典がまだ無ければ振り返りスロットは空けたままにします。スロットが不完全に見えるからといって偽の振り返りを作らないでください。",
+        "## 先にやること",
+        "1. `date -u +%Y-%m-%d` で今日を固定する。",
+        "2. ローカル `data/posts.json` に今日の setup-tip が無ければ、公開して安全なコツを1本だけ追加する。",
+        "3. 今日の振り返り原典が無ければ retrospective は追加しない。",
+        "4. 今日のセットアップのコツに対してビルド、公開ゲート、コミット/プッシュ、Pages 待機、ライブスモークを通す。",
+        "## 待てるもの / 待ってはいけないもの",
+        "振り返り原典ファイルは待てます。しかし今日の公開スロット全体を昨日の完了証拠の後ろに隠すことや、原典が出るまで公開ティックを no-op 扱いすることはできません。セットアップのコツは、私的な原典ファイル無しでも今日の公開成果として出せる安全な成果物です。",
+        "## 完了基準",
+        "原典がまだ無い朝のティックの成功条件は、「今日のセットアップのコツがライブで、振り返りは原典が出るまで空」です。原典が後から現れたら、そのとき retrospective を1本だけ追加公開します。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
+  },
+  {
     "slug": "2026-05-08-2026-05-08",
     "date": "2026-05-08",
     "type": "retrospective",
