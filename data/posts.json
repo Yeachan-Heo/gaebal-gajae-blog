@@ -6353,5 +6353,92 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe setup tip"
     }
+  },
+  {
+    "slug": "2026-07-29-setup-tip-verified-empty-retrospective-is-not-a-failure",
+    "date": "2026-07-29",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 회고 원본이 없을 때 “검증된 빈 슬롯”을 실패로 취급하지 않기",
+      "en": "Setup Tip — A Verified Empty Retrospective Slot Is Not a Publish Failure",
+      "zh": "设置提示 — 已验证的空回顾栏位不是发布失败",
+      "ja": "セットアップのコツ — 検証済みの空の振り返りスロットは公開失敗ではない"
+    },
+    "summary": {
+      "ko": "UTC 날짜가 바뀐 직후 회고 원본이 없으면 회고 슬롯은 비어 있는 게 정상이다. 셋업 팁을 라이브로 올린 뒤, 빈 회고를 실패로 기록하지 말고 “원본 대기 중인 검증된 빈 상태”로 남겨라.",
+      "en": "Right after a UTC date change, a missing reflection source means the retrospective slot should stay empty. Ship the setup tip live, then record the empty retrospective as a verified waiting state—not as a failed publish.",
+      "zh": "UTC 日期刚切换后，如果没有回顾原典，回顾栏位为空是正常的。先把设置提示发上线，再把空的回顾记成“等待原典的已验证空状态”，而不是发布失败。",
+      "ja": "UTC の日付が変わった直後に振り返り原典がなければ、振り返りスロットが空なのは正常です。セットアップのコツをライブにしたあと、空の振り返りを失敗と書かず、「原典待ちの検証済み空状態」として残します。"
+    },
+    "body": {
+      "ko": [
+        "## 빈 슬롯과 실패는 다르다",
+        "자동 발행 틱은 “오늘 글이 두 편 다 있어야 성공”처럼 보이기 쉽습니다. 하지만 회고는 원본 파일이 있을 때만 게시하는 추가 게이트를 가집니다. 원본이 아직 없다면 회고를 비워 두는 것은 미완성이 아니라, 게이트를 정직하게 지킨 상태입니다.",
+        "## 올바른 기록 방식",
+        "1. 오늘 setup-tip이 없으면 공개 안전한 팁 한 편만 추가하고 라이브 스모크까지 통과시킨다.",
+        "2. 오늘 retrospective 원본이 없으면 회고를 만들지 않는다.",
+        "3. 핸드오프에는 “setup-tip live + retrospective verified-empty (source absent)”라고 적는다.",
+        "4. 원본이 나중에 나타나면 그때 회고 한 편만 가져와 발행한다.",
+        "## 피해야 할 반응",
+        "- 빈 회고 때문에 틱 전체를 실패로 표시하기",
+        "- 빈 칸을 메우려고 가짜 회고를 쓰기",
+        "- 어제 라이브 회고를 오늘 완료 증거로 재사용하기",
+        "- 원본이 생길 때까지 셋업 팁 발행까지 미루기",
+        "## 왜 중요한가",
+        "실패와 대기 상태를 섞으면 운영자가 불필요한 잡도리를 하거나, 반대로 진짜 장애를 놓칩니다. 검증된 빈 회고 슬롯은 “아직 할 일 없음(원본 대기)”이고, 라이브 스모크 실패나 다국어/OG 게이트 실패만 진짜 블록커입니다."
+      ],
+      "en": [
+        "## Empty is not the same as failed",
+        "An automated publish tick can look like it only succeeds when both of today’s posts exist. A retrospective has an extra gate: publish only when the source file exists. If that source is still missing, leaving the retrospective empty is not incompleteness—it is honest gatekeeping.",
+        "## Correct recording pattern",
+        "1. If today’s setup tip is missing, add exactly one public-safe tip and live-smoke it.",
+        "2. If today’s retrospective source is missing, do not invent a retrospective.",
+        "3. Record the handoff as “setup-tip live + retrospective verified-empty (source absent).”",
+        "4. When the source appears later, import and publish exactly one retrospective then.",
+        "## Reactions to avoid",
+        "- Marking the whole tick failed only because the retrospective is empty",
+        "- Writing a fake retrospective to fill the blank",
+        "- Reusing yesterday’s live retrospective as proof that today is complete",
+        "- Delaying the setup tip until a reflection source appears",
+        "## Why it matters",
+        "Mixing failure with waiting state either creates unnecessary manual thrash or hides real outages. A verified-empty retrospective means “nothing more to do yet (waiting for source).” Only live-smoke failures and multilingual/OG gate failures are true blockers."
+      ],
+      "zh": [
+        "## 空不等于失败",
+        "自动发布轮次很容易被理解成“今天两篇文章都有才算成功”。但 retrospective 有额外门禁：只有原典文件存在时才发布。如果原典还没有，让回顾栏位空着不是半成品，而是诚实地守住了门禁。",
+        "## 正确的记录方式",
+        "1. 如果今天还没有 setup-tip，就只新增一篇公开安全的提示，并完成线上冒烟。",
+        "2. 如果今天没有 retrospective 原典，就不要编造回顾。",
+        "3. 交接记录写成 “setup-tip live + retrospective verified-empty (source absent)”。",
+        "4. 原典之后出现时，再只导入并发布一篇 retrospective。",
+        "## 应避免的反应",
+        "- 只因为回顾为空就把整轮记成失败",
+        "- 为了填空而写假回顾",
+        "- 把昨天已上线的回顾复用成今天完成的证据",
+        "- 等到回顾原典出现才发设置提示",
+        "## 为什么重要",
+        "把失败和等待状态混在一起，要么制造多余的人工折腾，要么掩盖真正的故障。已验证的空回顾表示“目前不用再做（等待原典）”。只有线上冒烟失败，以及多语言/OG 门禁失败，才是真正的阻塞。"
+      ],
+      "ja": [
+        "## 空であることと失敗は違う",
+        "自動公開ティックは「今日の投稿が2本そろって初めて成功」に見えがちです。しかし振り返りには追加ゲートがあり、原典ファイルがあるときだけ公開します。原典がまだ無いなら、振り返りを空にしておくのは未完成ではなく、ゲートを正直に守った状態です。",
+        "## 正しい記録の仕方",
+        "1. 今日の setup-tip が無ければ、公開して安全なコツを1本だけ追加し、ライブスモークまで通す。",
+        "2. 今日の retrospective 原典が無ければ、振り返りを創作しない。",
+        "3. ハンドオフには “setup-tip live + retrospective verified-empty (source absent)” と書く。",
+        "4. 原典が後から現れたら、そのとき振り返りを1本だけ取り込んで公開する。",
+        "## 避けるべき反応",
+        "- 振り返りが空なだけでティック全体を失敗扱いする",
+        "- 空欄を埋めるために偽の振り返りを書く",
+        "- 昨日ライブだった振り返りを今日完了の証拠として再利用する",
+        "- 振り返り原典が出るまでセットアップのコツ公開まで遅らせる",
+        "## なぜ重要か",
+        "失敗と待機状態を混ぜると、不要な手作業が増えるか、本物の障害を見逃します。検証済みの空の振り返りは「今は追加作業なし（原典待ち）」です。本当のブロッカーはライブスモーク失敗と、多言語/OG ゲート失敗だけです。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
   }
 ]
