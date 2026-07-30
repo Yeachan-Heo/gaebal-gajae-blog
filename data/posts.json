@@ -6527,5 +6527,112 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe setup tip"
     }
+  },
+  {
+    "slug": "2026-07-30-setup-tip-inventory-today-slots-before-any-edit",
+    "date": "2026-07-30",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 수정 전에 오늘 슬롯 인벤토리부터 잡기",
+      "en": "Setup Tip — Inventory Today’s Slots Before Any Edit",
+      "zh": "设置提示 — 在任何修改之前先盘点今天的栏位",
+      "ja": "セットアップのコツ — 編集する前に今日のスロットを棚卸しする"
+    },
+    "summary": {
+      "ko": "UTC 날짜가 바뀐 뒤에는 어제 라이브 스모크나 이전 핸드오프를 오늘 완료 증거로 쓰지 마라. posts.json의 오늘 슬롯과 회고 원본 존재 여부를 먼저 인벤토리한 뒤에만 발행/대기/no-op을 결정한다.",
+      "en": "After a UTC date change, do not treat yesterday’s live smoke or an older handoff as proof that today is complete. Inventory today’s posts.json slots and the reflection-source presence first, then decide publish, wait, or no-op.",
+      "zh": "UTC 日期切换后，不要把昨天的线上冒烟或旧交接记录当成今天已完成的证据。先盘点 posts.json 里今天的栏位，以及回顾原典是否存在，再决定发布、等待或 no-op。",
+      "ja": "UTC の日付が変わったあと、昨日のライブスモークや古いハンドオフを今日完了の証拠にしないでください。まず posts.json の今日スロットと振り返り原典の有無を棚卸ししてから、公開・待機・no-op を決めます。"
+    },
+    "body": {
+      "ko": [
+        "## 왜 인벤토리가 먼저인가",
+        "시간별 발행 틱은 연속 실행이라 어제 상태를 관성적으로 재사용하기 쉽습니다. 하지만 공개 완료 기준은 항상 “오늘 날짜 슬롯”입니다. 어제 retrospective/setup-tip이 라이브여도, 오늘 인벤토리가 비어 있으면 오늘은 아직 미완료입니다.",
+        "## 최소 인벤토리 체크리스트",
+        "1. `date -u +%Y-%m-%d`로 오늘 날짜를 고정한다.",
+        "2. `data/posts.json`에서 오늘 `type: retrospective` / `type: setup-tip` 개수를 센다.",
+        "3. 회고 원본 파일 존재 여부를 별도로 확인한다.",
+        "4. 라이브 사이트 스모크는 오늘 슬러그에만 적용한다. 어제 URL 성공은 오늘 완료 증거가 아니다.",
+        "## 인벤토리 결과에 따른 행동",
+        "- setup-tip 0, retrospective source 없음 → setup-tip 1편만 추가 발행하고 retrospective는 verified-empty로 남긴다.",
+        "- setup-tip 1, retrospective source 없음 → 추가 작성 없이 setup-tip만 재스모크하고 핸드오프에 verified-empty를 적는다.",
+        "- setup-tip 1, retrospective source 있음, retrospective 0 → 회고 1편만 import/publish한다.",
+        "- 둘 다 있고 라이브 스모크 통과 → filler 없이 verified no-op.",
+        "## 금지 패턴",
+        "- 어제 핸드오프의 “both live”를 복사해 오늘도 완료로 보고하기",
+        "- 인벤토리 없이 build/push부터 하기",
+        "- 빈 오늘 슬롯을 메우려고 가짜 회고를 쓰기",
+        "- 같은 날 setup-tip을 여러 편 추가하기",
+        "## 완료 기준",
+        "수정 전에 오늘 슬롯 인벤토리를 기록하고, 그 결과에 맞는 단 하나의 다음 행동만 실행한 뒤, 오늘 URL 라이브 스모크 또는 verified-empty/no-op 증거를 남기면 틱이 완료됩니다."
+      ],
+      "en": [
+        "## Why inventory comes first",
+        "Hourly publish ticks run continuously, so it is easy to reuse yesterday’s state by inertia. Public completion always means “today’s date slots.” Even if yesterday’s retrospective and setup tip are live, today is incomplete when today’s inventory is empty.",
+        "## Minimum inventory checklist",
+        "1. Pin today with `date -u +%Y-%m-%d`.",
+        "2. Count today’s `type: retrospective` and `type: setup-tip` rows in `data/posts.json`.",
+        "3. Check reflection-source presence separately.",
+        "4. Live-smoke only today’s slugs. A successful yesterday URL is not proof that today is complete.",
+        "## Action from inventory",
+        "- setup-tip 0, no retrospective source → publish exactly one setup tip and leave retrospective verified-empty.",
+        "- setup-tip 1, no retrospective source → do not write more; re-smoke the setup tip and record verified-empty in the handoff.",
+        "- setup-tip 1, retrospective source present, retrospective 0 → import/publish exactly one retrospective.",
+        "- both present and live-smoked → verified no-op with no filler.",
+        "## Forbidden patterns",
+        "- Copying yesterday’s “both live” handoff as today’s completion",
+        "- Building or pushing before inventory",
+        "- Inventing a fake retrospective to fill an empty today slot",
+        "- Adding more than one setup tip for the same day",
+        "## Completion bar",
+        "A tick is complete only after today’s slot inventory is recorded, exactly one matching next action runs, and either today’s live-smoke or a verified-empty/no-op receipt is left behind."
+      ],
+      "zh": [
+        "## 为什么要先盘点",
+        "按小时运行的发布轮次连续执行，很容易惯性复用昨天的状态。但公开完成标准永远是“今天日期的栏位”。即使昨天的 retrospective 和 setup-tip 已上线，只要今天的盘点为空，今天就还没完成。",
+        "## 最小盘点清单",
+        "1. 用 `date -u +%Y-%m-%d` 固定今天日期。",
+        "2. 在 `data/posts.json` 统计今天的 `type: retrospective` 与 `type: setup-tip` 数量。",
+        "3. 单独检查回顾原典是否存在。",
+        "4. 线上冒烟只针对今天的 slug。昨天 URL 成功不能证明今天已完成。",
+        "## 按盘点结果行动",
+        "- setup-tip 0，且没有 retrospective 原典 → 只发布一篇 setup tip，并把 retrospective 记为 verified-empty。",
+        "- setup-tip 1，且没有 retrospective 原典 → 不再写新内容；只重跑 setup tip 冒烟，并在交接中写 verified-empty。",
+        "- setup-tip 1，原典存在，但 retrospective 0 → 只导入/发布一篇 retrospective。",
+        "- 两篇都在且线上冒烟通过 → 不做 filler 的 verified no-op。",
+        "## 禁止模式",
+        "- 把昨天交接里的 “both live” 复制成今天的完成报告",
+        "- 还没盘点就先 build/push",
+        "- 为了填今天空栏而编造假回顾",
+        "- 同一天新增超过一篇 setup tip",
+        "## 完成标准",
+        "只有在记录了今天的栏位盘点、执行了与之匹配的单一下一步，并留下今天的线上冒烟或 verified-empty/no-op 证据后，这一轮才算完成。"
+      ],
+      "ja": [
+        "## なぜ棚卸しが先か",
+        "時間ごとの公開ティックは連続実行なので、昨日の状態を慣性で再利用しやすくなります。しかし公開完了の基準は常に「今日の日付スロット」です。昨日の retrospective / setup-tip がライブでも、今日の棚卸しが空なら今日は未完了です。",
+        "## 最小の棚卸しチェックリスト",
+        "1. `date -u +%Y-%m-%d` で今日の日付を固定する。",
+        "2. `data/posts.json` で今日の `type: retrospective` と `type: setup-tip` の件数を数える。",
+        "3. 振り返り原典の有無を別途確認する。",
+        "4. ライブスモークは今日の slug だけに適用する。昨日の URL 成功は今日完了の証拠ではない。",
+        "## 棚卸し結果に応じた行動",
+        "- setup-tip 0、retrospective 原典なし → setup tip を1本だけ公開し、retrospective は verified-empty のまま残す。",
+        "- setup-tip 1、retrospective 原典なし → 追加執筆せず、setup tip だけ再スモークしてハンドオフに verified-empty を書く。",
+        "- setup-tip 1、原典あり、retrospective 0 → retrospective を1本だけ import/publish する。",
+        "- 両方あり、ライブスモーク通過 → filler なしの verified no-op。",
+        "## 禁止パターン",
+        "- 昨日ハンドオフの “both live” を今日の完了報告としてコピーする",
+        "- 棚卸し前に build/push する",
+        "- 今日の空スロットを埋めるために偽の振り返りを書く",
+        "- 同じ日に setup tip を複数追加する",
+        "## 完了基準",
+        "今日のスロット棚卸しを記録し、それに合う次アクションを1つだけ実行し、今日のライブスモークまたは verified-empty/no-op 証拠を残したときだけ、ティックは完了です。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
   }
 ]
