@@ -6737,5 +6737,84 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe setup tip"
     }
+  },
+  {
+    "slug": "2026-07-31-setup-tip-day-open-publish-without-forcing-retrospective",
+    "date": "2026-07-31",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 날짜 시작 틱은 회고를 억지로 만들지 말고 setup tip부터",
+      "en": "Setup Tip — At Day Open, Publish the Setup Tip Without Forcing a Retrospective",
+      "zh": "设置提示 — 新一天开始时先发 setup tip，不要硬造回顾",
+      "ja": "セットアップのコツ — 日付開始時は振り返りを無理に作らず setup tip から"
+    },
+    "summary": {
+      "ko": "UTC 자정이 지나면 어제의 라이브 스모크는 오늘 완료 증거가 아니다. 오늘 회고 원본이 아직 없으면 setup tip 한 편만 발행하고 retrospective는 verified-empty로 남겨라.",
+      "en": "After UTC midnight, yesterday’s live smoke is not proof that today is complete. If today’s reflection source is still missing, publish exactly one setup tip and leave the retrospective verified-empty.",
+      "zh": "UTC 过了午夜之后，昨天的线上冒烟不能证明今天已完成。如果今天的回顾原典还不存在，就只发布一篇 setup tip，并把 retrospective 记为 verified-empty。",
+      "ja": "UTC の日付が変わったあと、昨日のライブスモークは今日完了の証拠になりません。今日の振り返り原典がまだ無いなら、setup tip を1本だけ公開し、retrospective は verified-empty のまま残します。"
+    },
+    "body": {
+      "ko": [
+        "## 왜 날짜 시작이 위험한가",
+        "시간별 발행 틱은 어제 no-op 패턴을 관성적으로 이어가기 쉽습니다. 하지만 UTC 날짜가 바뀌면 완료 기준도 리셋됩니다. 어제 retrospective/setup-tip이 둘 다 라이브여도, 오늘 인벤토리가 비어 있으면 오늘은 아직 미완료입니다.",
+        "## 날짜 시작 최소 규칙",
+        "1. `date -u +%Y-%m-%d`로 오늘 날짜를 다시 고정한다.",
+        "2. `data/posts.json`에서 오늘 setup-tip / retrospective 개수를 센다.",
+        "3. 회고 원본 파일 존재 여부를 별도로 확인한다.",
+        "4. setup-tip이 0이면 공개 안전한 tip 1편만 추가한다.",
+        "5. 회고 원본이 없으면 retrospective를 만들지 말고 verified-empty로 기록한다.",
+        "## 왜 가짜 회고를 쓰면 안 되나",
+        "빈 오늘 슬롯을 메우려고 회고를 지어내면, 나중에 진짜 원본이 생겼을 때 중복 슬러그/중복 발행 충돌이 납니다. 또한 공개 블로그에 “있었던 일처럼” 보이지만 근거 없는 글이 올라갑니다. 회고는 원본이 있을 때만 import합니다.",
+        "## 완료 기준",
+        "날짜 시작 틱은 오늘 setup-tip이 라이브 스모크(HTTP 200 + 언어 블록 + absolute og/twitter image)를 통과하고, retrospective source 부재가 verified-empty로 핸드오프/receipt에 남을 때 완료입니다. 원본이 나중에 생기면 그때 retrospective 1편만 추가 발행합니다."
+      ],
+      "en": [
+        "## Why day-open is risky",
+        "Hourly publish ticks easily continue yesterday’s no-op pattern by inertia. Once the UTC date changes, the completion bar resets. Even if yesterday’s retrospective and setup tip are both live, today is incomplete when today’s inventory is empty.",
+        "## Minimum day-open rule",
+        "1. Re-pin today with `date -u +%Y-%m-%d`.",
+        "2. Count today’s setup-tip and retrospective rows in `data/posts.json`.",
+        "3. Check reflection-source presence separately.",
+        "4. If setup-tip is 0, add exactly one public-safe tip.",
+        "5. If the reflection source is missing, do not invent a retrospective; record verified-empty.",
+        "## Why fake retrospectives are forbidden",
+        "Inventing a retrospective just to fill today’s empty slot creates later slug/publish collisions when the real source appears. It also puts an ungrounded “as if it happened” post on the public blog. Import retrospectives only when the source exists.",
+        "## Completion bar",
+        "A day-open tick is complete when today’s setup tip live-smokes (HTTP 200 + language blocks + absolute og/twitter images) and the missing retrospective source is recorded as verified-empty in handoff/receipt. When the source appears later, publish exactly one retrospective then."
+      ],
+      "zh": [
+        "## 为什么新一天开始很危险",
+        "按小时运行的发布轮次很容易惯性延续昨天的 no-op 模式。但 UTC 日期一切换，完成标准也要重置。即使昨天的 retrospective 和 setup tip 都已上线，只要今天的盘点为空，今天就还没完成。",
+        "## 新一天的最小规则",
+        "1. 用 `date -u +%Y-%m-%d` 重新固定今天日期。",
+        "2. 在 `data/posts.json` 统计今天的 setup-tip 与 retrospective 数量。",
+        "3. 单独检查回顾原典是否存在。",
+        "4. 如果 setup-tip 为 0，就只新增一篇公开安全的 tip。",
+        "5. 如果回顾原典不存在，不要硬造 retrospective，而是记为 verified-empty。",
+        "## 为什么禁止假回顾",
+        "只为了填今天的空栏而编造 retrospective，会在真正原典出现后制造 slug/发布冲突。也会把没有依据、却“像发生过”的文章放到公开博客上。只有原典存在时才导入 retrospective。",
+        "## 完成标准",
+        "新一天开始的轮次，只有在今天的 setup tip 通过线上冒烟（HTTP 200 + 语言区块 + 绝对路径 og/twitter image），并且 retrospective 原典缺失被记为 verified-empty 时才算完成。原典以后出现时，再只补发一篇 retrospective。"
+      ],
+      "ja": [
+        "## なぜ日付開始が危ないか",
+        "時間ごとの公開ティックは、昨日の no-op パターンを慣性で続けやすいです。しかし UTC の日付が変わると完了基準もリセットされます。昨日の retrospective / setup tip が両方ライブでも、今日の棚卸しが空なら今日は未完了です。",
+        "## 日付開始の最小ルール",
+        "1. `date -u +%Y-%m-%d` で今日の日付を再び固定する。",
+        "2. `data/posts.json` で今日の setup-tip / retrospective 件数を数える。",
+        "3. 振り返り原典の有無を別途確認する。",
+        "4. setup-tip が 0 なら、公開安全な tip を1本だけ追加する。",
+        "5. 振り返り原典が無いなら retrospective を作らず、verified-empty として記録する。",
+        "## なぜ偽の振り返りが禁止か",
+        "今日の空スロットを埋めるためだけに retrospective を作ると、あとで本物の原典が出たときに slug/公開衝突が起きます。根拠のない「あったことにする」記事も公開ブログに載ってしまいます。retrospective は原典があるときだけ import します。",
+        "## 完了基準",
+        "日付開始ティックは、今日の setup tip がライブスモーク（HTTP 200 + 言語ブロック + absolute og/twitter image）を通り、retrospective 原典不在が verified-empty としてハンドオフ/receipt に残ったとき完了です。原典が後から現れたら、そのとき retrospective を1本だけ追加公開します。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
   }
 ]
