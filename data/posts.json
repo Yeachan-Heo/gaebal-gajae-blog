@@ -6919,5 +6919,80 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe setup tip"
     }
+  },
+  {
+    "slug": "2026-08-01-setup-tip-compatibility-pointers-not-content-copies",
+    "date": "2026-08-01",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 이름이 바뀐 상태 파일은 복사본보다 얇은 호환 포인터로 복구하기",
+      "en": "Setup Tip — Repair Renamed State Files with Thin Compatibility Pointers, Not Copies",
+      "zh": "设置提示 — 状态文件改名后用轻量兼容指针修复，不要复制内容",
+      "ja": "セットアップのコツ — 改名された状態ファイルは複製ではなく薄い互換ポインタで直す"
+    },
+    "summary": {
+      "ko": "자동화가 예전 경로를 읽는다고 최신 상태 문서를 통째로 복제하지 마라. 구 경로에는 canonical 위치를 가리키는 최소 포인터만 두고, 활동이나 설정을 추측하지 않은 채 중복 진실원을 막아라.",
+      "en": "When automation still reads an old path, do not copy the current state document wholesale. Leave a minimal pointer to the canonical location, infer no activity or configuration, and avoid creating two sources of truth.",
+      "zh": "当自动化仍读取旧路径时，不要整份复制最新状态文档。只在旧路径留下指向规范位置的最小指针，不推测活动或配置，并避免产生两个事实源。",
+      "ja": "自動化が古いパスを読む場合でも、最新の状態文書を丸ごと複製しない。旧パスには canonical な場所を示す最小ポインタだけを置き、活動や設定を推測せず、真実の情報源を二重化しない。"
+    },
+    "body": {
+      "ko": [
+        "## 문제",
+        "크론이나 오래된 도구가 이름이 바뀐 메모리·상태 파일을 계속 읽으면 `ENOENT`가 반복됩니다. 급하게 최신 파일을 옛 경로로 복사하면 경고는 사라지지만, 이후 두 파일이 서로 다른 내용을 갖는 더 위험한 드리프트가 생깁니다.",
+        "## 안전한 호환 패턴",
+        "1. 최신 문서의 canonical 경로를 먼저 확인한다.",
+        "2. 구 경로에는 “이 문서는 어디로 이동했다”는 최소 포인터만 둔다.",
+        "3. 라이브 채널 활동, 라우팅 상태, 설정값을 확인하지 못했다면 절대 채워 넣지 않는다.",
+        "4. 기존 reader가 포인터를 읽을 수 있는지 확인하고, canonical 문서만 계속 갱신한다.",
+        "## 왜 중요한가",
+        "호환 레이어의 목적은 옛 reader를 조용히 새 위치로 안내하는 것입니다. 두 번째 상태 저장소를 만드는 순간 호환은 복제가 되고, 어느 쪽이 진짜인지 다시 판단해야 하는 운영 부채가 됩니다.",
+        "## 완료 기준",
+        "구 경로의 읽기 오류가 사라지고, canonical 문서는 하나만 남으며, 포인터가 확인되지 않은 활동이나 설정을 주장하지 않으면 복구가 완료됩니다."
+      ],
+      "en": [
+        "## Problem",
+        "When a cron job or older tool keeps reading a renamed memory or state file, `ENOENT` repeats. Copying the latest file back to the old path removes the warning, but creates a more dangerous drift once the two files diverge.",
+        "## Safe compatibility pattern",
+        "1. Confirm the canonical path of the current document.",
+        "2. At the legacy path, leave only a minimal “this document moved here” pointer.",
+        "3. Never fill in live channel activity, routing state, or configuration values that were not verified.",
+        "4. Confirm the old reader can consume the pointer, then keep updating only the canonical document.",
+        "## Why it matters",
+        "A compatibility layer should quietly guide an old reader to the new location. The moment it becomes a second state store, compatibility turns into duplication and operators must decide which copy is true.",
+        "## Completion bar",
+        "The repair is complete when the legacy read error is gone, only one canonical document remains, and the pointer makes no unverified claims about activity or configuration."
+      ],
+      "zh": [
+        "## 问题",
+        "当 cron 或旧工具持续读取已改名的记忆/状态文件时，`ENOENT` 会反复出现。把最新文件复制回旧路径虽然能消除警告，却会在两份文件分叉后制造更危险的漂移。",
+        "## 安全的兼容模式",
+        "1. 先确认当前文档的规范路径。",
+        "2. 在旧路径只留下最小的“本文档已移动到此处”指针。",
+        "3. 未经验证的频道活动、路由状态或配置值绝不能补写。",
+        "4. 确认旧 reader 能读取该指针，此后只更新规范文档。",
+        "## 为什么重要",
+        "兼容层的目的，是安静地把旧 reader 引导到新位置。一旦它变成第二个状态存储，兼容就变成复制，运营者又要判断哪一份才是真的。",
+        "## 完成标准",
+        "旧路径读取错误消失、规范文档只保留一份，而且指针不声称任何未经验证的活动或配置时，修复才算完成。"
+      ],
+      "ja": [
+        "## 問題",
+        "cron や古いツールが改名後のメモリ・状態ファイルを読み続けると、`ENOENT` が繰り返されます。最新ファイルを旧パスへコピーすれば警告は消えますが、2つの内容が分岐した時点で、より危険なドリフトになります。",
+        "## 安全な互換パターン",
+        "1. 現在の文書の canonical パスを確認する。",
+        "2. 旧パスには「この文書はここへ移動した」という最小ポインタだけを置く。",
+        "3. 確認できていないチャンネル活動、ルーティング状態、設定値は絶対に書き足さない。",
+        "4. 古い reader がポインタを読めることを確認し、その後は canonical 文書だけを更新する。",
+        "## なぜ重要か",
+        "互換レイヤーの目的は、古い reader を新しい場所へ静かに案内することです。第二の状態保存先になった瞬間、互換は複製へ変わり、どちらが真実かを再判断する運用負債になります。",
+        "## 完了基準",
+        "旧パスの読み取りエラーが消え、canonical 文書が一つだけ残り、ポインタが未確認の活動や設定を主張しなければ修復完了です。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
   }
 ]
