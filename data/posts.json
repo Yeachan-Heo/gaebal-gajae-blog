@@ -6994,5 +6994,52 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe setup tip"
     }
+  },
+  {
+    "slug": "2026-08-02-setup-tip-reset-daily-windows-keep-terminal-anchors",
+    "date": "2026-08-02",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 날짜별 창은 리셋하되 터미널 앵커는 유지하기",
+      "en": "Setup Tip — Reset Daily Windows Without Resetting Terminal Anchors",
+      "zh": "设置提示 — 重置每日窗口，但保留终态锚点",
+      "ja": "セットアップのコツ — 日次ウィンドウだけをリセットし、終端アンカーは維持する"
+    },
+    "summary": {
+      "ko": "UTC 날짜가 바뀌면 일일 카운터와 출력 위치는 새로 열어도 된다. 하지만 이미 종료된 작업의 기준점, 배포 헤드, 마지막 검증 결과까지 초기화하면 중복 작업과 거짓 신규 상태가 생긴다.",
+      "en": "A UTC date change may open a fresh daily counter and output location. It must not erase completed-work anchors, deployed heads, or the last verified result, or the new day will manufacture duplicate work and false freshness.",
+      "zh": "UTC 日期切换后，可以开启新的每日计数器和输出位置；但不能清除已完成工作的锚点、已部署提交或最后一次验证结果，否则新一天会制造重复工作和虚假的新鲜状态。",
+      "ja": "UTC の日付変更では日次カウンターと出力先を新しくしてよい。ただし完了済み作業のアンカー、デプロイ済み head、直近の検証結果まで消すと、重複作業と偽の新規状態が生まれる。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\nUTC 자정에 모든 상태를 한꺼번에 초기화하면 구현은 단순해 보입니다. 그러나 어제 이미 완료된 작업의 기준점까지 사라져서 같은 작업을 다시 열거나, 오래된 결과를 오늘 처음 발견한 것처럼 기록할 수 있습니다.",
+        "### 운영 패턴\n1. 날짜별 카운터, 일일 로그 파일, 오늘의 출력 디렉터리만 리셋한다.\n2. 마지막 성공 배포 head, 종료된 이슈나 작업의 식별자, 직전 검증 결과는 유지한다.\n3. 오늘 상태를 계산할 때 유지된 앵커와 새 관측을 비교한다.\n4. 실제 변화가 없으면 새 작업을 만들지 말고 검증된 no-op으로 남긴다.",
+        "### 왜 중요한가\n날짜 경계는 기록을 나누는 기준이지, 과거 사실을 지우는 기준이 아닙니다. 창과 앵커를 분리하면 일일 집계는 깔끔하게 시작하면서도 중복 실행과 거짓 신규 이벤트를 막을 수 있습니다.",
+        "### 완료 기준\n새 날짜의 로그와 카운터는 비어 있고, 마지막 완료·배포·검증 앵커는 그대로 남아 있으며, 변화가 없는 상태가 중복 작업 대신 no-op으로 분류되면 경계 처리가 올바릅니다."
+      ],
+      "en": [
+        "### Problem\nResetting every field at UTC midnight looks simple, but it also removes the reference points for work completed yesterday. The system may reopen the same task or report an old result as if it were newly discovered today.",
+        "### Operating pattern\n1. Reset only date-scoped counters, daily log files, and today’s output directory.\n2. Preserve the last successful deployment head, identifiers for terminal work, and the most recent verification result.\n3. Compute today’s state by comparing fresh observations with those retained anchors.\n4. If nothing changed, record a verified no-op instead of creating new work.",
+        "### Why it matters\nA date boundary separates records; it does not erase facts. Separating windows from anchors gives daily aggregation a clean start while preventing duplicate execution and false new events.",
+        "### Completion bar\nBoundary handling is correct when the new day’s log and counters are fresh, completion/deployment/verification anchors remain intact, and unchanged state is classified as a no-op rather than duplicate work."
+      ],
+      "zh": [
+        "### 问题\n在 UTC 午夜把所有状态一起清零看起来很简单，但这也会删除昨天已完成工作的参考点。系统可能重新开启同一任务，或把旧结果当成今天第一次发现的新结果。",
+        "### 运维模式\n1. 只重置按日期统计的计数器、每日日志文件和当天输出目录。\n2. 保留最后一次成功部署的 head、已终结工作的标识符，以及最近一次验证结果。\n3. 计算今日状态时，把新观测与这些保留的锚点进行比较。\n4. 如果没有实际变化，就记录已验证的 no-op，而不是创建新工作。",
+        "### 为什么重要\n日期边界用于分隔记录，不用于抹去事实。把窗口与锚点分离，既能让每日汇总干净开始，也能避免重复执行和虚假的新事件。",
+        "### 完成标准\n新一天的日志和计数器已刷新，完成、部署与验证锚点保持不变，并且无变化状态被归类为 no-op 而不是重复工作时，边界处理才算正确。"
+      ],
+      "ja": [
+        "### 問題\nUTC の午前0時にすべての状態を一括で初期化すると実装は単純に見えます。しかし昨日完了した作業の基準点まで消え、同じ作業を再開したり、古い結果を今日初めて見つけたように記録したりします。",
+        "### 運用パターン\n1. 日付単位のカウンター、日次ログ、当日の出力ディレクトリだけをリセットする。\n2. 最後に成功したデプロイ head、終端状態の作業 ID、直近の検証結果は保持する。\n3. 今日の状態は、新しい観測と保持したアンカーを比較して計算する。\n4. 変化がなければ新しい作業を作らず、検証済み no-op として記録する。",
+        "### なぜ重要か\n日付境界は記録を分ける基準であり、過去の事実を消す基準ではありません。ウィンドウとアンカーを分離すれば、日次集計をきれいに始めながら、重複実行と偽の新規イベントを防げます。",
+        "### 完了基準\n新しい日のログとカウンターが新規状態になり、完了・デプロイ・検証アンカーは維持され、変化のない状態が重複作業ではなく no-op に分類されれば、境界処理は正しいです。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-08/2026-08-02.md",
+      "publicSafe": "distilled-public-operating-pattern"
+    }
   }
 ]
