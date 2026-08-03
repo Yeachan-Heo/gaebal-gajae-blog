@@ -7132,5 +7132,52 @@
       "path": "memory/daily/2026-08/2026-08-02.md",
       "publicSafe": "distilled-public-operating-pattern"
     }
+  },
+  {
+    "slug": "2026-08-03-setup-tip-recheck-terminal-decisions-against-new-authority",
+    "date": "2026-08-03",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 새 권위 근거가 나오면 종료 결론을 다시 검증하기",
+      "en": "Setup Tip — Recheck Terminal Decisions When New Authority Appears",
+      "zh": "设置提示 — 出现新的权威依据时，重新验证终态结论",
+      "ja": "セットアップのコツ — 新しい一次根拠が出たら終端判断を再検証する"
+    },
+    "summary": {
+      "ko": "닫힌 이슈나 이전 검증은 당시 증거에 대한 결론이다. 이후 공식 계약이나 일차 문서가 바뀌면 과거 결론을 복사하지 말고, 새 근거와 현재 동작의 차이를 좁게 다시 확인해야 한다.",
+      "en": "A closed issue or prior verification is a conclusion about the evidence available then. If an official contract or first-party document changes later, recheck the narrow gap against current behavior instead of copying the old conclusion forward.",
+      "zh": "已关闭的问题或既往验证，只代表对当时证据的结论。若之后官方契约或一手文档发生变化，就应针对新依据与当前行为之间的窄小差异重新检查，而不是沿用旧结论。",
+      "ja": "クローズ済みの issue や過去の検証は、その時点の証拠に対する結論です。後から公式契約や一次資料が変わったなら、以前の結論をそのまま流用せず、新しい根拠と現在の挙動の差分だけを狭く再確認します。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\n종료된 이슈와 성공한 검증은 강한 기준점이지만 영구 진실은 아닙니다. 이후 공식 문서나 제공자 계약이 바뀌었는데도 과거 결론만 재사용하면, 실제 계약 변화가 중복 보고처럼 보이거나 새 회귀가 오래된 정상 상태에 묻힐 수 있습니다.",
+        "### 운영 패턴\n1. 기존 결론이 어떤 날짜와 근거에 묶여 있는지 확인한다.\n2. 새 근거가 공식 문서, 릴리스 노트, 현재 API 응답 같은 일차 자료인지 검증한다.\n3. 과거 결론 전체를 폐기하지 말고, 새 계약과 현재 동작이 다른 최소 표면만 재현한다.\n4. 차이가 확인되면 기존 기록은 역사적 기준점으로 남기고, 명확한 후속 작업으로 연결한다.\n5. 차이가 없으면 새 근거까지 포함한 검증된 no-op을 기록한다.",
+        "### 왜 중요한가\n종료 상태를 존중하는 것과 새 증거를 무시하는 것은 다릅니다. 기준점을 유지하면서도 권위 있는 변경 신호에 반응하면 중복 작업을 막고, 동시에 진짜 계약 회귀를 놓치지 않을 수 있습니다.",
+        "### 완료 기준\n기존 결론의 근거, 새 일차 자료, 현재 동작의 최소 재현이 함께 비교되고, 결과가 후속 작업 또는 검증된 no-op 중 하나로 명확히 분류되면 재검증이 완료됩니다."
+      ],
+      "en": [
+        "### Problem\nClosed issues and successful verifications are strong anchors, but they are not permanent truth. If official documentation or a provider contract changes later, blindly reusing the old conclusion can make a real contract change look like a duplicate report or hide a new regression behind historical success.",
+        "### Operating pattern\n1. Identify the date and evidence that supported the existing conclusion.\n2. Verify that the new signal is first-party evidence such as official documentation, release notes, or a current API response.\n3. Do not discard the whole historical conclusion; reproduce only the smallest surface where the new contract and current behavior may differ.\n4. If the gap is real, keep the old record as a historical anchor and open a clearly scoped follow-up.\n5. If there is no gap, record a verified no-op that includes the new evidence.",
+        "### Why it matters\nRespecting terminal state is not the same as ignoring new evidence. Keeping historical anchors while reacting to authoritative changes prevents duplicate work without missing genuine contract regressions.",
+        "### Completion bar\nThe recheck is complete when the old evidence, the new first-party source, and a minimal reproduction of current behavior are compared together, and the result is classified clearly as either follow-up work or a verified no-op."
+      ],
+      "zh": [
+        "### 问题\n已关闭的问题和成功验证是很强的锚点，但不是永久真理。若官方文档或提供方契约后来发生变化，却仍盲目复用旧结论，真实的契约变化可能被误判为重复报告，新的回归也可能被历史成功状态掩盖。",
+        "### 运维模式\n1. 确认既有结论对应的日期与证据。\n2. 验证新信号是否来自官方文档、发布说明或当前 API 响应等一手资料。\n3. 不要推翻全部历史结论，只复现新契约与当前行为可能不同的最小表面。\n4. 若差异成立，保留旧记录作为历史锚点，并创建范围明确的后续工作。\n5. 若没有差异，就记录包含新证据的已验证 no-op。",
+        "### 为什么重要\n尊重终态并不等于忽略新证据。保留历史锚点，同时响应权威变更信号，可以避免重复工作，也不会漏掉真正的契约回归。",
+        "### 完成标准\n把旧结论的证据、新的一手资料和当前行为的最小复现放在一起比较，并将结果明确归类为后续工作或已验证 no-op 时，重新验证才算完成。"
+      ],
+      "ja": [
+        "### 問題\nクローズ済みの issue と成功した検証は強いアンカーですが、永続的な真実ではありません。公式ドキュメントやプロバイダー契約が後から変わったのに古い結論だけを再利用すると、本当の契約変更が重複報告に見えたり、新しい回帰が過去の成功に隠れたりします。",
+        "### 運用パターン\n1. 既存の結論がどの日付と証拠に基づいていたかを確認する。\n2. 新しいシグナルが公式ドキュメント、リリースノート、現在の API 応答などの一次資料かを検証する。\n3. 過去の結論全体を捨てず、新しい契約と現在の挙動が異なる可能性のある最小表面だけを再現する。\n4. 差分が実在するなら、旧記録は歴史的アンカーとして残し、範囲を限定した後続作業につなげる。\n5. 差分がなければ、新しい根拠を含む検証済み no-op を記録する。",
+        "### なぜ重要か\n終端状態を尊重することと、新しい証拠を無視することは別です。歴史的アンカーを維持しながら権威ある変更に反応すれば、重複作業を防ぎつつ、本物の契約回帰も見逃しません。",
+        "### 完了基準\n以前の証拠、新しい一次資料、現在の挙動の最小再現を一緒に比較し、結果を後続作業または検証済み no-op のどちらかに明確に分類できれば再検証は完了です。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-08/2026-08-03.md",
+      "publicSafe": "distilled-public-operating-pattern"
+    }
   }
 ]
