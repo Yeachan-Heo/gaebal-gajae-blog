@@ -1,53 +1,112 @@
-/* Design-system tokens: new work starts here, legacy lives in 90-legacy.css until migrated. */
-:root {
-  --ui-radius-pill: 999px;
-  --ui-radius-card: 24px;
-  --ui-gap-inline: 8px;
-  --ui-gap-stack: 16px;
-  --ui-meta-size: 0.88rem;
-  --ui-kicker-size: 0.82rem;
-  --ui-nav-label-size: 0.82rem;
+/* Design-system tokens: light-first editorial logbook (DESIGN.md).
+   :root is the light theme (primary design target); :root[data-theme="dark"]
+   carries the retained dark mode with clear tonal separation. */
 
-  --wb-paper: rgba(22, 20, 18, 0.96);
-  --wb-paper-strong: rgba(28, 26, 24, 0.985);
-  --wb-paper-soft: rgba(39, 35, 31, 0.76);
-  --wb-paper-muted: rgba(30, 27, 24, 0.62);
-  --wb-metal: rgba(196, 179, 156, 0.34);
-  --wb-metal-strong: rgba(223, 207, 183, 0.62);
-  --wb-ink: #f3ece3;
-  --wb-ink-soft: #d0c3b4;
-  --wb-ink-faint: #a89b8c;
-  --wb-accent: #cf8a4b;
-  --wb-accent-soft: rgba(207, 138, 75, 0.18);
-  --wb-link: #d7b082;
-  --wb-link-hover: #e7c59e;
-  --wb-shadow: 0 20px 48px rgba(0, 0, 0, 0.24);
-  --wb-shadow-lift: 0 24px 56px rgba(0, 0, 0, 0.3);
-  --wb-inline-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
-  --wb-rule: rgba(196, 179, 156, 0.22);
-  --wb-rule-strong: rgba(223, 207, 183, 0.4);
-  --wb-notch: 18px;
-  --wb-report-width: 72rem;
-  --wb-prose-width: 68ch;
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --bg: #f7f1e8;
+  --paper: #fffaf2;
+  --paper-muted: #f0e5d8;
+  --paper-raised: #ffffff;
+  --paper-soft: #fdf8f0;
+
+  /* Ink */
+  --ink: #201815;
+  --ink-soft: #75685e;
+  --ink-faint: #9a8b7e;
+
+  /* Lines */
+  --line: #ded0c2;
+  --line-strong: #c8b7a8;
+
+  /* Accent (lobster signature, restrained) */
+  --accent: #c9472f;
+  --accent-dark: #7a2118;
+  --accent-soft: #f4d7cc;
+  --accent-soft-strong: #ecbdaa;
+
+  /* Feedback */
+  --success: #3d7d5c;
+  --success-soft: #e2efe7;
+  --warning: #a46a12;
+  --warning-soft: #f6ecd7;
+
+  /* Elevation: mostly flat, rare soft shadow */
+  --shadow-soft: 0 1px 2px rgba(78, 55, 35, 0.08), 0 10px 24px rgba(78, 55, 35, 0.08);
+  --shadow-lift: 0 2px 4px rgba(78, 55, 35, 0.08), 0 18px 40px rgba(78, 55, 35, 0.12);
+  --shadow-pop: 0 18px 40px rgba(78, 55, 35, 0.16);
+
+  /* Focus */
+  --focus-ring: 0 0 0 3px rgba(201, 71, 47, 0.32);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  /* Layout */
+  --container: 1120px;
+
+  --prose: 68ch;
+  --report-width: 72rem;
+
+  /* Type scale */
+  --font-display: clamp(2.75rem, 8vw, 5.5rem);
+  --font-headline-lg: clamp(1.7rem, 4vw, 2.2rem);
+  --font-headline-md: clamp(1.35rem, 3vw, 1.7rem);
+  --font-headline-sm: clamp(1.15rem, 2vw, 1.3rem);
+  --font-body: 1rem;
+  --font-body-sm: 0.94rem;
+  --font-meta: 0.86rem;
+  --font-label: 0.82rem;
+
+
+  --link-color: var(--accent-dark);
+  --link-hover: var(--accent);
+  --button-primary-bg: var(--accent);
+  --button-primary-ink: var(--paper);
 }
 
-:root[data-theme="light"] {
-  --wb-paper: rgba(255, 251, 245, 0.98);
-  --wb-paper-strong: rgba(255, 253, 249, 0.995);
-  --wb-paper-soft: rgba(246, 237, 226, 0.92);
-  --wb-paper-muted: rgba(240, 229, 215, 0.72);
-  --wb-metal: rgba(118, 91, 58, 0.18);
-  --wb-metal-strong: rgba(118, 91, 58, 0.32);
-  --wb-ink: #2d241c;
-  --wb-ink-soft: #5f5041;
-  --wb-ink-faint: #7e6e5d;
-  --wb-accent: #9d6031;
-  --wb-accent-soft: rgba(157, 96, 49, 0.1);
-  --wb-link: #8f5f38;
-  --wb-link-hover: #744927;
-  --wb-shadow: 0 18px 40px rgba(78, 55, 35, 0.1);
-  --wb-shadow-lift: 0 22px 48px rgba(78, 55, 35, 0.14);
-  --wb-inline-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  --wb-rule: rgba(118, 91, 58, 0.16);
-  --wb-rule-strong: rgba(118, 91, 58, 0.28);
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #11100f;
+  --paper: #191715;
+  --paper-muted: #211e1b;
+  --paper-raised: #262220;
+  --paper-soft: #1c1a18;
+
+  /* Ink */
+  --ink: #f4ede4;
+  --ink-soft: #b9aa9a;
+  --ink-faint: #8a7d70;
+
+  /* Lines */
+  --line: #3a312c;
+  --line-strong: #4a3f38;
+
+  /* Accent */
+  --accent: #e05a3b;
+  --accent-dark: #f08a6e;
+  --accent-soft: rgba(224, 90, 59, 0.16);
+  --accent-soft-strong: rgba(224, 90, 59, 0.26);
+
+  /* Feedback */
+  --success: #79b697;
+  --success-soft: rgba(121, 182, 151, 0.14);
+  --warning: #d5a15b;
+  --warning-soft: rgba(213, 161, 91, 0.16);
+
+  /* Elevation */
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 24px rgba(0, 0, 0, 0.24);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.3), 0 18px 40px rgba(0, 0, 0, 0.36);
+  --shadow-pop: 0 18px 40px rgba(0, 0, 0, 0.46);
+
+  /* Focus */
+  --focus-ring: 0 0 0 3px rgba(224, 90, 59, 0.4);
 }

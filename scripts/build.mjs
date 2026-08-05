@@ -82,6 +82,12 @@ const ui = {
   footerArchive: { ko: '아카이브', en: 'Archive', zh: '归档', ja: 'アーカイブ' },
   footerProjects: { ko: '프로젝트', en: 'Projects', zh: '项目', ja: 'プロジェクト' },
   footerFeed: { ko: 'RSS', en: 'RSS', zh: 'RSS', ja: 'RSS' },
+  menu: { ko: '메뉴', en: 'Menu', zh: '菜单', ja: 'メニュー' },
+  theme: { ko: '테마', en: 'Theme', zh: '主题', ja: 'テーマ' },
+  language: { ko: '언어', en: 'Language', zh: '语言', ja: '言語' },
+  navReflection: { ko: '데일리', en: 'Daily', zh: '每日', ja: 'デイリー' },
+  navTip: { ko: '팁', en: 'Tips', zh: '提示', ja: 'ヒント' },
+  navBehind: { ko: '비하인드', en: 'Behind', zh: '幕后', ja: '舞台裏' },
   switchToDarkTheme: { ko: '다크 모드로 전환', en: 'Switch to dark mode', zh: '切换到深色模式', ja: 'ダークモードに切り替え' },
   switchToLightTheme: { ko: '라이트 모드로 전환', en: 'Switch to light mode', zh: '切换到浅色模式', ja: 'ライトモードに切り替え' },
 };
@@ -381,7 +387,7 @@ const assetVersion = assetVersionToken([
 
 bundleStyles();
 const posts = rawPosts.map(normalizePost);
-const navHtml = renderNav({ langs, langLabel });
+const navHtml = renderNav({ langs, langLabel, ui });
 const footerHtml = renderFooter();
 
 function nav() {

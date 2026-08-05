@@ -28,19 +28,27 @@ function translationMap(status, keys) {
   return null;
 }
 
-export function renderNav({ langs, langLabel }) {
+export function renderNav({ langs = [], langLabel = {}, ui = {} } = {}) {
   const reflection = laneFromKey('reflection');
   const tip = laneFromKey('tip');
   const behind = laneFromKey('behind');
-  const reflectionLabel = '<span>Daily</span>';
-  const setupLabel = '<span>Tips</span>';
-  const blogLabel = '<span>Behind</span>';
+  const initialUiLabel = (key, fallback) => escapeHtml(ui?.[key]?.ko || fallback);
+  const navLaneLabel = (key, fallback) => `<span data-i18n="${key}">${initialUiLabel(key, fallback)}</span>`;
+  const reflectionLabel = navLaneLabel('navReflection', 'Daily');
+  const setupLabel = navLaneLabel('navTip', 'Tips');
+  const blogLabel = navLaneLabel('navBehind', 'Behind');
+  const menuLabel = initialUiLabel('menu', 'Menu');
+  const themeLabel = initialUiLabel('theme', 'Theme');
+  const languageLabel = initialUiLabel('language', 'Language');
+  const themeToggleLabel = initialUiLabel('switchToLightTheme', '라이트 모드로 전환');
+  const projectsLabel = initialUiLabel('projects', '프로젝트');
+  const archiveLabel = initialUiLabel('archive', '아카이브');
 
   const chevronDownIcon = renderIcon('chevronDown', { className: 'lang-menu-chevron lang-menu-chevron-down', size: 14 });
   const chevronUpIcon = renderIcon('chevronUp', { className: 'lang-menu-chevron lang-menu-chevron-up', size: 14 });
   const checkIcon = renderIcon('check', { className: 'lang-option-check', size: 16, strokeWidth: 2.4 });
-  const langMenu = `<details class="lang-menu"><summary aria-label="Language"><span data-lang-current>KO</span><span class="lang-menu-chevrons">${chevronDownIcon}${chevronUpIcon}</span></summary><div class="lang-menu-panel" role="group" aria-label="Language">${langs.map((lang) => `<button type="button" data-lang-button="${lang}"><span class="lang-option-label">${lang.toUpperCase()}</span>${checkIcon}</button>`).join('')}</div></details>`;
-  return `<nav class="topnav responsive-nav"><div class="nav-mode nav-mode-desktop"><a class="nav-brand" href="/" data-nav-match="home" aria-label="gaebal-gajae home"><span aria-hidden="true">🦞</span><strong>gaebal-gajae</strong></a><div class="nav-links"><a href="${reflection.route}" data-nav-match="${reflection.navMatch}">${reflectionLabel}</a><a href="${tip.route}" data-nav-match="${tip.navMatch}">${setupLabel}</a><a href="${behind.route}" data-nav-match="${behind.navMatch}">${blogLabel}</a><a href="/projects/" data-i18n="projects" data-nav-match="projects">프로젝트</a><a href="/archive.html" data-i18n="archive" data-nav-match="archive">아카이브</a></div><div class="theme-controls nav-tools"><button type="button" class="theme-toggle" data-theme-toggle data-theme-label-dark="switchToDarkTheme" data-theme-label-light="switchToLightTheme" aria-label="라이트 모드로 전환" title="라이트 모드로 전환"><span class="theme-toggle-icon" aria-hidden="true"></span></button>${langMenu}</div></div><div class="nav-mode nav-mode-mobile"><div class="mobile-nav-bar"><a class="nav-brand" href="/" data-nav-match="home" aria-label="gaebal-gajae home"><span aria-hidden="true">🦞</span><strong>gaebal-gajae</strong></a><button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle aria-expanded="false" aria-controls="mobile-nav-panel"><span>Menu</span></button></div><div class="mobile-nav-panel" id="mobile-nav-panel" data-mobile-nav-panel hidden><div class="mobile-nav-links"><a href="${reflection.route}" data-nav-match="${reflection.navMatch}">${reflectionLabel}</a><a href="${tip.route}" data-nav-match="${tip.navMatch}">${setupLabel}</a><a href="${behind.route}" data-nav-match="${behind.navMatch}">${blogLabel}</a><a href="/projects/" data-i18n="projects" data-nav-match="projects">프로젝트</a><a href="/archive.html" data-i18n="archive" data-nav-match="archive">아카이브</a></div><div class="mobile-nav-actions"><div class="mobile-nav-action-row"><span>Theme</span><button type="button" class="theme-toggle" data-theme-toggle data-theme-label-dark="switchToDarkTheme" data-theme-label-light="switchToLightTheme" aria-label="라이트 모드로 전환" title="라이트 모드로 전환"><span class="theme-toggle-icon" aria-hidden="true"></span></button></div><div class="mobile-nav-action-row"><span>Language</span>${langMenu}</div></div></div></div></nav>`;
+  const langMenu = `<details class="lang-menu"><summary data-i18n-aria-label="language" aria-label="${languageLabel}"><span data-lang-current>KO</span><span class="lang-menu-chevrons">${chevronDownIcon}${chevronUpIcon}</span></summary><div class="lang-menu-panel" role="group" data-i18n-aria-label="language" aria-label="${languageLabel}">${langs.map((lang) => `<button type="button" data-lang-button="${lang}" aria-label="${escapeHtml(langLabel?.[lang] || lang.toUpperCase())}"><span class="lang-option-label">${lang.toUpperCase()}</span>${checkIcon}</button>`).join('')}</div></details>`;
+  return `<nav class="topnav responsive-nav"><div class="nav-mode nav-mode-desktop"><a class="nav-brand" href="/" data-nav-match="home" aria-label="gaebal-gajae home"><span aria-hidden="true">🦞</span><strong>gaebal-gajae</strong></a><div class="nav-links"><a href="${reflection.route}" data-nav-match="${reflection.navMatch}">${reflectionLabel}</a><a href="${tip.route}" data-nav-match="${tip.navMatch}">${setupLabel}</a><a href="${behind.route}" data-nav-match="${behind.navMatch}">${blogLabel}</a><a href="/projects/" data-i18n="projects" data-nav-match="projects">${projectsLabel}</a><a href="/archive.html" data-i18n="archive" data-nav-match="archive">${archiveLabel}</a></div><div class="theme-controls nav-tools"><button type="button" class="theme-toggle" data-theme-toggle data-theme-label-dark="switchToDarkTheme" data-theme-label-light="switchToLightTheme" aria-label="${themeToggleLabel}" title="${themeToggleLabel}"><span class="theme-toggle-icon" aria-hidden="true"></span></button>${langMenu}</div></div><div class="nav-mode nav-mode-mobile"><div class="mobile-nav-bar"><a class="nav-brand" href="/" data-nav-match="home" aria-label="gaebal-gajae home"><span aria-hidden="true">🦞</span><strong>gaebal-gajae</strong></a><button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle data-i18n-aria-label="menu" aria-label="${menuLabel}" aria-expanded="false" aria-controls="mobile-nav-panel"><span data-i18n="menu">${menuLabel}</span></button></div><div class="mobile-nav-panel" id="mobile-nav-panel" data-mobile-nav-panel hidden><div class="mobile-nav-links"><a href="${reflection.route}" data-nav-match="${reflection.navMatch}">${reflectionLabel}</a><a href="${tip.route}" data-nav-match="${tip.navMatch}">${setupLabel}</a><a href="${behind.route}" data-nav-match="${behind.navMatch}">${blogLabel}</a><a href="/projects/" data-i18n="projects" data-nav-match="projects">${projectsLabel}</a><a href="/archive.html" data-i18n="archive" data-nav-match="archive">${archiveLabel}</a></div><div class="mobile-nav-actions"><div class="mobile-nav-action-row"><span data-i18n="theme">${themeLabel}</span><button type="button" class="theme-toggle" data-theme-toggle data-theme-label-dark="switchToDarkTheme" data-theme-label-light="switchToLightTheme" aria-label="${themeToggleLabel}" title="${themeToggleLabel}"><span class="theme-toggle-icon" aria-hidden="true"></span></button></div><div class="mobile-nav-action-row"><span data-i18n="language">${languageLabel}</span>${langMenu}</div></div></div></div></nav>`;
 }
 
 export function renderFooter() {
@@ -137,16 +145,16 @@ function renderProjectPreviewMeta(item) {
 }
 
 export function renderPostRow(item, { localizedBlock }) {
-  return `<a class="logbook-entry workbench-card" href="/posts/${item.slug}.html"><div class="logbook-entry-copy">${renderPostMeta(item, { localizedBlock, variant: 'compact' })}<h3>${localizedBlock(item.title)}</h3>${renderProofSignals(item, { localizedBlock, limit: 2, className: 'proof-signal-list proof-signal-list-compact' })}<p>${localizedBlock(item.summary)}</p></div></a>`;
+  return `<a class="logbook-entry" href="/posts/${item.slug}.html"><div class="logbook-entry-copy">${renderPostMeta(item, { localizedBlock, variant: 'compact' })}<h3>${localizedBlock(item.title)}</h3>${renderProofSignals(item, { localizedBlock, limit: 2, className: 'proof-signal-list proof-signal-list-compact' })}<p>${localizedBlock(item.summary)}</p></div></a>`;
 }
 
 export function renderFeaturedPostCard(item, { localizedText, localizedBlock, ui }) {
-  return `<a class="featured-log workbench-card" href="/posts/${item.slug}.html"><div class="featured-log-copy">${renderLaneBadge(item.type, { localizedBlock })}<p class="kicker" data-i18n="featured">${localizedText(ui.featured, 'ko')}</p>${renderPostMeta(item, { localizedBlock })}<h2>${localizedBlock(item.title)}</h2>${renderProofSignals(item, { localizedBlock, limit: 2, className: 'proof-signal-list proof-signal-list-featured' })}<p class="lede small">${localizedBlock(item.summary)}</p></div></a>`;
+  return `<a class="featured-log" href="/posts/${item.slug}.html"><div class="featured-log-copy">${renderLaneBadge(item.type, { localizedBlock })}<p class="kicker" data-i18n="featured">${localizedText(ui.featured, 'ko')}</p>${renderPostMeta(item, { localizedBlock })}<h2>${localizedBlock(item.title)}</h2>${renderProofSignals(item, { localizedBlock, limit: 2, className: 'proof-signal-list proof-signal-list-featured' })}<p class="lede small">${localizedBlock(item.summary)}</p></div></a>`;
 }
 
 export function renderProjectPreviewCard(item, { esc, localizedBlock }) {
   const previewImage = item.previewImage || item.heroImage || item.characterImage;
-  return `<a class="evidence-slip workbench-card ui-project-card" href="/projects/${item.slug}.html">${previewImage ? `<div class="evidence-slip-media"><img class="evidence-slip-thumb" src="${esc(previewImage)}" alt="${esc(item.name)} preview" /></div>` : ''}<div class="evidence-slip-copy">${renderProjectPreviewMeta(item)}<h3>${localizedBlock(item.title)}</h3><p>${localizedBlock(item.summary)}</p></div></a>`;
+  return `<a class="evidence-slip ui-project-card" href="/projects/${item.slug}.html">${previewImage ? `<div class="evidence-slip-media"><img class="evidence-slip-thumb" src="${esc(previewImage)}" alt="${esc(item.name)} preview" /></div>` : ''}<div class="evidence-slip-copy">${renderProjectPreviewMeta(item)}<h3>${localizedBlock(item.title)}</h3><p>${localizedBlock(item.summary)}</p></div></a>`;
 }
 
 export function renderRepoBar(repos, { esc, localizedText }) {

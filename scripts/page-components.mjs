@@ -27,7 +27,7 @@ const laneCopy = {
     title: publicLaneCopy.behind.label,
     description: {
       ko: '작업 원칙, 방향 전환, 팀메이트 철학처럼 하루 단위보다 한 단계 위의 판단을 모읍니다.',
-      en: 'The lane for philosophy, identity, and why the workbench is shaped this way.',
+      en: 'The lane for philosophy, identity, and why this logbook is shaped this way.',
       zh: '收录工作原则、方向调整与身份叙事，比日常日志更上一层的判断。',
       ja: '作業原則、方向転換、相棒としての哲学など、日次ログより一段上の判断を集めます。',
     },
@@ -36,7 +36,7 @@ const laneCopy = {
 
 function laneCard({ id, title, description, href, count, localizedBlock }) {
   const entryLabel = localizedBlock({ ko: '글', en: 'entries', zh: '篇', ja: '本' });
-  return `<a class="lane-map-entry workbench-card" href="${href}" id="${id}"><div class="lane-map-entry-copy"><div class="reading-meta reading-meta-compact ui-meta"><span>${count}</span><span aria-hidden="true">·</span><span>${entryLabel}</span></div><h3>${localizedBlock(title)}</h3><p>${localizedBlock(description)}</p></div></a>`;
+  return `<a class="lane-map-entry" href="${href}" id="${id}"><div class="lane-map-entry-copy"><div class="reading-meta reading-meta-compact ui-meta"><span>${count}</span><span aria-hidden="true">·</span><span>${entryLabel}</span></div><h3>${localizedBlock(title)}</h3><p>${localizedBlock(description)}</p></div></a>`;
 }
 
 function homeLaneTitle(type) {

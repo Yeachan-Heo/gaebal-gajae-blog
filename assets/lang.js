@@ -43,7 +43,7 @@
   function initialTheme() {
     const saved = normalizeTheme(localStorage.getItem('gajae-blog-theme'));
     if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    return 'light';
   }
 
   function syncLangUrl(lang) {
@@ -71,16 +71,18 @@
   }
 
   function updateThemeControl(lang, theme) {
-    const toggle = document.querySelector('[data-theme-toggle]');
-    if (!toggle) return;
+    const toggles = document.querySelectorAll('[data-theme-toggle]');
+    if (!toggles.length) return;
     const ui = currentUi();
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    const key = nextTheme === 'dark' ? toggle.getAttribute('data-theme-label-dark') : toggle.getAttribute('data-theme-label-light');
-    const label = ui[key]?.[lang] || ui[key]?.ko || 'Toggle theme';
-    toggle.setAttribute('aria-label', label);
-    toggle.setAttribute('title', label);
-    toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
-    toggle.dataset.themeCurrent = theme;
+    toggles.forEach((toggle) => {
+      const key = nextTheme === 'dark' ? toggle.getAttribute('data-theme-label-dark') : toggle.getAttribute('data-theme-label-light');
+      const label = ui[key]?.[lang] || ui[key]?.ko || 'Toggle theme';
+      toggle.setAttribute('aria-label', label);
+      toggle.setAttribute('title', label);
+      toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+      toggle.dataset.themeCurrent = theme;
+    });
   }
 
   function applyTheme(theme) {
