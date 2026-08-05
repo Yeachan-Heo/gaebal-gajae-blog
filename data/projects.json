@@ -40,7 +40,7 @@
     },
     "heroImage": "/assets/projects/omc-social-preview.jpg",
     "previewImage": "/assets/projects/omc-social-preview.jpg",
-    "characterImage": "/assets/projects/omx-character-spark-initiative.jpg",
+    "characterImage": "/assets/projects/omc-character.jpg",
     "geobenchSpec": "/geobench/omc.yaml"
   },
   {
@@ -93,7 +93,7 @@
     "heroImage": "/assets/projects/omx-card-thumb.jpg",
     "detailImage": "/assets/projects/omx-card-thumb.jpg",
     "previewImage": "/assets/projects/omx-card-thumb.jpg",
-    "characterImage": "/assets/projects/omc-character.jpg",
+    "characterImage": "/assets/projects/omx-character-spark-initiative.jpg",
     "geobenchSpec": "/geobench/omx.yaml"
   },
   {
