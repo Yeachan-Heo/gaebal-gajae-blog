@@ -54,6 +54,22 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
       });
     };
 
+    const mobileNav = document.querySelector<HTMLElement>('[data-mobile-nav]');
+    const mobileToggle = document.querySelector<HTMLElement>('[data-mobile-nav-toggle]');
+    const setMobileNav = (open: boolean) => {
+      if (!mobileNav || !mobileToggle) return;
+      mobileNav.hidden = !open;
+      mobileNav.dataset.open = open ? 'true' : 'false';
+      mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    const closeMobileNav = () => setMobileNav(false);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeMobileNav();
+    };
+    const onResize = () => {
+      if (window.innerWidth >= 761) closeMobileNav();
+    };
+
     const updateThemeControl = (lang: string, theme: string) => {
       document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach((toggle) => {
         const nextTheme = theme === 'dark' ? 'light' : 'dark';
@@ -86,6 +102,14 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
           el.textContent = map[nextLang] || map.ko || map.en || '';
         } catch {}
       });
+      document.querySelectorAll<HTMLElement>('[data-i18n-aria-label]').forEach((el) => {
+        const key = el.getAttribute('data-i18n-aria-label');
+        const label = key && ui[key]?.[nextLang];
+        if (label) {
+          el.setAttribute('aria-label', label);
+          el.setAttribute('title', label);
+        }
+      });
       document.querySelectorAll<HTMLElement>('[data-lang-block]').forEach((el) => {
         el.hidden = el.getAttribute('data-lang-block') !== nextLang;
       });
@@ -102,6 +126,13 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
 
     const onClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
+      const mobileToggle = target?.closest<HTMLElement>('[data-mobile-nav-toggle]');
+      if (mobileToggle) {
+        setMobileNav(mobileNav?.dataset.open !== 'true');
+        return;
+      }
+      const mobileLink = target?.closest<HTMLElement>('[data-mobile-nav] a');
+      if (mobileLink) closeMobileNav();
       const langButton = target?.closest<HTMLElement>('[data-lang-button]');
       if (langButton) {
         applyLang(langButton.getAttribute('data-lang-button'));
@@ -115,11 +146,18 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
     };
 
     document.addEventListener('click', onClick);
+    document.addEventListener('keydown', onKeyDown);
+    window.addEventListener('resize', onResize);
+    setMobileNav(false);
     applyTheme(initialTheme());
     applyLang(initialLang());
     syncNavState();
 
-    return () => document.removeEventListener('click', onClick);
+    return () => {
+      document.removeEventListener('click', onClick);
+      document.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('resize', onResize);
+    };
   }, [navMatch, ui]);
 
   return null;
