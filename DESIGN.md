@@ -445,3 +445,4 @@ Before merging a design PR:
 - active nav state works
 - Korean line wrapping works in hero, cards, and archive rows
 - light/dark mode works if both remain
+- every screenshot artifact is checked against authoritative file format, dimensions, route, viewport, theme, language, and byte size metadata
