@@ -134,6 +134,11 @@
   window.gajaeBlogSetTheme = applyTheme;
 
   function setMobileNavOpen(open) {
+    if (!open) {
+      document.querySelectorAll('.lang-menu[open]').forEach((menu) => {
+        menu.open = false;
+      });
+    }
     document.querySelectorAll('[data-mobile-nav-panel]').forEach((panel) => {
       panel.hidden = !open;
     });
@@ -142,6 +147,13 @@
       toggle.classList.toggle('active', open);
     });
   }
+
+  function resetMobileNavOnViewportChange() {
+    if (window.matchMedia('(min-width: 761px)').matches) setMobileNavOpen(false);
+  }
+
+  window.addEventListener('resize', resetMobileNavOnViewportChange);
+  window.addEventListener('orientationchange', resetMobileNavOnViewportChange);
 
 
   document.addEventListener('click', (event) => {

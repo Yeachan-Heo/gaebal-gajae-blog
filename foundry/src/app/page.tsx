@@ -5,10 +5,10 @@ export default function Page() {
   return (
     <main className="wrap space-y-14 py-12 md:space-y-20 md:py-16">
       <section className="hero hero-compact preview-hero space-y-6">
-        <div className="badge ui-badge status-stamp status-stamp-lane">STYLE FOUNDRY WORKBENCH · Next.js + Tailwind + TypeScript</div>
+        <div className="badge ui-badge status-stamp status-stamp-lane">EDITORIAL LOGBOOK PREVIEW · Next.js + Tailwind + TypeScript</div>
         <div className="space-y-4">
-          <h1 className="max-w-4xl text-5xl font-black tracking-tight text-[var(--ink-strong)] md:text-7xl">가재 블로그 디자인 시스템 워크벤치</h1>
-          <p className="max-w-3xl text-lg leading-8 text-[var(--ink-soft)]">새로고침 지옥 대신 Next.js + Tailwind + TypeScript 환경에서 base component, variant, modifier 계약부터 먼저 굳힙니다.</p>
+          <h1 className="max-w-4xl text-5xl font-black tracking-tight text-[var(--ink-strong)] md:text-7xl">가재 블로그 에디토리얼 로그북 프리뷰</h1>
+          <p className="max-w-3xl text-lg leading-8 text-[var(--ink-soft)]">프로덕션 정적 사이트에 배포하지 않는 로컬 검토 보드에서 foundation, primitive, component 계약을 먼저 확인합니다.</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <a className="button button-link button-primary" href="#contract">구조 보기</a>

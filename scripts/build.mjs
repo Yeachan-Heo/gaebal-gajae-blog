@@ -466,19 +466,24 @@ function bodyBlocks(item, lang) {
   return blocks;
 }
 
+function langBlockAttrs(lang) {
+  return lang === 'ko' ? '' : ' hidden';
+}
+
+
 function bodyList(item) {
-  return langs.map((lang) => `<div class="lang-block prose" data-lang-block="${lang}">${bodyBlocks(item, lang).map(renderMarkdownBlock).join('\n')}</div>`).join('\n');
+  return langs.map((lang) => `<div class="lang-block prose" data-lang-block="${lang}"${langBlockAttrs(lang)}>${bodyBlocks(item, lang).map(renderMarkdownBlock).join('\n')}</div>`).join('\n');
 }
 
 function projectBodyList(item) {
   return langs.map((lang) => {
     const blocks = bodyBlocks(item, lang);
-    if (!blocks.length) return `<div class="lang-block prose prose-project" data-lang-block="${lang}"></div>`;
+    if (!blocks.length) return `<div class="lang-block prose prose-project" data-lang-block="${lang}"${langBlockAttrs(lang)}></div>`;
     const [intro, ...points] = blocks;
     const pointsMarkup = points.length
       ? `<div class="project-points">${points.map((block) => `<div class="project-point">${renderMarkdownBlock(block)}</div>`).join('\n')}</div>`
       : '';
-    return `<div class="lang-block prose prose-project" data-lang-block="${lang}"><div class="project-intro">${renderMarkdownBlock(intro)}</div>${pointsMarkup}</div>`;
+    return `<div class="lang-block prose prose-project" data-lang-block="${lang}"${langBlockAttrs(lang)}><div class="project-intro">${renderMarkdownBlock(intro)}</div>${pointsMarkup}</div>`;
   }).join('\n');
 }
 

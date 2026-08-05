@@ -5,6 +5,8 @@ foundry/.next/
 foundry/out/
 foundry/dist/
 .vite/
+storybook-static/
+.storybook-home/
 .server.log
 .server.err
 .server.pid
