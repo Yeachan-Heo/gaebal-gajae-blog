@@ -82,7 +82,7 @@ const usageOrderSections = [
     title: { ko: '3. 메시지·유틸·툴 표면을 따로 살린다', en: '3. Keep message, utility, and tool surfaces distinct', zh: '3. 让 message / utility / tool 表面继续分开', ja: '3. message・utility・tool の面を分けて生かす' },
     body: { ko: 'theme docs에서 userMessageBg, customMessageBg, toolPendingBg는 다 따로 요구된다. 이 셋을 하나의 검은 카드로 합치면 TUI 계층이 사라진다.', en: 'Theme docs require userMessageBg, customMessageBg, and toolPendingBg as separate slots. Collapse them into one dark card and the TUI layering disappears.', zh: 'theme docs 明确把 userMessageBg、customMessageBg、toolPendingBg 分成不同槽位。把它们压成一张黑卡，TUI 的层级就没了。', ja: 'theme docs では userMessageBg、customMessageBg、toolPendingBg を別スロットとして要求している。これを一枚の暗いカードに潰すと TUI の階層が消える。' },
     upstream: 'colors.userMessageBg · colors.customMessageBg · colors.toolPendingBg · colors.toolTitle · colors.toolOutput',
-    mapping: '--surface-soft · --surface-muted · --surface-code · --surface-evidence-chip · --ink-terminal-soft',
+    mapping: '--surface-soft · --surface-muted · --surface-code · --surface-terminal-wash · --ink-terminal-soft',
   },
   {
     id: 'prose',
@@ -96,7 +96,7 @@ const usageOrderSections = [
     title: { ko: '5. 증거와 receipt는 마지막 dark slab로 보낸다', en: '5. Move evidence and receipts into the final dark slab', zh: '5. 最后把证据与 receipt 送进 dark slab', ja: '5. 証拠と receipt は最後に dark slab へ送る' },
     body: { ko: 'tool blocks, diff, proof output은 본문과 같은 종이 위에 두지 않는다. Editorial Logbook처럼 별도 dark slab와 terminal ink 계층으로 분리해야 확인용 정보로 읽힌다.', en: 'Tool blocks, diffs, and proof output do not live on the same paper as the body. They need their own dark slab and terminal ink hierarchy to read as verification material in the Editorial Logbook.', zh: 'tool blocks、diff、proof output 不应该和正文躺在同一张纸上。像 Editorial Logbook 一样，把它们分到独立 dark slab 与 terminal ink 层里，才会被读成验证材料。', ja: 'tool blocks、diff、proof output は本文と同じ紙の上に置かない。エディトリアルログのように独立した dark slab と terminal ink の階層へ分けてこそ、確認用の情報として読まれる。' },
     upstream: 'colors.toolPendingBg · colors.toolTitle · colors.toolOutput · colors.mdCodeBlockBorder',
-    mapping: '--surface-evidence · --surface-evidence-code · --evidence-rule · --ink-terminal · --ink-terminal-soft',
+    mapping: '--surface-terminal · --surface-terminal-soft · --line-strong · --ink-terminal · --ink-terminal-soft',
   },
 ] as const
 
@@ -158,9 +158,9 @@ function specimenPanelStyle() {
 }
 
 function specimenFrame(token: string) {
-  if (token === 'surface-evidence' || token === 'surface-evidence-soft' || token === 'surface-evidence-chip' || token === 'surface-evidence-code') {
+  if (token === 'surface-terminal' || token === 'surface-terminal-soft' || token === 'surface-terminal-wash') {
     return {
-      background: 'color-mix(in srgb, var(--surface-evidence) 78%, var(--paper-canvas))',
+      background: 'color-mix(in srgb, var(--surface-terminal) 78%, var(--paper-canvas))',
       borderColor: 'color-mix(in srgb, var(--ink-terminal) 14%, transparent)',
     }
   }
@@ -173,7 +173,7 @@ function specimenFrame(token: string) {
 
 function tokenPreviewBackground(token: string) {
   if (token === 'ink-inverse') return 'var(--accent)'
-  if (token === 'ink-terminal' || token === 'ink-terminal-soft') return 'var(--surface-evidence)'
+  if (token === 'ink-terminal' || token === 'ink-terminal-soft') return 'var(--surface-terminal)'
   if (token === 'link') return 'color-mix(in srgb, var(--surface-raised) 76%, var(--paper-sheet-soft))'
   return 'color-mix(in srgb, var(--surface-raised) 72%, var(--paper-sheet-soft))'
 }
@@ -185,13 +185,13 @@ function tokenPreviewText(token: string) {
 }
 
 function borderPreviewSurface(token: string) {
-  return token === 'evidence-rule'
-    ? 'color-mix(in srgb, var(--surface-evidence) 82%, var(--paper-canvas))'
+  return token === 'line-strong'
+    ? 'color-mix(in srgb, var(--surface-terminal) 82%, var(--paper-canvas))'
     : 'color-mix(in srgb, var(--surface-raised) 78%, var(--paper-sheet-soft))'
 }
 
 function borderPreviewInk(token: string) {
-  return token === 'evidence-rule' ? 'var(--ink-terminal-soft)' : 'var(--ink-soft)'
+  return token === 'line-strong' ? 'var(--ink-terminal-soft)' : 'var(--ink-soft)'
 }
 
 function surfaceRoleSpecimen(token: string) {
@@ -366,9 +366,9 @@ function PrimerSwatches({ group }: { group: TokenGroup }) {
 
   return (
     <div className="mt-4 flex gap-2">
-      <span className="h-8 w-12 rounded-[0.8rem] border" style={{ borderColor: 'var(--evidence-rule)', background: 'var(--surface-evidence)' }} />
-      <span className="h-8 w-12 rounded-[0.8rem] border" style={{ borderColor: 'var(--evidence-rule)', background: 'var(--surface-evidence-chip)' }} />
-      <span className="h-8 w-12 rounded-[0.8rem] border" style={{ borderColor: 'var(--evidence-rule)', background: 'var(--surface-evidence-code)' }} />
+      <span className="h-8 w-12 rounded-[0.8rem] border" style={{ borderColor: 'var(--line-strong)', background: 'var(--surface-terminal)' }} />
+      <span className="h-8 w-12 rounded-[0.8rem] border" style={{ borderColor: 'var(--line-strong)', background: 'var(--surface-terminal-wash)' }} />
+      <span className="h-8 w-12 rounded-[0.8rem] border" style={{ borderColor: 'var(--line-strong)', background: 'var(--surface-terminal-soft)' }} />
     </div>
   )
 }

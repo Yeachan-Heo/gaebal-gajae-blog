@@ -12,6 +12,9 @@
   --surface-panel: #FFFAF2;
   --surface-panel-strong: #FFFDF8;
   --surface-panel-soft: #F0E5D8;
+  --surface-panel-wash: #E5DACA;
+  --nav-surface: var(--paper-sheet-soft);
+  --surface-terminal-wash: rgba(17, 16, 15, 0.92);
   --surface-terminal: #11100F;
   --surface-terminal-soft: #191715;
   --surface-message: #F0E5D8;
@@ -37,6 +40,10 @@
   --surface: var(--surface-panel);
   --surface-soft: var(--surface-panel-soft);
   --surface-muted: var(--paper-sheet-muted);
+  --lobster-soft: var(--accent-soft);
+  --verified-default: var(--success);
+  --verified-soft: var(--success-soft);
+  --warning-default: var(--warning);
   --surface-evidence: var(--surface-terminal);
   --surface-evidence-soft: var(--surface-terminal-soft);
   --bg: var(--paper-canvas);
@@ -85,6 +92,9 @@
   --surface-panel: #191715;
   --surface-panel-strong: #211E1B;
   --surface-panel-soft: #2A2420;
+  --surface-panel-wash: #3A312C;
+  --nav-surface: var(--paper-sheet-soft);
+  --surface-terminal-wash: rgba(17, 16, 15, 0.94);
   --surface-terminal: #11100F;
   --surface-terminal-soft: #191715;
   --surface-message: #211E1B;
@@ -110,6 +120,10 @@
   --surface: var(--surface-panel);
   --surface-soft: var(--surface-panel-soft);
   --surface-muted: var(--paper-sheet-muted);
+  --lobster-soft: var(--accent-soft);
+  --verified-default: var(--success);
+  --verified-soft: var(--success-soft);
+  --warning-default: var(--warning);
   --surface-evidence: var(--surface-terminal);
   --surface-evidence-soft: var(--surface-terminal-soft);
   --bg: var(--paper-canvas);
