@@ -101,7 +101,7 @@ export function ProofSignalList({ signals, featured = false, tone = 'default' }:
           className={cn(
             'rounded-2xl border px-4 py-3',
             tone === 'evidence'
-              ? 'border-[var(--evidence-rule)] bg-[var(--surface-evidence-chip)]'
+              ? 'border-[var(--line-strong)] bg-[var(--surface-terminal-wash)]'
               : 'border-[var(--rule)]/80 bg-[var(--surface-soft)]',
           )}
         >
@@ -167,7 +167,7 @@ export function ProjectCard({ project }: { project: ProjectItem }) {
   return (
     <Card href={`/projects/${project.slug}.html`} variant="evidence" className="group block overflow-hidden transition hover:-translate-y-0.5">
       {preview ? (
-        <div className="relative aspect-[2.5/1] overflow-hidden border-b border-[var(--evidence-rule)]">
+        <div className="relative aspect-[2.5/1] overflow-hidden border-b border-[var(--line-strong)]">
           <img src={preview} alt={`${project.name} preview`} className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
         </div>
       ) : null}

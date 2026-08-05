@@ -2,7 +2,7 @@
 @import "./style-foundry-base.css";
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 

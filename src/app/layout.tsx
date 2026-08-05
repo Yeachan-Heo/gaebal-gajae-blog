@@ -35,10 +35,12 @@ const themeBootScript = `(() => {
     const theme = saved || cookieTheme || "light";
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = themeColorScheme(theme);
+    if (document.body) document.body.style.colorScheme = themeColorScheme(theme);
   } catch {
     const theme = readCookieTheme() || "light";
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = themeColorScheme(theme);
+    if (document.body) document.body.style.colorScheme = themeColorScheme(theme);
   }
 })();`;
 

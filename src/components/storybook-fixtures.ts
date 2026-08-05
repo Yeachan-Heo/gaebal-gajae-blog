@@ -107,5 +107,5 @@ export const secondaryProject: ProjectItem = {
     ja: 'setup/update・hook・config の境界を運用基準で整えるプロジェクト。',
   },
   body: { ko: [], en: [], zh: [], ja: [] },
-  previewImage: '/assets/projects/omc-social-preview.jpg',
+  previewImage: '/assets/projects/omx-card-thumb.jpg',
 }

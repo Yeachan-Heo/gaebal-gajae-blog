@@ -15,6 +15,7 @@
   --surface-panel-wash: #E5DACA;
   --nav-surface: var(--paper-sheet-soft);
   --surface-terminal-wash: rgba(17, 16, 15, 0.92);
+  --surface-terminal-code: var(--surface-terminal-soft);
   --surface-terminal: #11100F;
   --surface-terminal-soft: #191715;
   --surface-message: #F0E5D8;
@@ -46,8 +47,6 @@
   --verified-default: var(--success);
   --verified-soft: var(--success-soft);
   --warning-default: var(--warning);
-  --surface-evidence: var(--surface-terminal);
-  --surface-evidence-soft: var(--surface-terminal-soft);
   --bg: var(--paper-canvas);
   --surface-raised: var(--paper-sheet-raised);
   --surface-raised-soft: var(--surface-selected);
@@ -55,9 +54,6 @@
   --surface-nav-group: var(--surface-panel-soft);
   --surface-nav-active: var(--surface-selected);
   --surface-code: var(--surface-terminal-soft);
-  --surface-evidence-chip: var(--surface-panel-soft);
-  --surface-evidence-code: var(--surface-terminal-soft);
-  --evidence-rule: var(--rule-strong);
   --success: #557D76;
   --success-soft: rgba(85, 125, 118, 0.14);
   --warning: #B07F3B;
@@ -96,6 +92,7 @@
   --surface-panel-soft: #2A2420;
   --surface-panel-wash: #3A312C;
   --nav-surface: var(--paper-sheet-soft);
+  --surface-terminal-code: var(--surface-terminal-soft);
   --surface-terminal-wash: rgba(17, 16, 15, 0.94);
   --surface-terminal: #11100F;
   --surface-terminal-soft: #191715;
@@ -128,8 +125,6 @@
   --verified-default: var(--success);
   --verified-soft: var(--success-soft);
   --warning-default: var(--warning);
-  --surface-evidence: var(--surface-terminal);
-  --surface-evidence-soft: var(--surface-terminal-soft);
   --bg: var(--paper-canvas);
   --surface-raised: var(--paper-sheet-raised);
   --surface-raised-soft: var(--surface-selected);
@@ -137,9 +132,6 @@
   --surface-nav-group: var(--surface-panel-soft);
   --surface-nav-active: var(--surface-selected);
   --surface-code: var(--surface-terminal-soft);
-  --surface-evidence-chip: var(--surface-panel-soft);
-  --surface-evidence-code: var(--surface-terminal-soft);
-  --evidence-rule: var(--rule-strong);
   --success: #76A099;
   --success-soft: rgba(118, 160, 153, 0.18);
   --warning: #D39A4D;
@@ -244,8 +236,8 @@ a:hover {
 
   .surface-card-evidence {
     @apply rounded-[var(--radius-xl)] border shadow-[var(--shadow)];
-    background: var(--surface-evidence-soft);
-    border-color: var(--evidence-rule);
+    background: var(--surface-terminal-soft);
+    border-color: var(--line-strong);
     box-shadow: var(--shadow);
   }
 

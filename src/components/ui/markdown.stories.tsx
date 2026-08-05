@@ -32,7 +32,7 @@ export const ProofSnippet: Story = {
 
 export const EvidenceSnippet: Story = {
   render: () => (
-    <div className="max-w-xl rounded-[24px] border border-[var(--evidence-rule)] bg-[var(--surface-evidence)] p-5">
+    <div className="max-w-xl rounded-[24px] border border-[var(--line-strong)] bg-[var(--surface-terminal)] p-5">
       <MarkdownSnippet html={snippetHtml} tone="evidence" />
     </div>
   ),

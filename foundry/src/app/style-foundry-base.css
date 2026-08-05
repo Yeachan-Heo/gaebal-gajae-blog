@@ -15,6 +15,7 @@
   --surface-panel-wash: rgba(229, 218, 203, 0.68);
   --surface-terminal: #232729;
   --surface-terminal-soft: #313638;
+  --surface-terminal-code: var(--surface-terminal-soft);
   --surface-terminal-wash: rgba(35, 39, 41, 0.92);
   --surface-accent: linear-gradient(180deg, rgba(255, 252, 247, 0.98), rgba(239, 228, 214, 0.96));
 
@@ -114,6 +115,7 @@
   --panel: var(--surface-panel);
   --panel2: var(--surface-panel-strong);
   --nav-surface: var(--paper-sheet-soft);
+  --surface-nav-group: var(--surface-panel-soft);
   --surface-1: var(--surface-panel);
   --surface-2: var(--surface-panel-strong);
   --surface-3: rgba(234, 225, 212, 0.96);
@@ -155,6 +157,7 @@
   --surface-panel-wash: rgba(57, 46, 39, 0.72);
   --surface-terminal: #151819;
   --surface-terminal-soft: #202527;
+  --surface-terminal-code: var(--surface-terminal-soft);
   --surface-terminal-wash: rgba(21, 24, 25, 0.94);
   --surface-accent: linear-gradient(180deg, rgba(54, 43, 35, 0.98), rgba(34, 28, 24, 0.98));
 

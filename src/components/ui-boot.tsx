@@ -26,10 +26,10 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
     const initialLang = () => {
       const qs = normalizeLang(new URLSearchParams(window.location.search).get('lang'));
       if (qs) return qs;
-      const docLang = normalizeLang(document.documentElement.lang);
-      if (docLang) return docLang;
       const saved = normalizeLang(window.localStorage.getItem('gajae-blog-lang'));
-      return saved || 'ko';
+      if (saved) return saved;
+      const docLang = normalizeLang(document.documentElement.lang);
+      return docLang || 'ko';
     };
 
     const initialTheme = () => {
@@ -86,6 +86,7 @@ export function UiBoot({ ui, navMatch }: { ui: UiMap; navMatch: string }) {
       const nextTheme = normalizeTheme(theme) || normalizeTheme(document.documentElement.dataset.theme) || initialTheme();
       document.documentElement.dataset.theme = nextTheme;
       document.documentElement.style.colorScheme = nextTheme;
+      if (document.body) document.body.style.colorScheme = nextTheme;
       window.localStorage.setItem('gajae-blog-theme', nextTheme);
       document.cookie = `gajae-blog-theme=${nextTheme}; Max-Age=31536000; Path=/; SameSite=Lax`;
       updateThemeControl(document.documentElement.lang || initialLang(), nextTheme);
