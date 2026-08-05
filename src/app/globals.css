@@ -33,6 +33,8 @@
   --link: #7A2118;
   --rule: #DED0C2;
   --rule-strong: #C8B7A8;
+  --line: var(--rule);
+  --line-strong: var(--rule-strong);
   --rule-muted: #DED0C2;
   --card-border: var(--rule);
   --card-border-strong: var(--rule-strong);
@@ -113,6 +115,8 @@
   --link: #E7B18E;
   --rule: #3A312C;
   --rule-strong: #5A4A42;
+  --line: var(--rule);
+  --line-strong: var(--rule-strong);
   --rule-muted: #3A312C;
   --card-border: var(--rule);
   --card-border-strong: var(--rule-strong);
