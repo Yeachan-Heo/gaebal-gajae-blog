@@ -7,7 +7,7 @@
 A light-first editorial developer logbook: warm paper for reading, lobster red for authored signals, and archive structure for discovery. The preview harness exists to explain the production system, not to create a second visual language.
 
 ## Why this direction
-The production site prioritizes reading comfort, Korean wrapping, content discovery, and quiet evidence over terminal cosplay or decorative workbench effects. Every preview example must reinforce the same hierarchy used by the static site.
+The production site prioritizes reading comfort, Korean wrapping, content discovery, and quiet evidence over terminal cosplay or decorative dashboard effects. Every preview example must reinforce the same hierarchy used by the static site.
 
 ## Core system
 - **Paper field**: warm page background and raised reading surfaces.

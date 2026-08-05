@@ -52,10 +52,9 @@ variant는 primitive나 component 안에서 좁게 유지한다.
 페이지 taxonomy를 variant 이름에 직접 섞지 않는다.
 
 ## 8. Accent is authorship, not decoration
-blue-crab theme에서는 blue 계열이 작업대 전체 인상을 주도해야 한다.
-red-claw theme에서는 red 계열이 작업대 전체 인상을 주도해야 한다.
-red-claw는 bright red 판때기보다 **burgundy base + cream ink + copper signal** 조합으로 읽혀야 하고,
-차가운 blue-gray filler를 끼워 넣지 않는다.
+lobster accent는 primary CTA, 현재 위치, 작성자 표식처럼 의미가 있는 자리에서만 쓴다.
+강한 배경을 장식으로 넓히지 말고, paper 면과 얇은 rule이 먼저 읽히게 한다.
+warning은 accent보다 짧고 뜨거운 신호로 rail이나 stamp에만 제한한다.
 
 ## 9. Typography does the heavy lifting
 카드 배경보다 먼저 제목/본문/메타의 위계가 읽혀야 한다.

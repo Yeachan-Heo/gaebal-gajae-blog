@@ -2,13 +2,13 @@
 
 ## Color families
 ### `paper-*`
-- `paper-canvas`: 전체 작업대 바탕
+- `paper-canvas`: 전체 로그북 바탕
 - `paper-sheet`: 일반 읽기 면
 - `paper-sheet-raised`: 강조된 읽기 면
 - `paper-sheet-soft`, `paper-sheet-muted`: 보조 면
 
 ### `surface-*`
-- `surface-panel`, `surface-panel-strong`, `surface-panel-soft`: 작업대 패널
+- `surface-panel`, `surface-panel-strong`, `surface-panel-soft`: 읽기 패널
 - `surface-terminal`, `surface-terminal-soft`: evidence slab
 - `surface-accent`: 강조 면
 
@@ -24,7 +24,7 @@
 
 ### `accent-*`
 브랜드 서명과 primary action.
-blue-crab theme는 blue 위주, red-claw theme는 red 위주로 명확히 갈린다.
+lobster accent는 작성자 신호와 primary action에만 쓰고, warning은 별도의 짧은 상태 신호로 둔다.
 
 ### `verified-*`
 검증 완료, 적용 완료, setup 처방 성공.
@@ -34,7 +34,7 @@ incident, 주의, 방향 전환.
 main accent보다 더 뜨거운 ember 계열.
 
 ## Typography tokens
-- `font-body`, `font-display`, `font-mono`
+- `font-body`, `font-headline-*`, `font-mono`
 - `type-label`, `type-meta`, `type-body`, `type-lead`, `type-title`, `type-display`
 - `tracking-tight`, `tracking-normal`, `tracking-stamp`
 - `leading-compact`, `leading-body`, `leading-relaxed`
@@ -67,5 +67,5 @@ main accent보다 더 뜨거운 ember 계열.
 - `status-warning-bg`
 
 ## Theme policy
-blue-crab과 red-claw는 같은 semantic 이름을 공유하되,
-화면 인상은 서로 섞지 않고 각 theme family가 따로 주도한다.
+Editorial Logbook은 light-first를 기본으로 하고, dark mode는 같은 semantic 이름과 위계를 보존한다.
+색은 테마 장식이 아니라 paper, ink, accent, verified, warning 역할을 따라 배치한다.

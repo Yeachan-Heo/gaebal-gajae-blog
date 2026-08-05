@@ -11,7 +11,7 @@
 - Do not use generic SaaS gradients.
 - Do not make every card look like the same rounded shadcn-style box.
 - Do not treat terminal green as decoration.
-- Do not bury the blue-crab / red-claw pair under muddy neutral filler.
+- Do not replace the Editorial Logbook paper/ink/accent hierarchy with unrelated theme families or muddy neutral filler.
 - Do not make the page feel like a corporate dashboard.
 
 ## Components
