@@ -90,7 +90,7 @@
         "release promotion PR は main/release boundary にあるため、承認なしに自動 merge しない。"
       ]
     },
-    "heroImage": "/assets/projects/omc-character.jpg",
+    "heroImage": "/assets/projects/omx-card-thumb.jpg",
     "detailImage": "/assets/projects/omx-card-thumb.jpg",
     "previewImage": "/assets/projects/omx-card-thumb.jpg",
     "characterImage": "/assets/projects/omc-character.jpg",
