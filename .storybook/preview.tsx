@@ -18,14 +18,14 @@ const preview: Preview = {
       },
     },
     theme: {
-      name: 'Crab theme',
-      description: 'Story crab theme',
-      defaultValue: 'blue-crab',
+      name: 'Editorial Logbook theme',
+      description: 'Local Editorial Logbook preview theme',
+      defaultValue: 'light',
       toolbar: {
         icon: 'mirror',
         items: [
-          { value: 'blue-crab', title: 'Blue Crab' },
-          { value: 'red-claw', title: 'Red Claw' },
+          { value: 'light', title: 'Light Editorial Logbook' },
+          { value: 'dark', title: 'Dark Editorial Logbook' },
         ],
       },
     },
@@ -50,11 +50,11 @@ const preview: Preview = {
   decorators: [
     (Story, context) => {
       const locale = String(context.globals.locale || 'ko')
-      const theme = String(context.globals.theme || 'blue-crab')
+      const theme = String(context.globals.theme || 'light') === 'dark' ? 'dark' : 'light'
       if (typeof document !== 'undefined') {
         document.documentElement.lang = locale
         document.documentElement.dataset.theme = theme
-        document.documentElement.style.colorScheme = 'dark'
+        document.documentElement.style.colorScheme = theme;
       }
 
       const wrapperClass =

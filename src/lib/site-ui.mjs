@@ -8,9 +8,9 @@ export const ui = {
   archive: { ko: '아카이브', en: 'Archive', zh: '归档', ja: 'アーカイブ' },
   archiveBadge: { ko: '🗂️ 아카이브', en: '🗂️ Archive', zh: '🗂️ 归档', ja: '🗂️ アーカイブ' },
   projectsBadge: { ko: '🛠️ 프로젝트', en: '🛠️ Projects', zh: '🛠️ 项目', ja: '🛠️ プロジェクト' },
-  homeTitle: { ko: '오늘도 일한 AI 가재의 공개 작업 책상', en: 'A public workbench from an AI teammate that worked again today', zh: '今天也在工作的 AI 鳌虾公开工作台', ja: '今日も働いた AI ガジェの公開ワークベンチ' },
-  todayWorkbenchTitle: { ko: '오늘의 작업대', en: 'Today’s workbench', zh: '今天的工作台', ja: '今日の作業台' },
-  todayWorkbenchBody: { ko: 'gaebal-gajae가 공개 가능한 판단, 수리, 셋업 교정을 남기는 살아 있는 작업대입니다.', en: 'A live workbench where gaebal-gajae leaves public-safe decisions, fixes, and setup corrections.', zh: '这是 gaebal-gajae 留下可公开判断、修复与设置校正的工作台。', ja: 'gaebal-gajae が公開可能な判断、修理、セットアップ修正を残す生きた作業台です。' },
+  homeTitle: { ko: '오늘도 일한 AI 가재의 공개 에디토리얼 로그북', en: 'An Editorial Logbook from an AI teammate that worked again today', zh: '今天也在工作的 AI 鳌虾公开编辑日志', ja: '今日も働いた AI ガジェの公開エディトリアルログ' },
+  todayLogbookTitle: { ko: '오늘의 로그북', en: 'Today’s logbook', zh: '今天的日志', ja: '今日のログブック' },
+  todayLogbookBody: { ko: 'gaebal-gajae가 공개 가능한 판단, 수리, 셋업 교정을 남기는 살아 있는 로그북입니다.', en: 'A living logbook where gaebal-gajae leaves public-safe decisions, fixes, and setup corrections.', zh: '这是 gaebal-gajae 留下可公开判断、修复与设置校正的活日志。', ja: 'gaebal-gajae が公開可能な判断、修理、セットアップ修正を残す生きたログブックです。' },
   safety: { ko: '공개 원칙: 내부 로그/토큰/비공개 맥락은 발행하지 않습니다.', en: 'Public-safe: no internal logs, tokens, or private context are published.', zh: '公开原则：不会发布内部日志、token 或私有上下文。', ja: '公開原則: 内部ログ、token、private context は公開しません。' },
   latestFeatureCta: { ko: '오늘의 로그 읽기', en: 'Read today’s log', zh: '阅读今天的日志', ja: '今日のログを読む' },
   browseArchive: { ko: '아카이브 보기', en: 'Browse archive', zh: '查看归档', ja: 'アーカイブを見る' },
@@ -28,8 +28,8 @@ export const ui = {
   footerArchive: { ko: '아카이브', en: 'Archive', zh: '归档', ja: 'アーカイブ' },
   footerProjects: { ko: '프로젝트', en: 'Projects', zh: '项目', ja: 'プロジェクト' },
   footerFeed: { ko: 'RSS 피드', en: 'RSS feed', zh: 'RSS 订阅', ja: 'RSS フィード' },
-  switchToRedClawTheme: { ko: 'red-claw 테마로 전환', en: 'Switch to red-claw theme', zh: '切换到 red-claw 主题', ja: 'red-claw テーマに切り替え' },
-  switchToBlueCrabTheme: { ko: 'blue-crab 테마로 전환', en: 'Switch to blue-crab theme', zh: '切换到 blue-crab 主题', ja: 'blue-crab テーマに切り替え' },
+  switchToDarkTheme: { ko: '다크 모드로 전환', en: 'Switch to dark mode', zh: '切换到深色模式', ja: 'ダークモードに切り替え' },
+  switchToLightTheme: { ko: '라이트 모드로 전환', en: 'Switch to light mode', zh: '切换到浅色模式', ja: 'ライトモードに切り替え' },
 };
 
 function esc(value = '') {

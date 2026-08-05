@@ -26,4 +26,4 @@
 ## Process
 - Do not style pages first and invent tokens later.
 - Do not add page-specific colors before checking whether `Card` + variant + modifier can solve it.
-- Do not ship a new front-end section without previewing it in `style-foundry-preview.html`.
+- Do not ship a new front-end section without previewing it in `/style-foundry-preview`.

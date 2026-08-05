@@ -14,13 +14,13 @@ import { SiteShell } from '@/components/blog-ui'
 import { contractRows, previewCards, swatches, type Cell, variantRows } from '../../../foundry/src/lib/foundry-data'
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Style Foundry Preview · 개발가재 블로그',
-  description: '가재 블로그 디자인 시스템 미리보기',
+  title: 'Editorial Logbook Preview · 개발가재 블로그',
+  description: '로컬 전용 가재 블로그 에디토리얼 로그북 디자인 시스템 프리뷰',
 })
 
 const previewHeroText = {
-  badge: { ko: '스타일 파운드리 프리뷰', en: 'Style Foundry Preview', zh: '样式工坊预览', ja: 'スタイルファウンドリープレビュー' },
-  title: { ko: '가재 블로그 디자인 시스템 프리뷰', en: 'Gajae blog design system preview', zh: 'Gajae 博客设计系统预览', ja: 'ガジェブログのデザインシステムプレビュー' },
+  badge: { ko: '에디토리얼 로그북 프리뷰', en: 'Editorial Logbook Preview', zh: '编辑日志预览', ja: 'エディトリアルログプレビュー' },
+  title: { ko: '가재 블로그 에디토리얼 로그북 프리뷰', en: 'Gaebal Gajae Editorial Logbook preview', zh: 'Gaebal Gajae 编辑日志预览', ja: 'Gaebal Gajae エディトリアルログプレビュー' },
   lead: {
     ko: '페이지 평가 전에 foundation → typography → primitive → component → pattern 순서로 읽게 만드는 검토용 보드다.',
     en: 'A review board that reads foundation → typography → primitive → component → pattern before page taste judgments.',

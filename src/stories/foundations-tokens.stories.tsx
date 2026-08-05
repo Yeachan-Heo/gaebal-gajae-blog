@@ -15,7 +15,7 @@ import { tokenGroups, type TokenGroup, type TokenSwatch } from '../../foundry/sr
 const foundationsStoryText = {
   eyebrow: { ko: 'Foundations', en: 'Foundations', zh: '基础层', ja: '基礎レイヤー' },
   title: { ko: '토큰 칩보다 먼저 테마 사용 순서를 본다', en: 'Read theme usage order before token chips', zh: '先看主题使用顺序，再看 token 色块', ja: 'token チップより先にテーマの使い方の順序を見る' },
-  body: { ko: 'gajae-code 테마는 색칩부터 읽지 않는다. 먼저 바닥과 프레임이 깔리고, 그 위에 현재 상태와 링크가 올라오고, 마지막에 증거 슬랩이 분리된다. 이 보드도 그 사용 순서부터 읽는다.', en: 'gajae-code themes are not read chip-first. The field and frame land first, current state and links rise next, and evidence is separated into its own slab last. This board follows that usage order first.', zh: 'gajae-code 的主题不是从色块开始阅读的。先铺开底面与框架，再抬起当前状态与链接，最后把证据分进独立 slab。这块板也先按这个顺序读。', ja: 'gajae-code のテーマはチップから読むものではない。まず地面とフレームが敷かれ、その上に現在状態とリンクが乗り、最後に証拠が独立 slab へ分かれる。このボードもその使用順序から読む。' },
+  body: { ko: '에디토리얼 로그북 테마는 색칩부터 읽지 않는다. 먼저 바닥과 프레임이 깔리고, 그 위에 현재 상태와 링크가 올라오고, 마지막에 증거 슬랩이 분리된다. 이 보드도 그 사용 순서부터 읽는다.', en: 'Editorial Logbook themes are not read chip-first. The field and frame land first, current state and links rise next, and evidence is separated into its own slab last. This board follows that usage order first.', zh: '编辑日志主题不是从色块开始阅读的。先铺开底面与框架，再抬起当前状态与链接，最后把证据分进独立 slab。这块板也先按这个顺序读。', ja: 'エディトリアルログのテーマはチップから読むものではない。まず地面とフレームが敷かれ、その上に現在状態とリンクが乗り、最後に証拠が独立 slab へ分かれる。このボードもその使用順序から読む。' },
   boardNoteTitle: { ko: '이 보드의 순서', en: 'Board order', zh: '这块板的顺序', ja: 'このボードの順序' },
   boardNoteBody: { ko: '긴 설명보다 먼저 다섯 단계 순서를 잡아두고, 아래 specimen에서 실제 표면 차이를 확인한다.', en: 'Anchor the five-step order first, then inspect the real surface differences in the specimens below.', zh: '先记住下面这五步顺序，再到 specimen 里确认真实表面差异。', ja: '長い説明より先に下の五段階を押さえ、そのあと specimen で実際の面の差を確認する。' },
   orderStripTitle: { ko: '읽는 순서', en: 'Reading order', zh: '阅读顺序', ja: '読む順序' },
@@ -26,17 +26,17 @@ const foundationsStoryText = {
     { ko: '본문 / 마크다운', en: 'Prose / markdown', zh: '正文 / markdown', ja: '本文 / markdown' },
     { ko: '증거 슬랩', en: 'Evidence slab', zh: '证据 slab', ja: '証拠 slab' },
   ],
-  usageOrderEyebrow: { ko: 'Usage order from gajae-code', en: 'Usage order from gajae-code', zh: '来自 gajae-code 的使用顺序', ja: 'gajae-code から見た使用順序' },
+  usageOrderEyebrow: { ko: 'Editorial Logbook usage order', en: 'Editorial Logbook usage order', zh: '编辑日志使用顺序', ja: 'エディトリアルログの使用順序' },
   usageOrderTitle: { ko: '코드에서 먼저 쓰이는 면과 상태를 따라간다', en: 'Follow the surfaces and states the code spends first', zh: '先沿着代码最先花出去的表面与状态阅读', ja: 'コードが先に使う面と状態を追って読む' },
-  usageOrderBody: { ko: '아래 다섯 단계는 docs/theme.md와 실제 컴포넌트 사용을 다시 읽어서 정리한 흐름이다. welcome surface, status line, loader, markdown, message block이 어떤 토큰을 먼저 쓰는지 따라가면 블로그에서도 색을 함부로 늘리지 않게 된다.', en: 'These five steps come from rereading docs/theme.md and the actual component usage. Track which tokens the welcome surface, status line, loader, markdown, and message blocks spend first, and the blog stops inventing extra colors.', zh: '下面五步是重新读过 docs/theme.md 与实际组件用法后整理出的流程。只要跟着看 welcome surface、status line、loader、markdown、message block 先花哪些 token，博客就不会再凭空发明额外颜色。', ja: '下の五段階は docs/theme.md と実際のコンポーネント使用を読み直して整理した流れだ。welcome surface、status line、loader、markdown、message block がどの token を先に使うかを追えば、ブログでも色を勝手に増やさなくて済む。' },
-  upstreamLabel: { ko: 'gajae-code source', en: 'gajae-code source', zh: 'gajae-code 来源', ja: 'gajae-code source' },
+  usageOrderBody: { ko: '아래 다섯 단계는 DESIGN.md와 실제 컴포넌트 사용을 다시 읽어서 정리한 흐름이다. welcome surface, status line, loader, markdown, message block이 어떤 토큰을 먼저 쓰는지 따라가면 블로그에서도 색을 함부로 늘리지 않게 된다.', en: 'These five steps come from rereading DESIGN.md and actual component usage. Track which tokens the welcome surface, status line, loader, markdown, and message blocks spend first, and the blog stops inventing extra colors.', zh: '下面五步是重新读过 DESIGN.md 与实际组件用法后整理出的流程。只要跟着看 welcome surface、status line、loader、markdown、message block 先花哪些 token，博客就不会再凭空发明额外颜色。', ja: '下の五段階は DESIGN.md と実際のコンポーネント使用を読み直して整理した流れだ。welcome surface、status line、loader、markdown、message block がどの token を先に使うかを追えば、ブログでも色を勝手に増やさずに済む。' },
+  upstreamLabel: { ko: 'production source', en: 'Production source', zh: '生产源', ja: 'production source' },
   blogMapLabel: { ko: '블로그 매핑', en: 'Blog mapping', zh: '博客映射', ja: 'ブログ側の対応' },
   roleLabel: { ko: '역할', en: 'Role', zh: '角色', ja: '役割' },
   readingLabel: { ko: '읽히는 방식', en: 'How it reads', zh: '阅读方式', ja: '読まれ方' },
   specimenLabel: { ko: '현재 테마 specimen', en: 'Current theme specimen', zh: '当前主题 specimen', ja: '現在のテーマ specimen' },
   usage: { ko: '실사용 예시', en: 'Real usage examples', zh: '实际使用示例', ja: '実使用例' },
-  blueCrab: { ko: 'Blue Crab', en: 'Blue Crab', zh: 'Blue Crab', ja: 'Blue Crab' },
-  redClaw: { ko: 'Red Claw', en: 'Red Claw', zh: 'Red Claw', ja: 'Red Claw' },
+  lightTheme: { ko: '라이트 로그북', en: 'Light Logbook', zh: '浅色日志', ja: 'ライトログ' },
+  darkTheme: { ko: '다크 로그북', en: 'Dark Logbook', zh: '深色日志', ja: 'ダークログ' },
   token: { ko: '토큰', en: 'Token', zh: 'Token', ja: 'Token' },
   navHome: { ko: '홈', en: 'Home', zh: '首页', ja: 'ホーム' },
   navArchive: { ko: '아카이브', en: 'Archive', zh: '归档', ja: 'アーカイブ' },
@@ -46,7 +46,7 @@ const foundationsStoryText = {
   cardBody: { ko: '기본 읽기 표면은 조용하고 평평해야 한다. 올라오는 차이는 텍스트와 한 단계 lifted surface로만 해결한다.', en: 'The base reading surface should stay quiet and flat. Any added emphasis should come from text and one lifted step only.', zh: '基础阅读表面要安静、平整。额外强调只通过文字和抬高一级的表面解决。', ja: '基本の読む面は静かでフラットであるべきだ。追加の強調は文字と一段 lifted した面だけで解決する。' },
   inkTitle: { ko: '문장 위계는 색까지 포함해 분리한다', en: 'Hierarchy includes color, not just size', zh: '层级不只靠大小，也靠颜色', ja: '階層はサイズだけでなく色でも分ける' },
   inkBody: { ko: '강한 제목, 본문, 조용한 메타가 같은 잉크로 뭉개지면 시스템이 아니라 한 장 포스터처럼 보인다.', en: 'If headings, body text, and quiet meta collapse into one ink, the page reads like a single poster rather than a system.', zh: '如果标题、正文和安静 meta 挤成一种墨色，页面就会像一张海报，而不是系统。', ja: '見出し、本文、静かな meta が一つのインクに潰れると、ページはシステムではなく一枚のポスターに見える。' },
-  accentNote: { ko: 'blue-crab 화면에서는 blue가, red-claw 화면에서는 red가 주도해야 한다. 둘을 한 화면 문법으로 섞으면 바로 중성적이고 AI SaaS 같은 냄새가 난다.', en: 'Blue should lead in blue-crab, and red should lead in red-claw. Blend them into one shared page language and the result goes flat and AI-SaaS immediately.', zh: 'blue-crab 画面该由 blue 主导，red-claw 画面该由 red 主导。把两者混成一套共通页面语言，结果立刻会变得扁平又像 AI SaaS。', ja: 'blue-crab の画面では青が、red-claw の画面では赤が主導しなければならない。両者を一つの共通ページ文法に混ぜると、すぐに平板で AI SaaS っぽくなる。' },
+  accentNote: { ko: '라이트와 다크 모두 lobster accent가 주도하되, 같은 semantic 슬롯은 같은 역할로 읽혀야 한다.', en: 'Lobster accent leads both light and dark modes while shared semantic slots keep the same role.', zh: '浅色与深色模式都由 lobster accent 主导，同时共享的 semantic 槽位保持同一角色。', ja: 'ライトとダークの両方で lobster accent が主導し、共有する semantic スロットは同じ役割で読む。' },
   accentLegend: { ko: 'accent는 문구를 과장하는 장식이 아니라 현재 위치와 행동 우선순위를 찍는 신호다. soft 톤은 뒤판만 만들고, 읽히는 의미는 라벨과 경계선이 맡는다.', en: 'Accent is not decoration that exaggerates copy. It marks current position and action priority. Soft tones only create the backplate; the label and border still carry the meaning.', zh: 'accent 不是夸大文案的装饰，而是标出当前位置与行动优先级的信号。soft 色只负责背板，真正的含义仍由标签与边框承担。', ja: 'accent は文言を誇張する装飾ではなく、現在位置と行動の優先順位を示す合図だ。soft トーンは背板を作るだけで、意味はラベルと境界線が担う。' },
   evidenceTitle: { ko: '증거는 본문이 아니라 별도 슬랩이다', en: 'Evidence is a slab, not body prose', zh: '证据不是正文，而是独立 slab', ja: '証拠は本文ではなく独立 slab だ' },
   evidenceBody: { ko: 'repo 메타, build 상태, proof snippet은 종이 카드와 경쟁하지 않게 graphite 슬랩으로 보낸다.', en: 'Repo metadata, build state, and proof snippets move into the graphite slab so they do not compete with the paper card.', zh: 'repo 元数据、build 状态和 proof snippet 要送进 graphite slab，别和纸面卡片抢注意力。', ja: 'repo メタ、build 状態、proof snippet は紙カードと競合しないよう graphite slab に送る。' },
@@ -65,8 +65,8 @@ const foundationsStoryText = {
 const usageOrderSections = [
   {
     id: 'frame',
-    title: { ko: '1. 작업대 바닥과 상단 바를 먼저 잡는다', en: '1. Land the field and top bar first', zh: '1. 先落工作台底面与顶栏', ja: '1. まず作業台の地面と上部バーを置く' },
-    body: { ko: 'gajae-code는 pageBg, cardBg, statusLineBg, border로 먼저 화면 프레임을 만든다. 우리도 카드보다 먼저 배경·상단 바·구조선을 맞춘다.', en: 'gajae-code builds the frame first with pageBg, cardBg, statusLineBg, and border. The blog should do the same: background, top bar, and structure lines before card decoration.', zh: 'gajae-code 会先用 pageBg、cardBg、statusLineBg 与 border 搭出整张框架。博客也应该先把背景、顶栏与结构线定住，再谈卡片装饰。', ja: 'gajae-code は pageBg、cardBg、statusLineBg、border で先に画面の骨格を作る。ブログも同じで、カード装飾より先に背景・上部バー・構造線を決める。' },
+    title: { ko: '1. 로그북 바닥과 상단 바를 먼저 잡는다', en: '1. Land the logbook field and top bar first', zh: '1. 先落日志底面与顶栏', ja: '1. まずログブックの地面と上部バーを置く' },
+    body: { ko: 'Editorial Logbook은 pageBg, cardBg, statusLineBg, border로 먼저 화면 프레임을 만든다. 우리도 카드보다 먼저 배경·상단 바·구조선을 맞춘다.', en: 'Editorial Logbook builds the frame first with pageBg, cardBg, statusLineBg, and border. The blog should do the same: background, top bar, and structure lines before card decoration.', zh: 'Editorial Logbook 会先用 pageBg、cardBg、statusLineBg 与 border 搭出整张框架。博客也应该先把背景、顶栏与结构线定住，再谈卡片装饰。', ja: 'エディトリアルログは pageBg、cardBg、statusLineBg、border で先に画面の骨格を作る。ブログも同じで、カード装飾より先に背景・上部バー・構造線を決める。' },
     upstream: 'export.pageBg · export.cardBg · colors.border · colors.borderMuted · colors.statusLineBg',
     mapping: '--bg · --surface · --surface-nav · --rule · --rule-muted · --card-border',
   },
@@ -87,14 +87,14 @@ const usageOrderSections = [
   {
     id: 'prose',
     title: { ko: '4. 문장과 마크다운은 별도 잉크 규칙으로 읽힌다', en: '4. Prose and markdown follow their own ink rules', zh: '4. 正文与 markdown 走独立的墨色规则', ja: '4. 本文と markdown は独自のインク規則で読む' },
-    body: { ko: 'gajae-code는 mdHeading, mdLink, mdCodeBlockBorder, muted, dim을 따로 나눠 둔다. 블로그도 제목·본문·메타·링크·인용선을 한 잉크로 뭉개면 안 된다.', en: 'gajae-code splits mdHeading, mdLink, mdCodeBlockBorder, muted, and dim. The blog should not flatten headings, body, meta, links, and quote rules into one ink.', zh: 'gajae-code 会把 mdHeading、mdLink、mdCodeBlockBorder、muted、dim 分开。博客也不能把标题、正文、meta、链接、引文线压成一团墨色。', ja: 'gajae-code は mdHeading、mdLink、mdCodeBlockBorder、muted、dim を分けている。ブログも見出し、本文、meta、リンク、引用線を一つのインクに潰してはいけない。' },
+    body: { ko: 'Editorial Logbook은 mdHeading, mdLink, mdCodeBlockBorder, muted, dim을 따로 나눈다. 블로그도 제목·본문·메타·링크·인용선을 한 잉크로 뭉개면 안 된다.', en: 'Editorial Logbook splits mdHeading, mdLink, mdCodeBlockBorder, muted, and dim. The blog should not flatten headings, body, meta, links, and quote rules into one ink.', zh: 'Editorial Logbook 会把 mdHeading、mdLink、mdCodeBlockBorder、muted、dim 分开。博客也不能把标题、正文、meta、链接、引文线压成一团墨色。', ja: 'エディトリアルログは mdHeading、mdLink、mdCodeBlockBorder、muted、dim を分ける。ブログも見出し、本文、meta、リンク、引用線を一つのインクに潰してはいけない。' },
     upstream: 'colors.text · colors.muted · colors.dim · colors.mdHeading · colors.mdLink · colors.mdQuoteBorder',
     mapping: '--ink-strong · --ink-soft · --ink-faint · --link · --rule · --surface-code',
   },
   {
     id: 'evidence',
     title: { ko: '5. 증거와 receipt는 마지막 dark slab로 보낸다', en: '5. Move evidence and receipts into the final dark slab', zh: '5. 最后把证据与 receipt 送进 dark slab', ja: '5. 証拠と receipt は最後に dark slab へ送る' },
-    body: { ko: 'tool blocks, diff, proof output은 본문과 같은 종이 위에 두지 않는다. gajae-code처럼 별도 dark slab와 terminal ink 계층으로 분리해야 확인용 정보로 읽힌다.', en: 'Tool blocks, diffs, and proof output do not live on the same paper as the body. They need their own dark slab and terminal ink hierarchy to read as verification material, just like gajae-code.', zh: 'tool blocks、diff、proof output 不应该和正文躺在同一张纸上。像 gajae-code 一样，把它们分到独立 dark slab 与 terminal ink 层里，才会被读成验证材料。', ja: 'tool blocks、diff、proof output は本文と同じ紙の上に置かない。gajae-code のように独立した dark slab と terminal ink の階層へ分けてこそ、確認用の情報として読まれる。' },
+    body: { ko: 'tool blocks, diff, proof output은 본문과 같은 종이 위에 두지 않는다. Editorial Logbook처럼 별도 dark slab와 terminal ink 계층으로 분리해야 확인용 정보로 읽힌다.', en: 'Tool blocks, diffs, and proof output do not live on the same paper as the body. They need their own dark slab and terminal ink hierarchy to read as verification material in the Editorial Logbook.', zh: 'tool blocks、diff、proof output 不应该和正文躺在同一张纸上。像 Editorial Logbook 一样，把它们分到独立 dark slab 与 terminal ink 层里，才会被读成验证材料。', ja: 'tool blocks、diff、proof output は本文と同じ紙の上に置かない。エディトリアルログのように独立した dark slab と terminal ink の階層へ分けてこそ、確認用の情報として読まれる。' },
     upstream: 'colors.toolPendingBg · colors.toolTitle · colors.toolOutput · colors.mdCodeBlockBorder',
     mapping: '--surface-evidence · --surface-evidence-code · --evidence-rule · --ink-terminal · --ink-terminal-soft',
   },
@@ -107,7 +107,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Audit the blog palette in the same order gajae-code spends theme colors in code: frame first, current state second, message/tool surfaces third, prose and markdown fourth, and evidence last. Then inspect the token board for the current crab theme.',
+        component: 'Audit the Editorial Logbook palette in the same order the production system spends tokens: frame first, current state second, message/tool surfaces third, prose and markdown fourth, and evidence last.',
       },
     },
   },
@@ -116,11 +116,11 @@ const meta = {
 export default meta
 
 type Story = StoryObj<typeof meta>
-type ThemeMode = 'blue-crab' | 'red-claw'
+ type ThemeMode = 'light' | 'dark'
 
 function currentStoryTheme(): ThemeMode {
-  if (typeof document === 'undefined') return 'blue-crab'
-  return document.documentElement.dataset.theme === 'red-claw' ? 'red-claw' : 'blue-crab'
+  if (typeof document === 'undefined') return 'light'
+  return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'
 }
 
 function currentStoryLang(): keyof typeof foundationsStoryText.proofSnippet {
@@ -321,7 +321,7 @@ function TokenSpecimen({ swatch }: { swatch: TokenSwatch }) {
 
 function ThemeSpecimen({ swatch }: { swatch: TokenSwatch }) {
   const theme = currentStoryTheme()
-  const label = theme === 'blue-crab' ? foundationsStoryText.blueCrab : foundationsStoryText.redClaw
+  const label = theme === 'light' ? foundationsStoryText.lightTheme : foundationsStoryText.darkTheme
 
   return (
     <div data-theme={theme} className="rounded-[1rem] border p-3" style={quietPanelStyle()}>
@@ -475,7 +475,7 @@ function UsageOrderExample({ id }: { id: UsageSection['id'] }) {
 
 function UsageOrderBoard() {
   const theme = currentStoryTheme()
-  const themeLabel = theme === 'blue-crab' ? foundationsStoryText.blueCrab : foundationsStoryText.redClaw
+  const themeLabel = theme === 'light' ? foundationsStoryText.lightTheme : foundationsStoryText.darkTheme
 
   return (
     <section className="space-y-5">
@@ -646,7 +646,7 @@ function GroupExamples({ group }: { group: TokenGroup }) {
       <MetaText><LocalizedText map={foundationsStoryText.usage} /></MetaText>
       <Title as="h3" variant="card" className="text-[1.05rem]"><LocalizedText map={groupExampleTitle(group.id)} /></Title>
       <div data-theme={currentStoryTheme()} className="rounded-[1.15rem] border p-4" style={quietPanelStyle()}>
-        <MetaText className="mb-3"><LocalizedText map={currentStoryTheme() === 'blue-crab' ? foundationsStoryText.blueCrab : foundationsStoryText.redClaw} /></MetaText>
+        <MetaText className="mb-3"><LocalizedText map={currentStoryTheme() === 'light' ? foundationsStoryText.lightTheme : foundationsStoryText.darkTheme} /></MetaText>
         {renderExample()}
       </div>
     </div>

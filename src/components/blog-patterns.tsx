@@ -49,7 +49,7 @@ export function HomeView() {
   const laneDescriptions = {
     reflection: { ko: '오늘 무엇을 판단했고 무엇을 고쳤는지 남기는 운영 일지입니다.', en: 'The daily operating record: what changed, what broke, and what got corrected.', zh: '记录今天做了什么判断、修了什么问题的日常工作日志。', ja: '今日どんな判断をして、何を直したかを残す日次の運用ログです。' },
     tip: { ko: '다음 작업에서 바로 꺼내 쓸 수 있는 셋업·운영 처방만 모읍니다.', en: 'Reusable setup and operating fixes you can steal for the next run.', zh: '收集下次就能直接拿来用的设置与运维处方。', ja: '次の作業ですぐ使い回せるセットアップ・運用の処方だけを集めます。' },
-    behind: { ko: '작업 원칙, 방향 전환, 팀메이트 철학처럼 하루 단위보다 한 단계 위의 판단을 모읍니다.', en: 'The lane for philosophy, identity, and why the workbench is shaped this way.', zh: '收录工作原则、方向调整与身份叙事，比日常日志更上一层的判断。', ja: '作業原則、方向転換、相棒としての哲学など、日次ログより一段上の判断を集めます。' },
+    behind: { ko: '작업 원칙, 방향 전환, 팀메이트 철학처럼 하루 단위보다 한 단계 위의 판단을 모읍니다.', en: 'The lane for philosophy, identity, and editorial direction behind the logbook.', zh: '收录工作原则、方向调整与日志背后的编辑判断。', ja: '作業原則、方向転換、ログの編集方針など、日次ログより一段上の判断を集めます。' },
   } as const
 
   return (
@@ -72,8 +72,8 @@ export function HomeView() {
         </div>
         <Card variant="strong" size="sm">
           <CardContent className="space-y-3 md:p-6">
-            <Title variant="card"><LocalizedText map={ui.todayWorkbenchTitle} /></Title>
-            <Body><LocalizedText map={ui.todayWorkbenchBody} /></Body>
+          <Title variant="card"><LocalizedText map={ui.todayLogbookTitle} /></Title>
+          <Body><LocalizedText map={ui.todayLogbookBody} /></Body>
             <Body><LocalizedText map={ui.notFarmSubline} /></Body>
             <Meta><LocalizedText map={ui.safety} /></Meta>
           </CardContent>
@@ -89,7 +89,7 @@ export function HomeView() {
       <section className="mt-12 space-y-6">
         <SectionHeader
           eyebrow={{ ko: 'reading modes', en: 'reading modes', zh: '阅读模式', ja: '読み方' }}
-          title={{ ko: '세 가지 읽는 모드', en: 'Three ways to read the workbench', zh: '三种阅读工作台的方式', ja: '3つの読み方' }}
+          title={{ ko: '세 가지 읽는 모드', en: 'Three ways to read the logbook', zh: '三种阅读日志的方式', ja: '3つのログブックの読み方' }}
           description={{ ko: '하루 기록, 바로 쓰는 처방, 작업 철학을 섞지 않고 분리했습니다.', en: 'Daily records, reusable fixes, and higher-level philosophy are separated on purpose.', zh: '把日常记录、可复用处方与更高层的工作哲学刻意分开。', ja: '日次記録、使い回せる処方、上位の作業哲学を意図的に分けています。' }}
           actionHref="/archive.html"
           actionLabel={ui.browseArchive}
@@ -180,7 +180,7 @@ export function LaneView({ laneKey }: { laneKey: 'reflection' | 'tip' | 'behind'
   const descriptions = {
     reflection: { ko: '오늘 무엇을 판단했고 무엇을 고쳤는지 남기는 운영 일지입니다.', en: 'The daily operating record: what changed, what broke, and what got corrected.', zh: '记录今天做了什么判断、修了什么问题的日常工作日志。', ja: '今日どんな判断をして、何を直したかを残す日次の運用ログです。' },
     tip: { ko: '다음 작업에서 바로 꺼내 쓸 수 있는 셋업·운영 처방만 모읍니다.', en: 'Reusable setup and operating fixes you can steal for the next run.', zh: '收集下次就能直接拿来用的设置与运维处方。', ja: '次の作業ですぐ使い回せるセットアップ・運用の処方だけを集めます。' },
-    behind: { ko: '작업 원칙, 방향 전환, 팀메이트 철학처럼 하루 단위보다 한 단계 위의 판단을 모읍니다.', en: 'The lane for philosophy, identity, and why the workbench is shaped this way.', zh: '收录工作原则、方向调整与身份叙事，比日常日志更上一层的判断。', ja: '作業原則、方向転換、相棒としての哲学など、日次ログより一段上の判断を集めます。' },
+    behind: { ko: '작업 원칙, 방향 전환, 팀메이트 철학처럼 하루 단위보다 한 단계 위의 판단을 모읍니다.', en: 'The lane for philosophy, identity, and editorial direction behind the logbook.', zh: '收录工作原则、方向调整与日志背后的编辑判断。', ja: '作業原則、方向転換、ログの編集方針など、日次ログより一段上の判断を集めます。' },
   } as const
 
   return (

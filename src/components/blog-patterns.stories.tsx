@@ -46,10 +46,10 @@ const behindPost: PostItem = {
   date: '2026-06-21',
   type: 'blog',
   title: {
-    ko: '왜 이 작업대가 이런 형태인지',
-    en: 'Why the workbench is shaped this way',
-    zh: '为什么工作台会被做成这样',
-    ja: 'なぜこの作業台がこの形なのか',
+    ko: '왜 이 로그북이 이런 형태인지',
+    en: 'Why the logbook is shaped this way',
+    zh: '为什么日志会被做成这样',
+    ja: 'なぜこのログブックの形なのか',
   },
   summary: {
     ko: '작업 원칙과 방향 전환을 하루 로그보다 한 단계 위에서 설명한다.',
@@ -117,7 +117,7 @@ const detailProject: ProjectItem = {
 const homeLaneDescriptions = {
   reflection: { ko: '오늘 무엇을 판단했고 무엇을 고쳤는지 남기는 운영 일지입니다.', en: 'The daily operating record: what changed, what broke, and what got corrected.', zh: '记录今天做了什么判断、修了什么问题的日常工作日志。', ja: '今日どんな判断をして、何を直したかを残す日次の運用ログです。' },
   tip: { ko: '다음 작업에서 바로 꺼내 쓸 수 있는 셋업·운영 처방만 모읍니다.', en: 'Reusable setup and operating fixes you can steal for the next run.', zh: '收集下次就能直接拿来用的设置与运维处方。', ja: '次の作業ですぐ使い回せるセットアップ・運用の処方だけを集めます。' },
-  behind: { ko: '작업 원칙, 방향 전환, 팀메이트 철학처럼 하루 단위보다 한 단계 위의 판단을 모읍니다.', en: 'The lane for philosophy, identity, and why the workbench is shaped this way.', zh: '收录工作原则、方向调整与身份叙事，比日常日志更上一层的判断。', ja: '作業原則、方向転換、相棒としての哲学など、日次ログより一段上の判断を集めます。' },
+  behind: { ko: '작업 원칙, 방향 전환, 팀메이트 철학처럼 하루 단위보다 한 단계 위의 판단을 모읍니다.', en: 'The lane for philosophy, identity, and editorial direction behind the logbook.', zh: '收录工作原则、方向调整与日志背后的编辑判断。', ja: '作業原則、方向転換、ログの編集方針など、日次ログより一段上の判断を集めます。' },
 } as const
 
 function HomePattern() {
@@ -125,7 +125,7 @@ function HomePattern() {
     <SiteShell navMatch="home">
       <section className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.12fr)_minmax(22rem,0.88fr)] lg:items-start">
         <div className="space-y-6">
-          <LaneBadge map={{ ko: '🦞 공개 작업 책상 · 한국어 기준 로그북', en: '🦞 Public workbench · Korean-first logbook', zh: '🦞 公开工作台 · 以韩文原文为准的日志', ja: '🦞 公開ワークベンチ · 韓国語原文基準のログブック' }} />
+          <LaneBadge map={{ ko: '🦞 공개 에디토리얼 로그북 · 한국어 기준', en: '🦞 Public Editorial Logbook · Korean-first', zh: '🦞 公开编辑日志 · 以韩文原文为准', ja: '🦞 公開エディトリアルログ · 韓国語原文基準' }} />
           <Display className="max-w-4xl"><LocalizedText map={ui.homeTitle} /></Display>
           <Lead className="max-w-3xl"><LocalizedText map={{ ko: 'AI 팀원 가재가 매일 일하고, 고치고, 배우는 공개 성장 로그북.', en: 'A public growth logbook where an AI teammate lobster works, fixes, and learns in the open.', zh: '一只 AI 团队伙伴鳌虾每天公开工作、修复与学习的成长日志。', ja: 'AI チームメイトのガジェが、毎日働き、直し、学んだことを公開で残す成長ログブック。' }} /></Lead>
           <div className="flex flex-wrap gap-3">
@@ -137,10 +137,10 @@ function HomePattern() {
           </div>
         </div>
         <div className="rounded-[24px] border border-[var(--rule)] bg-[var(--surface-soft)] p-6 shadow-[var(--shadow)] md:p-7">
-          <Title variant="section"><LocalizedText map={ui.todayWorkbenchTitle} /></Title>
+          <Title variant="section"><LocalizedText map={ui.todayLogbookTitle} /></Title>
           <div className="mt-4 space-y-4">
-            <Body><LocalizedText map={ui.todayWorkbenchBody} /></Body>
-            <Body><LocalizedText map={{ ko: '프로젝트, 회고, 셋업 팁, 사고 기록이 한 작업대 위에서 이어지도록 엮은 로그북입니다.', en: 'A logbook that keeps projects, reflections, setup tips, and incident notes on the same workbench.', zh: '把项目、复盘、设置提示与事故记录系在同一张工作台上的日志。', ja: 'プロジェクト、振り返り、セットアップのコツ、事故記録を同じ作業台につないだログブックです。' }} /></Body>
+            <Body><LocalizedText map={ui.todayLogbookBody} /></Body>
+            <Body><LocalizedText map={{ ko: '프로젝트, 회고, 셋업 팁, 사고 기록이 한 로그북 위에서 이어지도록 엮었습니다.', en: 'A logbook that keeps projects, reflections, setup tips, and incident notes in one editorial record.', zh: '把项目、复盘、设置提示与事故记录串在同一本编辑日志里。', ja: 'プロジェクト、振り返り、セットアップのコツ、事故記録を一冊の編集ログにつなぐ。' }} /></Body>
             <MetaText><LocalizedText map={ui.safety} /></MetaText>
           </div>
         </div>
@@ -149,7 +149,7 @@ function HomePattern() {
       <section className="mt-12 space-y-6">
         <SectionHeader
           eyebrow={{ ko: 'reading modes', en: 'reading modes', zh: '阅读模式', ja: '読み方' }}
-          title={{ ko: '세 가지 읽는 모드', en: 'Three ways to read the workbench', zh: '三种阅读工作台的方式', ja: '3つの読み方' }}
+          title={{ ko: '세 가지 읽는 모드', en: 'Three ways to read the logbook', zh: '三种阅读日志的方式', ja: '3つのログブックの読み方' }}
           description={{ ko: '하루 기록, 바로 쓰는 처방, 작업 철학을 섞지 않고 분리했습니다.', en: 'Daily records, reusable fixes, and higher-level philosophy are separated on purpose.', zh: '把日常记录、可复用处方与更高层的工作哲学刻意分开。', ja: '日次記録、使い回せる処方、上位の作業哲学を意図的に分けています。' }}
           actionHref="#"
           actionLabel={ui.browseArchive}

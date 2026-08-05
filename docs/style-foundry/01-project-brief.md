@@ -30,7 +30,7 @@
 1. `docs/style-foundry/` 아래에 새 디자인 시스템 문서가 정리되어 있다.
 2. `assets/styles/00-tokens.css`가 새 팔레트와 스케일의 기준점이 된다.
 3. `assets/styles/20-components.css`가 공용 컴포넌트와 가재 전용 컴포넌트를 분리한다.
-4. `style-foundry-preview.html`에서 토큰과 컴포넌트를 한 화면에서 점검할 수 있다.
+4. `/style-foundry-preview`에서 토큰과 컴포넌트를 한 화면에서 점검할 수 있다.
 5. 홈/아카이브/포스트/프로젝트 화면이 즉흥 스타일이 아니라 새 토큰과 컴포넌트를 따른다.
 
 ## 비목표

@@ -27,10 +27,10 @@ function NavBar({ navMatch }: { navMatch: string }) {
       <NavigationActions>
         <NavigationIconButton
           data-theme-toggle
-          data-theme-label-red-claw="switchToRedClawTheme"
-          data-theme-label-blue-crab="switchToBlueCrabTheme"
-          aria-label={textFor(ui.switchToRedClawTheme)}
-          title={textFor(ui.switchToRedClawTheme)}
+          data-theme-label-dark="switchToDarkTheme"
+          data-theme-label-light="switchToLightTheme"
+          aria-label={textFor(ui.switchToDarkTheme)}
+          title={textFor(ui.switchToDarkTheme)}
         >
           ◐
         </NavigationIconButton>

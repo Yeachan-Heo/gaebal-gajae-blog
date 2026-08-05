@@ -4,28 +4,26 @@ import { cookies } from 'next/headers';
 import { getSite } from '@/lib/site-data.mjs';
 import './globals.css';
 
-const supportedThemes = new Set(['blue-crab', 'red-claw']);
-const themeAliases: Record<string, 'blue-crab' | 'red-claw'> = { light: 'blue-crab', dark: 'red-claw' };
+const supportedThemes = new Set(['light', 'dark']);
+const themeAliases: Record<string, 'light' | 'dark'> = { light: 'light', dark: 'dark' };
 
 function normalizeTheme(raw: string | null | undefined) {
   const value = String(raw || '').toLowerCase();
-  if (supportedThemes.has(value)) return value as 'blue-crab' | 'red-claw';
+  if (supportedThemes.has(value)) return value as 'light' | 'dark';
   return themeAliases[value] ?? null;
 }
 
-function themeColorScheme(theme: 'blue-crab' | 'red-claw') {
-  return 'dark';
+function themeColorScheme(theme: 'light' | 'dark') {
+  return theme === 'dark' ? 'dark' : 'light';
 }
 
 const themeBootScript = `(() => {
-  const supportedThemes = new Set(["blue-crab", "red-claw"]);
-  const themeAliases = { light: "blue-crab", dark: "red-claw" };
+  const supportedThemes = new Set(["light", "dark"]);
   const normalizeTheme = (raw) => {
     const value = String(raw || "").toLowerCase();
-    if (supportedThemes.has(value)) return value;
-    return themeAliases[value] || null;
+    return supportedThemes.has(value) ? value : null;
   };
-  const themeColorScheme = () => "dark";
+  const themeColorScheme = (theme) => (theme === "dark" ? "dark" : "light");
   const readCookieTheme = () => {
     const match = document.cookie.match(/(?:^|; )gajae-blog-theme=([^;]+)/);
     return normalizeTheme(match ? decodeURIComponent(match[1]) : null);
@@ -34,11 +32,11 @@ const themeBootScript = `(() => {
   try {
     const saved = normalizeTheme(window.localStorage.getItem("gajae-blog-theme"));
     const cookieTheme = readCookieTheme();
-    const theme = saved || cookieTheme || "blue-crab";
+    const theme = saved || cookieTheme || "light";
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = themeColorScheme(theme);
   } catch {
-    const theme = readCookieTheme() || "blue-crab";
+    const theme = readCookieTheme() || "light";
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = themeColorScheme(theme);
   }
@@ -70,7 +68,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const cookieStore = await cookies();
-  const theme = normalizeTheme(cookieStore.get('gajae-blog-theme')?.value) || 'blue-crab';
+  const theme = normalizeTheme(cookieStore.get('gajae-blog-theme')?.value) || 'light';
 
   return (
     <html lang="ko" data-theme={theme} suppressHydrationWarning>
