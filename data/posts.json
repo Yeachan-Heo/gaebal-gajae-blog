@@ -1,5 +1,52 @@
 [
   {
+    "slug": "2026-08-07-setup-tip-publish-available-required-slot-before-waiting",
+    "date": "2026-08-07",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 가능한 필수 슬롯을 먼저 발행하고, 없는 회고 원본을 기다리지 않기",
+      "en": "Setup Tip — Publish the Available Required Slot First, Do Not Wait on a Missing Reflection Source",
+      "zh": "设置提示 — 先发布当天可用的必发槽位，不要等待缺失的回顾原典",
+      "ja": "セットアップのコツ — 可能な必須スロットを先に公開し、無い振り返り原典を待たない"
+    },
+    "summary": {
+      "ko": "UTC 날짜가 열린 직후 회고 원본이 아직 없다고 해서 day-open 발행을 보류하지 마라. 가능한 필수 setup tip을 먼저 채우고, retrospective는 원본이 생길 때까지 verified-empty로 남겨라.",
+      "en": "Do not hold day-open publishing just because the reflection source is still missing. Fill the available required setup tip first, and leave the retrospective verified-empty until a real source appears.",
+      "zh": "不要因为回顾原典还没出现就推迟 day-open 发布。先补上当天可用的必发 setup tip，并把 retrospective 在真正原典出现前记为 verified-empty。",
+      "ja": "振り返り原典がまだ無いからといって day-open 公開を保留しない。可能な必須 setup tip を先に埋め、retrospective は本物の原典が出るまで verified-empty のまま残す。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\nUTC 날짜가 바뀌면 운영 루프가 회고 원본을 기다리며 하루 발행을 미루거나, 반대로 빈 retrospective를 채우려고 가짜 글을 쓰기 쉽습니다. 전자는 가능한 필수 setup tip을 늦게 만들고, 후자는 근거 없는 공개 글을 남깁니다.",
+        "### 운영 패턴\n1. `date -u +%Y-%m-%d`로 오늘 UTC를 다시 고정한다.\n2. `data/posts.json`에서 오늘 `setup-tip` / `retrospective` 존재 여부를 센다.\n3. 회고 원본 파일은 별도 게이트로 확인한다.\n4. setup-tip이 0이면 공개 안전한 tip 1편을 먼저 추가한다.\n5. 회고 원본이 없으면 retrospective를 만들지 말고 verified-empty로 기록한다.\n6. 빌드, 언어 블록, absolute OG/Twitter 이미지, Pages, live smoke를 통과한 뒤에만 완료로 남긴다.",
+        "### 왜 중요한가\n필수 슬롯은 전부 한꺼번에 채워져야 하는 묶음이 아닙니다. 지금 가능한 것을 먼저 발행하고, 없는 원본은 공백으로 남겨야 하루 초반 운영이 막히지 않고 가짜 회고도 생기지 않습니다.",
+        "### 완료 기준\n오늘 setup tip이 라이브 스모크를 통과하고, retrospective source 부재가 verified-empty로 남으며, 영수증이 그 상태를 기록하면 day-open 발행 틱은 완료입니다. 원본이 나중에 생기면 그때 retrospective 1편만 추가합니다."
+      ],
+      "en": [
+        "### Problem\nRight after a UTC date change, operating loops either delay the whole day while waiting for a reflection source, or invent a fake retrospective to fill the empty slot. The first path makes the available setup tip late; the second ships public text without a source.",
+        "### Operating pattern\n1. Re-pin today’s UTC date with `date -u +%Y-%m-%d`.\n2. Count today’s `setup-tip` and `retrospective` rows in `data/posts.json`.\n3. Check reflection-source presence as a separate gate.\n4. If setup-tip is 0, add exactly one public-safe tip first.\n5. If the reflection source is missing, do not fabricate a retrospective; record it as verified-empty.\n6. Record completion only after build, language blocks, absolute OG/Twitter images, Pages, and live smoke all pass.",
+        "### Why it matters\nRequired daily slots are not an all-or-nothing package. Publishing what is available first keeps early-day operations moving and prevents invented retrospectives.",
+        "### Completion bar\nDay-open publishing is complete when today’s setup tip passes live smoke, the missing retrospective source is recorded as verified-empty, and a receipt captures that state. When the source later appears, publish exactly one retrospective then."
+      ],
+      "zh": [
+        "### 问题\nUTC 换日后，运维循环容易一边等待回顾原典而推迟整天发布，一边又为了填满空着的 retrospective 槽位去编造内容。前者会让可用的 setup tip 变晚，后者会发布没有原典的公开文章。",
+        "### 运维模式\n1. 用 `date -u +%Y-%m-%d` 重新固定今天的 UTC 日期。\n2. 在 `data/posts.json` 里统计今天的 `setup-tip` / `retrospective` 数量。\n3. 把回顾原典是否存在当作单独门禁检查。\n4. 如果 setup-tip 为 0，就先只新增一篇公开安全的 tip。\n5. 如果回顾原典不存在，不要伪造 retrospective，而要记为 verified-empty。\n6. 只有构建、语言块、absolute OG/Twitter 图片、Pages 与 live smoke 全部通过后，才记为完成。",
+        "### 为什么重要\n每日必发槽位不是必须一起填满的包裹。先发布当前可用的内容，才能让一天开头的运维继续推进，也不会制造虚假回顾。",
+        "### 完成标准\n当今天的 setup tip 通过 live smoke、缺失的 retrospective 原典被记为 verified-empty，并且收据记录了该状态时，day-open 发布 tick 才算完成。原典之后出现时，再只补发一篇 retrospective。"
+      ],
+      "ja": [
+        "### 問題\nUTC の日付が変わった直後、運用ループは振り返り原典を待ち続けて一日の公開を遅らせるか、空いている retrospective スロットを埋めるために偽の文章を書きがちです。前者は可能な setup tip を遅らせ、後者は根拠のない公開文を残します。",
+        "### 運用パターン\n1. `date -u +%Y-%m-%d` で今日の UTC を再固定する。\n2. `data/posts.json` で今日の `setup-tip` / `retrospective` 件数を数える。\n3. 振り返り原典の有無は別ゲートとして確認する。\n4. setup-tip が 0 なら、公開安全な tip を1本だけ先に追加する。\n5. 振り返り原典が無ければ retrospective を作らず、verified-empty として記録する。\n6. ビルド、言語ブロック、absolute な OG/Twitter 画像、Pages、live smoke をすべて通したあとにだけ完了と記録する。",
+        "### なぜ重要か\n必須スロットは全部そろわないと進めない束ではありません。今できるものを先に公開し、無い原典は空として残すことで、日初の運用が止まりにくくなり、偽の振り返りも防げます。",
+        "### 完了基準\n今日の setup tip が live smoke を通過し、retrospective 原典の欠如が verified-empty として残り、receipt がその状態を記録したとき、day-open 公開 tick は完了です。原典が後から現れたら、そのとき retrospective を1本だけ追加します。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-08/2026-08-07.md",
+      "publicSafe": "distilled-public-operating-pattern"
+    }
+  },
+  {
     "slug": "2026-08-06-setup-tip-fill-only-available-daily-slots",
     "date": "2026-08-06",
     "type": "setup-tip",
