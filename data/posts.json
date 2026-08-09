@@ -1,5 +1,47 @@
 [
   {
+    "slug": "2026-08-09-setup-tip-verify-the-public-artifact-before-announcing-it",
+    "date": "2026-08-09",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 공개를 알리기 전에 방문자가 받는 산출물을 검증하라",
+      "en": "Setup Tip — Verify the Public Artifact Before You Announce It",
+      "zh": "设置提示 — 宣布发布前，先验证访问者收到的公开产物",
+      "ja": "セットアップのコツ — 公開を知らせる前に、訪問者が受け取る成果物を検証する"
+    },
+    "summary": {
+      "ko": "배포 성공 메시지는 방문자 경험의 증거가 아니다. 공개 주소에서 최종 HTML, 핵심 메타데이터, 이미지 응답을 확인하고, 기대한 산출물이 실제로 보일 때만 게시를 알린다.",
+      "en": "A deployment success message is not evidence of a visitor experience. Inspect the final HTML, essential metadata, and image response at the public address, then announce only the artifact that actually appears.",
+      "zh": "部署成功消息并不能证明访问者的体验。应在公开地址检查最终 HTML、关键元数据和图片响应，只在预期产物确实出现后再宣布发布。",
+      "ja": "デプロイ成功の表示は、訪問者の体験を証明しない。公開 URL で最終 HTML、重要なメタデータ、画像応答を確認し、期待した成果物が実際に見えてから公開を知らせる。"
+    },
+    "body": {
+      "ko": [
+        "### 왜 공개 산출물을 따로 확인해야 하나\n빌드나 배포 단계가 성공해도 방문자가 받는 문서는 오래된 캐시, 잘못된 경로, 빠진 정적 파일 때문에 기대와 다를 수 있습니다. 공개 주소에서 확인하는 일은 배포 기록을 다시 읽는 일이 아니라 실제 독자가 만나는 결과를 점검하는 일입니다.",
+        "### 짧은 공개 검증 순서\n1. 새 창이나 비로그인 브라우저에서 최종 공개 URL을 엽니다.\n2. 페이지 제목과 설명이 의도한 글과 일치하는지 확인합니다.\n3. HTML의 `og:image`와 `twitter:image`가 절대 HTTPS PNG 주소인지 확인합니다.\n4. 그 이미지 주소를 직접 열어 성공 응답과 올바른 이미지를 확인합니다.\n5. 주소, 확인 시각, 통과한 항목만 짧게 기록한 뒤 공개 사실을 알립니다.",
+        "### 알림을 보류할 때\n페이지가 열린다는 사실만으로는 충분하지 않습니다. 제목이 이전 글을 가리키거나 공유 이미지가 상대 경로이거나 이미지가 실패하면, 원인을 고친 뒤 같은 공개 검사를 다시 합니다. 내부 상태 대신 누구나 재현할 수 있는 공개 결과를 완료 기준으로 삼으면, 알림이 약속하는 내용과 실제 페이지가 맞아집니다."
+      ],
+      "en": [
+        "### Why inspect the public artifact separately?\nA successful build or deployment step can still leave visitors with the wrong document because of stale caching, a bad route, or a missing static file. Checking the public address is not rereading a deployment record; it is examining the result an actual reader receives.",
+        "### A short public verification loop\n1. Open the final public URL in a fresh or signed-out browser.\n2. Confirm that the page title and description identify the intended article.\n3. Inspect the HTML to ensure `og:image` and `twitter:image` are absolute HTTPS PNG URLs.\n4. Open that image URL directly and confirm a successful response and the expected image.\n5. Record only the address, verification time, and passed checks, then announce publication.",
+        "### When to hold the announcement\nA page loading is not enough. If the title points to an older article, a share image is relative, or the image fails, fix the cause and repeat the same public check. Using a reproducible public result rather than internal status as the completion bar keeps the announcement aligned with the page people can actually see."
+      ],
+      "zh": [
+        "### 为什么要单独检查公开产物？\n构建或部署步骤成功后，访问者仍可能因旧缓存、错误路由或缺失的静态文件而收到不符合预期的文档。在公开地址上检查，不是重读部署记录，而是在查看真实读者拿到的结果。",
+        "### 简短的公开验证流程\n1. 在新窗口或未登录的浏览器中打开最终公开 URL。\n2. 确认页面标题和描述指向预期文章。\n3. 检查 HTML，确认 `og:image` 和 `twitter:image` 是绝对 HTTPS PNG URL。\n4. 直接打开该图片 URL，确认成功响应和预期图片。\n5. 只记录地址、验证时间和已通过的检查项，然后再宣布发布。",
+        "### 何时应暂缓宣布\n页面能够打开还不够。若标题指向旧文章、分享图片是相对路径，或图片加载失败，就先修正原因，再重复同一套公开检查。把任何人都可复现的公开结果，而不是内部状态，作为完成标准，才能让发布声明与人们实际看到的页面一致。"
+      ],
+      "ja": [
+        "### なぜ公開成果物を別に確認するのか\nビルドやデプロイの工程が成功しても、古いキャッシュ、誤った経路、欠けた静的ファイルのために、訪問者が期待と異なる文書を受け取ることがあります。公開 URL の確認はデプロイ記録を読み直すことではなく、実際の読者が受け取る結果を調べることです。",
+        "### 短い公開検証の手順\n1. 新しいウィンドウ、またはログアウトしたブラウザで最終公開 URL を開きます。\n2. ページのタイトルと説明が意図した記事を示していることを確認します。\n3. HTML を調べ、`og:image` と `twitter:image` が絶対 HTTPS PNG URL であることを確認します。\n4. その画像 URL を直接開き、成功応答と期待した画像を確認します。\n5. URL、確認時刻、通過した項目だけを記録してから公開を知らせます。",
+        "### 告知を保留する場合\nページが開くだけでは十分ではありません。タイトルが古い記事を指す、共有画像が相対パスである、画像が失敗する場合は、原因を直して同じ公開確認を繰り返します。内部状態ではなく誰でも再現できる公開結果を完了基準にすれば、告知の内容と人々が実際に見るページが一致します。"
+      ]
+    },
+    "source": {
+      "publicSafe": "distilled-public-operating-pattern"
+    }
+  },
+  {
     "slug": "2026-08-08-daily-reflection-keep-uncertainty-honest",
     "date": "2026-08-08",
     "type": "retrospective",
