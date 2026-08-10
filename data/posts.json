@@ -1,5 +1,47 @@
 [
   {
+    "slug": "2026-08-10-setup-tip-validate-structured-content-before-building",
+    "date": "2026-08-10",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 빌드 전에 구조화된 콘텐츠를 먼저 검증하라",
+      "en": "Setup Tip — Validate Structured Content Before Building",
+      "zh": "设置提示 — 构建前先验证结构化内容",
+      "ja": "セットアップのコツ — ビルド前に構造化コンテンツを検証する"
+    },
+    "summary": {
+      "ko": "페이지 빌드는 잘못된 콘텐츠 데이터를 늦게 발견하거나 모호한 오류로 보여줄 수 있다. 먼저 JSON 구문, 필수 필드, 고유한 슬러그, 모든 언어 블록을 검사하면 실패 지점을 작고 명확하게 유지할 수 있다.",
+      "en": "A page build may discover malformed content data late or report it through an ambiguous error. Check JSON syntax, required fields, unique slugs, and every language block first to keep failures small and clear.",
+      "zh": "页面构建可能很晚才发现内容数据有误，也可能只给出含糊的错误。先检查 JSON 语法、必填字段、唯一 slug 和所有语言区块，可以让失败范围更小、更清晰。",
+      "ja": "ページのビルドでは、不正なコンテンツデータの発見が遅れたり、曖昧なエラーとして現れたりします。先に JSON 構文、必須フィールド、重複しない slug、すべての言語ブロックを確認すれば、失敗箇所を小さく明確に保てます。"
+    },
+    "body": {
+      "ko": [
+        "### 왜 빌드보다 먼저 검사해야 하나\n구조화된 콘텐츠의 쉼표 하나, 빠진 번역 하나, 중복된 슬러그 하나가 전체 사이트 빌드를 막을 수 있습니다. 렌더러까지 실행한 뒤 원인을 찾기보다 데이터 자체를 먼저 검사하면 콘텐츠 오류와 렌더링 오류를 분리할 수 있습니다.",
+        "### 짧은 사전 검증 순서\n1. 파일을 JSON 파서로 읽어 구문 오류가 없는지 확인합니다.\n2. 각 항목에 `slug`, `date`, `type`, `title`, `summary`, `body`가 있는지 검사합니다.\n3. 모든 슬러그가 고유하고 날짜 형식이 일관적인지 확인합니다.\n4. `ko`, `en`, `zh`, `ja`가 제목·요약·본문에 모두 존재하는지 확인합니다.\n5. 각 언어의 본문이 비어 있지 않고 다른 언어의 복사본이 아닌지 살핀 뒤 빌드를 실행합니다.",
+        "### 완료 기준\n데이터 검증과 사이트 빌드를 별개의 단계로 두고 둘 다 통과해야 완료로 봅니다. 데이터 검증이 실패하면 먼저 해당 항목만 고치고 같은 검사를 다시 실행합니다. 이렇게 하면 큰 빌드 로그를 뒤지는 대신 가장 가까운 실패 지점에서 문제를 해결할 수 있습니다."
+      ],
+      "en": [
+        "### Why validate before the build?\nA single misplaced comma, missing translation, or duplicate slug in structured content can stop an entire site build. Checking the data first separates content errors from rendering errors instead of making you trace the cause after the renderer has already started.",
+        "### A short pre-build validation sequence\n1. Read the file with a JSON parser and confirm that its syntax is valid.\n2. Check that every entry contains `slug`, `date`, `type`, `title`, `summary`, and `body`.\n3. Confirm that every slug is unique and that date formatting is consistent.\n4. Ensure `ko`, `en`, `zh`, and `ja` are present in the title, summary, and body.\n5. Verify that each language body is nonempty and is not a copy of another language, then run the build.",
+        "### Completion bar\nTreat content validation and the site build as separate stages, and require both to pass. If data validation fails, repair only the affected entry and repeat the same check first. This resolves the problem at its nearest failure point instead of forcing you to search through a much larger build log."
+      ],
+      "zh": [
+        "### 为什么要在构建前验证？\n结构化内容中一个位置错误的逗号、一项缺失的翻译或一个重复的 slug，都可能让整个站点构建失败。先检查数据，可以把内容错误与渲染错误分开，避免等渲染器启动后再追查原因。",
+        "### 简短的构建前验证流程\n1. 使用 JSON 解析器读取文件，确认语法有效。\n2. 检查每个条目是否包含 `slug`、`date`、`type`、`title`、`summary` 和 `body`。\n3. 确认所有 slug 都是唯一的，并且日期格式保持一致。\n4. 确认标题、摘要和正文中都包含 `ko`、`en`、`zh`、`ja`。\n5. 检查每种语言的正文都不为空，而且不是其他语言内容的复制，然后再运行构建。",
+        "### 完成标准\n把内容验证和站点构建设为两个独立阶段，并要求两者都通过。如果数据验证失败，先只修正受影响的条目，再重复同一项检查。这样可以在最接近失败原因的位置解决问题，而不必翻查庞大的构建日志。"
+      ],
+      "ja": [
+        "### なぜビルド前に検証するのか\n構造化コンテンツでは、カンマ一つの位置違い、翻訳一つの欠落、slug 一つの重複だけで、サイト全体のビルドが止まることがあります。データを先に確認すれば、レンダラーの起動後に原因を追うのではなく、コンテンツのエラーとレンダリングのエラーを分けられます。",
+        "### 短いビルド前検証の手順\n1. JSON パーサーでファイルを読み、構文が有効であることを確認します。\n2. 各項目に `slug`、`date`、`type`、`title`、`summary`、`body` があるか確認します。\n3. すべての slug が一意で、日付形式が統一されていることを確認します。\n4. タイトル、要約、本文のすべてに `ko`、`en`、`zh`、`ja` があることを確認します。\n5. 各言語の本文が空ではなく、別の言語をコピーしたものでもないことを確かめてからビルドを実行します。",
+        "### 完了基準\nコンテンツ検証とサイトビルドを別々の段階として扱い、両方の通過を完了条件にします。データ検証に失敗した場合は、影響を受けた項目だけを修正し、まず同じ検査を繰り返します。大きなビルドログを探し回る代わりに、失敗原因に最も近い地点で問題を解決できます。"
+      ]
+    },
+    "source": {
+      "publicSafe": "distilled-public-content-validation-pattern"
+    }
+  },
+  {
     "slug": "2026-08-09-setup-tip-verify-the-public-artifact-before-announcing-it",
     "date": "2026-08-09",
     "type": "setup-tip",
