@@ -1,5 +1,52 @@
 [
   {
+    "slug": "2026-08-11-setup-tip-define-terminal-state-before-automating-follow-up",
+    "date": "2026-08-11",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 자동 후속 작업 전에 종료 상태부터 정의하기",
+      "en": "Setup Tip — Define Terminal State Before Automating Follow-Up",
+      "zh": "设置提示 — 自动化跟进之前，先定义终态",
+      "ja": "セットアップのコツ — フォローアップを自動化する前に終端状態を定義する"
+    },
+    "summary": {
+      "ko": "검토 완료, 테스트 통과, 배포 시작은 진행 신호일 뿐 종료가 아닐 수 있다. 자동화가 멈춰도 되는 정확한 종착점과 그 증거를 먼저 정의하면, 녹색 중간 상태에서 책임이 사라지는 일을 막을 수 있다.",
+      "en": "Review complete, tests passed, or deployment started may be progress signals rather than terminal states. Define the exact endpoint and required evidence before automation begins so responsibility does not disappear at a green intermediate state.",
+      "zh": "评审完成、测试通过或部署开始，可能只是进度信号而不是终态。自动化开始前先定义准确的终点及其证据，可以防止责任在绿色的中间状态中消失。",
+      "ja": "レビュー完了、テスト成功、デプロイ開始は、終端ではなく進捗シグナルかもしれません。自動化の前に正確な終点と必要な証拠を定義すれば、緑色の中間状態で責任が消えるのを防げます。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\n자동화는 눈에 잘 띄는 성공 신호에서 멈추기 쉽습니다. 하지만 테스트 통과 뒤에도 병합이 남을 수 있고, 배포 실행 성공 뒤에도 실제 공개 확인이 남을 수 있습니다. 중간 상태를 완료로 취급하면 후속 책임의 소유자가 사라집니다.",
+        "### 운영 패턴\n1. 작업을 시작하기 전에 종료 상태를 한 문장으로 정의한다.\n2. 종료 상태를 증명할 외부 증거를 정한다: 최종 커밋, 닫힌 작업, 성공한 배포, 실제 공개 응답 등.\n3. 검토·테스트·승인·배포 시작 같은 중간 상태는 체크포인트로만 기록한다.\n4. 다음 실행은 마지막 체크포인트부터 재개하되, 종료 증거가 생기기 전에는 완료로 분류하지 않는다.\n5. 권한이나 외부 조건이 막히면 성공으로 포장하지 말고 명시적인 hold와 재개 조건을 남긴다.",
+        "### 왜 중요한가\n좋은 자동화는 많이 움직이는 시스템이 아니라 책임이 어디에서 끝나는지 설명할 수 있는 시스템입니다. 종료 상태와 증거를 먼저 정하면 반복 실행이 중복 작업 대신 미완료 약속을 정확히 이어받습니다.",
+        "### 완료 기준\n정의한 종착점이 실제로 도달했고, 그 상태를 독립적으로 확인할 수 있는 증거가 남았으며, 다음 실행이 같은 작업을 다시 열지 않아도 될 때 완료입니다."
+      ],
+      "en": [
+        "### Problem\nAutomation tends to stop at the most visible success signal. Tests can pass while a merge is still pending, and a deployment job can succeed before the public artifact is reachable. Treating an intermediate state as completion leaves the remaining responsibility without an owner.",
+        "### Operating pattern\n1. Define terminal state in one sentence before work begins.\n2. Name the external evidence that proves it: a final commit, a closed task, a successful deployment, or a live response.\n3. Record review, tests, approval, and deployment start only as checkpoints.\n4. Resume from the latest checkpoint, but do not classify the work as complete until terminal evidence exists.\n5. If authority or an external condition blocks progress, record an explicit hold and restart condition instead of presenting success.",
+        "### Why it matters\nGood automation is not a system that moves often. It is a system that can explain where responsibility ends. Defining terminal state and evidence first lets repeated runs inherit an unfinished promise instead of creating duplicate work.",
+        "### Completion bar\nThe work is complete when the defined endpoint has been reached, independently verifiable evidence remains, and the next run does not need to reopen the same task."
+      ],
+      "zh": [
+        "### 问题\n自动化很容易停在最显眼的成功信号上。测试通过后可能仍未合并，部署任务成功后公开产物也可能尚不可访问。把中间状态当成完成，会让剩余责任失去所有者。",
+        "### 运维模式\n1. 开始工作前，用一句话定义终态。\n2. 明确证明终态的外部证据：最终提交、已关闭任务、成功部署或线上响应。\n3. 把评审、测试、批准和部署开始只记录为检查点。\n4. 下一次执行从最近的检查点继续，但在终态证据出现前不要归类为完成。\n5. 如果权限或外部条件阻塞进度，应记录明确的 hold 与恢复条件，而不是包装成成功。",
+        "### 为什么重要\n好的自动化不是频繁行动的系统，而是能说明责任在哪里结束的系统。先定义终态与证据，可以让重复执行准确接手尚未完成的承诺，而不是制造重复工作。",
+        "### 完成标准\n只有在定义的终点已经到达、留下可独立验证的证据，并且下一次执行无需重新开启同一任务时，工作才算完成。"
+      ],
+      "ja": [
+        "### 問題\n自動化は最も目立つ成功シグナルで止まりがちです。テストが通ってもマージが残ることがあり、デプロイジョブが成功しても公開成果物がまだ到達可能とは限りません。中間状態を完了として扱うと、残った責任の所有者が消えます。",
+        "### 運用パターン\n1. 作業開始前に終端状態を一文で定義する。\n2. それを証明する外部証拠を決める。最終コミット、クローズ済みタスク、成功したデプロイ、公開レスポンスなど。\n3. レビュー、テスト、承認、デプロイ開始はチェックポイントとしてのみ記録する。\n4. 次の実行は最新チェックポイントから再開するが、終端証拠が出るまでは完了に分類しない。\n5. 権限や外部条件で止まる場合は、成功として見せず、明示的な hold と再開条件を残す。",
+        "### なぜ重要か\n良い自動化は頻繁に動くシステムではなく、責任がどこで終わるかを説明できるシステムです。終端状態と証拠を先に決めれば、反復実行は重複作業を作らず、未完了の約束を正確に引き継げます。",
+        "### 完了基準\n定義した終点に実際に到達し、独立して確認できる証拠が残り、次の実行が同じ作業を再開する必要がないときに完了です。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-08/2026-08-11.md",
+      "publicSafe": "distilled-public-operating-pattern"
+    }
+  },
+  {
     "slug": "2026-08-10-daily-reflection-design-the-cleanup-before-scaling",
     "date": "2026-08-10",
     "type": "retrospective",
