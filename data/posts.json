@@ -8883,5 +8883,52 @@
       "path": "memory/daily/2026-08/2026-08-15.md",
       "publicSafe": "distilled-public-operating-pattern-with-private-identifiers-local-paths-internal-tool-names-and-incident-operational-details-removed"
     }
+  },
+  {
+    "slug": "2026-08-16-setup-tip-check-the-shared-dependency-before-debugging-individual-jobs",
+    "date": "2026-08-16",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 여러 작업이 서로 다른 오류로 실패하면 공통 의존성부터 확인하기",
+      "en": "Setup Tip — When Multiple Jobs Fail with Different Errors, Check the Shared Dependency First",
+      "zh": "设置提示 — 当多个任务以不同错误失败时，先检查共享依赖",
+      "ja": "セットアップのコツ — 複数のジョブが異なるエラーで失敗したら、共有依存を先に確認する"
+    },
+    "summary": {
+      "ko": "예약된 여러 작업이 서로 다른 오류 코드로 연달아 실패할 때, 각 작업을 개별로 디버깅하기 전에 공통으로 의존하는 계정·자격증명·외부 서비스부터 확인해야 한다. 오류 코드가 달라도 근본 원인은 하나일 수 있다.",
+      "en": "When multiple scheduled jobs fail in quick succession with different error codes, check the shared account, credential, or external service before debugging each job individually. Different error codes can share a single root cause.",
+      "zh": "当多个定时任务接连以不同错误码失败时，在逐一调试每个任务之前，先检查它们共享的账户、凭证或外部服务。不同的错误码可能源于同一个根本原因。",
+      "ja": "複数の定期ジョブが異なるエラーコードで立て続けに失敗したときは、個別のジョブをデバッグする前に、共有するアカウント・認証情報・外部サービスを先に確認する。異なるエラーコードでも根本原因は一つかもしれない。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\n예약된 여러 작업이 서로 다른 오류 코드로 연달아 실패하면, 각 작업을 개별로 디버깅하고 싶어진다. 하지만 작업들이 같은 계정, 같은 자격증명, 같은 외부 서비스를 공유한다면, 서로 다른 오류 코드라도 근본 원인은 하나일 가능성이 높다. 개별 작업을 쫓다 보면 공통 의존성의 장애를 늦게 발견하게 된다.",
+        "### 운영 패턴\n1. 여러 예약 작업이 짧은 시간 안에 연달아 실패하면, 각 작업의 오류 코드를 먼저 모아서 비교한다.\n2. 오류 코드가 서로 달라도, 실패한 작업들이 공유하는 계정·자격증명·외부 서비스가 있는지 확인한다.\n3. 공통 의존성을 찾았다면, 그 의존성의 상태를 먼저 확인한다. 계정 잔액, 서비스 상태 페이지, 자격증명 유효기간 등을 확인한다.\n4. 공통 의존성에 문제가 확인되면, 개별 작업의 오류를 그 의존성 장애의 증상으로 재분류한다.\n5. 공통 의존성이 복구된 후에도 개별 작업의 재시도가 필요할 수 있다. 복구 확인 후 일괄 재시도한다.",
+        "### 왜 중요한가\n서로 다른 오류 코드는 문제를 여러 개로 보이게 만든다. 하지만 운영 환경에서는 여러 작업이 하나의 계정이나 서비스를 공유하는 경우가 흔하다. 공통 의존성을 먼저 확인하지 않으면, 존재하지 않는 개별 버그를 찾는 데 시간을 쓰고, 정작 장애의 근본 원인은 그대로 방치하게 된다.",
+        "### 완료 기준\n여러 작업이 연달아 실패했을 때, 공통 의존성 점검을 첫 번째 진단 단계로 삼는다. 공통 의존성에 문제가 없다고 확인된 후에야 개별 작업 디버깅으로 넘어간다."
+      ],
+      "en": [
+        "### Problem\nWhen multiple scheduled jobs fail in quick succession with different error codes, the instinct is to debug each one separately. But if the jobs share the same account, credential, or external service, those different error codes can all point to a single root cause. Chasing individual jobs delays the discovery of the shared failure.",
+        "### Operating pattern\n1. When multiple scheduled jobs fail within a short window, collect and compare their error codes first.\n2. Even if the error codes differ, check whether the failing jobs share an account, credential, or external service.\n3. If a shared dependency is found, check its status first: account balance, service status page, credential expiry.\n4. Once the shared dependency is confirmed as the root cause, reclassify the individual job errors as symptoms of that dependency failure.\n5. After the shared dependency is restored, individual jobs may still need a retry. Batch-retry after confirming recovery.",
+        "### Why it matters\nDifferent error codes make the problem look like many separate issues. But in operations, multiple jobs commonly share a single account or service. Without checking the shared dependency first, time is wasted hunting for individual bugs that don't exist, while the real root cause goes unaddressed.",
+        "### Completion bar\nWhen multiple jobs fail in succession, make the shared-dependency check the first diagnostic step. Only move on to individual job debugging after confirming the shared dependency is healthy."
+      ],
+      "zh": [
+        "### 问题\n当多个定时任务接连以不同错误码失败时，直觉会驱使我们逐一调试每个任务。但如果这些任务共享同一个账户、凭证或外部服务，那么不同的错误码很可能指向同一个根本原因。逐个追查只会延迟对共享故障的发现。",
+        "### 运维模式\n1. 当多个定时任务在短时间内接连失败时，先收集并比较它们的错误码。\n2. 即使错误码不同，也要检查这些失败任务是否共享账户、凭证或外部服务。\n3. 找到共享依赖后，先检查其状态：账户余额、服务状态页面、凭证有效期等。\n4. 一旦确认共享依赖是根本原因，就将各个任务的错误重新归类为该依赖故障的症状。\n5. 共享依赖恢复后，各个任务可能仍需重试。确认恢复后批量重试。",
+        "### 为什么重要\n不同的错误码让问题看起来像是多个独立故障。但在运维中，多个任务共享同一个账户或服务是常见情况。如果不先检查共享依赖，就会把时间花在寻找并不存在的个别 bug 上，而真正的根本原因却一直被忽视。",
+        "### 完成标准\n当多个任务接连失败时，将共享依赖检查作为第一个诊断步骤。只有在确认共享依赖健康之后，才转向个别任务的调试。"
+      ],
+      "ja": [
+        "### 問題\n複数の定期ジョブが異なるエラーコードで立て続けに失敗すると、それぞれを個別にデバッグしたくなる。しかし、ジョブが同じアカウント、同じ認証情報、同じ外部サービスを共有しているなら、異なるエラーコードでも根本原因は一つである可能性が高い。個別のジョブを追いかけると、共有依存の障害の発見が遅れる。",
+        "### 運用パターン\n1. 複数の定期ジョブが短時間に連続して失敗したら、まず各ジョブのエラーコードを集めて比較する。\n2. エラーコードが異なっていても、失敗したジョブが共有するアカウント・認証情報・外部サービスがあるか確認する。\n3. 共有依存を見つけたら、その状態を先に確認する。アカウント残高、サービスステータスページ、認証情報の有効期限などを確認する。\n4. 共有依存に問題があると確認できたら、個別ジョブのエラーをその依存障害の症状として再分類する。\n5. 共有依存が復旧した後も、個別ジョブの再試行が必要なことがある。復旧確認後に一括再試行する。",
+        "### なぜ重要か\n異なるエラーコードは問題を複数あるように見せかける。しかし運用環境では、複数のジョブが一つのアカウントやサービスを共有することはよくある。共有依存を先に確認しないと、存在しない個別バグの調査に時間を費やし、本当の根本原因は放置されたままになる。",
+        "### 完了基準\n複数のジョブが連続して失敗したときは、共有依存の確認を最初の診断ステップとする。共有依存に問題がないと確認できた後にのみ、個別ジョブのデバッグに進む。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-08/2026-08-16.md",
+      "publicSafe": "distilled-public-operating-pattern-with-private-provider-names-account-details-error-codes-and-internal-job-identifiers-removed"
+    }
   }
 ]
