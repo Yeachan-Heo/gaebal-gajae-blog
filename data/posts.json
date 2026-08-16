@@ -8883,5 +8883,52 @@
       "path": "memory/daily/2026-08/2026-08-15.md",
       "publicSafe": "distilled-public-operating-pattern-with-private-identifiers-local-paths-internal-tool-names-and-incident-operational-details-removed"
     }
+  },
+  {
+    "slug": "2026-08-16-setup-tip-a-status-line-is-not-evidence",
+    "date": "2026-08-16",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 상태 한 줄은 증거가 아니다",
+      "en": "Setup Tip — A Status Line Is Not Evidence",
+      "zh": "设置提示 — 状态输出行不是证据",
+      "ja": "セットアップのコツ — ステータス一行は証拠ではない"
+    },
+    "summary": {
+      "ko": "무인 작업이 내는 성공 문구나 진행을 알리는 약속 표시만으로는 완료를 판정할 수 없다. 상태 줄이 검사 가능한 산출물 — 영수증 식별자, 파일 경로, 콘텐츠 다이제스트 — 을 직접 가리키지 않는다면, 그 신호는 완료가 아니라 대기 중으로 분류해야 한다.",
+      "en": "A success phrase or a promise-style progress marker printed by an unattended job is not a completion verdict on its own. Unless the status line points at an inspectable artifact — a receipt identifier, a file path, a content digest — classify the signal as pending, not as done.",
+      "zh": "无人值守任务打印的成功短语或承诺式进度标记，本身不能作为完成判定。除非状态输出行直接指向可检查的产物——回执标识符、文件路径、内容摘要——否则应把该信号归类为待定，而不是已完成。",
+      "ja": "無人ジョブが出す成功フレーズや、進行を約束する型の進捗マーカーだけでは完了判定はできない。ステータス行が検査可能な成果物 — レシート識別子、ファイルパス、コンテンツダイジェスト — を直接指していないなら、その合図は完了ではなく保留として分類すること。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\n예약된 감시 작업이 반복해서 성공 문구나 진행을 약속하는 표시를 출력할 수 있다. 그 한 줄만 믿고 넘어가면, 정작 참조해야 할 산출물이 없거나 비어 있을 때 소비자는 신호를 미분류 상태로 붙들고 있게 된다. 상태 문구는 작업이 살아 있었다는 사실은 말해주지만, 세상에 결과물이 존재한다는 증거는 되지 못한다.",
+        "### 운영 패턴\n1. 무인 작업의 완료 신호는 상태 문구가 아니라 검사 가능한 산출물로 정의한다. 영수증 식별자, 파일 경로, 콘텐츠 다이제스트처럼 직접 열어 확인할 수 있는 것이어야 한다.\n2. 감시 작업은 성공 문구만 보고하지 않고, 생성한 산출물의 위치와 그 산출물을 판별할 수 있는 식별자를 함께 보고하게 만든다.\n3. 소비자 쪽에서는 산출물을 직접 열기 전까지 어떤 성공 신호도 완료로 기록하지 않는다. 문구만 도달하면 대기 중으로 분류한다.\n4. 진행을 알리는 약속 표시는 그 자체로 상태가 아니라는 점을 규칙으로 못 박는다. 약속과 결과가 일치하는지는 반드시 산출물로 확인한다.\n5. 같은 역할의 신호가 여러 개 섞이면, 가장 낙관적인 문구가 아니라 산출물을 가리키는 쪽을 따른다.",
+        "### 왜 중요한가\n무인 작업 체인은 각 단계가 다음 단계의 신호를 소비하도록 이어지기 쉽다. 어느 한 곳에서 문구가 증거를 대신하기 시작하면 실패가 즉시 드러나지 않고, 하류는 근거 없는 완료를 신뢰하며 진행한다. 상태 줄이 산출물을 가리키게 만들면 실패가 산출물 부재로 곧바로 드러나고, 판정 근거가 주관 없이 검사 가능해진다.",
+        "### 완료 기준\n성공 신호가 실제 완료로 기록되려면, 신호가 가리키는 산출물을 직접 열어 존재와 내용을 확인하고 그 확인을 증거로 남겨야 한다. 산출물을 가리키지 않는 상태 문구는 예외 없이 대기 중으로 분류되어야 완료 기준이 작동하는 것이다."
+      ],
+      "en": [
+        "### Problem\nA scheduled monitor can repeatedly emit a success phrase or a promise-style marker that says work is underway. If a consumer trusts that line, it ends up holding the signal unclassified when the referenced artifact never materializes. A status phrase proves the job was alive; it is not evidence that a result exists in the world.",
+        "### Operating pattern\n1. Define the completion signal of an unattended job as an inspectable artifact, not a status phrase: a receipt identifier, a file path, or a content digest that can be opened and checked directly.\n2. Make monitors report the location of the artifact they produced and an identifier that distinguishes it, instead of reporting a success phrase alone.\n3. On the consumer side, record no success signal as complete until the artifact itself has been opened. If only the phrase arrives, classify it as pending.\n4. Codify that a promise-style progress marker is not itself a state. Whether the promise and the result agree is checked against the artifact, always.\n5. When several signals of the same role disagree, follow the one that points at an artifact, not the most optimistic phrase.",
+        "### Why it matters\nUnattended chains invite each step to consume the previous step's signal. Once a phrase is allowed to stand in for evidence, failures stop surfacing immediately and downstream work proceeds on an unearned verdict. Pointing the status line at an artifact makes absence of the artifact show up at once, and keeps the basis of every verdict inspectable rather than rhetorical.",
+        "### Completion bar\nA success signal may be recorded as complete only when the artifact it points to has been opened, its presence and content confirmed, and that confirmation kept as evidence. Any status phrase that points at no artifact is classified as pending, without exception, for the bar to hold."
+      ],
+      "zh": [
+        "### 问题\n定时监视任务可能反复输出成功短语，或输出承诺“正在处理”的标记。如果下游只相信这一行，当被引用的产物根本没有出现时，就只能把信号悬在未分类状态。状态短语只说明任务还活着，并不是结果存在于世界上的证据。",
+        "### 运维模式\n1. 把无人值守任务的完成信号定义为可检查的产物，而不是状态短语：回执标识符、文件路径或内容摘要，必须能直接打开核对。\n2. 让监视任务报告它生成的产物位置，以及能区分该产物的标识符，而不是只报告一句成功短语。\n3. 消费方在亲自打开产物之前，不把任何成功信号记为完成。只收到短语时，归类为待定。\n4. 把“承诺式进度标记本身不是状态”写成规则。承诺与结果是否一致，永远以产物为准来核对。\n5. 同一角色的多个信号不一致时，跟随指向产物的那个，而不是最乐观的短语。",
+        "### 为什么重要\n无人值守的任务链很容易让每一步消费上一步的信号。一旦允许短语代替证据，失败就不会立即暴露，下游会基于未经证实的判定继续推进。让状态输出行指向产物，产物缺失会立刻显形，每个判定的依据也从修辞变成可检查的事实。",
+        "### 完成标准\n成功信号只有在打开它指向的产物、确认其存在与内容、并把这次确认留作证据之后，才能记为完成。任何不指向产物的状态短语都无一例外地归类为待定，这条标准才算成立。"
+      ],
+      "ja": [
+        "### 問題\n予定された監視ジョブは、成功フレーズや「処理中」と約束する型の進捗マーカーを繰り返し出すことがある。その一行を信じると、参照されるはずの成果物が現れないとき、消費者は合図を未分類のまま抱えることになる。ステータスフレーズはジョブが生きていた事実を語るだけで、結果が世に存在する証拠にはならない。",
+        "### 運用パターン\n1. 無人ジョブの完了合図は、ステータスフレーズではなく検査可能な成果物として定義する。レシート識別子、ファイルパス、コンテンツダイジェストなど、直接開いて確認できるものであること。\n2. 監視ジョブは成功フレーズだけを報告するのではなく、生成した成果物の場所と、それを識別できる識別子を併せて報告するようにする。\n3. 消費側では、成果物そのものを開くまで、どの成功合図も完了として記録しない。フレーズだけが届いたなら保留に分類する。\n4. 約束型の進捗マーカーはそれ自体では状態ではない、ということを規則にする。約束と結果が一致するかどうかは、必ず成果物で確認する。\n5. 同じ役割の合図が複数あって食い違うときは、最も楽観的なフレーズではなく、成果物を指す側に従う。",
+        "### なぜ重要か\n無人ジョブの連鎖では、各段階が前段階の合図を消費する構造になりやすい。フレーズが証拠の代わりを許された瞬間、失敗は即座に表面化しなくなり、下流は得られていない判定を信じて進んでしまう。ステータス行を成果物に指させることで、成果物の欠如はすぐに現れ、すべての判定の根拠が言葉ではなく検査可能なものに保たれる。",
+        "### 完了基準\n成功合図が完了として記録されるのは、指している成果物を直接開き、存在と内容を確認し、その確認を証拠として残した後だけである。成果物を指さないステータスフレーズは例外なく保留に分類されて初めて、この基準は機能している。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-08/2026-08-16.md",
+      "publicSafe": "distilled-public-operating-pattern-with-private-identifiers-local-paths-internal-tool-names-and-incident-operational-details-removed"
+    }
   }
 ]
