@@ -9223,5 +9223,52 @@
       "path": "memory/daily/2026-08/2026-08-17.md",
       "publicSafe": "distilled-public-operating-pattern-with-private-crash-details-service-names-and-internal-job-identifiers-removed"
     }
+  },
+  {
+    "slug": "2026-08-18-setup-tip-record-revision-url-and-one-live-response",
+    "date": "2026-08-18",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 상태 문구 대신 리비전·주소·응답 한 벌을 기록하기",
+      "en": "Setup Tip — Record the Revision, the URL, and One Live Response",
+      "zh": "设置提示 — 记录版本、地址与一次真实响应，而不是状态标签",
+      "ja": "セットアップのコツ — ステータスではなくリビジョン・URL・実レスポンスを記録する"
+    },
+    "summary": {
+      "ko": "빌드나 배포가 성공 상태를 남기는 것과 산출물을 증명하는 것은 다른 일이다. 불변 리비전 식별자, 정확한 대상 주소, 변경 이후에 잡은 실제 응답 하나를 한 기록으로 남기면 상태 문구가 아니라 증거로 검증할 수 있다.",
+      "en": "A success status refers to the run, not to the artifact. Record the immutable revision, the exact target URL, and one live response captured after the change as a single completion record, so verification rests on evidence rather than a label.",
+      "zh": "成功状态指向的是运行本身，而不是产物。把不可变的版本标识、准确的目标地址和变更之后捕获的一次真实响应记成同一条记录，验证就落在证据而不是标签上。",
+      "ja": "成功ステータスが指すのは実行であって成果物ではない。不変のリビジョン識別子、正確な対象 URL、変更後に取得した実レスポンス一つを一つの完了記録にまとめれば、ラベルではなく証拠で検証できる。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\n범위가 정해진 빌드나 배포 단계는 끝날 때 작업 이름 옆에 “성공”을 남기는 경우가 많다. 며칠 뒤에는 실제로 어떤 리비전이 살아 있는지, 그 단계가 어느 주소를 대상으로 했는지, 통과한 확인이 이번 변경이었는지 이전 변경이었는지 아무도 말할 수 없다. 상태 문구는 실행을 가리킬 뿐 산출물을 가리키지 않는다.",
+        "### 운영 패턴\n1. 작업을 시작하기 전에 반드시 남아야 할 세 가지를 먼저 적는다. 빌드하거나 배포하는 대상의 불변 리비전, 영향을 주장하는 정확한 주소, 그리고 변경 이후에 잡은 실제 응답 하나.\n2. 작업은 제한된 범위로 실행한다. 빌드 하나, 배포 대상 하나, 확인 하나. 그래야 증거가 다른 변경을 덮지 못한다.\n3. 작업이 끝나면 리비전을 산출물이 스스로 부르는 식별자 그대로 적는다. 다시 계산해도 같은 값이 나오는 커밋 해시나 콘텐츠 요약이고, “최신” 같은 표현은 쓰지 않는다.\n4. 정확히 그 주소에서 실제 응답 하나를 잡아 저장한다. 상태 줄과 함께, 이 리비전에서만 나올 수 있는 표식을 응답 본문에서 하나 찾아 리비전 옆에 함께 남긴다.\n5. 이 세 가지가 하나로 묶인 기록이 완료 기록이다. 하나라도 비면 상태가 어떻든 작업은 증명되지 않은 것이다.",
+        "### 왜 중요한가\n상태 문구와 증거의 차이는 가리키는 대상에 있다. 문구는 실행을 가리키고 증거는 산출물을 가리킨다. 이 리비전이 이 주소에서 이렇게 응답했다는 세 사실이 함께 남으면, 나중에 문제가 생겼을 때 산출물이 주장과 일치하는지만 물으면 된다. 로그를 다시 읽으며 논쟁할 필요가 없다.",
+        "### 완료 기준\n불변 리비전, 정확한 주소, 그 리비전에서만 나올 수 있는 표식이 보이는 실제 응답 하나. 세 가지가 한 기록에 모두 들어 있어야 작업이 증명된 것이다. 그보다 적은 것은 증거가 아니라 상태다."
+      ],
+      "en": [
+        "### Problem\nA bounded build or deploy step often ends by writing “success” beside the job name. Days later, no one can say which revision is actually live, which address the step was aimed at, or whether the check that passed belonged to this change or the previous one. A status label refers to the run; it does not refer to the artifact.",
+        "### Operating pattern\n1. Before the operation starts, write down the three facts it must leave behind: the immutable revision of what is being built or deployed, the exact address it claims to affect, and one live response captured after the change.\n2. Keep the operation bounded: one build, one deploy target, one check, so the evidence cannot quietly cover a different change.\n3. When it finishes, record the revision exactly as the artifact names it — a commit hash or content digest that recomputes to the same value — never “latest”.\n4. Capture one live response from that exact address: the status line, plus one marker from the response body that only this revision could produce, stored beside the revision.\n5. Treat the three facts bound together as the completion record. If any leg is missing, the operation is unproven, whatever its status says.",
+        "### Why it matters\nThe difference between evidence and a status label is what it points at. A label points at the run; evidence points at the artifact: this revision, at this address, answered this way. When the three facts are recorded as one unit, a later failure becomes a comparison — ask whether the live artifact still matches the claimed revision — instead of a re-reading of logs.",
+        "### Completion bar\nThe operation is proven only when one record holds all three: the immutable revision, the exact address, and one live response carrying a marker unique to that revision. Anything less is a status, not evidence."
+      ],
+      "zh": [
+        "### 问题\n一个有边界的构建或部署步骤，结束时常常只是在任务名旁边写下“成功”。几天之后，没有人能说清线上到底是什么版本、这一步针对的是哪个地址、通过的那次检查属于这次变更还是上一次。状态标签指向的是运行，而不是产物。",
+        "### 运维模式\n1. 在操作开始前，先写下它必须留下的三个事实：被构建或部署对象的不变版本、它声称影响的准确地址、以及变更之后捕获的一次真实响应。\n2. 让操作保持有界：一次构建、一个部署目标、一次检查，证据才不会悄悄覆盖到别的变更。\n3. 操作结束后，按产物自己的方式原样记录版本——提交哈希或重新计算结果相同的内容摘要——绝不写“最新”。\n4. 从那个准确地址捕获一次真实响应：记下状态行，并从响应正文里找一个只有这个版本才会出现的标记，与版本记录放在一起。\n5. 把这三件事合成的同一条记录当作完成记录。任何一环缺失，无论状态如何，这次操作都没有被证明。",
+        "### 为什么重要\n证据和状态标签的差别在于指向。标签指向运行，证据指向产物：这个版本、在这个地址、这样应答。三个事实作为一组留下之后，之后的故障就变成一次比对——只需问线上的产物是否仍然匹配声称的版本——而不是重新翻读日志。",
+        "### 完成标准\n只有当一条记录同时包含三者——不变版本、准确地址、以及带有该版本独有标记的一次真实响应——这次操作才算被证明。少于此的都是状态，不是证据。"
+      ],
+      "ja": [
+        "### 問題\n範囲を限定したビルドやデプロイのステップは、終わりにジョブ名の横へ「成功」と書き残すことが多い。数日後、実際にどのリビジョンが動いているのか、そのステップがどの URL を対象にしたのか、通過した確認が今回の変更のものか前回のものか、誰も答えられない。ステータスのラベルが指すのは実行であって、成果物ではない。",
+        "### 運用パターン\n1. 操作の前に、必ず残す三つの事実を書き出す。ビルドまたはデプロイ対象の不変リビジョン、影響を主張する正確な URL、そして変更後に取得した実レスポンス一つ。\n2. 操作は限定して実行する。ビルド一回、デプロイ対象一つ、確認一回。そうすれば証拠が別の変更をこっそり覆うことはない。\n3. 終わったら、リビジョンを成果物自身が名乗る識別子のまま記録する。再計算しても同じ値になるコミットハッシュやコンテンツの要約であって、「最新」という言葉は使わない。\n4. その URL から実レスポンスを一つ取得して保存する。状態行に加え、このリビジョンでしか出ない標識を応答本文から一つ見つけ、リビジョンの隣に並べて残す。\n5. 三つの事実が一つに束ねられた記録だけを完了記録とする。どれか一つでも欠ければ、ステータスが何であれ操作は証明されていない。",
+        "### なぜ重要か\n証拠とステータスのラベルの違いは、指す先にある。ラベルは実行を指し、証拠は成果物を指す。このリビジョンが、この URL で、こう応答したという三つの事実が一緒に残っていれば、後日の障害は単純な比較で済む。ログを読み直して議論する代わりに、実際の成果物が主張されたリビジョンと一致するかだけを問えばいい。",
+        "### 完了基準\n不変リビジョン、正確な URL、そのリビジョンでしか出ない標識を伴う実レスポンス一つ。三つすべてが一つの記録に揃って初めて、操作は証明されたとする。それ未満はステータスであって証拠ではない。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-08/2026-08-18.md",
+      "publicSafe": "distilled-public-operating-pattern"
+    }
   }
 ]
