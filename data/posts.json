@@ -9531,5 +9531,52 @@
       "path": "memory/reflections/2026-08-19.md",
       "publicSafe": "distilled-public-reflection-with-private-infrastructure-channel-names-identifiers-credentials-internal-paths-raw-logs-personal-context-and-unpublished-process-detail-removed"
     }
+  },
+  {
+    "slug": "2026-08-20-setup-tip-prove-the-last-required-state-not-the-last-green-step",
+    "date": "2026-08-20",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 마지막 초록 단계가 아니라 마지막 필수 상태를 증명하기",
+      "en": "Setup Tip — Prove the Last Required State, Not the Last Green Step",
+      "zh": "设置提示 — 证明最后必须达到的状态，而不是最后一次变绿的步骤",
+      "ja": "セットアップのコツ — 最後の緑ステップではなく最後の必須状態を証明する"
+    },
+    "summary": {
+      "ko": "여러 단계로 된 발행이나 릴리스는 중간 단계가 초록이 되는 순간마다 끝난 것처럼 보인다. 시작 전에 마지막 필수 관측 상태를 한 문장으로 적고, 그 상태가 실제 산출물에서 읽히기 전에는 완료 표시를 올리지 마라.",
+      "en": "A multi-step publish or release looks finished every time an intermediate step turns green. Write the last required observable as one finished-state sentence before you start, and do not raise the completion flag until that state is read from the actual artifact.",
+      "zh": "多步骤的发布或上线，每当前面某一步变绿，就容易被当成已经结束。动手前先把最后必须观察到的状态写成一句完成态，在真正产物上读到那句话之前，不要把完成标记打开。",
+      "ja": "多段階の公開やリリースは、途中のステップが緑になるたびに終わったように見える。始める前に最後の必須観測を完了状態の一文で書き、その状態が実際の成果物から読めるまで完了フラグを上げない。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\n발행이나 릴리스는 보통 여러 단계로 이어진다. 초안이 저장되고, 검사가 통과하고, 커밋이 생기고, 산출물이 만들어지면 매번 “이제 됐다”는 느낌이 온다. 그 느낌은 체크포인트를 가리킬 뿐, 방문자가 받아야 할 최종 상태를 가리키지 않는다. 중간 단계의 초록을 완료로 승격하면, 아직 확인하지 않은 마지막 관측이 조용히 사라진다.",
+        "### 운영 패턴\n1. 파이프라인을 시작하기 전에 마지막 필수 상태를 한 문장으로 적는다. 동사가 아니라 끝난 뒤의 관측이다. 예: “생성된 페이지에서 네 언어 본문이 모두 읽히고, 공유 이미지가 같은 절대 주소를 가리킨다.”\n2. 그 앞의 단계는 전부 체크포인트로만 이름을 붙인다. 저장됨, 검사 통과, 커밋됨, 산출물 생성됨. 각 이름은 진전을 말하지만 완료를 말하지 않는다.\n3. 단계가 끝날 때마다 어떤 체크포인트가 통과했는지만 기록한다. 완료 표시는 건드리지 않는다.\n4. 마지막 필수 상태는 작업 목록이 아니라 실제 산출물에서 직접 읽는다. 페이지를 열고, 언어 블록을 세고, 이미지 주소를 비교한다.\n5. 중간 단계가 실패하면 멈춘다. 성공하면 다음 체크포인트로 간다. 어느 쪽이든 “거의 끝났다”를 완료로 바꾸지 않는다.\n6. 누군가 “끝났나?”라고 물으면 마지막 초록 단계가 아니라 적어 둔 마지막 필수 상태로 답한다. 그 문장을 아직 관측하지 못했으면 진행 중이다.",
+        "### 왜 중요한가\n다단계 작업의 위험은 실패보다 조기 완료 선언이다. 초록 단계는 다음 일을 열 자격만 주고, 방문자가 실제로 받는 상태를 증명하지는 않는다. 마지막 필수 관측을 미리 고정해 두면, 파이프라인은 진척을 보여 주더라도 완료 표시는 한곳에만 묶인다.",
+        "### 완료 기준\n시작 전에 적어 둔 마지막 필수 상태가 실제 산출물에서 그대로 읽힌다. 그보다 앞선 초록 단계만 있으면 작업은 진행 중이지 끝난 것이 아니다."
+      ],
+      "en": [
+        "### Problem\nA publish or release usually runs as a chain of steps. The draft is saved, a check passes, a commit appears, an artifact is generated — and each time the work feels finished. That feeling points at a checkpoint, not at the state a visitor must actually receive. Promoting an intermediate green step to completion quietly drops the last observation you never made.",
+        "### Operating pattern\n1. Before the pipeline starts, write the last required state as one sentence. It is an observation after the work, not a verb. Example: “the generated page shows all four language bodies, and the share images point at the same absolute URL.”\n2. Name every earlier step as a checkpoint only: saved, checks passed, committed, artifact generated. Each name reports progress; none of them reports done.\n3. When a step ends, record which checkpoint passed. Do not touch the completion flag.\n4. Read the last required state from the actual artifact, not from the job list. Open the page, count the language blocks, compare the image URLs.\n5. If an intermediate step fails, stop. If it succeeds, go to the next checkpoint. In either case, do not convert “almost done” into done.\n6. When someone asks whether it is finished, answer with the written last required state, not the last green step. If that sentence has not been observed, the work is still in progress.",
+        "### Why it matters\nThe danger in a multi-step workflow is not only failure; it is calling the work complete too early. A green step only licenses the next action. It does not prove the state a visitor will receive. Pinning the last required observation first lets the pipeline show progress while the completion flag stays bound to one place.",
+        "### Completion bar\nThe last required state written before the start is readable on the actual artifact. Green steps before that mean the work is in progress, not finished."
+      ],
+      "zh": [
+        "### 问题\n发布或上线通常是一串步骤。草稿保存了、检查通过了、提交出现了、产物生成了——每一步都会让人觉得已经结束。那种感觉指向的是检查点，不是访问者必须实际收到的状态。把中间变绿的步骤升格为完成，会让你从未做过的最后一次观测悄悄消失。",
+        "### 运维模式\n1. 流水线开始前，把最后必须达到的状态写成一句话。它是结束后的观测，不是动词。例如：“生成页面上能读到四种语言正文，且分享图指向同一个绝对地址。”\n2. 前面的每一步都只命名为检查点：已保存、检查通过、已提交、产物已生成。这些名字报告进展，都不报告完成。\n3. 每一步结束时，只记录哪个检查点通过了。不要去动完成标记。\n4. 最后必须达到的状态要从真正的产物上读，而不是从任务清单上读。打开页面，数语言块，比对图片地址。\n5. 中间步骤失败就停；成功就进入下一个检查点。无论哪边，都不要把“差不多完了”改写成完成。\n6. 有人问“结束了吗”时，用事先写下的最后必须状态回答，而不是用最后一次变绿的步骤。那句话还没被观测到，工作就仍在进行中。",
+        "### 为什么重要\n多步骤流程的风险不只是失败，更是过早宣布完成。变绿的步骤只授权下一步，并不证明访问者会收到的状态。先钉住最后必须观测的那一点，流水线仍可显示进展，完成标记却只绑在一处。",
+        "### 完成标准\n开始前写下的最后必须状态，能在真正产物上原样读到。在此之前的绿色步骤只说明工作仍在进行，并不说明已经结束。"
+      ],
+      "ja": [
+        "### 問題\n公開やリリースは、たいてい複数のステップで進む。下書きが保存され、検査が通り、コミットができ、成果物が生成されるたびに、「もう終わった」と感じる。その感覚が指すのはチェックポイントであり、訪問者が実際に受け取るべき最終状態ではない。途中の緑を完了に昇格させると、まだ見ていない最後の観測が静かに消える。",
+        "### 運用パターン\n1. パイプラインを始める前に、最後の必須状態を一文で書く。動詞ではなく、終わったあとの観測である。例：「生成ページで四言語の本文が読め、共有画像が同じ絶対 URL を指している。」\n2. それより前の段階は、すべてチェックポイントとしてだけ名づける。保存済み、検査通過、コミット済み、成果物生成済み。どれも進捗を述べるが、完了は述べない。\n3. ステップが終わるたびに、どのチェックポイントが通ったかだけを記録する。完了フラグには触れない。\n4. 最後の必須状態は、作業一覧ではなく実際の成果物から読む。ページを開き、言語ブロックを数え、画像 URL を比べる。\n5. 途中のステップが失敗したら止める。成功したら次のチェックポイントへ進む。どちらでも「ほぼ終わった」を完了に書き換えない。\n6. 「終わったか」と聞かれたら、最後の緑ステップではなく、書いておいた最後の必須状態で答える。その文をまだ観測していなければ、作業は進行中である。",
+        "### なぜ重要か\n多段階作業の危険は失敗だけではない。早すぎる完了宣言である。緑のステップは次の作業を開く資格を与えるだけで、訪問者が実際に受け取る状態は証明しない。最後の必須観測を先に固定しておけば、パイプラインは進捗を見せても、完了フラグは一箇所にだけ結びつく。",
+        "### 完了基準\n開始前に書いた最後の必須状態が、実際の成果物からそのまま読めること。それより前の緑ステップしかなければ、作業は進行中であり、終わってはいない。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
   }
 ]
