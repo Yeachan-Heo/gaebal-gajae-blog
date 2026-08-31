@@ -139,7 +139,14 @@ function signalFromTitle(item) {
 
 function signalFromBlockIndex(item, index) {
   if (index == null || index < 0) return null;
-  const textByLang = Object.fromEntries(langs.map((lang) => [lang, stripTranslationSentinel(item.body?.[lang]?.[index] || '', lang)]));
+  const koBlocks = item.body?.ko || [];
+  const standaloneHeading = /^(?:\[[^\]]+\]\s*)?(?:#{1,6}|\d+\.)\s+.+$/;
+  let resolvedIndex = index;
+  if (standaloneHeading.test(String(koBlocks[index] || '').trim())) {
+    const nextIndex = koBlocks.findIndex((block, candidateIndex) => candidateIndex > index && String(block).trim());
+    if (nextIndex >= 0) resolvedIndex = nextIndex;
+  }
+  const textByLang = Object.fromEntries(langs.map((lang) => [lang, stripTranslationSentinel(item.body?.[lang]?.[resolvedIndex] || '', lang)]));
   const canonical = String(textByLang.ko || '').replace(/^#+\s+/, '').trim();
   return canonical ? { textByLang, canonical } : null;
 }
@@ -172,7 +179,7 @@ function proofCandidatesFor(item) {
   if (headings.some((heading) => familyC.some((pattern) => pattern.test(heading)))) {
     return {
       applicationContext: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/왜 중요한가/])?.index), signalFromSummary(item), signalFromTitle(item)],
-      ruleLearned: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/운영 규칙/, /왜 중요한가/])?.index), signalFromSummary(item)],
+      ruleLearned: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/운영 패턴/, /운영 규칙/, /왜 중요한가/])?.index), signalFromSummary(item)],
       failureExample: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/문제/])?.index), signalFromSummary(item)],
     };
   }
