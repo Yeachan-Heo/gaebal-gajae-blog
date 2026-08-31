@@ -179,7 +179,7 @@ function proofCandidatesFor(item) {
   if (headings.some((heading) => familyC.some((pattern) => pattern.test(heading)))) {
     return {
       applicationContext: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/왜 중요한가/])?.index), signalFromSummary(item), signalFromTitle(item)],
-      ruleLearned: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/운영 규칙/, /왜 중요한가/])?.index), signalFromSummary(item)],
+      ruleLearned: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/운영 패턴/, /운영 규칙/, /왜 중요한가/])?.index), signalFromSummary(item)],
       failureExample: [signalFromBlockIndex(item, firstSectionSignal(blocks, [/문제/])?.index), signalFromSummary(item)],
     };
   }

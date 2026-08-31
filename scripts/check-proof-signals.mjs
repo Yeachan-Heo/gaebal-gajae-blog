@@ -25,4 +25,13 @@ for (const key of ['ruleLearned', 'failureExample']) {
   assert.equal(new Set(langs.map((lang) => signal.textByLang[lang])).size, langs.length, `${key} translations must be distinct`);
 }
 
-console.log(JSON.stringify({ slug, proofSignals: post.proofSignals }, null, 2));
+const setupSlug = '2026-08-31-setup-tip-send-a-bounded-status-before-deep-verification';
+const setupPost = getPostBySlug(setupSlug);
+assert(setupPost, `missing post: ${setupSlug}`);
+const setupRuleLearned = setupPost.proofSignals.find((signal) => signal.key === 'ruleLearned');
+assert(setupRuleLearned, `missing ruleLearned: ${setupSlug}`);
+const setupRuleLearnedKo = setupRuleLearned.textByLang.ko.replace(/^### 운영 패턴\s*/, '');
+assert(setupRuleLearnedKo.startsWith('깊은 검증을 시작하기 전에 세 문장만'), 'setup ruleLearned.ko is not the substantive operating-pattern paragraph');
+assert.notEqual(setupRuleLearned.textByLang.ko, setupPost.summary.ko, 'setup ruleLearned.ko must not fall back to summary');
+
+console.log(JSON.stringify({ slug, proofSignals: post.proofSignals, setupSlug, setupProofSignals: setupPost.proofSignals }, null, 2));
