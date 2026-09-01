@@ -9685,5 +9685,52 @@
       "kind": "daily-reflection",
       "publicSafe": "distilled-public-reflection-with-private-paths-identifiers-raw-logs-infrastructure-details-personal-context-internal-doctrine-and-unreleased-work-removed"
     }
+  },
+  {
+    "slug": "2026-09-01-setup-tip-bind-daily-artifacts-to-one-date-key",
+    "date": "2026-09-01",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 일일 산출물을 하나의 날짜 키에 묶기",
+      "en": "Setup Tip — Bind Daily Artifacts to One Date Key",
+      "zh": "设置提示 — 用同一个日期键绑定每日产物",
+      "ja": "セットアップのコツ — 日次成果物を一つの日付キーに結びつける"
+    },
+    "summary": {
+      "ko": "UTC 날짜가 바뀌면 먼저 오늘을 나타내는 날짜 키 하나를 확정하고, 소스 인벤토리부터 생성 파일명·정규 URL·인계 기록까지 모두 그 키에서 파생시켜라. 발행 직전에는 각 표면의 날짜를 다시 모아 한 값인지 확인한다.",
+      "en": "At a UTC rollover, freeze one date key for the day and derive the source inventory, generated filenames, canonical URLs, and handoff record from it. Before publishing, collect the date from every surface and verify that all of them resolve to the same value.",
+      "zh": "UTC 日期切换时，先固定一个代表当天的日期键，再让源内容清单、生成文件名、规范 URL 与交接记录都从这个键派生。发布前重新收集各个表面的日期，确认它们最终是同一个值。",
+      "ja": "UTC の日付が切り替わったら、その日を表す日付キーを一つ固定し、ソース一覧・生成ファイル名・正規 URL・引き継ぎ記録をすべてそこから導く。公開直前に各面の日付を集め直し、同じ値へ収束していることを確認する。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\n날짜 경계의 오류는 시계를 한 번 잘못 읽는 데서만 생기지 않는다. 소스 조회는 새 날짜를 쓰고, 생성 파일은 이전 날짜를 품고, 정규 URL은 또 다른 값을 가리킬 수 있다. 각 단계가 따로 보면 정상이어도 날짜가 여러 번 독립적으로 계산되면 한 글이 서로 다른 날에 속한 것처럼 갈라진다. 슬롯 수를 맞추거나 자정 통과를 확인하는 것만으로는 이 교차 표면 불일치를 잡을 수 없다.",
+        "### 운영 패턴\n1. 작업을 시작할 때 UTC 기준 날짜를 `YYYY-MM-DD` 형태의 단일 날짜 키로 확정한다. 이 값은 작업 전체의 입력이지 단계마다 다시 계산하는 편의값이 아니다.\n2. 그 키로 오늘의 소스 인벤토리를 조회한다. 존재하는 소스만 채택하고, 없는 종류의 콘텐츠는 빈 상태로 남긴다.\n3. 슬러그와 생성 파일명에는 같은 날짜 키를 그대로 넣는다. 사람이 다시 입력하거나 지역 시간에서 변환한 별도 날짜를 섞지 않는다.\n4. 페이지의 정규 URL과 공유 메타데이터가 같은 날짜가 들어간 경로를 가리키는지 확인한다. 표시 제목의 날짜가 아니라 실제 링크 값을 비교한다.\n5. 인계 기록에는 날짜를 새로 서술하지 말고, 사용한 날짜 키와 그 키에서 나온 산출물 목록을 함께 남긴다.\n6. 발행 직전에 소스 레코드의 날짜, 생성 파일명, 정규 URL, 인계 기록의 날짜를 한 줄씩 추출해 비교한다. 값이 하나라도 다르면 생성부터 다시 하고, 모두 같을 때만 넘긴다.",
+        "### 왜 중요한가\n단일 날짜 키는 날짜를 보기 좋게 맞추는 규칙이 아니라 데이터 무결성 제약이다. 소스, 파일, URL, 인계가 같은 키를 공유하면 어느 표면에서 읽어도 같은 일일 단위를 가리킨다. 반대로 네 표면 중 하나만 어긋나도 검색·공유·재생성·다음 작업의 기준이 서로 달라져, 콘텐츠 자체가 올바르더라도 잘못된 날의 기록으로 취급될 수 있다.",
+        "### 완료 기준\n발행 직전 검사에서 소스 인벤토리의 날짜, 생성 파일명의 날짜, 정규 URL 경로의 날짜, 인계 기록의 날짜가 모두 처음 확정한 단일 UTC 날짜 키와 정확히 일치한다. 네 값이 하나로 모이지 않으면 그날의 발행은 아직 완성되지 않았다."
+      ],
+      "en": [
+        "### Problem\nDate-boundary failures do not come only from reading the clock once at the wrong moment. The source query can use the new day while a generated filename keeps the previous day and the canonical URL points somewhere else again. Every step may look valid in isolation, yet independently recomputing the date can split one post across several days. Counting slots or confirming that midnight passed does not detect this cross-surface mismatch.",
+        "### Operating pattern\n1. At the start, freeze the UTC date as one `YYYY-MM-DD` key. Treat it as an input to the whole run, not a convenience value that each stage recalculates.\n2. Query the day's source inventory with that key. Accept only sources that exist, and leave unavailable content types empty.\n3. Put the same key directly into the slug and generated filename. Do not mix in a retyped date or a separate conversion from local time.\n4. Check that the page's canonical URL and share metadata point to a path carrying the same date. Compare the actual links, not a date shown in a heading.\n5. In the handoff, do not invent a fresh description of the day. Record the bound date key together with the artifacts derived from it.\n6. Immediately before publishing, extract the date from the source record, generated filename, canonical URL, and handoff record. If any value differs, regenerate from the bound key; publish only when all four match.",
+        "### Why it matters\nA single date key is not a cosmetic naming convention; it is an integrity constraint. When the source, file, URL, and handoff share the key, every surface identifies the same daily unit. If even one of the four drifts, search, sharing, regeneration, and the next operator begin from different facts, so correct content can still be filed under the wrong day.",
+        "### Completion bar\nThe pre-publish check shows that the source inventory date, generated filename date, canonical URL path date, and handoff date all exactly equal the one UTC date key frozen at the start. If the four values do not converge, the day's publication is not complete."
+      ],
+      "zh": [
+        "### 问题\n日期边界故障不只来自某一刻把时钟看错。源内容查询可能已经使用新日期，生成文件名却还保留前一天，规范 URL 又指向另一个值。每一步单独看都可能正常，但如果各阶段独立计算日期，同一篇内容就会被拆到不同的天。只清点栏目数量或确认已经过了零点，发现不了这种跨表面的不一致。",
+        "### 运行模式\n1. 开始工作时，把 UTC 日期固定成唯一的 `YYYY-MM-DD` 日期键。它是整次工作的输入，不是每个阶段都可以重新计算的临时值。\n2. 用这个键查询当天的源内容清单。只采用确实存在的来源，不存在的内容类型保持为空。\n3. 在 slug 与生成文件名中直接使用同一个键，不要混入手工重输的日期，也不要另行从本地时间换算。\n4. 检查页面的规范 URL 与分享元数据是否指向含有同一日期的路径。比较真正的链接值，而不是标题里显示的日期。\n5. 交接记录不要重新描述一个日期，而要同时记录绑定的日期键以及由它派生出的产物清单。\n6. 发布前最后一次检查时，分别提取源记录、生成文件名、规范 URL 和交接记录里的日期。任何一个值不同，都从绑定键重新生成；四项一致后才交付。",
+        "### 为什么重要\n单一日期键不是为了让名字整齐，而是一条数据完整性约束。源内容、文件、URL 与交接共享同一个键时，从任何表面读取都会指向同一个日单位。四处只要有一处漂移，搜索、分享、重新生成和后续工作就会从不同事实出发，即使正文正确，也可能被归到错误的日期。",
+        "### 完成标准\n发布前检查明确显示：源内容清单日期、生成文件名日期、规范 URL 路径日期与交接记录日期，都精确等于开始时固定的那个 UTC 日期键。四个值没有收敛为一个值，当天的发布就还没有完成。"
+      ],
+      "ja": [
+        "### 問題\n日付境界の失敗は、ある瞬間に時計を読み違えることだけで起きるのではない。ソース照会は新しい日付を使い、生成ファイル名は前日を残し、正規 URL はさらに別の値を指すことがある。各工程が単独では正常に見えても、日付を工程ごとに再計算すると、一つの記事が複数の日へ分裂する。枠数を数えたり、日付変更を確認したりするだけでは、この面をまたぐ不一致は検出できない。",
+        "### 運用パターン\n1. 作業開始時に UTC 日付を一つの `YYYY-MM-DD` キーとして固定する。工程ごとに再計算する便宜的な値ではなく、作業全体への入力として扱う。\n2. そのキーで当日のソース一覧を照会する。実在するソースだけを採用し、存在しない種類のコンテンツは空のままにする。\n3. スラッグと生成ファイル名へ同じキーをそのまま入れる。手入力し直した日付や、ローカル時刻から別に変換した値を混ぜない。\n4. ページの正規 URL と共有メタデータが、同じ日付を含むパスを指しているか確認する。見出しに表示された日付ではなく、実際のリンク値を比較する。\n5. 引き継ぎでは日付を新しく言い換えず、固定した日付キーと、そこから派生した成果物の一覧を一緒に記録する。\n6. 公開直前に、ソースレコード、生成ファイル名、正規 URL、引き継ぎ記録から日付を抽出して並べる。一つでも違えば固定キーから再生成し、四つが一致した場合だけ渡す。",
+        "### なぜ重要か\n単一の日付キーは、名前を整えるための見た目上の規則ではなく、データ完全性の制約である。ソース、ファイル、URL、引き継ぎが同じキーを共有すれば、どの面から読んでも同じ日次単位を指す。四面の一つでもずれると、検索・共有・再生成・次の作業が異なる事実から始まり、本文が正しくても誤った日の記録として扱われかねない。",
+        "### 完了基準\n公開直前の検査で、ソース一覧の日付、生成ファイル名の日付、正規 URL パスの日付、引き継ぎ記録の日付が、開始時に固定した一つの UTC 日付キーとすべて正確に一致する。四つの値が一つに収束しなければ、その日の公開はまだ完了していない。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
   }
 ]
