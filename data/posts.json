@@ -9815,5 +9815,52 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe setup tip"
     }
+  },
+  {
+    "slug": "2026-09-02-setup-tip-verify-one-date-key-across-publication-surfaces",
+    "date": "2026-09-02",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 발행 표면 네 곳에서 하나의 날짜 키를 검증하기",
+      "en": "Setup Tip — Verify One Date Key Across Four Publication Surfaces",
+      "zh": "设置提示 — 在四个发布表面验证同一个日期键",
+      "ja": "セットアップのコツ — 四つの公開面で一つの日付キーを検証する"
+    },
+    "summary": {
+      "ko": "날짜 경계에서는 소스 인벤토리, 생성 파일명, 정규 URL, 배포 인계를 하나의 canonical date key로 묶고, 발행 직전에 네 값이 정확히 같은지 대조하라.",
+      "en": "At a date boundary, bind the source inventory, generated filename, canonical URL, and deployment handoff to one canonical date key, then compare all four values immediately before publication.",
+      "zh": "遇到日期边界时，用一个 canonical date key 绑定源内容清单、生成文件名、规范 URL 和部署交接，并在发布前逐一核对四个值是否完全相同。",
+      "ja": "日付の境界では、ソース一覧・生成ファイル名・正規 URL・デプロイ引き継ぎを一つの canonical date key に結び、公開直前に四つの値が完全に一致するか照合する。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\n날짜가 바뀌는 순간에 각 단계가 현재 시각을 따로 읽으면 한 발행물이 서로 다른 날짜를 갖게 된다. 소스 인벤토리는 새 날짜를 기록했지만 파일명은 이전 날짜를 남기고, 정규 URL이나 배포 인계는 또 다른 값을 가리킬 수 있다. 개별 단계의 성공만으로는 이 교차 표면 오류를 발견할 수 없다.",
+        "### 운영 패턴\n1. 발행을 시작하기 전에 UTC 기준 `YYYY-MM-DD` 날짜 키를 하나 확정한다. 이후 단계는 시계를 다시 읽지 않고 이 값을 입력으로 사용한다.\n2. 소스 인벤토리의 날짜 필드와 생성 대상의 파일명·슬러그를 같은 키에서 만든다. 날짜를 손으로 재입력하거나 지역 시간으로 다시 변환하지 않는다.\n3. 정규 URL과 공유 이미지 메타데이터가 그 파일명과 같은 날짜 경로를 가리키는지 확인한다. 화면에 보이는 날짜가 아니라 실제 링크 값을 비교한다.\n4. 배포 인계에는 새 날짜를 문장으로 추정하지 말고, 확정한 키와 그 키로 만든 페이지 주소를 기록한다.\n5. 발행 직전에 네 표면에서 날짜를 각각 추출해 `[source, filename, canonical URL, handoff]` 순서로 나열한다. 네 값이 단 하나의 키와 일치할 때만 발행을 완료한다.",
+        "### 왜 중요한가\n하나의 canonical date key는 이름을 통일하는 장식이 아니라 발행물의 동일성을 보장하는 제약이다. 네 표면이 같은 키를 공유하면 검색 결과, 재생성, 공유 링크, 다음 인계가 같은 일일 단위를 가리킨다. 하나라도 어긋나면 내용이 맞아도 다른 날의 글처럼 저장되거나 배포될 수 있다.",
+        "### 완료 기준\n검사 기록에 소스 인벤토리, 생성 파일명, 정규 URL, 배포 인계에서 읽은 날짜가 모두 `2026-09-02`라는 하나의 UTC 키로 남아야 한다. 네 값의 일치와 정규 URL·공유 PNG의 절대 주소가 확인되지 않으면 발행 완료로 표시하지 않는다."
+      ],
+      "en": [
+        "### Problem\nWhen each stage reads the current clock at a date boundary, one publication can acquire several dates. The source inventory may record the new day while the filename keeps the previous day and the canonical URL or deployment handoff points to yet another value. Success at each individual stage cannot reveal this cross-surface defect.",
+        "### Operating pattern\n1. Freeze one UTC `YYYY-MM-DD` date key before publication begins. Later stages consume that value instead of reading the clock again.\n2. Derive the source inventory date and the generated filename and slug from the same key. Never retype the date or recalculate it from local time.\n3. Check that the canonical URL and share-image metadata point to the same dated path as the filename. Compare the actual link values, not a date displayed on screen.\n4. In the deployment handoff, record the fixed key and the page address derived from it rather than guessing a new date in prose.\n5. Immediately before publication, extract dates from the four surfaces in `[source, filename, canonical URL, handoff]` order. Complete publication only when all four equal the single bound key.",
+        "### Why it matters\nOne canonical date key is an identity constraint for the publication, not decorative naming consistency. When all four surfaces share it, search, regeneration, sharing, and the next handoff refer to the same daily unit. If one drifts, correct content can still be filed or deployed as though it belonged to another day.",
+        "### Completion bar\nThe inspection record must show that the source inventory, generated filename, canonical URL, and deployment handoff all resolve to the one UTC key `2026-09-02`. Do not mark publication complete until their equality and the absolute canonical URL and share PNG address are verified."
+      ],
+      "zh": [
+        "### 问题\n在日期边界上，如果每个阶段都重新读取当前时间，同一份发布物就可能出现多个日期。源内容清单记录了新的一天，文件名却还保留前一天，规范 URL 或部署交接又可能指向第三个值。每个阶段单独成功，并不能发现这种跨表面缺陷。",
+        "### 运行模式\n1. 开始发布前，先固定一个 UTC `YYYY-MM-DD` 日期键。后续阶段都使用这个输入，不再重新读取时钟。\n2. 让源内容清单日期、生成文件名和 slug 都从同一个键派生。不要手工重输日期，也不要从本地时间再次换算。\n3. 检查规范 URL 和分享图片元数据是否指向与文件名相同的日期路径。比较真正的链接值，而不是页面上显示的日期。\n4. 部署交接只记录已经固定的键及由它生成的页面地址，不要在叙述中猜一个新日期。\n5. 发布前最后一次检查，按 `[source, filename, canonical URL, handoff]` 顺序分别提取日期。四个值都等于唯一绑定的键时，才算发布完成。",
+        "### 为什么重要\n一个 canonical date key 是发布物身份的约束，不是装饰性的命名统一。四个表面共享它时，搜索、重新生成、分享和下一次交接都会指向同一个日单位。只要一处漂移，即使内容正确，也可能被归档或部署成另一天的文章。",
+        "### 完成标准\n检查记录必须显示：源内容清单、生成文件名、规范 URL 与部署交接都解析为同一个 UTC 键 `2026-09-02`。在确认四者相等以及规范 URL 和分享 PNG 都使用绝对地址之前，不要标记发布完成。"
+      ],
+      "ja": [
+        "### 問題\n日付の境界で各工程が現在時刻を個別に読むと、一つの公開物に複数の日付が付く。ソース一覧は新しい日を記録したのにファイル名は前日を残し、正規 URL やデプロイ引き継ぎが別の値を指すこともある。各工程が単独で成功しても、この面をまたぐ欠陥は見つからない。",
+        "### 運用パターン\n1. 公開を始める前に UTC の `YYYY-MM-DD` 日付キーを一つ固定する。その後の工程は時計を読み直さず、この値を入力として使う。\n2. ソース一覧の日付、生成ファイル名、スラッグを同じキーから導く。日付を手入力し直したり、ローカル時刻から再計算したりしない。\n3. 正規 URL と共有画像メタデータが、ファイル名と同じ日付を含むパスを指すか確認する。画面上の日付ではなく実際のリンク値を比べる。\n4. デプロイの引き継ぎには、固定したキーとそこから作ったページアドレスを記録し、文章で新しい日付を推測しない。\n5. 公開直前に `[source, filename, canonical URL, handoff]` の順で四面から日付を抽出する。四つすべてが一つの固定キーと一致したときだけ公開を完了する。",
+        "### なぜ重要か\n一つの canonical date key は、名前を揃える飾りではなく公開物の同一性を守る制約だ。四つの面が同じキーを共有すれば、検索・再生成・共有・次の引き継ぎが同じ日次単位を指す。一つでもずれると、内容が正しくても別の日の記事として保存またはデプロイされる。",
+        "### 完了基準\n検査記録には、ソース一覧、生成ファイル名、正規 URL、デプロイ引き継ぎから読んだ日付がすべて一つの UTC キー `2026-09-02` に解決したことを残す。四者の一致と、正規 URL・共有 PNG の絶対アドレスを確認するまで公開完了とは表示しない。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
   }
 ]
