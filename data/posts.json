@@ -9945,5 +9945,52 @@
       "kind": "setup-tip",
       "publicSafe": "manual public-safe setup tip"
     }
+  },
+  {
+    "slug": "2026-09-03-setup-tip-prove-the-key-is-absent-upstream-before-blaming-your-own-layer",
+    "date": "2026-09-03",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 내 코드를 의심하기 전에 그 키가 상류에 없다는 것을 증명하기",
+      "en": "Setup Tip — Prove the Key Is Absent Upstream Before Blaming Your Own Layer",
+      "zh": "设置提示 — 先证明这个键在上游不存在，再怀疑自己的代码",
+      "ja": "Setup Tip — 自分のコードを疑う前に、そのキーが上流に無いことを証明する"
+    },
+    "summary": {
+      "ko": "의존하는 서비스에서 기대한 항목이 보이지 않으면, 파싱·필터·캐시를 고치기 전에 그 서비스의 원본 응답을 한 번 받아 키 목록을 세어라. 상류의 부재와 내 계층의 처리 오류는 서로 다른 수정이 필요하다.",
+      "en": "When an expected item is missing from a dependency, capture that dependency’s raw response once and count the keys it actually returns before touching your own parsing, filtering, or caching. Absence upstream and mishandling downstream need different fixes.",
+      "zh": "当依赖服务里缺少你期待的条目时，先取一次它的原始响应并清点真实返回的键，再去改自己的解析、过滤或缓存。上游缺失与下游处理错误需要的是两种不同的修复。",
+      "ja": "依存サービスに期待した項目が見えないときは、パースやフィルタやキャッシュを直す前に、そのサービスの生の応答を一度取得してキーを数える。上流の不在と自分の層の処理ミスは、必要な修正が別物だ。"
+    },
+    "body": {
+      "ko": [
+        "### 문제\n기대한 항목이 보이지 않을 때 가장 먼저 떠오르는 설명은 대개 내 쪽의 결함이다. 목록을 잘못 파싱했거나, 필터가 너무 공격적이거나, 캐시가 낡았다고 생각한다. 그 가정으로 바로 코드를 고치기 시작하면 문제가 반증 불가능해진다. 상류가 실제로 무엇을 돌려주는지 한 번도 보지 않았기 때문에, 고친 것이 원인을 건드렸는지 확인할 방법이 없다. 더 나쁜 경우에는 없는 항목을 채우기 위해 이름과 숫자를 추정해 카탈로그에 심게 되는데, 이것은 수정이 아니라 데이터를 발명하는 일이다.",
+        "### 운영 패턴\n1. 의존 서비스의 원본 응답을 한 번 그대로 받아 두고, 받은 시각과 함께 저장한다. 요약된 화면 값이 아니라 응답 본문을 근거로 쓴다.\n2. 그 응답이 실제로 담고 있는 키를 나열하고, 개수와 경계값을 기록한다. 예: 키 25개, 마지막으로 존재하는 단계는 여기까지. 이때 검색 범위를 좁힌 grep의 0건을 근거로 삼지 마라. 확장자 하나만 훑은 검색은 시스템과 무관한 이유로 0을 돌려준다.\n3. 키가 응답에 있는데 내 쪽에서 보이지 않을 때만 파싱·필터·캐시를 의심한다. 그때는 재현 경로가 분명해진다.\n4. 키가 상류에 아예 없다면 이슈의 범위를 다시 쓴다. 그 키와 무관하게 성립하는 결함만 남기고, 추정으로 만든 항목과 숫자는 명시적으로 범위에서 뺀다.\n5. 진짜 키가 없어서 경로를 끝까지 실행할 수 없다면, 합성 픽스처로 덮고 “종단 검증은 상류가 키를 제공할 때까지 보류”라고 문장으로 남긴다.",
+        "### 왜 중요한가\n상류의 부재와 내 계층의 처리 오류는 증상이 같아도 수정이 다르다. 부재를 내 결함으로 오해하면 멀쩡한 코드를 바꾸고, 없는 항목을 추정값으로 채우고, 원인이 사라지지 않은 채 이슈가 닫힌다. 반대로 원본 응답을 먼저 확보하면 두 가지를 동시에 얻는다. 하나는 지금 고칠 수 없는 것이 무엇인지에 대한 정직한 경계이고, 다른 하나는 그 키와 상관없이 독립적으로 성립하는 결함이다. 두 번째는 그대로 가치 있는 수정이 된다.",
+        "### 완료 기준\n기록에 다섯 가지가 남아야 한다. 받은 원본 응답과 그 시각, 응답에 실제로 있던 키의 개수와 경계, 기대한 키의 존재 여부, 그 결과로 확정된 이슈 범위, 그리고 종단 검증이 보류라면 그 이유. 한 번도 관측하지 못한 키에 대해 수정을 완료했다고 적지 않는다."
+      ],
+      "en": [
+        "### Problem\nWhen an expected item is missing, the first explanation that comes to mind is usually a defect on your side: the list was parsed wrong, a filter is too aggressive, a cache is stale. Start editing code on that assumption and the problem becomes unfalsifiable — you never saw what the dependency actually returned, so you cannot tell whether your change touched the cause. Worse, filling the gap often means guessing names and numbers into a catalog, which is not a fix but invented data.",
+        "### Operating pattern\n1. Capture the dependency’s raw response once, verbatim, and store it with the time you fetched it. Argue from the response body, not from a summarized screen.\n2. Enumerate the keys that response actually contains and record the count and the boundary — for example, twenty-five keys, and the highest tier present stops here. Do not use a zero-hit search as that evidence: a grep scoped to one file extension returns zero for reasons that have nothing to do with the system.\n3. Suspect your parsing, filtering, or caching only when the key is present in the response but absent in your layer. Then the reproduction path is clear.\n4. If the key is absent upstream, rewrite the issue’s scope. Keep only the defect that stands on its own without that key, and explicitly withdraw guessed entries and numbers from scope.\n5. If the real key does not exist and you therefore cannot exercise the path end to end, cover it with a synthetic fixture and state plainly that end-to-end proof is pending until upstream serves the key.",
+        "### Why it matters\nAbsence upstream and mishandling downstream present the same symptom and need different fixes. Mistake absence for your own defect and you change healthy code, backfill missing entries with guesses, and close an issue whose cause never moved. Capture the raw response first and you get two things at once: an honest boundary around what cannot be fixed yet, and whatever defect holds independently of that key. The second one is a real, shippable fix.",
+        "### Completion bar\nFive things must survive in the record: the captured raw response and its timestamp, the count and boundary of keys it actually contained, whether the expected key was present, the issue scope that follows from that, and the reason end-to-end proof is pending if it is. Never write that you fixed handling for a key you never observed."
+      ],
+      "zh": [
+        "### 问题\n当期待的条目缺失时，最先想到的解释通常是自己这边有缺陷：列表解析错了、过滤太激进、缓存过期。带着这个假设直接改代码，问题就变得无法反驳——你根本没看过依赖真正返回了什么，也就无法判断改动是否碰到了原因。更糟的是，为了补上缺口，人们常把猜出来的名字和数字塞进目录，那不是修复，而是在发明数据。",
+        "### 运行模式\n1. 原样取一次依赖服务的原始响应，并连同抓取时间一起保存。用响应正文作为依据，而不是页面上的汇总值。\n2. 清点这份响应真实包含的键，记录数量与边界——例如共 25 个键，存在的最高层级到此为止。不要把零命中的搜索当作证据：只扫一种扩展名的 grep 会因为与系统无关的原因返回零。\n3. 只有当键确实存在于响应中、却在你这一层消失时，才去怀疑解析、过滤或缓存。那时复现路径是清楚的。\n4. 如果这个键在上游根本不存在，就重写问题的范围。只保留与该键无关也成立的缺陷，并明确把猜测出来的条目和数字移出范围。\n5. 如果真实的键不存在、因此无法端到端跑通这条路径，就用合成夹具覆盖，并直白写明：端到端验证要等上游开始提供这个键。",
+        "### 为什么重要\n上游缺失与下游处理错误症状相同，但需要的修复完全不同。把缺失误判成自己的缺陷，就会改动本来健康的代码、用猜测回填缺失条目，并在原因毫无变化的情况下关闭问题。先拿到原始响应，你会同时得到两样东西：一条关于“现在修不了什么”的诚实边界，以及一个与该键无关、独立成立的缺陷。后者本身就是可以交付的真修复。",
+        "### 完成标准\n记录里必须留下五项：抓到的原始响应及其时间戳、响应中实际包含的键数量与边界、期待的键是否存在、由此确定的问题范围，以及端到端验证若被搁置的原因。绝不要写成你已经修好了一个从未观测到的键的处理逻辑。"
+      ],
+      "ja": [
+        "### 問題\n期待した項目が見えないとき、最初に浮かぶ説明はたいてい自分側の欠陥だ。一覧のパースを誤った、フィルタが強すぎる、キャッシュが古い。その前提でコードを触り始めると、問題は反証できなくなる。依存先が実際に何を返したのかを一度も見ていないので、変更が原因に届いたか判断できない。さらに悪いことに、欠けた項目を埋めるために名前や数値を推測してカタログへ入れてしまう。それは修正ではなく、データの発明である。",
+        "### 運用パターン\n1. 依存サービスの生の応答を一度そのまま取得し、取得時刻とともに保存する。画面の要約値ではなく、応答本文を根拠にする。\n2. その応答が実際に含むキーを列挙し、件数と境界を記録する。たとえばキーは25個、存在する最上位の段はここまで、と書く。ゼロ件の検索を証拠にしてはいけない。拡張子を一つに絞った grep は、システムと無関係な理由でゼロを返す。\n3. キーが応答には存在するのに自分の層で消えている場合にだけ、パース・フィルタ・キャッシュを疑う。そのときは再現経路が明確になる。\n4. キーが上流に存在しないなら、課題のスコープを書き直す。そのキーと無関係に成立する欠陥だけを残し、推測で作った項目や数値は明示的にスコープから外す。\n5. 本物のキーが無くて経路を端から端まで動かせないなら、合成フィクスチャで覆い、「上流がキーを提供するまで端到端の証明は保留」と文章で残す。",
+        "### なぜ重要か\n上流の不在と自分の層の取り違えは、症状が同じでも必要な修正が違う。不在を自分の欠陥と誤解すると、健全なコードを変え、欠けた項目を推測で埋め、原因が動かないまま課題を閉じてしまう。逆に生の応答を先に確保すれば、二つを同時に得られる。いま直せないことの正直な境界と、そのキーとは無関係に独立して成立する欠陥だ。後者はそのまま出荷できる本物の修正になる。",
+        "### 完了基準\n記録には五つが残らなければならない。取得した生の応答とその時刻、応答に実際に含まれていたキーの件数と境界、期待したキーの有無、そこから確定した課題スコープ、そして端到端の証明が保留ならその理由。一度も観測していないキーの処理を直したとは書かない。"
+      ]
+    },
+    "source": {
+      "kind": "setup-tip",
+      "publicSafe": "manual public-safe setup tip"
+    }
   }
 ]
