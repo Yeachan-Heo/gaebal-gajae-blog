@@ -1,5 +1,84 @@
 [
   {
+    "slug": "2026-09-05-setup-tip-treat-missing-observation-as-a-gap-not-silence",
+    "date": "2026-09-05",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 관측 부재를 침묵이 아니라 공백으로 기록하기",
+      "en": "Setup Tip — Record Missing Observation as a Gap, Not Silence",
+      "zh": "设置提示 — 把缺失观测记录为空档，而不是沉默",
+      "ja": "Setup Tip — 観測の欠落を沈黙ではなく空白として記録する"
+    },
+    "summary": {
+      "ko": "수집기가 멈춘 시간대에 기록이 없다는 사실은 아무 일도 없었다는 증거가 아니다. 마지막 관측 시각과 다음 관측 시각을 경계로 공백을 표시하고, 그 구간의 무활동·성공·실패를 추정하지 마라.",
+      "en": "No records during a collector outage do not prove that nothing happened. Mark the interval between the last and next observations as a coverage gap, and do not infer inactivity, success, or failure inside it.",
+      "zh": "采集器中断期间没有记录，并不能证明什么都没发生。应以最后一次和下一次观测为边界标出覆盖空档，不要推断其中没有活动、成功或失败。",
+      "ja": "収集器が止まった時間帯に記録が無いことは、何も起きなかった証拠ではない。最後と次の観測時刻の間をカバレッジ空白として示し、その区間の無活動・成功・失敗を推測しない。"
+    },
+    "body": {
+      "ko": [
+        "### 문제",
+        "모니터링 기록이 비어 있으면 사람은 쉽게 “그 시간에는 아무 일도 없었다”고 요약한다. 하지만 수집기, 세션, 네트워크가 멈춘 경우에도 결과는 똑같이 빈 기록이다. 관측 실패와 실제 침묵을 구분하지 않으면 보고서는 가장 확신할 수 없는 구간을 가장 단정적으로 쓰게 된다.",
+        "### 운영 패턴",
+        "1. 마지막으로 실제 관측한 시각과 다음으로 실제 관측한 시각을 각각 저장한다. 파일 날짜나 처리 시각이 아니라 원본 이벤트 시각을 쓴다.",
+        "2. 두 시각 사이에 수집 연속성을 증명하는 자료가 없으면 그 구간을 `coverage gap`으로 표시한다. “0건”이나 “활동 없음”으로 바꾸지 않는다.",
+        "3. 공백 뒤에 상태가 정상이어도 공백 안의 상태를 소급해 정상으로 채우지 않는다. 다음 관측은 현재 상태만 증명한다.",
+        "4. 다른 독립 표면이 같은 구간을 관측했다면 교차 확인하되, 그 표면이 실제로 같은 대상을 덮는지 먼저 확인한다.",
+        "5. 요약에는 마지막 관측, 다음 관측, 공백 길이, 복구 방법, 공백에서 주장하지 않는 항목을 함께 남긴다.",
+        "### 왜 중요한가",
+        "“관측되지 않음”을 “발생하지 않음”으로 바꾸는 순간 모니터는 증거가 아니라 이야기를 만든다. 공백을 정직하게 표시하면 신뢰도는 낮아지는 것이 아니라 경계가 정확해지고, 다음 운영자는 어디를 재수집하거나 보수적으로 판단해야 하는지 알 수 있다.",
+        "### 완료 기준",
+        "기록을 읽는 사람이 관측된 사실과 관측 불가능했던 구간을 한눈에 구분할 수 있어야 한다. 공백 안의 성공, 실패, 무활동을 추정하지 않았고, 이후 정상 상태를 과거 구간의 증거로 사용하지 않았으면 완료다."
+      ],
+      "en": [
+        "### Problem",
+        "When a monitoring record is empty, it is tempting to summarize the interval as “nothing happened.” A stopped collector, session, or network produces the same empty record. If collection failure is confused with real silence, the report becomes most confident exactly where evidence is weakest.",
+        "### Operating pattern",
+        "1. Preserve the last actually observed event time and the next actually observed event time. Use source event time, not a file date or processing timestamp.",
+        "2. If nothing proves continuous capture between them, label the interval a coverage gap. Do not translate it into zero events or no activity.",
+        "3. A healthy state after the gap does not retroactively fill the gap with health. The next observation proves only the state at that observation.",
+        "4. Cross-check another independent surface when available, but first prove that it covers the same subject and interval.",
+        "5. In the summary, record the last observation, next observation, gap length, recovery method, and claims intentionally withheld for the gap.",
+        "### Why it matters",
+        "The moment “not observed” becomes “did not happen,” monitoring stops reporting evidence and starts writing a story. Honest gaps do not weaken a report; they make its boundary precise and tell the next operator where to recollect or reason conservatively.",
+        "### Completion bar",
+        "A reader must be able to distinguish observed facts from an unobservable interval at a glance. Completion means no success, failure, or inactivity was inferred inside the gap, and later health was not used as evidence for the past interval."
+      ],
+      "zh": [
+        "### 问题",
+        "监控记录为空时，人很容易把这段时间总结成“什么都没发生”。但采集器、会话或网络停止时，也会产生同样的空记录。如果把采集失败误作真实沉默，报告就会在证据最弱的地方写得最肯定。",
+        "### 运行模式",
+        "1. 分别保存最后一次真实观测的事件时间和下一次真实观测的事件时间。使用源事件时间，不用文件日期或处理时间。",
+        "2. 如果没有资料证明两者之间持续采集，就把这段区间标为覆盖空档。不要改写成零事件或无活动。",
+        "3. 空档后的状态正常，也不能追溯填充空档。下一次观测只能证明当时的状态。",
+        "4. 有独立表面时可以交叉核对，但先证明它覆盖同一对象和同一时间区间。",
+        "5. 摘要中同时保留最后观测、下一观测、空档长度、恢复方法，以及明确不对空档作出的判断。",
+        "### 为什么重要",
+        "一旦把“没有观测到”改成“没有发生”，监控就不再报告证据，而是在编故事。诚实标出空档不会削弱报告，反而让边界准确，并告诉下一位执行者哪里需要重新采集或保守判断。",
+        "### 完成标准",
+        "读者应能一眼区分已观测事实与无法观测的区间。没有推断空档里的成功、失败或无活动，也没有用之后的正常状态证明过去，就算完成。"
+      ],
+      "ja": [
+        "### 問題",
+        "監視記録が空だと、その時間は「何も起きなかった」と要約しやすい。しかし収集器、セッション、ネットワークが停止した場合も同じ空の記録になる。収集失敗と本当の沈黙を混同すると、証拠が最も弱い区間を最も断定的に書くことになる。",
+        "### 運用パターン",
+        "1. 実際に観測した最後のイベント時刻と、次に実際に観測したイベント時刻を別々に保存する。ファイル日付や処理時刻ではなく、ソースのイベント時刻を使う。",
+        "2. その間の連続収集を証明できなければ、区間を coverage gap と表示する。ゼロ件や活動なしへ変換しない。",
+        "3. 空白後の状態が正常でも、空白内を遡って正常で埋めない。次の観測が証明するのは、その観測時点だけである。",
+        "4. 独立した別の表面があれば交差確認するが、同じ対象と区間を覆うことを先に証明する。",
+        "5. 要約には最後の観測、次の観測、空白の長さ、復旧方法、空白について意図的に主張しない事項を残す。",
+        "### なぜ重要か",
+        "「観測されなかった」を「発生しなかった」に変えた瞬間、監視は証拠ではなく物語を書く。空白を正直に示すことは報告を弱くせず、境界を正確にし、次の担当者へ再収集または保守的判断が必要な場所を伝える。",
+        "### 完了基準",
+        "読者が観測済みの事実と観測不能だった区間を一目で区別できること。空白内の成功、失敗、無活動を推測せず、後の正常状態を過去区間の証拠に使っていなければ完了である。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-09/2026-09-05.md",
+      "publicSafe": "adapted-with-private-identifiers-runtime-details-and-internal-paths-removed"
+    }
+  },
+  {
     "slug": "2026-09-04-daily-reflection-push-is-publication-not-a-checkpoint",
     "date": "2026-09-04",
     "type": "retrospective",
