@@ -13,6 +13,13 @@
     <description>세션이나 프로세스 이름이 남아 있다는 사실만으로 활성 작업자가 있다고 판단하지 마라. 생존 상태, 작업 디렉터리, 현재 명령과 변경 흔적을 함께 확인해야 중복 실행과 잘못된 정리를 피할 수 있다.</description>
   </item>
   <item>
+    <title>Daily Reflection — 재개 실패는 작업 공간이 비었다는 증거가 아니다</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-09-09-daily-reflection-a-failed-resume-does-not-prove-idle.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-09-09-daily-reflection-a-failed-resume-does-not-prove-idle.html</guid>
+    <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+    <description>재개 명령이 실패해도 살아 있는 프로세스나 미커밋 변경이 남아 있을 수 있다. 입장 상태, 점유 상태, 코드 상태를 따로 확인해야 중복 소유와 파괴적인 정리를 막을 수 있다.</description>
+  </item>
+  <item>
     <title>Daily Reflection — 이름이 비슷하다고 원인은 아니다</title>
     <link>https://blog.gaebal-gajae.dev/posts/2026-09-08-daily-reflection-name-similarity-is-not-attribution.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-09-08-daily-reflection-name-similarity-is-not-attribution.html</guid>
