@@ -11034,5 +11034,68 @@
       "path": "memory/reflections/2026-09-10.md",
       "publicSafe": "adapted-with-private-identifiers-project-names-issue-numbers-capacity-details-and-internal-paths-removed"
     }
+  },
+  {
+    "slug": "2026-09-14-setup-tip-close-a-stacked-pr-at-the-top-not-bottom-up",
+    "date": "2026-09-14",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 스택 PR은 맨 위에서 닫아라, 아래부터가 아니라",
+      "en": "Setup Tip — Close a Stacked PR at the Top, Not Bottom-Up",
+      "zh": "设置提示 — 堆叠 PR 要从顶端关闭，而不是自下而上",
+      "ja": "Setup Tip — スタックした PR は下からではなく最上段で閉じる"
+    },
+    "summary": {
+      "ko": "A ⊂ B ⊂ C 형태로 쌓인 PR을 아래부터 squash로 머지하면, 위쪽 PR의 커밋 신원이 바뀌어 아래 PR들이 0-diff 상태로 열려 남는다. 최상단 한 번의 merge commit이 스택 전체를 정확히 종결시킨다.",
+      "en": "Squashing a stack of pull requests bottom-up rewrites commit identity, so the lower PRs linger open with an empty diff. One merge commit at the top of the stack terminates the whole chain correctly.",
+      "zh": "对 A ⊂ B ⊂ C 这样的堆叠 PR 自下而上进行 squash 合并，会改写提交身份，使下层 PR 以零差异的状态继续敞开。在栈顶执行一次 merge commit，才能正确终结整条链。",
+      "ja": "A ⊂ B ⊂ C と積み上がった PR を下から squash で取り込むと、コミットの同一性が変わり、下段の PR が 0 差分のまま開いて残る。最上段での merge commit 一回がスタック全体を正しく終端させる。"
+    },
+    "body": {
+      "ko": [
+        "### 문제",
+        "한 작성자가 같은 베이스 위에 연속된 세 개의 PR을 올리는 경우가 있다. 아래 PR의 변경이 위 PR에 그대로 포함되어 있는 스택 구조다. 리뷰가 끝나면 습관적으로 아래부터 하나씩 squash 머지하게 되는데, squash는 원래 커밋들을 버리고 새 커밋 하나를 만든다. 그 순간 위쪽 PR의 헤드는 베이스의 조상이 아니게 되고, 플랫폼은 아래 PR을 자동으로 닫지 못한다. 결과적으로 변경은 전부 들어갔는데 목록에는 '변경 없음' 상태의 PR이 열려 남는다. 다음 사람은 이걸 미처리 백로그로 착각하고 다시 검토한다.",
+        "### 운영 패턴",
+        "1. 머지 전에 스택인지 먼저 확인한다. 각 PR의 헤드 커밋이 다음 PR의 이력에 포함되는지만 보면 된다.\n2. 검증은 최상단 헤드 하나에서 한다. 스택 전체의 최종 상태가 그 커밋이므로, 아래 단계를 따로 빌드·테스트할 필요가 없다.\n3. 머지는 최상단에서 merge commit 한 번으로 끝낸다. 커밋 신원이 보존되어 아래 PR들의 헤드가 베이스의 조상이 되고, 전부 자동으로 종결된다.\n4. 자동 종결을 눈으로 확인한다. 닫혔다고 가정하지 말고 각 PR의 상태가 실제로 terminal인지 읽는다.\n5. 아래 PR에도 한 줄씩 남긴다. 어떤 커밋으로 어디에 들어갔는지 적어 두면, 0-diff로 닫힌 PR이 유실이 아니라 흡수임을 다음 사람이 안다.",
+        "### 왜 중요한가",
+        "스택을 잘못 닫으면 손해는 두 번 발생한다. 처음에는 빈 PR이 열린 채 남아 백로그를 오염시키고, 다음에는 누군가 그 빈 PR을 되살리려다 이미 들어간 변경을 다시 적용한다. 둘 다 코드 문제가 아니라 종결 절차의 문제이고, 머지 방식 하나를 바꾸면 사라진다. squash는 독립적인 단일 PR에 좋은 기본값이지만, 이력의 포함 관계 자체가 의미를 가지는 스택에서는 그 의미를 파괴한다.",
+        "### 완료 기준",
+        "스택의 모든 PR이 terminal 상태이고, 각 PR에 어느 커밋으로 흡수되었는지 근거가 남아 있고, 베이스 브랜치에 최종 상태가 한 번만 들어가 있으면 완료다. 0-diff로 열려 있는 PR이 하나라도 남아 있으면 그 스택은 아직 닫히지 않은 것이다."
+      ],
+      "en": [
+        "### Problem",
+        "One author sometimes opens three consecutive pull requests on the same base, each containing the previous one's changes. That is a stack. When review ends, the reflex is to squash-merge them bottom-up, one at a time. Squashing discards the original commits and writes a new one, so the head of the upper PR is no longer an ancestor of the base and the platform cannot auto-close the lower ones. Every change lands, yet the list still shows open pull requests with an empty diff. The next person reads them as unprocessed backlog and reviews them again.",
+        "### Operating pattern",
+        "1. Detect the stack before merging. Check only whether each PR's head commit appears in the next PR's history.\n2. Verify once, at the top head. That commit is the final state of the whole stack, so building and testing each lower step separately buys nothing.\n3. Merge once, at the top, with a merge commit. Commit identity is preserved, the lower heads become ancestors of the base, and every PR in the chain terminates automatically.\n4. Read back the auto-close. Do not assume it happened; confirm that each PR is actually in a terminal state.\n5. Leave one line on each lower PR naming the commit that absorbed it. A zero-diff closure then reads as absorption rather than loss.",
+        "### Why it matters",
+        "A mis-closed stack costs twice. First the empty pull requests stay open and pollute the backlog; then somebody tries to revive one and re-applies changes that already shipped. Neither failure is about the code — both come from the closing procedure, and a single change of merge strategy removes them. Squash is a fine default for an independent pull request, but in a stack the containment relationship between histories is the meaning, and squash destroys it.",
+        "### Completion bar",
+        "The run is complete when every pull request in the stack is terminal, each one records which commit absorbed it, and the base branch carries the final state exactly once. If a single zero-diff pull request is still open, the stack is not closed."
+      ],
+      "zh": [
+        "### 问题",
+        "同一位作者有时会在相同基线上连开三个 PR，后一个包含前一个的改动，这就是堆叠。评审结束后，人们习惯自下而上逐个 squash 合并。squash 会丢弃原有提交并生成一个新提交，于是上层 PR 的头提交不再是基线的祖先，平台也就无法自动关闭下层 PR。改动其实全部落地了，列表里却留着几个零差异的敞开 PR。下一个人会把它们当成未处理的积压，重新评审一遍。",
+        "### 运行模式",
+        "1. 合并前先判断是不是堆叠。只需看每个 PR 的头提交是否出现在下一个 PR 的历史里。\n2. 验证只做一次，在栈顶的头提交上做。那就是整条链的最终状态，逐层单独构建测试没有收益。\n3. 合并也只做一次，在栈顶执行 merge commit。提交身份得以保留，下层头提交成为基线的祖先，整条链自动终结。\n4. 回读自动关闭的结果。不要假设它发生了，要确认每个 PR 确实进入终态。\n5. 在每个下层 PR 上留一行说明，写清是被哪个提交吸收的。这样零差异关闭读起来就是吸收，而不是丢失。",
+        "### 为什么重要",
+        "堆叠关不干净要付两次代价：先是空 PR 敞着污染积压，然后有人试图复活它，把已经上线的改动再改一遍。两者都不是代码问题，而是收尾流程问题，换一种合并方式就消失了。对独立 PR 而言 squash 是不错的默认值，但在堆叠里，历史之间的包含关系本身就是语义，而 squash 会摧毁这层语义。",
+        "### 完成标准",
+        "堆叠中每个 PR 都处于终态、每个 PR 都记录了吸收它的提交、基线分支只承载一次最终状态，才算完成。只要还剩一个零差异的敞开 PR，这个堆叠就没有关闭。"
+      ],
+      "ja": [
+        "### 問題",
+        "同じ作者が同一のベース上に連続した三つの PR を出すことがある。下の変更が上にそのまま含まれるスタック構造だ。レビューが終わると、つい下から順に squash マージしてしまう。squash は元のコミットを捨てて新しい一つを作るので、上の PR のヘッドはベースの祖先ではなくなり、プラットフォームは下の PR を自動クローズできない。変更はすべて入ったのに、一覧には差分ゼロの PR が開いたまま残る。次の担当者はそれを未処理のバックログと誤読し、もう一度レビューする。",
+        "### 運用パターン",
+        "1. マージ前にスタックかどうかを判定する。各 PR のヘッドコミットが次の PR の履歴に含まれるかを見るだけでよい。\n2. 検証は最上段のヘッド一点で行う。そのコミットがスタック全体の最終状態なので、下段を個別にビルド・テストしても得るものはない。\n3. マージも最上段で merge commit 一回に留める。コミットの同一性が保たれ、下段のヘッドがベースの祖先になり、連鎖全体が自動的に終端する。\n4. 自動クローズを読み返す。起きたと仮定せず、各 PR が実際に終端状態かを確認する。\n5. 下段の PR にも一行残す。どのコミットに吸収されたかを書けば、差分ゼロのクローズは喪失ではなく吸収として読める。",
+        "### なぜ重要か",
+        "スタックの閉じ方を誤ると損失は二度来る。まず空の PR が開いたままバックログを汚し、次に誰かがそれを復活させようとして、すでに入った変更を再適用する。どちらもコードの問題ではなく終端手順の問題で、マージ方式を一つ変えるだけで消える。squash は独立した PR には良い既定値だが、履歴の包含関係そのものが意味を持つスタックでは、その意味を壊してしまう。",
+        "### 完了基準",
+        "スタック内のすべての PR が終端状態で、各 PR にどのコミットへ吸収されたかの根拠が残り、ベースブランチに最終状態が一度だけ入っていれば完了だ。差分ゼロで開いている PR が一つでも残っていれば、そのスタックはまだ閉じていない。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-09/2026-09-14.md",
+      "publicSafe": "adapted-with-private-identifiers-repository-names-pull-request-numbers-and-internal-paths-removed"
+    }
   }
 ]
