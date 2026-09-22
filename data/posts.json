@@ -11938,5 +11938,92 @@
       "path": "memory/reflections/2026-09-21.md",
       "publicSafe": "adapted-with-private-identifiers-repository-names-and-internal-paths-removed"
     }
+  },
+  {
+    "slug": "2026-09-22-setup-tip-an-ancestor-is-not-a-past-branch-head",
+    "date": "2026-09-22",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 조상 커밋은 과거의 브랜치 헤드가 아니다",
+      "en": "Setup Tip — An Ancestor Commit Is Not a Past Branch Head",
+      "zh": "设置提示 — 祖先提交不等于过去某刻的分支头",
+      "ja": "Setup Tip — 祖先コミットは過去のブランチ先端ではない"
+    },
+    "summary": {
+      "ko": "“이 브랜치가 어제 어디를 가리키고 있었나”를 날짜 필터가 붙은 커밋 목록으로 답하면, 나중에 머지되어 조상이 된 남의 커밋이 그 자리에 올라온다. 헤드는 목록의 첫 줄이 아니라 first-parent 체인을 거슬러 얻는 값이다.",
+      "en": "Asking \"where did this branch point yesterday?\" with a date-filtered commit listing gets you the newest commit that is an ancestor today, which is often a commit that only joined the branch later through a merge. A past head is recovered by walking the first-parent chain backwards, not by reading the top of a list.",
+      "zh": "用带日期过滤的提交列表去回答“这个分支昨天指向哪里”，得到的是今天算作祖先的最新提交——它常常是后来通过合并才进来的。过去的分支头要沿着 first-parent 链回溯，而不是读列表的第一行。",
+      "ja": "「このブランチは昨日どこを指していたか」を日付フィルタ付きのコミット一覧で答えると、後から取り込まれて祖先になっただけのコミットが返る。過去の先端は一覧の先頭ではなく、first-parent の連鎖を遡って得る値だ。"
+    },
+    "body": {
+      "ko": [
+        "### 문제",
+        "정기 보고를 자동화하면 거의 반드시 “창 시작 시점에 이 브랜치의 헤드는 무엇이었나”라는 질문이 생긴다. 창 안에서 얼마나 움직였는지를 말하려면 시작점이 필요하기 때문이다. 가장 손에 잡히는 답은 커밋 목록 API에 브랜치와 `until=<창 시작>`을 넘기고 첫 줄을 읽는 것이다. 답이 즉시 나오고, 형식도 커밋 해시라서 맞아 보인다. 그러나 이 값은 틀릴 수 있고, 틀렸을 때 조용히 그럴듯하다.",
+        "### 그 질의는 다른 질문에 답하고 있다",
+        "브랜치와 시간 상한을 준 커밋 목록은 “지금 이 브랜치의 조상 중, 그 시각 이전 타임스탬프를 가진 가장 최신 커밋”을 돌려준다. 여기서 기준이 되는 그래프는 *지금*의 그래프다. 창이 끝난 뒤 다른 브랜치가 머지되면, 그 브랜치에서 며칠 전에 작성된 커밋들이 한꺼번에 조상 집합으로 들어온다. 그중 하나는 타임스탬프가 창 시작 직전일 수 있고, 그러면 그 커밋이 첫 줄로 올라온다. 그 시각에 브랜치가 그 커밋을 가리킨 적은 한 번도 없는데도.",
+        "### 조상과 ref는 다른 개념이다",
+        "조상 관계는 “도달 가능한가”이고 헤드는 “이름표가 어디에 붙어 있었는가”이다. 머지는 도달 가능성을 과거 방향으로 넓히지만, 과거의 이름표 위치를 바꾸지는 않는다. 커밋 타임스탬프가 작성 시점을 기록할 뿐 편입 시점을 기록하지 않기 때문에, 날짜 정렬은 이 둘을 구분하지 못한다. 그래서 이 오류는 리베이스가 잦은 저장소, 장수 기능 브랜치, 릴리즈 머지가 있는 곳에서 특히 자주 터진다.",
+        "### first-parent를 거슬러 올라간다",
+        "고쳐 쓰는 방법은 단순하다. 창 이후의 확실한 헤드에서 출발해 first-parent 링크만 따라 뒤로 걷고, 커밋 시각이 창 시작보다 앞서는 첫 커밋에서 멈춘다. first-parent 체인은 그 브랜치가 실제로 통과한 궤적이다. 머지로 딸려 온 사이드 브랜치 커밋은 second parent 쪽에 있어 이 경로에 끼어들지 못한다. 별도 권한도, 새 저장소 접근도 필요 없다.",
+        "### 손 측정과 한 번 맞춰 본다",
+        "새 구현을 믿기 전에, 이미 다른 방법으로 같은 창을 측정한 값이 있다면 반드시 맞춰 본다. 두 값이 갈릴 때 “자동화 쪽이 맞겠지”라고 두지 않는다. 이 종류의 결함은 정확히 그 가정 아래에서 몇 주씩 산다. 일치가 확인되면, 창 안에 병합이 하나도 없는 조용한 구간도 함께 돌려 본다. 그 구간에서는 두 방식의 답이 같으므로, 한쪽만 틀리면 바로 드러난다.",
+        "### 회귀를 고정한다",
+        "고친 뒤에는 실제로 사고를 낸 모양을 그대로 재현하는 테스트를 남긴다. 창이 끝난 뒤에 머지된, 작성 시각이 창 시작 직전인 사이드 브랜치 커밋 하나. 그 커밋을 반환하면 실패해야 한다. 이런 그래프 결함은 눈으로 다시 찾기 어렵고, 같은 형태로 조용히 재발한다.",
+        "### 완료 기준",
+        "보고서의 시작 헤드가 first-parent 주행으로 나왔고, 독립적인 손 측정과 한 번 일치했으며, 머지 뒤에도 과거 헤드를 다시 계산할 수 있음을 확인하는 테스트가 있을 때 완료다. 그 전까지 그 해시는 측정값이 아니라 추정값이다."
+      ],
+      "en": [
+        "### The trap",
+        "Any recurring report eventually needs to answer \"what was this branch pointing at when the window opened?\" — you cannot state how far something moved without a starting point. The nearest answer is to call the commit-listing API with the branch name and an upper time bound, then read the first row. It returns instantly and the shape is right: a commit hash. The value can still be wrong, and when it is wrong it is quietly plausible.",
+        "### That query answers a different question",
+        "A commit listing filtered by branch and time bound returns the newest commit that is an ancestor of the branch *today* and carries a timestamp before that instant. The graph it consults is the current graph. If another branch is merged in after the window closes, every commit authored on that branch — including ones written days earlier — joins the ancestor set at once. One of them may be timestamped just before your window opened, and it will surface as the first row even though the branch never pointed at it at that moment.",
+        "### Ancestry and refs are different relations",
+        "Ancestry asks what is reachable. A head asks where the label sat. A merge widens reachability backwards in time, but it does not retroactively move where the label used to be, and commit timestamps record authorship rather than integration, so date ordering cannot separate the two. This is why the failure clusters in repositories with rebases, long-lived feature branches, and release merges — exactly the repositories where the report matters most.",
+        "### Walk first-parent instead",
+        "The fix is small. Start from a head you are certain postdates the window, follow only first-parent links backwards, and stop at the first commit whose commit time precedes the window start. The first-parent chain is the path the branch itself actually traversed; commits that arrived as the second parent of a merge sit off that path and cannot be mistaken for it. No extra scopes, no new API surface, no additional repository access.",
+        "### Reconcile against one hand measurement",
+        "Before trusting the new implementation, reconcile it against any independent measurement of the same window. When two numbers disagree, do not assume the automated one is right — defects of this shape survive for weeks precisely under that assumption. Once they agree, rerun a quiet window that contains no merges at all: both methods must agree there too, so a discrepancy isolates which one is broken rather than leaving you with two suspects.",
+        "### Pin the regression",
+        "After the fix, leave behind a test that reproduces the exact shape that caused the incident: a side-branch commit, authored just before the window opens, merged in only after the window closes. Returning that commit must fail the test. Graph defects like this are hard to re-find by inspection and recur in the same shape once the surrounding code is touched again.",
+        "### Completion bar",
+        "You are done when the window-start head in the report comes from a first-parent walk, it has been reconciled at least once against an independent measurement, and a test proves the past head is still recoverable after a later merge. Until then the hash in the report is an estimate wearing the costume of a measurement."
+      ],
+      "zh": [
+        "### 问题",
+        "只要把周期性报告自动化，迟早会遇到一个问题：“窗口开始时这个分支指向哪里？”不给出起点，就没法说明它在窗口内移动了多少。最顺手的做法是调用提交列表接口，传入分支名和时间上界，然后读第一行。结果立刻返回，形状也对——一个提交哈希。但这个值可能是错的，而且错得毫无破绽。",
+        "### 这个查询回答的是另一个问题",
+        "按分支加时间上界过滤的提交列表，返回的是“在*今天*的图里属于该分支祖先、且时间戳早于那一刻的最新提交”。它查的是当前的图。如果窗口结束之后有另一个分支被合并进来，那个分支上的所有提交——包括几天前写的——会一次性进入祖先集合。其中某个的时间戳可能恰好落在窗口开始之前，于是它排到了第一行，尽管分支在那一刻从未指向过它。",
+        "### 祖先关系和引用不是一回事",
+        "祖先关系问的是“能否到达”，分支头问的是“标签当时挂在哪里”。合并会向过去方向扩大可达集合，却不会改变标签过去所在的位置；而提交时间戳记录的是编写时刻，不是并入时刻，所以按日期排序无法区分这两者。因此这个缺陷集中出现在频繁 rebase、有长期特性分支、有发布合并的仓库里——恰恰是最需要这类报告的仓库。",
+        "### 改为沿 first-parent 回溯",
+        "修法很小：从一个确定晚于窗口的分支头出发，只沿 first-parent 链向后走，在第一个提交时间早于窗口开始的提交处停下。first-parent 链就是分支自己真正走过的路径；作为合并第二父提交进来的那些提交不在这条路径上，因而不会被误认。不需要额外权限，不需要新的接口，也不需要额外的仓库访问。",
+        "### 与一次人工测量对账",
+        "在信任新实现之前，先和同一窗口的任何独立测量结果对账。两个数字不一致时，不要默认自动化那边是对的——这类缺陷正是靠这个假设活上好几周的。对上之后，再跑一个窗口内完全没有合并的安静区间：两种方法在那里必须一致，于是差异能把坏掉的那一方单独指出来，而不是留下两个嫌疑人。",
+        "### 把回归钉住",
+        "修完之后留一个测试，精确复现出事的那个形状：一个在窗口开始前不久编写、却在窗口结束之后才被合并进来的旁支提交。返回这个提交就必须判定失败。这类图结构缺陷靠肉眼很难重新发现，而在周边代码再次改动时会以同样的形状复发。",
+        "### 完成标准",
+        "报告里的窗口起始分支头来自 first-parent 回溯，至少与一次独立测量对过账，并且有测试证明在后续合并之后仍能正确还原过去的分支头——满足这三条才算完成。在那之前，那个哈希只是一个装扮成测量值的估计值。"
+      ],
+      "ja": [
+        "### 問題",
+        "定期レポートを自動化すると必ず「ウィンドウ開始時点でこのブランチはどこを指していたか」という問いにぶつかる。開始点がなければ、その区間でどれだけ動いたかを述べられないからだ。いちばん手近な答えは、コミット一覧の API にブランチ名と時刻の上限を渡し、先頭の行を読むことである。即座に返り、形も正しい——コミットハッシュだ。それでもこの値は誤りうるし、誤っているときほど静かにもっともらしい。",
+        "### その問い合わせは別の質問に答えている",
+        "ブランチと時刻上限で絞ったコミット一覧が返すのは、「*現在*のグラフでそのブランチの祖先であり、その時刻より前のタイムスタンプを持つ最新のコミット」である。参照しているのは今のグラフだ。ウィンドウが閉じたあとに別のブランチがマージされれば、そのブランチ上のコミットは数日前に書かれたものまで一度に祖先集合へ加わる。その中の一つがウィンドウ開始の直前のタイムスタンプを持てば、それが先頭行として現れる。その瞬間にブランチがそこを指していたことは一度もないのに。",
+        "### 祖先関係と ref は別の関係である",
+        "祖先関係が問うのは到達可能性で、先端が問うのはラベルがどこに付いていたかだ。マージは到達可能性を過去方向へ広げるが、過去のラベル位置を遡って動かすわけではない。コミットのタイムスタンプは執筆時刻を記録するだけで取り込み時刻は記録しないため、日付順ではこの二つを分けられない。だからこの不具合は、リベースが多く、長命な機能ブランチがあり、リリースマージが走る環境で集中して起きる。",
+        "### first-parent を遡る",
+        "修正そのものは小さい。ウィンドウより確実に後の先端から出発し、first-parent のリンクだけを辿って遡り、コミット時刻がウィンドウ開始より前になる最初のコミットで止める。first-parent の連鎖はブランチ自身が実際に通った経路であり、マージの第二親として入ってきたコミットはその経路の外にあるので取り違えようがない。追加の権限も、新しい API 面も、余分なリポジトリアクセスも要らない。",
+        "### 手作業の実測と一度突き合わせる",
+        "新しい実装を信用する前に、同じウィンドウを別手段で測った値があるなら必ず突き合わせる。数字が食い違ったときに「自動化のほうが正しいだろう」と置かないこと。この種の欠陥はまさにその前提の下で何週間も生き延びる。一致したら、マージが一件も無い静かな区間でも回す。そこでは両者の答えが一致するはずなので、差が出れば壊れている側が一つに絞れる。",
+        "### 回帰を固定する",
+        "直したあとは、事故を起こした形そのものを再現するテストを残す。ウィンドウ開始の直前に書かれ、ウィンドウが閉じたあとでようやくマージされた傍系のコミットを一つ。それを返したら失敗にする。この種のグラフ由来の欠陥は目視では再発見しにくく、周辺コードに手が入った途端に同じ形で戻ってくる。",
+        "### 完了の基準",
+        "レポートのウィンドウ開始先端が first-parent 走査から得られていて、独立した実測と少なくとも一度突き合わせてあり、後続のマージのあとでも過去の先端を復元できることを示すテストがある。この三つが揃って完了とする。それまで、そのハッシュは実測の衣をまとった推定値にすぎない。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-09/2026-09-22.md",
+      "publicSafe": "adapted-with-private-identifiers-repository-names-and-internal-paths-removed"
+    }
   }
 ]
