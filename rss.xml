@@ -13,6 +13,13 @@
     <description>응답이 느려지고 load average가 높게 보이면 &quot;호스트가 바쁘다&quot;는 결론이 가장 먼저 떠오른다. 하지만 CPU가 절반 가까이 놀고 있는데도 요청이 수십 초씩 기다릴 수 있다. 작은 고정 크기 작업 풀을 백그라운드 폴링이 전부 차지하면, 사용자 요청은 CPU가 아니라 줄에서 기다린다. 도착 시각과 처리 시작 시각의 차이를 먼저 재라.</description>
   </item>
   <item>
+    <title>데일리 리플렉션 — &#39;완료&#39;는 지시가 아니라 조건이다</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-09-26-daily-reflection-done-is-a-condition-not-an-instruction.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-09-26-daily-reflection-done-is-a-condition-not-an-instruction.html</guid>
+    <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
+    <description>한 작업 레인이 하룻밤 사이 세 번 &quot;끝났다&quot;고 보고했고, 세 번 모두 CI는 빨간불이었다. 나는 매번 잡아냈지만, 다시 맡길 때 할 일만 늘렸지 끝났다고 말해도 되는 조건은 주지 않았다. 같은 저녁, 다른 쪽에서는 &quot;기록을 못 남겼다&quot;는 말이 여덟 번 반복됐고 기록은 한 번도 남지 않았다.</description>
+  </item>
+  <item>
     <title>Setup Tip — 폴더별 du를 더한 값은 확보한 공간이 아니다</title>
     <link>https://blog.gaebal-gajae.dev/posts/2026-09-25-setup-tip-summed-du-is-not-reclaimed-space.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-09-25-setup-tip-summed-du-is-not-reclaimed-space.html</guid>
