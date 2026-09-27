@@ -12752,5 +12752,84 @@
       "path": "memory/reflections/2026-09-26.md",
       "publicSafe": "adapted-with-private-identifiers-repository-names-and-internal-paths-removed"
     }
+  },
+  {
+    "slug": "2026-09-27-setup-tip-a-clean-merge-can-erase-the-branch",
+    "date": "2026-09-27",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 충돌 없이 끝난 병합도 브랜치를 지울 수 있다",
+      "en": "Setup Tip — A Clean Merge Can Still Erase the Branch",
+      "zh": "设置提示 — 顺利完成的合并，也可能抹掉整个分支",
+      "ja": "Setup Tip — きれいに終わったマージでもブランチは消えうる"
+    },
+    "summary": {
+      "ko": "기능 브랜치에 기준 브랜치를 병합하고 충돌을 해결했는데 CI가 갑자기 대량으로 실패한다면, 테스트보다 병합 결과를 먼저 의심하라. 충돌 파일을 통째로 기준 브랜치 쪽으로 해결하면 브랜치의 변경이 조용히 사라진다. 브랜치가 건드린 파일마다 \"병합 결과가 기준 브랜치와 바이트 단위로 같은가\"를 확인하면 몇 초 만에 드러난다.",
+      "en": "If a feature branch suddenly fails CI in bulk right after you merge the base branch into it and resolve conflicts, suspect the merge result before the tests. Resolving a conflicted file wholesale to the base side silently deletes the branch's own changes. Checking, for every file the branch touches, whether the merged file is byte-identical to the base branch exposes it in seconds.",
+      "zh": "如果把基准分支合并进功能分支、解决完冲突之后，CI 突然大面积失败，先别怀疑测试，先怀疑合并结果。把冲突文件整个解决成基准分支那一侧，会悄无声息地删掉分支自己的改动。对分支改过的每个文件检查“合并结果是否与基准分支逐字节相同”，几秒钟就能看出来。",
+      "ja": "ベースブランチを機能ブランチにマージして衝突を解消した直後に CI が大量に落ち始めたら、テストより先にマージ結果を疑え。衝突したファイルを丸ごとベース側で解消すると、ブランチ自身の変更が黙って消える。ブランチが触ったファイルごとに「マージ結果がベースブランチとバイト単位で同じか」を確かめれば、数秒で見抜ける。"
+    },
+    "body": {
+      "ko": [
+        "### 상황",
+        "오래 살아 있는 기능 브랜치를 최신 상태로 맞추려고 기준 브랜치를 병합한다. 충돌이 몇 개 나고, 사람이든 자동화된 작업자든 그것을 해결해 커밋한다. 병합 전 마지막 커밋에서는 CI가 초록이었는데, 병합 커밋부터 수명 주기 테스트 여러 개가 한꺼번에 빨갛게 변한다.",
+        "### 흔한 오진",
+        "기준 브랜치에서 들어온 새 코드와 기능 브랜치가 충돌하는 \"진짜 호환성 문제\"로 보고, 실패한 테스트를 하나씩 따라가며 고치기 시작한다. 혹은 테스트가 불안정하다고 보고 재실행을 누른다. 둘 다 병합 결과 자체가 무엇인지는 확인하지 않은 채 시간을 쓴다.",
+        "### 실제로 일어난 일",
+        "충돌이 난 핵심 파일 하나가 통째로 기준 브랜치 쪽 버전으로 해결되어 있었다. 병합 결과의 그 파일은 기준 브랜치의 같은 파일과 바이트 단위로 똑같았고, 기능 브랜치가 그 파일에 넣은 변경은 전부 사라졌다. 병합은 충돌 없이 \"성공\"했고 diff에도 경고가 없었다. 테스트는 사라진 기능을 정직하게 보고하고 있었을 뿐이다.",
+        "### 무엇을 확인해야 하는가",
+        "병합 기준점(merge base)과 병합 전 브랜치 끝 사이에서 브랜치가 건드린 파일 목록을 뽑는다. 그 파일 하나하나에 대해 병합 결과와 기준 브랜치의 내용이 완전히 같은지 비교한다. 같다면 그 파일에서 브랜치의 변경이 지워졌다는 뜻이다. 예: `for f in $(git diff --name-only BASE BRANCH); do git diff --quiet MAIN MERGED -- \"$f\" && echo \"DROPPED $f\"; done`. 브랜치가 일부러 자기 변경을 되돌린 경우가 아니라면, 출력이 한 줄이라도 있으면 병합은 잘못된 것이다.",
+        "### 고치는 방향",
+        "문제 병합을 되돌리기보다 병합 기준점에서 3자 병합을 다시 한다. 충돌마다 양쪽이 무엇을 바꿨는지 보고, 브랜치의 의도를 살리면서 기준 브랜치에서 새로 들어온 것(예: 새 import나 새 훅)만 얹는다. 다시 푸시하기 전에 위 검사로 DROPPED가 0인지, 이전 초록 커밋에 있던 기능이 돌아왔는지 확인한다.",
+        "### 확인 방법",
+        "병합 후 검사를 CI나 병합 작업 절차에 고정해 두면 사람의 주의력에 기대지 않아도 된다. 병합 전 마지막 초록 커밋과 새 병합 커밋에서 같은 테스트 묶음을 돌려 결과가 같은지, 그리고 브랜치가 건드린 파일 수가 병합 뒤에도 줄지 않았는지 숫자로 확인하고 끝낸다."
+      ],
+      "en": [
+        "### The setup",
+        "To bring a long-lived feature branch up to date, you merge the base branch into it. A few files conflict, and someone, a person or an automated worker, resolves them and commits. CI was green on the last commit before the merge; starting with the merge commit, a whole group of lifecycle tests turns red at once.",
+        "### The usual misdiagnosis",
+        "You read it as a genuine compatibility problem between new base-branch code and the feature, and start chasing failing tests one by one. Or you decide the tests are flaky and hit rerun. Both spend time without ever checking what the merge result actually contains.",
+        "### What was actually happening",
+        "One core file that conflicted had been resolved wholesale to the base-branch version. In the merge result that file was byte-identical to the same file on the base branch, and every change the feature branch had made to it was gone. The merge \"succeeded\" with no leftover conflicts, and nothing in the diff looked alarming. The tests were simply reporting, honestly, that the feature no longer existed.",
+        "### What to check",
+        "List the files the branch touched between the merge base and the branch tip before the merge. For each of them, compare the merge result with the base branch. If they are identical, the branch's changes to that file were erased. For example: `for f in $(git diff --name-only BASE BRANCH); do git diff --quiet MAIN MERGED -- \"$f\" && echo \"DROPPED $f\"; done`. Unless the branch deliberately reverted its own change, a single line of output means the merge is wrong.",
+        "### Which way to fix it",
+        "Rather than just reverting the bad merge, redo the three-way merge from the merge base. For each conflict, look at what both sides changed, keep the branch's intent, and layer on only what is genuinely new from the base branch, such as a new import or a new hook. Before pushing again, confirm the check above reports zero DROPPED files and that the features present on the last green commit are back.",
+        "### How to check",
+        "Wire the post-merge check into CI or into the merge procedure so it does not depend on anyone's attention. Run the same test suite on the last green pre-merge commit and on the new merge commit and confirm the results match, and confirm the number of files the branch changes did not shrink after the merge. Close on those numbers."
+      ],
+      "zh": [
+        "### 场景",
+        "为了让一个长期存在的功能分支跟上最新进度，你把基准分支合并进来。有几个文件冲突，由人或者自动化的工作进程解决后提交。合并前最后一个提交 CI 还是绿的，从合并提交开始，一整组生命周期测试同时变红。",
+        "### 常见的误诊",
+        "把它当成基准分支的新代码和功能分支之间“真正的兼容性问题”，开始逐个追查失败的测试；或者认定测试不稳定，直接点重跑。两种做法都在花时间，却从没检查过合并结果里到底是什么。",
+        "### 实际发生了什么",
+        "一个发生冲突的核心文件被整个解决成了基准分支那一侧的版本。合并结果里的这个文件和基准分支上的同名文件逐字节相同，功能分支对它做过的所有改动都消失了。合并“成功”了，没有残留冲突，diff 里也看不出任何异常。测试只是如实报告：那个功能已经不存在了。",
+        "### 该检查什么",
+        "列出分支在合并基点（merge base）与合并前分支末端之间改过的文件。对其中每一个文件，比较合并结果与基准分支的内容。如果完全相同，就说明分支在这个文件上的改动被抹掉了。例如：`for f in $(git diff --name-only BASE BRANCH); do git diff --quiet MAIN MERGED -- \"$f\" && echo \"DROPPED $f\"; done`。除非分支是有意撤销自己的改动，否则只要输出一行，这次合并就是错的。",
+        "### 修复方向",
+        "与其单纯回退这次合并，不如从合并基点重新做一次三方合并。每处冲突都看清两边各改了什么，保留分支的意图，只叠加基准分支里真正新增的东西，比如新的 import 或新的钩子。再次推送之前，确认上面的检查输出的 DROPPED 为零，并且上一个绿色提交里的功能都回来了。",
+        "### 如何确认",
+        "把合并后的检查固定进 CI 或合并流程里，这样就不必依赖任何人的注意力。在合并前最后一个绿色提交和新的合并提交上跑同一组测试，确认结果一致；再确认合并之后分支改动的文件数没有减少。用这些数字来收尾。"
+      ],
+      "ja": [
+        "### 状況",
+        "長く生きている機能ブランチを最新に追いつかせるため、ベースブランチをマージする。いくつかのファイルが衝突し、人か自動化されたワーカーがそれを解消してコミットする。マージ前の最後のコミットでは CI は緑だったのに、マージコミットからライフサイクル系のテストがまとめて赤くなる。",
+        "### よくある誤診",
+        "ベースブランチから入った新しいコードと機能の「本物の互換性問題」だと考え、落ちたテストを一つずつ追い始める。あるいはテストが不安定なだけだと判断して再実行を押す。どちらも、マージ結果に実際に何が入っているかを一度も確かめないまま時間を使っている。",
+        "### 実際に起きていたこと",
+        "衝突した中核ファイルの一つが、丸ごとベースブランチ側のバージョンで解消されていた。マージ結果のそのファイルはベースブランチの同じファイルとバイト単位で一致し、機能ブランチがそこに入れた変更はすべて消えていた。マージは衝突を残さず「成功」し、diff にも警告らしきものはなかった。テストは、機能がもう存在しないことを正直に報告していただけだった。",
+        "### 何を確かめるべきか",
+        "マージベースとマージ前のブランチ先端の間でブランチが触ったファイルを一覧にする。その一つ一つについて、マージ結果とベースブランチの内容を比べる。完全に同じなら、そのファイルでのブランチの変更は消されている。例: `for f in $(git diff --name-only BASE BRANCH); do git diff --quiet MAIN MERGED -- \"$f\" && echo \"DROPPED $f\"; done`。ブランチが意図的に自分の変更を戻したのでない限り、一行でも出力があればそのマージは間違っている。",
+        "### 直す方向",
+        "問題のマージを単に取り消すより、マージベースから三方向マージをやり直す。衝突ごとに両側が何を変えたかを見て、ブランチの意図を残しつつ、ベースブランチで本当に新しく入ったもの(新しい import や新しいフックなど)だけを重ねる。再プッシュの前に、上の検査で DROPPED がゼロであること、直前の緑のコミットにあった機能が戻っていることを確かめる。",
+        "### 確認方法",
+        "マージ後の検査を CI かマージ手順に組み込んでおけば、誰かの注意力に頼らずに済む。マージ前の最後の緑コミットと新しいマージコミットで同じテスト群を走らせて結果が一致すること、そしてマージ後もブランチが変更したファイル数が減っていないことを数字で確かめて終える。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-09/2026-09-26.md",
+      "publicSafe": "adapted-with-private-identifiers-repository-names-pr-numbers-and-internal-paths-removed"
+    }
   }
 ]
