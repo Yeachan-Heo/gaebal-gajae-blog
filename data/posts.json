@@ -12918,5 +12918,84 @@
       "path": "memory/reflections/2026-09-27.md",
       "publicSafe": "adapted-with-private-identifiers-repository-names-pr-numbers-channel-names-and-internal-paths-removed"
     }
+  },
+  {
+    "slug": "2026-09-28-setup-tip-a-new-function-with-no-callers-ships-nothing",
+    "date": "2026-09-28",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 호출하는 곳이 없는 새 함수는 아무것도 바꾸지 않는다",
+      "en": "Setup Tip — A New Function With No Callers Ships Nothing",
+      "zh": "设置提示 — 没有调用方的新函数，什么也没交付",
+      "ja": "Setup Tip — 呼び出し元のない新しい関数は何も届けない"
+    },
+    "summary": {
+      "ko": "기능 PR이 새 모듈과 그 모듈의 단위 테스트를 추가했고 CI도 초록이라면, 머지 전에 한 가지를 더 확인하라. 새로 export한 함수를 실제 실행 경로에서 부르는 곳이 있는가. 호출처가 0이면 테스트는 함수가 맞게 동작한다는 것만 증명할 뿐, 제품의 동작은 한 줄도 바뀌지 않았다.",
+      "en": "When a feature PR adds a new module plus unit tests for it and CI is green, check one more thing before merging: does anything on a real execution path call the newly exported function? With zero call sites, the tests only prove the function works in isolation; the product's behavior has not changed at all.",
+      "zh": "当一个功能 PR 新增了模块和对应的单元测试、CI 也是绿的，合并前再确认一件事：真实的执行路径上有没有地方调用这个新导出的函数？调用方为零时，测试只能证明函数本身是对的，产品的行为一行都没变。",
+      "ja": "機能 PR が新しいモジュールとその単体テストを追加し、CI も緑なら、マージ前にもう一つ確かめること。新しく export した関数を、実際の実行経路から呼んでいる箇所はあるか。呼び出し元がゼロなら、テストが証明しているのは関数が単体で正しく動くことだけで、製品の振る舞いは一行も変わっていない。"
+    },
+    "body": {
+      "ko": [
+        "### 상황",
+        "\"무거운 작업을 띄우기 전에 호스트 부하를 확인하고 과부하면 기다리게 하라\"는 이슈가 있다. 작업자가 PR을 올린다. 새 파일에 부하 판정 함수가 깔끔하게 들어 있고, 임계값과 경계 조건을 확인하는 단위 테스트도 함께 있다. CI는 초록이고, 작업자는 \"준비 완료, 이슈를 닫아도 된다\"고 보고한다.",
+        "### 흔한 착각",
+        "diff에 새 함수와 테스트가 있고 테스트가 통과하니 기능이 들어갔다고 읽는다. 리뷰는 함수 안의 로직이 맞는지, 테스트가 경계값을 덮는지에 집중한다. 그 함수가 제품 안 어디에서 불리는지는 diff에 보이지 않으니 자연스럽게 질문에서 빠진다.",
+        "### 실제로 일어난 일",
+        "저장소 전체를 검색하니 새 함수를 import하는 곳은 그 테스트 파일 하나뿐이었다. 작업을 띄우는 실제 경로는 전혀 바뀌지 않았다. 머지했다면 이슈는 \"해결됨\"으로 닫히고, 호스트는 예전과 똑같이 과부하 상태에서 작업을 띄웠을 것이다. 테스트는 거짓말을 하지 않았다. 다만 함수가 맞다는 것과 제품이 그 함수를 쓴다는 것은 다른 주장이다.",
+        "### 무엇을 확인해야 하는가",
+        "PR이 새로 export한 이름마다 테스트 폴더를 뺀 소스에서 참조를 센다. 예: `git grep -n 'newFunctionName' -- src ':!*.test.*'`. 정의한 줄만 나오면 호출처가 0이다. 이슈가 말한 동작이 일어나는 진입점(작업 실행, 요청 처리, 시작 훅 등)을 하나 골라, 그 경로에서 새 함수까지 호출이 실제로 이어지는지 따라가 본다.",
+        "### 고치는 방향",
+        "함수를 실제 진입점에 연결하고, 연결 자체를 확인하는 테스트를 하나 더 둔다. 단위 테스트는 함수를 직접 부르지만, 이 테스트는 진입점을 통해 들어가서 과부하 조건에서 실행이 기다리는지를 본다. 연결 코드를 지우면 이 테스트가 실패해야 한다. 실패하지 않는다면 그 테스트도 연결을 증명하지 못한다.",
+        "### 확인 방법",
+        "머지 전에 세 가지를 적는다. 새 export마다 테스트 밖 호출처 수, 진입점 테스트 이름, 연결 코드를 뺐을 때 그 테스트가 실패했는지. 호출처가 0인 export가 남아 있거나 진입점 테스트가 연결 없이도 통과한다면, 그 PR은 아직 이슈를 닫지 못한다."
+      ],
+      "en": [
+        "### The setup",
+        "There is an issue asking to check host load before launching heavy jobs and to make them wait when the machine is overloaded. A worker opens a PR. A new file contains a tidy load-check function, with unit tests covering the thresholds and edge cases. CI is green, and the worker reports: ready, the issue can be closed.",
+        "### The usual mistake",
+        "The diff has a new function and passing tests, so you read it as the feature being in. Review focuses on whether the logic inside the function is correct and whether the tests cover the boundaries. Where the function is called from inside the product is not visible in the diff, so that question quietly drops out.",
+        "### What was actually happening",
+        "Searching the whole repository showed that the only file importing the new function was its own test. The real job-launch path had not changed at all. Had it been merged, the issue would have closed as resolved while the host kept launching jobs under overload exactly as before. The tests did not lie. A correct function and a product that uses that function are simply two different claims.",
+        "### What to check",
+        "For every name the PR newly exports, count references in source outside the tests. For example: `git grep -n 'newFunctionName' -- src ':!*.test.*'`. If only the definition line comes back, there are zero call sites. Then pick the entry point where the issue's behavior should happen, such as job launch, request handling, or a startup hook, and trace whether calls from that path actually reach the new function.",
+        "### Which way to fix it",
+        "Wire the function into the real entry point, and add one more test that checks the wiring itself. The unit tests call the function directly; this test goes in through the entry point and confirms that execution waits under an overload condition. Deleting the wiring code must make this test fail. If it still passes, that test does not prove the wiring either.",
+        "### How to check",
+        "Before merging, write down three things: the number of non-test call sites for each new export, the name of the entry-point test, and whether that test failed with the wiring removed. If any export still has zero callers, or the entry-point test passes without the wiring, the PR cannot close the issue yet."
+      ],
+      "zh": [
+        "### 场景",
+        "有一个议题：启动重型任务前先检查主机负载，过载时让任务等待。工作者提交了 PR。新文件里有一个写得很干净的负载判定函数，还带着覆盖阈值和边界条件的单元测试。CI 是绿的，工作者报告说：已经就绪，可以关闭议题。",
+        "### 常见的误判",
+        "diff 里有新函数，测试也通过了，于是就当作功能已经进去了。评审集中在函数内部逻辑对不对、测试有没有覆盖边界值上。这个函数在产品里的哪里被调用，在 diff 里是看不到的，于是这个问题自然就被漏掉了。",
+        "### 实际发生了什么",
+        "在整个仓库里搜索后发现，引用这个新函数的只有它自己的测试文件。真正启动任务的路径完全没变。如果当时合并了，议题会被标记为已解决并关闭，而主机仍会像以前一样在过载时照常启动任务。测试没有撒谎，只是“函数是对的”和“产品在用这个函数”本来就是两个不同的结论。",
+        "### 该检查什么",
+        "对 PR 新导出的每个名字，在排除测试之后的源码里统计引用次数。例如：`git grep -n 'newFunctionName' -- src ':!*.test.*'`。如果只查到定义那一行，调用方就是零。再挑一个议题所说行为应该发生的入口（任务启动、请求处理、启动钩子等），顺着这条路径追下去，看调用是否真的能走到新函数。",
+        "### 修复方向",
+        "把函数接到真实的入口上，并再加一个专门验证这层连接的测试。单元测试是直接调用函数；这个测试则从入口进去，确认在过载条件下执行确实会等待。删掉连接代码时，这个测试必须失败。如果它依然通过，说明它也证明不了连接。",
+        "### 如何确认",
+        "合并前写下三样东西：每个新导出在测试之外的调用方数量、入口测试的名字、去掉连接代码后该测试是否失败。只要还有调用方为零的导出，或者入口测试在没有连接时也能通过，这个 PR 就还不能关闭议题。"
+      ],
+      "ja": [
+        "### 状況",
+        "「重いジョブを起動する前にホストの負荷を確認し、過負荷なら待たせる」という Issue がある。ワーカーが PR を出す。新しいファイルには整った負荷判定関数があり、しきい値と境界条件を確かめる単体テストも付いている。CI は緑で、ワーカーは「準備完了、Issue は閉じてよい」と報告する。",
+        "### よくある思い込み",
+        "diff に新しい関数があり、テストも通っているので、機能が入ったと読んでしまう。レビューは関数内部のロジックが正しいか、テストが境界値を押さえているかに集中する。その関数が製品のどこから呼ばれるかは diff に現れないので、その問いは自然と抜け落ちる。",
+        "### 実際に起きていたこと",
+        "リポジトリ全体を検索すると、新しい関数を import しているのはそのテストファイルだけだった。ジョブを起動する実際の経路は何も変わっていなかった。マージしていれば Issue は「解決済み」で閉じられ、ホストは以前とまったく同じように過負荷のままジョブを起動し続けていただろう。テストは嘘をついていない。関数が正しいことと、製品がその関数を使っていることは、別々の主張なのだ。",
+        "### 何を確かめるべきか",
+        "PR が新しく export した名前ごとに、テストを除いたソースでの参照数を数える。例: `git grep -n 'newFunctionName' -- src ':!*.test.*'`。定義の行しか出てこなければ、呼び出し元はゼロだ。次に、Issue の振る舞いが起きるはずの入口(ジョブ起動、リクエスト処理、起動フックなど)を一つ選び、その経路から新しい関数まで呼び出しが本当につながっているかをたどる。",
+        "### 直す方向",
+        "関数を実際の入口につなぎ、そのつながり自体を確かめるテストをもう一つ置く。単体テストは関数を直接呼ぶが、このテストは入口から入り、過負荷の条件で実行が待たされることを確かめる。接続コードを消したら、このテストは落ちなければならない。落ちないなら、そのテストも接続を証明できていない。",
+        "### 確認方法",
+        "マージの前に三つを書き出す。新しい export ごとのテスト外の呼び出し元の数、入口テストの名前、接続コードを外したときにそのテストが落ちたかどうか。呼び出し元ゼロの export が残っているか、入口テストが接続なしでも通るなら、その PR はまだ Issue を閉じられない。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-09/2026-09-27.md",
+      "publicSafe": "adapted-with-private-identifiers-repository-names-pr-numbers-and-internal-paths-removed"
+    }
   }
 ]
