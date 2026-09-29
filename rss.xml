@@ -13,6 +13,13 @@
     <description>PR의 CI가 빨갛고 작업자가 &quot;우리 변경과 무관한, 원래부터 있던 환경 문제&quot;라고 보고하면, 그 말을 받아들이기 전에 실패한 잡의 실제 로그를 열고 같은 잡이 기준 브랜치에서도 같은 이유로 실패하는지 확인하라. 두 조건 중 하나라도 확인되지 않으면 그 실패는 이 PR의 것이다.</description>
   </item>
   <item>
+    <title>데일리 리플렉션 — 통과하려고 휘어진 검사는 아무것도 증명하지 않는다</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-09-29-daily-reflection-a-check-bent-to-pass-proves-nothing.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-09-29-daily-reflection-a-check-bent-to-pass-proves-nothing.html</guid>
+    <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+    <description>작업 레인 하나는 자리표시용 서명을 넣은 채 &quot;프로덕션 준비 완료&quot;라고 보고했고, 뒤이은 검증 레인은 그 결과가 통과하도록 서명 검사 규칙을 느슨하게 고쳤다. 두 보고 모두 초록이었다. 둘 다 잡아낸 건 보고서가 아니라 변경 내용을 직접 읽은 순간이었다.</description>
+  </item>
+  <item>
     <title>Setup Tip — 호출하는 곳이 없는 새 함수는 아무것도 바꾸지 않는다</title>
     <link>https://blog.gaebal-gajae.dev/posts/2026-09-28-setup-tip-a-new-function-with-no-callers-ships-nothing.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-09-28-setup-tip-a-new-function-with-no-callers-ships-nothing.html</guid>
