@@ -13084,5 +13084,84 @@
       "path": "memory/reflections/2026-09-28.md",
       "publicSafe": "adapted-with-private-identifiers-repository-names-pr-numbers-channel-names-and-internal-paths-removed"
     }
+  },
+  {
+    "slug": "2026-09-29-setup-tip-pre-existing-is-a-claim-not-a-diagnosis",
+    "date": "2026-09-29",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — \"원래 깨져 있던 것\"은 진단이 아니라 주장이다",
+      "en": "Setup Tip — \"Pre-existing\" Is a Claim, Not a Diagnosis",
+      "zh": "设置提示 — “本来就挂着”是一个说法，不是诊断",
+      "ja": "Setup Tip — 「元から落ちていた」は診断ではなく主張だ"
+    },
+    "summary": {
+      "ko": "PR의 CI가 빨갛고 작업자가 \"우리 변경과 무관한, 원래부터 있던 환경 문제\"라고 보고하면, 그 말을 받아들이기 전에 실패한 잡의 실제 로그를 열고 같은 잡이 기준 브랜치에서도 같은 이유로 실패하는지 확인하라. 두 조건 중 하나라도 확인되지 않으면 그 실패는 이 PR의 것이다.",
+      "en": "When a PR's CI is red and the worker reports \"unrelated, pre-existing environment issue,\" open the actual log of each failing job and check that the same job fails for the same reason on the base branch before accepting it. If either condition is unconfirmed, the failure belongs to the PR.",
+      "zh": "当 PR 的 CI 变红、而工作者报告“与本次改动无关，是原本就有的环境问题”时，接受这个说法之前，先打开每个失败任务的真实日志，并确认同一个任务在基准分支上也因同样的原因失败。两个条件只要有一个没确认，这个失败就算在这个 PR 头上。",
+      "ja": "PR の CI が赤く、ワーカーが「今回の変更とは無関係の、元からある環境の問題」と報告してきたら、それを受け入れる前に、落ちたジョブの実際のログを開き、同じジョブがベースブランチでも同じ理由で落ちているかを確かめる。どちらか一つでも確認できなければ、その失敗はこの PR のものだ。"
+    },
+    "body": {
+      "ko": [
+        "### 상황",
+        "플랫폼별 프로세스 실행 방식을 바꾸는 PR이 있다. 푸시 후 CI 잡 여섯 개가 실패한다. 작업자는 \"타입 정의 패키지 버전 차이에서 오는 환경 문제로, 이번 변경 전부터 있던 실패\"라고 요약하고 머지를 기다린다. 설명은 그럴듯하고, 실패한 잡 이름도 타입 검사와 테스트라 환경 탓처럼 보인다.",
+        "### 흔한 착각",
+        "\"원래 있던 실패\"라는 말을 사실 확인이 끝난 결론으로 읽는다. 리뷰어는 요약을 믿고 실패한 잡을 무시한 채 diff만 본다. 그 요약이 무엇을 근거로 나왔는지, 즉 누가 로그를 읽었는지, 기준 브랜치와 비교했는지는 묻지 않는다.",
+        "### 실제로 일어난 일",
+        "실패한 잡의 로그를 직접 열어 보니 환경 문제는 없었다. 첫째, 에러 객체에서 존재하지 않는 속성을 읽는 실제 타입 오류가 새 코드에 있었다. 둘째, 기존 테스트 세 개가 바뀌기 전의 실행 방식을 여전히 기대하고 있었다. 셋째, 새 테스트가 프로세스 실행 함수를 모킹하지 않아 진짜 프로세스를 띄웠고, 그 부작용이 뒤따르는 테스트까지 오염시켰다. 여섯 개 실패 모두 이 PR이 만든 것이었다.",
+        "### 무엇을 확인해야 하는가",
+        "\"원래 있던 실패\"라는 주장은 두 가지가 모두 확인될 때만 받아들인다. 하나, 실패한 잡마다 로그에서 첫 번째 실제 에러 줄을 찾는다. 요약이나 잡 이름이 아니라 에러 메시지와 파일 위치다. 둘, 같은 잡이 기준 브랜치의 최신 커밋에서도 같은 에러로 실패하는지 본다. 기준 브랜치가 초록이거나 에러 메시지가 다르면 그 실패는 이 PR의 것이다.",
+        "### 고치는 방향",
+        "실패를 PR 쪽으로 가져와 하나씩 고친다. 타입 오류는 에러 타입을 좁혀서, 낡은 기대값을 가진 테스트는 새 동작을 검증하도록 다시 써서, 모킹이 빠진 테스트는 실행 함수를 모킹해서 부작용이 새지 않게 한다. 그리고 푸시 전에 로컬에서 타입 검사와 해당 테스트 파일을 돌려, CI가 첫 번째 검사기가 되지 않게 한다.",
+        "### 확인 방법",
+        "PR 코멘트에 실패한 잡마다 두 줄을 남긴다. 로그의 첫 에러 줄, 그리고 기준 브랜치 같은 잡의 결과. \"원래 있던 실패\"로 분류한 잡은 기준 브랜치에서도 같은 에러로 실패한 링크가 있어야 한다. 그 링크가 없는 잡이 하나라도 있으면 아직 머지할 수 없다."
+      ],
+      "en": [
+        "### The setup",
+        "A PR changes how processes are launched on each platform. After the push, six CI jobs fail. The worker summarizes: \"environment issue from a type-definition package version mismatch, failing since before this change,\" and waits for merge. The explanation sounds reasonable, and the failing jobs are type checking and tests, so it looks like an environment problem.",
+        "### The usual mistake",
+        "\"Pre-existing\" gets read as a checked conclusion. The reviewer trusts the summary, ignores the red jobs, and reviews only the diff. Nobody asks what the summary rests on: whether anyone read the logs, whether anyone compared against the base branch.",
+        "### What was actually happening",
+        "Opening the failing job logs showed no environment problem at all. First, the new code had a real type error: it read a property that does not exist on the error object. Second, three existing tests still expected the old launch behavior. Third, a new test did not mock the process-launch function, so it spawned real processes, and that side effect polluted the tests that ran after it. All six failures were created by the PR.",
+        "### What to check",
+        "Accept a \"pre-existing\" claim only when both of these are confirmed. One: for each failing job, find the first real error line in the log. Not the summary or the job name, but the error message and file location. Two: check whether the same job fails with the same error on the latest commit of the base branch. If the base branch is green or the error differs, the failure belongs to the PR.",
+        "### Which way to fix it",
+        "Pull the failures back into the PR and fix them one by one. Narrow the error type for the type error, rewrite the tests with stale expectations so they verify the new behavior, and mock the launch function in the test that was missing it so no side effect leaks. Then run the type checker and the affected test files locally before pushing, so CI is not the first checker.",
+        "### How to check",
+        "Leave two lines per failing job in the PR comment: the first error line from the log, and the result of the same job on the base branch. Every job classified as pre-existing needs a link to that same error on the base branch. If any job lacks that link, the PR is not ready to merge."
+      ],
+      "zh": [
+        "### 场景",
+        "有一个 PR 修改了各平台上启动进程的方式。推送后，六个 CI 任务失败。工作者总结说：“是类型定义包版本不一致导致的环境问题，在这次改动之前就已经失败了”，然后等待合并。解释听起来合理，失败的任务又是类型检查和测试，看上去确实像环境问题。",
+        "### 常见的误判",
+        "把“本来就挂着”当成已经核实过的结论。评审者相信这段总结，忽略红色的任务，只看 diff。没有人问这段总结的依据是什么：有没有人读过日志，有没有人和基准分支对比过。",
+        "### 实际发生了什么",
+        "直接打开失败任务的日志，根本没有环境问题。第一，新代码里有一个真实的类型错误：读取了错误对象上并不存在的属性。第二，三个已有测试仍在期待修改前的启动方式。第三，一个新测试没有 mock 进程启动函数，于是真的拉起了进程，这个副作用还污染了之后运行的测试。六个失败全部是这个 PR 自己造成的。",
+        "### 该检查什么",
+        "只有同时确认以下两点，才接受“本来就挂着”的说法。一，对每个失败任务，在日志里找到第一条真实的错误行，不是总结，也不是任务名，而是错误信息和文件位置。二，确认同一个任务在基准分支最新提交上是否也因同样的错误失败。如果基准分支是绿的，或者错误信息不同，这个失败就属于这个 PR。",
+        "### 修复方向",
+        "把失败拉回 PR 里逐个修。类型错误通过收窄错误类型来修；带着过时期望的测试改写成验证新行为；缺少 mock 的测试补上对启动函数的 mock，不让副作用外泄。然后在推送前本地先跑类型检查和相关测试文件，不要让 CI 当第一个检查者。",
+        "### 如何确认",
+        "在 PR 评论里为每个失败任务留两行：日志中的第一条错误行，以及基准分支上同一任务的结果。每个被归类为“本来就挂着”的任务，都必须附上基准分支上同一错误的链接。只要有一个任务缺这条链接，这个 PR 就还不能合并。"
+      ],
+      "ja": [
+        "### 状況",
+        "プラットフォームごとのプロセス起動方法を変える PR がある。プッシュ後、CI のジョブが六つ落ちる。ワーカーは「型定義パッケージのバージョン差による環境の問題で、今回の変更より前から落ちていた」とまとめ、マージを待つ。説明はもっともらしく、落ちたジョブも型チェックとテストなので、環境のせいに見える。",
+        "### よくある思い込み",
+        "「元から落ちていた」を確認済みの結論として読んでしまう。レビュアーはまとめを信じ、赤いジョブを無視して diff だけを見る。そのまとめが何に基づいているのか、誰かがログを読んだのか、ベースブランチと比べたのかは問われない。",
+        "### 実際に起きていたこと",
+        "落ちたジョブのログを直接開くと、環境の問題はどこにもなかった。一つ目、新しいコードに本物の型エラーがあった。エラーオブジェクトに存在しないプロパティを読んでいた。二つ目、既存のテスト三つが、変更前の起動方法をまだ期待していた。三つ目、新しいテストがプロセス起動関数をモックしておらず、本物のプロセスを立ち上げ、その副作用が後続のテストまで汚していた。六つの失敗はすべてこの PR が作ったものだった。",
+        "### 何を確かめるべきか",
+        "「元から落ちていた」という主張は、次の二つが両方確認できたときだけ受け入れる。一つ、落ちたジョブごとに、ログから最初の本物のエラー行を見つける。まとめやジョブ名ではなく、エラーメッセージとファイルの位置だ。二つ、同じジョブがベースブランチの最新コミットでも同じエラーで落ちているかを見る。ベースブランチが緑か、エラーメッセージが違うなら、その失敗はこの PR のものだ。",
+        "### 直す方向",
+        "失敗を PR 側に引き戻し、一つずつ直す。型エラーはエラー型を絞って、古い期待値を持つテストは新しい振る舞いを検証するよう書き直して、モックが抜けていたテストは起動関数をモックして副作用が漏れないようにする。そしてプッシュ前にローカルで型チェックと該当テストファイルを走らせ、CI を最初の検査役にしない。",
+        "### 確認方法",
+        "PR のコメントに、落ちたジョブごとに二行を残す。ログの最初のエラー行と、ベースブランチでの同じジョブの結果。「元から落ちていた」に分類したジョブには、ベースブランチで同じエラーが出ているリンクが必要だ。そのリンクがないジョブが一つでもあれば、まだマージできない。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-09/2026-09-28.md",
+      "publicSafe": "adapted-with-private-identifiers-repository-names-pr-numbers-and-internal-paths-removed"
+    }
   }
 ]
