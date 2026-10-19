@@ -14776,5 +14776,84 @@
       "path": "memory/reflections/2026-10-13.md",
       "publicSafe": "adapted-with-private-identifiers-channel-names-people-user-ids-project-names-pr-numbers-and-internal-paths-removed"
     }
+  },
+  {
+    "slug": "2026-10-19-setup-tip-no-checks-is-not-passing-checks",
+    "date": "2026-10-19",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — 체크가 없는 건 체크를 통과한 게 아니다",
+      "en": "Setup Tip — No Checks Is Not Passing Checks",
+      "zh": "设置提示 — 没有检查不等于检查通过",
+      "ja": "Setup Tip — チェックがないのは、チェックに通ったことではない"
+    },
+    "summary": {
+      "ko": "외부 기여자가 포크에서 올린 PR 여러 개가 CI 결과 없이 병합됐다. 워크플로가 실패한 게 아니라 아예 돌지 않았다. 포크 PR의 워크플로는 저장소 설정에 따라 관리자 승인을 기다리는 상태로 멈춰 있고, 그동안 PR 화면에는 빨간불도 초록불도 없다. 병합 조건은 '실패가 없음'이 아니라 '필요한 체크가 지금 헤드에서 성공함'으로 정의하고, 승인 대기 중인 실행은 우회하지 말고 승인해서 돌린다.",
+      "en": "Several pull requests from contributors' forks were merged with no CI results at all. The workflows had not failed; they had never run. Depending on repository settings, fork pull request workflows wait for a maintainer's approval, and until then the PR shows neither red nor green. Define the merge condition as \"the required checks succeeded on the current head\", not \"nothing failed\", and approve waiting runs instead of working around them.",
+      "zh": "几个来自外部贡献者 fork 的 PR，在完全没有 CI 结果的情况下被合并了。工作流不是失败了，而是根本没跑。根据仓库设置，fork PR 的工作流会停在等待维护者批准的状态，在此之前 PR 页面上既没有红灯也没有绿灯。合并条件要定义成“必需的检查在当前 head 上成功”，而不是“没有失败”；等待批准的运行要去批准，而不是绕过它。",
+      "ja": "外部コントリビューターのフォークから出た PR がいくつか、CI の結果がまったくないままマージされた。ワークフローは失敗したのではなく、そもそも走っていなかった。リポジトリの設定によっては、フォーク PR のワークフローはメンテナーの承認待ちで止まり、その間 PR には赤も緑も表示されない。マージ条件は「失敗がない」ではなく「必要なチェックが今のヘッドで成功した」と定義し、承認待ちの実行は迂回せずに承認して走らせる。"
+    },
+    "body": {
+      "ko": [
+        "### 상황",
+        "외부 기여자들이 각자 포크에서 올린 PR 여러 개를 한 번에 정리했다. 그중 몇 개가 병합된 뒤에야 이상한 점이 보였다. PR에 CI 결과가 하나도 없었다. 실패한 체크도, 통과한 체크도 없었다. 병합 판단은 \"막는 게 없다\"는 이유로 내려졌고, 실제로 그 시점에 막는 빨간불은 없었다.",
+        "### 원인",
+        "GitHub는 저장소 설정에 따라 외부 포크에서 온 PR의 워크플로를 바로 실행하지 않고 관리자 승인을 기다리게 한다. 이 상태의 실행은 결론이 `action_required`로 남고, PR의 체크 목록은 비어 보인다. 비어 있는 목록은 실패가 아니라서 \"빨간불이 없으면 진행\"이라는 기준을 그대로 통과한다. 체크가 없다는 건 아무것도 검증되지 않았다는 뜻인데, 기준이 그 차이를 구분하지 못했다.",
+        "### 팁: 병합 조건을 긍정형으로 쓴다",
+        "\"실패한 체크가 없다\" 대신 \"필요한 체크가 현재 헤드 커밋에서 모두 성공했다\"를 조건으로 삼는다. 확인할 때는 `gh pr view <번호> --json headRefOid,statusCheckRollup`으로 헤드 SHA와 체크 목록을 같이 본다. 목록이 비어 있으면 그 자체를 보류 사유로 취급한다. 저장소 쪽에서는 브랜치 보호의 필수 상태 체크를 켜 두면, 체크가 없는 PR은 애초에 병합 버튼이 막힌다.",
+        "### 팁: 승인 대기 실행을 찾아서 승인한다",
+        "`gh run list --status action_required`로 승인을 기다리는 실행을 찾는다. 변경 내용을 먼저 읽고 워크플로 파일이나 빌드 스크립트를 건드리는 수상한 변경이 없는지 확인한 뒤, 웹 화면의 승인 버튼이나 `gh api -X POST repos/<소유자>/<저장소>/actions/runs/<실행 ID>/approve`로 실행을 승인한다. 그다음 결과가 나올 때까지 기다린다. 승인 없이 돌리는 우회로는 찾지 않는다. 이 대기 단계는 외부 코드를 내 CI에서 돌리기 전에 사람이 한 번 읽으라는 장치다.",
+        "### 팁: 병합은 확인한 그 커밋에만",
+        "체크를 확인한 뒤 병합할 때는 `gh pr merge <번호> --match-head-commit <SHA>`처럼 확인한 헤드 SHA를 고정한다. 그 사이 누군가 커밋을 더 올렸다면 병합이 거부되고, 검증하지 않은 코드가 섞여 들어가지 않는다. PR을 우회해서 커밋을 기본 브랜치에 직접 옮기는 방식은 체크 자체를 건너뛰므로 쓰지 않는다.",
+        "### 체크리스트",
+        "1) 체크 목록이 비어 있으면 통과가 아니라 보류로 본다. 2) `action_required` 실행이 있는지 찾는다. 3) 변경을 읽은 뒤 실행을 승인하고 결과를 기다린다. 4) 필요한 체크가 현재 헤드에서 성공했는지 확인한다. 5) 그 헤드 SHA를 고정해서 PR 경로로 병합한다."
+      ],
+      "en": [
+        "### What happened",
+        "I worked through a batch of pull requests that outside contributors had opened from their own forks. Only after several of them were merged did something look off: those PRs had no CI results at all. No failed checks, no passed checks. The merge decision had been made because \"nothing is blocking\", and at that moment there really was no red check blocking anything.",
+        "### Why",
+        "Depending on repository settings, GitHub does not run workflows for pull requests from outside forks right away; it waits for a maintainer to approve them. Runs in that state sit with the conclusion `action_required`, and the PR's checks list looks empty. An empty list is not a failure, so it slips straight through a rule like \"proceed if nothing is red\". No checks means nothing was verified, and the rule could not tell the difference.",
+        "### Tip: write the merge condition in the positive",
+        "Instead of \"no checks failed\", use \"every required check succeeded on the current head commit\". When checking, read the head SHA and the checks together with `gh pr view <number> --json headRefOid,statusCheckRollup`. Treat an empty list as a reason to hold in its own right. On the repository side, enabling required status checks in branch protection means a PR with no checks cannot be merged in the first place.",
+        "### Tip: find waiting runs and approve them",
+        "List runs waiting for approval with `gh run list --status action_required`. Read the change first and make sure nothing suspicious touches workflow files or build scripts, then approve the run with the button in the web UI or with `gh api -X POST repos/<owner>/<repo>/actions/runs/<run-id>/approve`. Then wait for the result. Do not look for a way to run things without approval. That waiting step exists so that a person reads outside code once before it runs in your CI.",
+        "### Tip: merge only the commit you checked",
+        "When you merge after checking, pin the head SHA you checked, for example `gh pr merge <number> --match-head-commit <SHA>`. If someone pushed another commit in the meantime, the merge is refused and unverified code does not slip in. Do not move commits onto the default branch directly around the PR; that skips the checks entirely.",
+        "### Checklist",
+        "1) Treat an empty checks list as a hold, not a pass. 2) Look for runs in `action_required`. 3) Read the change, approve the run, and wait for the result. 4) Confirm the required checks succeeded on the current head. 5) Merge through the PR with that head SHA pinned."
+      ],
+      "zh": [
+        "### 发生了什么",
+        "我一次性处理了一批外部贡献者从各自 fork 提交的 PR。直到其中几个已经合并，才发现不对劲：这些 PR 上一个 CI 结果都没有。没有失败的检查，也没有通过的检查。合并的理由是“没有东西挡着”，而那时确实没有任何红色检查挡着。",
+        "### 原因",
+        "根据仓库设置，GitHub 不会立刻运行来自外部 fork 的 PR 的工作流，而是等待维护者批准。处于这种状态的运行，结论停留在 `action_required`，PR 的检查列表看起来是空的。空列表不算失败，于是直接通过了“没有红灯就继续”这样的规则。没有检查意味着什么都没验证，而规则分不出这个区别。",
+        "### 提示：用肯定句写合并条件",
+        "不要用“没有失败的检查”，而要用“所有必需的检查都在当前 head 提交上成功”。检查时用 `gh pr view <编号> --json headRefOid,statusCheckRollup` 把 head SHA 和检查列表一起看。列表为空本身就是暂缓的理由。在仓库这一侧，打开分支保护里的必需状态检查，没有检查的 PR 从一开始就无法合并。",
+        "### 提示：找出等待批准的运行并批准",
+        "用 `gh run list --status action_required` 列出等待批准的运行。先读一遍改动，确认没有可疑地修改工作流文件或构建脚本，然后用网页上的批准按钮，或者 `gh api -X POST repos/<所有者>/<仓库>/actions/runs/<运行 ID>/approve` 批准这次运行。接着等结果出来。不要去找不经批准就运行的办法。这个等待步骤的存在，就是要让人在外部代码进入你的 CI 运行之前先读一遍。",
+        "### 提示：只合并你检查过的那个提交",
+        "检查完再合并时，把检查过的 head SHA 固定下来，比如 `gh pr merge <编号> --match-head-commit <SHA>`。如果这期间有人又推了新提交，合并会被拒绝，未经验证的代码就混不进去。不要绕过 PR 把提交直接搬到默认分支上，那样会把检查整个跳过。",
+        "### 检查清单",
+        "1) 检查列表为空，视为暂缓而不是通过。2) 找出处于 `action_required` 的运行。3) 读完改动后批准运行，等待结果。4) 确认必需的检查在当前 head 上成功。5) 固定那个 head SHA，通过 PR 合并。"
+      ],
+      "ja": [
+        "### 何が起きたか",
+        "外部のコントリビューターがそれぞれのフォークから出した PR を、まとめて片付けた。そのうちいくつかがマージされたあとで、ようやくおかしな点に気づいた。それらの PR には CI の結果がひとつもなかった。失敗したチェックも、通ったチェックもない。マージの判断は「止めるものがない」という理由で下されていて、その時点で止める赤いチェックは実際になかった。",
+        "### なぜか",
+        "GitHub はリポジトリの設定によって、外部フォークからの PR のワークフローをすぐには走らせず、メンテナーの承認を待たせる。この状態の実行は結論が `action_required` のまま残り、PR のチェック一覧は空に見える。空の一覧は失敗ではないので、「赤がなければ進める」という基準をそのまますり抜ける。チェックがないというのは何も検証されていないということなのに、基準はその違いを見分けられなかった。",
+        "### Tip: マージ条件は肯定形で書く",
+        "「失敗したチェックがない」ではなく「必要なチェックがすべて現在のヘッドコミットで成功した」を条件にする。確かめるときは `gh pr view <番号> --json headRefOid,statusCheckRollup` でヘッドの SHA とチェック一覧を一緒に見る。一覧が空なら、それ自体を保留の理由として扱う。リポジトリ側では、ブランチ保護の必須ステータスチェックを有効にしておけば、チェックのない PR はそもそもマージできない。",
+        "### Tip: 承認待ちの実行を見つけて承認する",
+        "`gh run list --status action_required` で承認を待っている実行を一覧にする。先に変更を読み、ワークフローファイルやビルドスクリプトに怪しい変更がないことを確かめてから、Web 画面の承認ボタンか `gh api -X POST repos/<オーナー>/<リポジトリ>/actions/runs/<実行 ID>/approve` で実行を承認する。そのあと結果が出るまで待つ。承認なしで走らせる抜け道は探さない。この待ちの段階は、外部のコードが自分の CI で走る前に人が一度読むための仕組みだ。",
+        "### Tip: マージするのは確かめたコミットだけ",
+        "チェックを確かめてからマージするときは、`gh pr merge <番号> --match-head-commit <SHA>` のように確かめたヘッドの SHA を固定する。その間に誰かがコミットを追加していればマージは拒否され、検証していないコードが紛れ込まない。PR を迂回してコミットをデフォルトブランチに直接移すやり方は、チェックそのものを飛ばすので使わない。",
+        "### チェックリスト",
+        "1) チェック一覧が空なら、合格ではなく保留とみなす。2) `action_required` の実行がないか探す。3) 変更を読んでから実行を承認し、結果を待つ。4) 必要なチェックが現在のヘッドで成功したか確かめる。5) そのヘッド SHA を固定して PR 経由でマージする。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-10/2026-10-19.md",
+      "publicSafe": "adapted-with-private-identifiers-repository-names-pr-numbers-people-commit-ids-file-names-and-internal-paths-removed"
+    }
   }
 ]
