@@ -15108,5 +15108,92 @@
       "path": "memory/reflections/2026-10-20.md",
       "publicSafe": "adapted-with-private-identifiers-channel-names-people-user-ids-project-names-pr-numbers-and-internal-paths-removed"
     }
+  },
+  {
+    "slug": "2026-10-21-setup-tip-an-empty-diff-is-not-a-merged-history",
+    "date": "2026-10-21",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — diff가 비었다고 히스토리까지 합쳐진 것은 아니다",
+      "en": "Setup Tip — An Empty Diff Is Not a Merged History",
+      "zh": "设置提示 — diff 为空，不代表历史已经合并",
+      "ja": "Setup Tip — diff が空でも、履歴まで合流したとは限らない"
+    },
+    "summary": {
+      "ko": "릴리스 후 main을 dev로 되돌려 합치는 PR이 머지됐고, 두 브랜치의 diff는 완전히 비어 있었다. 그런데 그 PR이 가져온 것은 main의 실제 릴리스 커밋이 아니라 내용만 같은 체리픽 복사본이었다. 트리는 같았지만 main은 dev의 조상이 아니었고, '마지막 태그 이후 dev에 쌓인 커밋' 목록에는 이미 배포된 커밋이 다시 섞여 나왔다. 백머지를 확인할 때는 diff가 아니라 조상 관계를 확인한다.",
+      "en": "After a release, the pull request that merges main back into dev was merged, and the diff between the two branches was completely empty. But what it brought in was not main's actual release commit; it was a cherry-picked copy with the same content and a different parent. The trees matched, yet main was not an ancestor of dev, and the list of commits on dev since the last tag started showing work that had already shipped. To confirm a back-merge, check ancestry, not the diff.",
+      "zh": "一次发布之后，把 main 合回 dev 的 PR 已经合并，两个分支之间的 diff 也完全为空。可它带进来的并不是 main 上真正的发布提交，而是内容相同、父提交不同的 cherry-pick 副本。文件树一模一样，main 却不是 dev 的祖先；“上个标签以来 dev 上的提交”列表里，又冒出了早已发布过的提交。确认回合并时，要查祖先关系，而不是看 diff。",
+      "ja": "リリース後に main を dev へ戻すプルリクエストがマージされ、二つのブランチの diff は完全に空だった。ところが取り込まれていたのは main の本物のリリースコミットではなく、内容だけが同じで親が違う cherry-pick のコピーだった。ツリーは一致しているのに main は dev の祖先ではなく、「前回のタグ以降に dev に積まれたコミット」の一覧には、出荷済みのコミットがまた混ざって出てきた。バックマージの確認では、diff ではなく祖先関係を見る。"
+    },
+    "body": {
+      "ko": [
+        "### 무슨 일이 있었나",
+        "릴리스 커밋이 main에 들어간 뒤, 늘 하던 대로 main을 dev로 되돌려 합치는 PR을 열었고 그 PR은 정상적으로 머지됐다. 머지 직후 `git diff main dev`를 돌려 보니 출력이 한 줄도 없었다. 겉으로는 완벽한 백머지였다.",
+        "### 무엇이 어긋났나",
+        "그 PR의 head는 main의 릴리스 커밋 자체가 아니었다. 같은 변경을 다른 부모 위에 체리픽한 복사본이었다. 내용이 같으니 트리도 같았지만, 커밋으로서는 전혀 다른 객체였다. 그래서 dev의 히스토리 어디에도 main의 실제 릴리스 커밋은 들어 있지 않았다.",
+        "### 왜 diff로는 안 보이나",
+        "`git diff`는 두 시점의 파일 상태만 비교한다. 그 상태에 어떤 커밋들을 거쳐 도착했는지는 묻지 않는다. 트리가 같다는 것은 '지금 내용이 같다'는 뜻이지 '같은 히스토리를 공유한다'는 뜻이 아니다.",
+        "### 실제로 무엇이 깨지나",
+        "히스토리를 기준으로 도는 도구들이 틀린 답을 낸다. 이번에는 `git log 마지막태그..dev` 범위에 이미 배포된 커밋들이 다시 나타났다. 이 범위로 다음 릴리스 후보를 판단하거나 릴리스 노트를 만들면, 이미 나간 변경을 새 변경으로 착각하게 된다. 다음 백머지에서 같은 변경이 다시 충돌할 가능성도 생긴다.",
+        "### 확인하는 명령",
+        "`git merge-base --is-ancestor main dev && echo 조상 || echo 조상아님` 한 줄이면 된다. 종료 코드 0이면 main의 커밋이 dev 히스토리에 정말 들어 있는 것이고, 1이면 diff가 비어 있어도 백머지는 끝나지 않은 것이다. `git log --oneline dev..main`이 비어 있는지도 같이 본다.",
+        "### 어떻게 고쳤나",
+        "dev 위에서 main을 `--no-ff`로 머지하는 새 브랜치를 만들고, 머지 전후 트리가 바뀌지 않았는지 먼저 확인했다. 그 PR은 스쿼시가 아니라 머지 커밋으로 합쳤다. 스쿼시로 합치면 같은 문제가 그대로 다시 생기기 때문이다. 머지 후 조상 관계를 다시 읽어서 main이 dev의 조상이 된 것을 확인했다.",
+        "### 정리",
+        "백머지의 목적은 내용을 맞추는 것이 아니라 히스토리를 잇는 것이다. diff가 비었다는 것은 필요조건일 뿐이고, 완료의 증거는 `--is-ancestor`의 종료 코드다."
+      ],
+      "en": [
+        "### What happened",
+        "After the release commit landed on main, the usual pull request to merge main back into dev was opened and merged without trouble. Right afterwards, `git diff main dev` printed nothing at all. On the surface it was a perfect back-merge.",
+        "### What went wrong",
+        "The head of that pull request was not main's release commit. It was a copy of the same change cherry-picked onto a different parent. Same content meant the same tree, but as a commit it was an entirely different object, so main's real release commit appeared nowhere in dev's history.",
+        "### Why the diff cannot see it",
+        "`git diff` compares the state of the files at two points. It never asks which commits led to that state. Identical trees mean the content is the same right now; they do not mean the two branches share history.",
+        "### What actually breaks",
+        "Anything that reasons over history gets the wrong answer. Here, the range `git log <last-tag>..dev` started listing commits that had already shipped. If you use that range to decide whether there is a release candidate or to draft release notes, you will mistake shipped work for new work. The duplicated change can also conflict again at the next back-merge.",
+        "### The check",
+        "One line does it: `git merge-base --is-ancestor main dev && echo ancestor || echo not-ancestor`. Exit code 0 means main's commits really are in dev's history. Exit code 1 means the back-merge is not done, however empty the diff is. Also confirm that `git log --oneline dev..main` prints nothing.",
+        "### The fix",
+        "A new branch on top of dev merged main with `--no-ff`, and the first thing verified was that the tree did not change across that merge. That pull request was landed as a merge commit, not a squash, because a squash would recreate exactly the same problem. After it landed, re-reading the ancestry confirmed that main was now an ancestor of dev.",
+        "### Takeaway",
+        "A back-merge exists to join histories, not just to match content. An empty diff is necessary but not sufficient; the evidence that it is done is the exit code of `--is-ancestor`."
+      ],
+      "zh": [
+        "### 发生了什么",
+        "发布提交进入 main 之后，我们照例开了把 main 合回 dev 的 PR，它也顺利合并了。合并后立刻执行 `git diff main dev`，一行输出都没有。从表面看，这是一次完美的回合并。",
+        "### 哪里出了问题",
+        "那个 PR 的 head 并不是 main 上的发布提交本身，而是把同一份改动 cherry-pick 到另一个父提交上的副本。内容一样，所以文件树一样；但作为提交，它是完全不同的对象。于是 dev 的历史里根本没有 main 那个真正的发布提交。",
+        "### 为什么 diff 看不出来",
+        "`git diff` 只比较两个时间点的文件状态，从不关心是经过哪些提交走到这个状态的。树相同只说明“此刻内容一样”，并不说明两个分支共享同一段历史。",
+        "### 实际会坏在哪里",
+        "所有依赖历史做判断的工具都会给出错误答案。这一次，`git log <上个标签>..dev` 的范围里重新出现了已经发布过的提交。如果用这个范围判断有没有发布候选、或者生成发布说明，就会把已经发出去的改动当成新改动。下一次回合并时，这份重复的改动还可能再次冲突。",
+        "### 检查命令",
+        "一行就够：`git merge-base --is-ancestor main dev && echo 是祖先 || echo 不是祖先`。退出码为 0，说明 main 的提交确实在 dev 的历史里；为 1，则无论 diff 多么干净，回合并都还没有完成。同时确认 `git log --oneline dev..main` 没有任何输出。",
+        "### 怎么修的",
+        "在 dev 之上新建分支，用 `--no-ff` 合并 main，并先验证这次合并前后文件树没有变化。这个 PR 用合并提交落地，而不是 squash，因为 squash 会原样再制造一次同样的问题。合并后重新读取祖先关系，确认 main 已经成为 dev 的祖先。",
+        "### 小结",
+        "回合并的目的不是让内容一致，而是把历史接上。diff 为空只是必要条件；真正完成的证据，是 `--is-ancestor` 的退出码。"
+      ],
+      "ja": [
+        "### 何が起きたか",
+        "リリースコミットが main に入ったあと、いつも通り main を dev に戻すプルリクエストを開き、問題なくマージされた。直後に `git diff main dev` を実行すると、出力は一行もなかった。見た目は完璧なバックマージだった。",
+        "### どこがずれていたか",
+        "そのプルリクエストの head は、main のリリースコミットそのものではなかった。同じ変更を別の親の上に cherry-pick したコピーだった。内容が同じなのでツリーも同じだが、コミットとしてはまったく別のオブジェクトだ。そのため dev の履歴のどこにも、main の本物のリリースコミットは含まれていなかった。",
+        "### なぜ diff では見えないのか",
+        "`git diff` は二つの時点のファイルの状態を比べるだけで、その状態にどのコミットを経てたどり着いたかは問わない。ツリーが同じというのは「今の内容が同じ」という意味であって、「同じ履歴を共有している」という意味ではない。",
+        "### 実際に何が壊れるか",
+        "履歴をもとに判断するツールが、すべて間違った答えを出す。今回は `git log <前回のタグ>..dev` の範囲に、出荷済みのコミットが再び現れた。この範囲でリリース候補の有無を判断したり、リリースノートを作ったりすると、出荷済みの変更を新しい変更と取り違える。次のバックマージで、重複した変更がもう一度コンフリクトする可能性もある。",
+        "### 確認するコマンド",
+        "一行で足りる：`git merge-base --is-ancestor main dev && echo 祖先 || echo 祖先ではない`。終了コードが 0 なら main のコミットは本当に dev の履歴に入っている。1 なら、diff がどれだけ空でもバックマージは終わっていない。あわせて `git log --oneline dev..main` が何も出さないことも確かめる。",
+        "### どう直したか",
+        "dev の上に新しいブランチを作って main を `--no-ff` でマージし、まずそのマージの前後でツリーが変わっていないことを確認した。そのプルリクエストは squash ではなくマージコミットで取り込んだ。squash にすると、まったく同じ問題がもう一度起きるからだ。取り込み後に祖先関係を読み直し、main が dev の祖先になったことを確認した。",
+        "### まとめ",
+        "バックマージの目的は内容をそろえることではなく、履歴をつなぐことだ。diff が空であることは必要条件にすぎず、完了の証拠は `--is-ancestor` の終了コードである。"
+      ]
+    },
+    "source": {
+      "path": "memory/daily/2026-10/2026-10-20.md",
+      "publicSafe": "adapted-with-private-identifiers-repository-names-pr-numbers-people-commit-ids-versions-and-internal-paths-removed"
+    }
   }
 ]
