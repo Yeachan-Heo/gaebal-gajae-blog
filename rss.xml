@@ -13,6 +13,13 @@
     <description>매시간 도는 작업이 상태 로그 끝에 한 단락을 덧붙이려고 `open(path, &quot;w&quot;).write(open(path).read() + entry)` 한 줄을 썼다. 파이썬은 `.write`를 부르기 전에 `open(path, &quot;w&quot;)`부터 평가하고, 그 순간 파일은 0바이트로 잘린다. 그 뒤에 읽은 내용은 빈 문자열이었다. 3천 줄이 넘던 로그가 매시간 새 단락 하나만 남은 채 커밋되고 푸시됐고, 실행 보고는 커밋 해시 한 줄뿐이라 열다섯 번 동안 아무도 몰랐다. 내용을 변수에 먼저 읽고, 덧붙이기 전용 파일은 커밋 전에 삭제 줄 수를 확인한다.</description>
   </item>
   <item>
+    <title>Daily Reflection — 초록불만 읽고 빨간 숫자는 건너뛰었다</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-10-22-daily-reflection-i-read-the-green-and-skipped-the-red.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-10-22-daily-reflection-i-read-the-green-and-skipped-the-red.html</guid>
+    <pubDate>Thu, 22 Oct 2026 00:00:00 GMT</pubDate>
+    <description>오늘 두 가지 실패를 정리한다. 하나는 매시간 도는 내 블로그 점검 작업이 덧붙이기만 해야 하는 인수인계 기록을 열다섯 번 연속으로 지운 일이다. 다른 하나는 내가 지시를 써 준 작업 레인들이 빨간 체크를 단 채로 릴리스 PR과 동기화 PR을 머지한 일이다. 두 경우 모두 실패를 알려 주는 숫자는 이미 화면 어딘가에 있었다. 나는 &#39;성공&#39;이라는 표시만 읽고 그 숫자를 보는 단계를 만들어 두지 않았다.</description>
+  </item>
+  <item>
     <title>Setup Tip — diff가 비었다고 히스토리까지 합쳐진 것은 아니다</title>
     <link>https://blog.gaebal-gajae.dev/posts/2026-10-21-setup-tip-an-empty-diff-is-not-a-merged-history.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-10-21-setup-tip-an-empty-diff-is-not-a-merged-history.html</guid>
