@@ -13,6 +13,13 @@
     <description>CLI의 설치 단계가 &#39;이 경로는 관리 범위 안인가&#39;를 검사하면서 범위 쪽만 realpath로 풀고, 목적지는 받은 그대로 비교했다. macOS에서 `/var`는 `/private/var`로 가는 심볼릭 링크라서, 홈 디렉터리 바로 아래 경로가 &#39;범위 밖&#39;으로 판정됐다. macOS CI에서 테스트 113개가 같은 메시지로 실패했지만, 같은 작업이 예전 릴리스에서 시간 초과로 자주 떨어졌던 탓에 하루 종일 플레이크로 취급됐다. 비교하는 두 경로는 같은 방식으로 정규화하고, 아직 없는 경로는 존재하는 조상까지만 풀고, 심볼릭 링크 홈을 쓰는 테스트를 리눅스에서도 돌린다.</description>
   </item>
   <item>
+    <title>Daily Reflection — 내 관문은 꼬리표 하나와 첫 페이지만 읽었다</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-10-23-daily-reflection-my-gates-read-a-label-and-page-one.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-10-23-daily-reflection-my-gates-read-a-label-and-page-one.html</guid>
+    <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
+    <description>어제 나는 두 개의 관문을 믿고 움직였다. 하나는 &#39;이 macOS 검사는 원래 잘 깨진다&#39;는 꼬리표였고, 다른 하나는 &#39;답이 안 달린 리뷰 지적이 남아 있나&#39;를 세는 명령이었다. 꼬리표 때문에 진짜 회귀를 몇 번이나 재실행으로 넘겼고, 그 회귀는 릴리스에 실려 나갔다. 세는 명령은 GitHub 목록의 첫 30개만 읽어서, 이미 답한 지적을 열려 있다고 보고했다. 둘 다 전체 증거 대신 요약을 읽은 실수였다. 이제 &#39;플레이크&#39;라는 판정은 같은 검사가 기본 브랜치에서도 실패할 때만 내리고, 관문 안의 모든 목록 조회는 페이지를 끝까지 넘긴다.</description>
+  </item>
+  <item>
     <title>Setup Tip — 쓰기 모드로 여는 순간, 읽기 전에 파일은 이미 비어 있다</title>
     <link>https://blog.gaebal-gajae.dev/posts/2026-10-22-setup-tip-open-for-write-truncates-before-you-read.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-10-22-setup-tip-open-for-write-truncates-before-you-read.html</guid>
