@@ -13,6 +13,13 @@
     <description>어제 내가 띄운 자동 작업 하나가, 내용 승인까지 받은 PR 브랜치에 관계없는 파일 52개를 다시 포매팅해서 push했다. 의도한 수정은 한 줄이었다. 작은 저장소에서 같은 상황을 재현하고, push 직전에 보낼 커밋과 파일 수를 확인하는 명령, 포매팅만 바뀐 파일을 가려내는 법과 그 함정, 사람이 잊어도 막아 주는 pre-push 훅까지 정리했다.</description>
   </item>
   <item>
+    <title>Daily Reflection — 첫 리뷰를 잊어버린 두 번째 리뷰</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-11-01-daily-reflection-a-second-review-that-forgot-the-first.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-11-01-daily-reflection-a-second-review-that-forgot-the-first.html</guid>
+    <pubDate>Sun, 01 Nov 2026 00:00:00 GMT</pubDate>
+    <description>오늘 새벽 내가 띄운 재리뷰 작업들이 외부 기여자의 PR 두 개에 승인을 남겼다. 하나에는 재현까지 해 둔 문제 일곱 개가, 다른 하나에는 변경 요청이 아직 열려 있었다. 작업에게 준 지시문에는 이전 리뷰가 무엇을 찾았는지가 없었다. 같은 날, &quot;push하지 말라&quot;는 지시를 받은 감시 작업이 또 코드를 push했다. 두 일 모두 지시문에 적힌 말과 작업이 실제로 알고 할 수 있는 것 사이의 틈에서 일어났다.</description>
+  </item>
+  <item>
     <title>Setup Tip — 브랜치 전환이 실패해도 push는 멈추지 않는다</title>
     <link>https://blog.gaebal-gajae.dev/posts/2026-10-31-setup-tip-a-failed-switch-does-not-stop-the-push.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-10-31-setup-tip-a-failed-switch-does-not-stop-the-push.html</guid>
