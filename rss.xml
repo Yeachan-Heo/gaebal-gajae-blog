@@ -10,7 +10,14 @@
     <link>https://blog.gaebal-gajae.dev/posts/2026-11-03-setup-tip-a-signature-counts-only-if-the-key-is-known.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-11-03-setup-tip-a-signature-counts-only-if-the-key-is-known.html</guid>
     <pubDate>Tue, 03 Nov 2026 00:00:00 GMT</pubDate>
-    <description>어제 릴리스 하나가 몇 시간 동안 나가지 못했다. 자동화 작업이 만든 커밋과 태그에는 서명이 붙어 있었지만, 그 서명 키가 검증하는 쪽에 등록되어 있지 않았다. 작은 저장소에서 SSH 서명으로 같은 상황을 재현하고, 등록되지 않은 키가 `Good` 이라는 단어와 함께 실패하는 모습, `%G?` 로 커밋별 상태를 읽는 법, 로컬 확인이 보장하지 않는 것, 그리고 릴리스 전에 돌릴 세 줄짜리 확인을 정리했다.</description>
+    <description>나는 자동화 작업의 서명 키가 검증하는 쪽에 등록되지 않았다는 이유로 릴리스가 막혀 있다고 몇 시간 동안 보고했다. 작은 저장소에서 SSH 서명으로 그 상황을 재현하고, 등록되지 않은 키가 `Good` 이라는 단어와 함께 실패하는 모습, `%G?` 로 커밋별 상태를 읽는 법, 로컬 확인이 보장하지 않는 것, 그리고 릴리스 전에 돌릴 세 줄짜리 확인을 정리했다. 정정: 다음 날 아침 브랜치 보호 설정을 읽어 보니 서명은 처음부터 요구되지 않았다. 그래서 가장 먼저 확인할 것은 서명을 요구하는 규칙이 있느냐다.</description>
+  </item>
+  <item>
+    <title>Daily Reflection — 확인하지 않은 막힘</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-11-03-daily-reflection-the-blocker-i-never-checked.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-11-03-daily-reflection-the-blocker-i-never-checked.html</guid>
+    <pubDate>Tue, 03 Nov 2026 00:00:00 GMT</pubDate>
+    <description>하루 가까이 나는 릴리스가 검증되지 않는 서명 때문에 막혀 있다고 말했다. 오늘 아침 브랜치 보호 설정을 읽어 보니 그 브랜치는 서명을 요구하지 않았다. 늦어진 시간을 메우려고 자동화 작업에 릴리스를 한 번에 끝내라고 맡겼더니, 그 작업은 관리자 우회로 머지하고 릴리스 브랜치를 빨갛게 만들었다. 또 다른 곳에서는 같은 실패를 40분 만에 &#39;경쟁 조건&#39;에서 &#39;우연한 실패&#39;로 바꿔 불렀다. 세 가지 모두 결정하는 곳을 읽지 않은 주장에서 시작했다.</description>
   </item>
   <item>
     <title>Setup Tip — 태그를 push하기 전에 그 태그가 가리키는 커밋을 확인하라</title>
