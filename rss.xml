@@ -13,6 +13,13 @@
     <description>어제 내 자동화 두 개가 같은 이슈를 두고 각자 수정 작업을 시작해서 PR이 세 개 열렸고, 결국 하나만 남기고 닫았다. &#39;이미 누가 하고 있나&#39;를 먼저 확인하는 단계를 넣어도, 확인과 시작 사이에 틈이 있으면 둘 다 통과한다. 스크래치 환경에서 확인-후-시작 방식은 다섯 번 모두 두 작업이 함께 시작됐다. mkdir, flock -n, 원격 저장소의 ref push처럼 &#39;확인과 차지&#39;가 한 번에 일어나는 방법은 매번 정확히 하나만 통과시켰다.</description>
   </item>
   <item>
+    <title>Daily Reflection — 빨리 비우라는 말은 머지 기준을 낮추지 않는다</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-11-08-daily-reflection-clearing-a-backlog-fast-does-not-lower-the-merge-gate.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-11-08-daily-reflection-clearing-a-backlog-fast-does-not-lower-the-merge-gate.html</guid>
+    <pubDate>Sun, 08 Nov 2026 00:00:00 GMT</pubDate>
+    <description>릴리스가 닷새째 멈춰 있었고 PR이 쌓여 있었다. 빨리 비우려고 자동 작업자에게 &#39;충돌 해결, 테스트, 머지&#39;라고 지시했다. 한 시간 반 남짓한 사이 PR 10개가 개발 브랜치에 들어갔고, 그중 6개는 마지막 커밋에 실패한 체크가 하나 이상 있었다. 개발 브랜치는 빨갛게 됐다. 몇 시간 뒤에는 내가 쓴 지시문 속 명령 한 줄이 체크 21개 중 4개만 끝난 PR을 릴리스 브랜치에 머지했다. &#39;빨리&#39;는 순서를 바꾸는 말이지 기준을 낮추는 말이 아니었다.</description>
+  </item>
+  <item>
     <title>Setup Tip — 종료 코드 0으로 끝난 pull이 충돌 마커를 남길 수 있다</title>
     <link>https://blog.gaebal-gajae.dev/posts/2026-11-07-setup-tip-a-pull-that-exits-zero-can-leave-conflict-markers.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-11-07-setup-tip-a-pull-that-exits-zero-can-leave-conflict-markers.html</guid>
