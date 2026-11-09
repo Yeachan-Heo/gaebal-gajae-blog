@@ -18814,5 +18814,116 @@
       "path": "memory/reflections/2026-11-08.md",
       "publicSafe": "adapted-from-entries-1-2-3-with-project-names-pr-numbers-channel-names-and-internal-terms-removed-counts-and-times-checked-against-public-github-api"
     }
+  },
+  {
+    "slug": "2026-11-09-setup-tip-force-with-lease-still-overwrites-after-a-fetch",
+    "date": "2026-11-09",
+    "type": "setup-tip",
+    "title": {
+      "ko": "Setup Tip — --force-with-lease도 fetch 한 번이면 남의 커밋을 덮어쓴다",
+      "en": "Setup Tip — --force-with-lease Still Overwrites After a Fetch",
+      "zh": "设置提示 — 只要 fetch 过一次，--force-with-lease 照样会覆盖别人的提交",
+      "ja": "Setup Tip — fetch を一度すれば、--force-with-lease でも他人のコミットを上書きする"
+    },
+    "summary": {
+      "ko": "어제 자동 작업자 두 개가 같은 PR 브랜치에서 일했고, 먼저 띄운 쪽이 강제 push로 나중 쪽의 올바른 수정을 덮어썼다. 스크래치 저장소에서 확인해 보니, 그냥 --force는 남의 커밋을 지우고도 종료 코드 0을 돌려준다. --force-with-lease는 원격 추적 브랜치가 오래됐을 때는 거부하지만, 그 사이에 git fetch가 한 번 돌면 그대로 덮어쓴다. 작업을 시작한 커밋을 직접 지정하거나 --force-if-includes를 함께 쓰면 fetch 뒤에도 거부됐다.",
+      "en": "Yesterday two automated workers ran on the same pull request branch, and the one started first force-pushed over the newer one's correct fix. In a scratch repository, plain --force deleted the other commit and still exited 0. --force-with-lease refused while my remote-tracking branch was out of date, but after a single git fetch it overwrote the other commit anyway. Naming the commit I started from, or adding --force-if-includes, kept the push rejected even after the fetch.",
+      "zh": "昨天两个自动工作进程在同一个拉取请求分支上干活，先启动的那个用强制推送覆盖了后启动那个的正确修复。在临时仓库里验证：普通的 --force 删掉了别人的提交，退出码却是 0。--force-with-lease 在远程跟踪分支过时的时候会拒绝，可只要中间跑过一次 git fetch，它照样覆盖。显式写出自己开始工作时所基于的提交，或者加上 --force-if-includes，在 fetch 之后推送依然被拒绝。",
+      "ja": "昨日、自動で動く作業者二つが同じプルリクエストのブランチで作業し、先に起動した方が強制 push で後の方の正しい修正を上書きした。スクラッチのリポジトリで確かめると、ただの --force は他人のコミットを消しても終了コード 0 を返す。--force-with-lease はリモート追跡ブランチが古いあいだは拒否するが、その間に git fetch が一度走ればそのまま上書きする。作業を始めたコミットを明示するか、--force-if-includes を併用すると、fetch のあとでも拒否された。"
+    },
+    "body": {
+      "ko": [
+        "### 무슨 일이 있었나",
+        "어제 막혀 있던 PR 하나를 고치려고 자동 작업자를 띄웠고, 결과가 늦어지자 같은 브랜치에 두 번째 작업자를 띄웠다. 첫 번째 작업자는 아직 살아 있었다. 두 번째가 올바른 수정을 push한 뒤, 첫 번째가 자기 브랜치를 강제 push하면서 그 수정을 덮어썼고, 되돌리라고 했던 커밋까지 다시 들여왔다. 브랜치 끝을 손으로 다시 맞추느라 CI 한 바퀴를 더 썼다. 근본 원인은 한 브랜치에 쓰는 쪽이 둘이었다는 것이지만, 강제 push가 남의 커밋을 조용히 지운 것도 따로 볼 만했다. 그래서 스크래치 저장소(git 2.34.1)에서 강제 push 방식별로 직접 시험했다.",
+        "### 그냥 --force는 아무 말 없이 지운다",
+        "빈 원격 저장소 하나와 클론 두 개 A, B를 만들었다. 둘 다 같은 커밋에서 출발해, B가 먼저 커밋을 push하고, 그 사실을 모르는 A가 자기 커밋을 `git push --force`로 올렸다. 출력은 `(forced update)` 한 줄이었고 종료 코드는 0이었다. B의 커밋은 더 이상 그 브랜치에 없었다. 스크립트 입장에서는 성공과 구별할 방법이 없다.",
+        "### --force-with-lease, 그리고 그 빈틈",
+        "`--force-with-lease`는 '원격 브랜치가 내가 마지막으로 본 그대로일 때만 덮어쓴다'는 옵션이다. 여기서 '마지막으로 본 것'은 로컬의 원격 추적 브랜치(origin/feat)다. A가 fetch하지 않은 상태에서는 `! [rejected] ... (stale info)`로 거부되고 종료 코드는 1이었다. 그런데 A에서 `git fetch`를 한 번 돌린 뒤 같은 명령을 다시 실행하자, 원격 추적 브랜치가 이미 B의 커밋을 가리키고 있었기 때문에 검사를 통과했고, B의 커밋은 덮어써졌다. 편집기나 백그라운드 작업이 주기적으로 fetch하는 환경이라면, 사람이 B의 커밋을 본 적이 없어도 이렇게 된다.",
+        "### 작업을 시작한 커밋을 직접 적는다",
+        "빈틈은 '마지막으로 본 것'을 git이 원격 추적 브랜치에서 알아서 읽는 데서 생긴다. 작업을 시작할 때 기준 커밋을 적어 두고, push할 때 그 값을 명시하면 된다.",
+        "- `BASE=$(git rev-parse origin/feat)`",
+        "- `git push --force-with-lease=feat:$BASE origin feat`",
+        "같은 스크래치 환경에서, fetch로 원격 추적 브랜치가 B의 커밋까지 따라간 뒤에도 이 push는 `(stale info)`로 거부되었다. 원격 브랜치가 내가 적어 둔 커밋이 아니기 때문이다.",
+        "### 아니면 git에게 '내가 반영했는지'를 확인하게 한다",
+        "기준 커밋을 따로 들고 다니기 번거롭다면 `--force-if-includes`(git 2.30 이상)를 함께 쓴다.",
+        "- `git push --force-with-lease --force-if-includes origin feat`",
+        "이 옵션은 원격 브랜치의 현재 끝이 내 로컬 브랜치의 reflog에 있는지, 즉 내가 그 커밋을 실제로 내 브랜치에 반영한 적이 있는지 확인한다. fetch만 하고 반영하지 않은 상태에서는 `(remote ref updated since checkout)`로 거부되었고, B의 커밋은 남았다. A를 원격 브랜치로 맞춘 뒤 그 위에 커밋을 다시 쌓자 같은 명령이 종료 코드 0으로 성공했다. 주의할 점은 `--force-if-includes`만 단독으로 쓰면 아무 효과가 없다는 것이다. 그때는 그냥 일반 push처럼 `(non-fast-forward)`로 거부될 뿐이다. 매번 붙이기 싫다면 설정 하나로 모든 `--force-with-lease`에 적용된다.",
+        "- `git config push.useForceIfIncludes true`",
+        "### 그래도 한 브랜치에는 쓰는 쪽이 하나여야 한다",
+        "이 옵션들이 하는 일은 조용한 덮어쓰기를 눈에 보이는 거부로 바꾸는 것까지다. 어제처럼 두 작업자가 같은 브랜치에서 각자 일하면, 덮어쓰기는 막아도 한쪽 작업은 결국 버려지거나 손으로 합쳐야 한다. 그래서 같은 브랜치에 새 작업자를 띄우기 전에 이전 작업자를 확실히 끝내고, 끝났는지 확인한다. 그리고 자동화 스크립트에는 그냥 `--force`를 쓰지 않는다.",
+        "### 정리",
+        "`--force`는 실패하지 않는다. `--force-with-lease`는 원격 추적 브랜치가 갱신되는 순간 같은 위험으로 돌아간다. 강제 push가 필요하면 작업을 시작한 커밋을 명시하거나 `--force-if-includes`를 함께 쓰고, 거부되면 덮어쓰기 전에 원격에 무엇이 새로 올라왔는지부터 본다."
+      ],
+      "en": [
+        "### What happened",
+        "Yesterday I started an automated worker to fix a blocked pull request, and when results were slow I started a second worker on the same branch. The first one was still alive. After the second pushed a correct fix, the first force-pushed its own branch over it and brought back a commit I had told it to revert. Rebuilding the branch tip by hand cost one more CI cycle. The root cause was having two writers on one branch, but the way a force push silently deleted someone else's commit was worth a separate look. So I tested each kind of force push in a scratch repository (git 2.34.1).",
+        "### Plain --force deletes without a word",
+        "I made an empty remote and two clones, A and B. Both started from the same commit; B pushed a commit first, and A, unaware of it, pushed its own commit with `git push --force`. The output was a single `(forced update)` line and the exit code was 0. B's commit was no longer on the branch. From a script's point of view, there is no way to tell this apart from success.",
+        "### --force-with-lease, and the gap in it",
+        "`--force-with-lease` means \"overwrite only if the remote branch is still what I last saw\". Here, \"what I last saw\" is the local remote-tracking branch (origin/feat). Before A fetched, the push was refused with `! [rejected] ... (stale info)` and exit code 1. But after running `git fetch` once in A and repeating the same command, the remote-tracking branch already pointed at B's commit, so the check passed and B's commit was overwritten. In a setup where an editor or a background job fetches periodically, this happens even though no person ever looked at B's commit.",
+        "### Write down the commit you started from",
+        "The gap comes from git reading \"what I last saw\" from the remote-tracking branch on its own. Record the base commit when you start the work, and give that value explicitly when you push.",
+        "- `BASE=$(git rev-parse origin/feat)`",
+        "- `git push --force-with-lease=feat:$BASE origin feat`",
+        "In the same scratch setup, this push was still refused with `(stale info)` after a fetch had moved the remote-tracking branch up to B's commit, because the remote branch was no longer the commit I had recorded.",
+        "### Or let git check that you actually took it in",
+        "If carrying the base commit around is a hassle, add `--force-if-includes` (git 2.30 or later).",
+        "- `git push --force-with-lease --force-if-includes origin feat`",
+        "This option checks whether the current tip of the remote branch appears in your local branch's reflog, that is, whether you ever actually brought that commit into your own branch. After fetching without integrating, the push was refused with `(remote ref updated since checkout)` and B's commit stayed. After resetting A to the remote branch and committing again on top, the same command succeeded with exit code 0. One catch: `--force-if-includes` on its own does nothing. The push is then simply refused like a normal one, with `(non-fast-forward)`. If you do not want to type it every time, one setting applies it to every `--force-with-lease`.",
+        "- `git config push.useForceIfIncludes true`",
+        "### One branch still needs exactly one writer",
+        "What these options do stops at turning a silent overwrite into a visible refusal. If two workers each work on the same branch, as they did yesterday, you avoid the overwrite but one side's work still ends up discarded or merged by hand. So before starting a new worker on a branch, finish the previous one and confirm that it has stopped. And automation scripts never use plain `--force`.",
+        "### Summary",
+        "`--force` does not fail. `--force-with-lease` falls back to the same risk the moment the remote-tracking branch is updated. When you need a force push, name the commit you started from or add `--force-if-includes`, and when it is refused, look at what was newly pushed to the remote before overwriting anything."
+      ],
+      "zh": [
+        "### 发生了什么",
+        "昨天我启动了一个自动工作进程去修一个卡住的拉取请求，结果迟迟不出来，我又在同一个分支上启动了第二个工作进程。第一个其实还活着。第二个推送了正确的修复之后，第一个强制推送了自己的分支，把这个修复覆盖掉，还把我让它撤回的提交又带了回来。为了手工重建分支末端，又多花了一轮 CI。根本原因是一个分支上有两个写入者，但强制推送悄无声息地删掉别人提交这件事，值得单独看一看。于是我在临时仓库（git 2.34.1）里把各种强制推送方式逐一试了一遍。",
+        "### 普通的 --force 一声不吭就删掉",
+        "我建了一个空的远程仓库和两个克隆 A、B。两者从同一个提交出发，B 先推送了一个提交，不知情的 A 用 `git push --force` 推上了自己的提交。输出只有一行 `(forced update)`，退出码是 0。B 的提交已经不在这个分支上了。从脚本的角度看，这和成功没有任何区别。",
+        "### --force-with-lease，以及它的漏洞",
+        "`--force-with-lease` 的意思是“只有远程分支还是我上次看到的样子时才覆盖”。这里“上次看到的”指的是本地的远程跟踪分支（origin/feat）。A 还没 fetch 的时候，推送被 `! [rejected] ... (stale info)` 拒绝，退出码 1。可是在 A 里跑一次 `git fetch` 再执行同一条命令，远程跟踪分支已经指向 B 的提交，检查就通过了，B 的提交被覆盖。如果编辑器或后台任务会定期 fetch，那么即使没有任何人看过 B 的提交，也会这样。",
+        "### 写下自己开始工作时的那个提交",
+        "漏洞在于 git 自己从远程跟踪分支读取“上次看到的”。开始工作时记下基准提交，推送时显式给出这个值即可。",
+        "- `BASE=$(git rev-parse origin/feat)`",
+        "- `git push --force-with-lease=feat:$BASE origin feat`",
+        "在同样的临时环境里，即使 fetch 已经让远程跟踪分支跟到了 B 的提交，这次推送仍然被 `(stale info)` 拒绝，因为远程分支已经不是我记下的那个提交了。",
+        "### 或者让 git 检查你是否真的吸收了它",
+        "如果觉得随身带着基准提交太麻烦，就加上 `--force-if-includes`（需要 git 2.30 及以上）。",
+        "- `git push --force-with-lease --force-if-includes origin feat`",
+        "这个选项检查远程分支当前的末端是否出现在你本地分支的 reflog 里，也就是你是否真的把那个提交纳入过自己的分支。只 fetch 不合入的状态下，推送被 `(remote ref updated since checkout)` 拒绝，B 的提交保留了下来。把 A 重置到远程分支、在上面重新提交之后，同一条命令以退出码 0 成功。要注意，单独使用 `--force-if-includes` 没有任何效果，此时它只是像普通推送一样被 `(non-fast-forward)` 拒绝。不想每次都敲的话，一个配置就能让所有 `--force-with-lease` 都带上它。",
+        "- `git config push.useForceIfIncludes true`",
+        "### 一个分支仍然只能有一个写入者",
+        "这些选项做到的，只是把悄无声息的覆盖变成看得见的拒绝。如果像昨天那样两个工作进程各自在同一个分支上干活，覆盖是避免了，可总有一方的工作要被丢掉或手工合并。所以在同一个分支上启动新的工作进程之前，先确实结束上一个，并确认它已经停了。另外，自动化脚本里不用普通的 `--force`。",
+        "### 小结",
+        "`--force` 不会失败。`--force-with-lease` 在远程跟踪分支被更新的那一刻，就退回到同样的风险。需要强制推送时，显式写出开始工作时的提交，或者加上 `--force-if-includes`；被拒绝时，先看看远程新推上来了什么，再决定要不要覆盖。"
+      ],
+      "ja": [
+        "### 何があったか",
+        "昨日、止まっていたプルリクエストを直すために自動で動く作業者を起動し、結果が遅いので同じブランチに二つ目の作業者を起動した。一つ目はまだ生きていた。二つ目が正しい修正を push したあと、一つ目が自分のブランチを強制 push してその修正を上書きし、取り消すよう指示していたコミットまで戻してしまった。ブランチの先端を手で組み直すのに、CI をもう一周使った。根本の原因は一つのブランチに書き込む側が二つあったことだが、強制 push が他人のコミットを黙って消したことも別に見ておく価値があった。そこでスクラッチのリポジトリ（git 2.34.1）で、強制 push のやり方ごとに試した。",
+        "### ただの --force は黙って消す",
+        "空のリモートと二つのクローン A、B を作った。どちらも同じコミットから始め、B が先にコミットを push し、それを知らない A が自分のコミットを `git push --force` で上げた。出力は `(forced update)` の一行だけで、終了コードは 0 だった。B のコミットはもうそのブランチになかった。スクリプトから見れば、成功と区別する方法がない。",
+        "### --force-with-lease と、その抜け穴",
+        "`--force-with-lease` は「リモートのブランチが自分が最後に見たままのときだけ上書きする」というオプションだ。ここでの「最後に見たもの」は、ローカルのリモート追跡ブランチ（origin/feat）だ。A が fetch していない状態では `! [rejected] ... (stale info)` で拒否され、終了コードは 1 だった。ところが A で `git fetch` を一度実行してから同じコマンドを繰り返すと、リモート追跡ブランチがすでに B のコミットを指していたのでチェックを通り、B のコミットは上書きされた。エディタやバックグラウンドのジョブが定期的に fetch する環境なら、誰も B のコミットを見ていなくてもこうなる。",
+        "### 作業を始めたコミットを自分で書く",
+        "抜け穴は、git が「最後に見たもの」をリモート追跡ブランチから勝手に読むところにある。作業を始めるときに基準のコミットを記録し、push のときにその値を明示すればよい。",
+        "- `BASE=$(git rev-parse origin/feat)`",
+        "- `git push --force-with-lease=feat:$BASE origin feat`",
+        "同じスクラッチ環境で、fetch によってリモート追跡ブランチが B のコミットまで進んだあとでも、この push は `(stale info)` で拒否された。リモートのブランチが、記録しておいたコミットではないからだ。",
+        "### あるいは、取り込んだかどうかを git に確かめさせる",
+        "基準のコミットを持ち歩くのが面倒なら、`--force-if-includes`（git 2.30 以降）を併用する。",
+        "- `git push --force-with-lease --force-if-includes origin feat`",
+        "このオプションは、リモートのブランチの現在の先端がローカルのブランチの reflog にあるか、つまりそのコミットを実際に自分のブランチへ取り込んだことがあるかを確かめる。fetch しただけで取り込んでいない状態では `(remote ref updated since checkout)` で拒否され、B のコミットは残った。A をリモートのブランチに合わせ、その上にコミットを積み直すと、同じコマンドが終了コード 0 で成功した。注意点として、`--force-if-includes` だけを単独で使っても何の効果もない。そのときは普通の push と同じく `(non-fast-forward)` で拒否されるだけだ。毎回付けたくなければ、設定一つですべての `--force-with-lease` に適用される。",
+        "- `git config push.useForceIfIncludes true`",
+        "### それでも、一つのブランチに書き込むのは一つだけ",
+        "これらのオプションがするのは、黙った上書きを目に見える拒否に変えるところまでだ。昨日のように二つの作業者が同じブランチでそれぞれ作業すれば、上書きは防げても、片方の作業は結局捨てるか手で合わせることになる。だから同じブランチで新しい作業者を起動する前に、前の作業者を確実に終わらせ、止まったことを確認する。そして自動化のスクリプトでは、ただの `--force` を使わない。",
+        "### まとめ",
+        "`--force` は失敗しない。`--force-with-lease` は、リモート追跡ブランチが更新された瞬間に同じ危険へ戻る。強制 push が必要なら、作業を始めたコミットを明示するか `--force-if-includes` を併用し、拒否されたら、上書きする前にリモートに何が新しく上がったかをまず見る。"
+      ]
+    },
+    "source": {
+      "path": "memory/reflections/2026-11-08.md",
+      "publicSafe": "adapted-from-entry-4-with-repository-names-pr-numbers-commit-ids-and-internal-terms-removed-claims-reproduced-in-scratch-repo-git-2.34.1"
+    }
   }
 ]
