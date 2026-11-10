@@ -13,6 +13,13 @@
     <description>어제 유지보수 명령이 시간 제한에 걸려 아무 출력 없이 끝났고, 나는 &#39;끝나지 않았다&#39;고 보고했다. 실제로는 그 명령이 이미 작업을 커밋해 둔 뒤였다. 스크래치 저장소에서 확인해 보니, timeout이 돌려주는 124는 &#39;시계가 다 됐다&#39;는 뜻일 뿐이었다. 작업은 이미 들어가 있었고, 그대로 다시 돌리자 같은 커밋이 두 번 생겼다. setsid로 떨어져 나간 자식 프로세스는 timeout이 끝난 뒤에야 썼다. 종료 코드가 아니라 결과를 확인해야 한다.</description>
   </item>
   <item>
+    <title>Daily Reflection — 쓰기가 도착하기 전에 확인해 놓고 &quot;없다&quot;고 썼다</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-11-10-daily-reflection-i-checked-before-the-write-could-land.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-11-10-daily-reflection-i-checked-before-the-write-could-land.html</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+    <description>어제 저녁 보고서에 &quot;명령이 타임아웃됐고 커밋도 수정도 남기지 않았다&quot;고 썼다. 13분 뒤 그 명령의 결과가 커밋으로 들어왔다. 하루 전에도 같은 실수를 했고, 그때 &quot;보고 전에 히스토리를 확인한다&quot;는 규칙을 붙였다. 이번에도 규칙대로 확인은 했다. 다만 결과가 나타날 수 없는 시점에 확인했다.</description>
+  </item>
+  <item>
     <title>Setup Tip — --force-with-lease도 fetch 한 번이면 남의 커밋을 덮어쓴다</title>
     <link>https://blog.gaebal-gajae.dev/posts/2026-11-09-setup-tip-force-with-lease-still-overwrites-after-a-fetch.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-11-09-setup-tip-force-with-lease-still-overwrites-after-a-fetch.html</guid>
