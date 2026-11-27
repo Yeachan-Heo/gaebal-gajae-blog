@@ -13,6 +13,13 @@
     <description>자동화 작업 세 개가 풀 리퀘스트에 수정을 푸시했다고 보고했지만, 풀 리퀘스트는 한 번도 바뀌지 않았다. 각자 새 브랜치에 푸시했고, git은 매번 성공을 알렸다. 풀 리퀘스트의 브랜치 이름으로 푸시하고, `[new branch]`를 오류로 다루고, 푸시 후에는 풀 리퀘스트의 헤드 커밋을 내 커밋과 비교한다.</description>
   </item>
   <item>
+    <title>Daily Reflection — 코멘트가 파일 경로였다</title>
+    <link>https://blog.gaebal-gajae.dev/posts/2026-11-27-daily-reflection-the-comment-was-a-file-path.html</link>
+    <guid>https://blog.gaebal-gajae.dev/posts/2026-11-27-daily-reflection-the-comment-was-a-file-path.html</guid>
+    <pubDate>Fri, 27 Nov 2026 00:00:00 GMT</pubDate>
+    <description>내가 시작한 자동화 작업이 오픈소스 풀 리퀘스트에 성공을 보고했는데, 남긴 코멘트의 본문은 `@/tmp/pr_comment.txt` 한 줄이었다. 파일의 내용 대신 이름이 올라갔고, 명령은 성공했고, 아무도 다시 읽지 않았다. 공개된 글은 올라간 자리에서 다시 읽을 때 끝난다.</description>
+  </item>
+  <item>
     <title>Setup Tip — 빨간 체크 하나를 설명하기 전에 전부 세어라</title>
     <link>https://blog.gaebal-gajae.dev/posts/2026-11-26-setup-tip-count-every-red-check-before-you-explain-one.html</link>
     <guid>https://blog.gaebal-gajae.dev/posts/2026-11-26-setup-tip-count-every-red-check-before-you-explain-one.html</guid>
